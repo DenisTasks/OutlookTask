@@ -1,0 +1,50 @@
+﻿<Window x:Class="TestWpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TestWpf"
+        mc:Ignorable="d"
+        Loaded="MainWindow_OnLoaded"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <ListView Name="AppointmentsList"
+                  DisplayMemberPath="Subject"
+                  SelectionMode="Single"
+                  ItemsSource="{Binding Appointments}">
+        </ListView>
+
+        <Button Grid.Column="1"
+                Command="{Binding AddAppCommand}"
+                CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}"
+                VerticalAlignment="Center"
+                Margin="10, 0"
+                Padding="10, 0">New App</Button>
+
+        <ListView Grid.Column="2"
+                  HorizontalContentAlignment="Stretch"
+                  ItemsSource="{Binding Appointments}">
+            
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel >
+                        <Button Command="{Binding DataContext.RemoveAppCommand, ElementName=AppointmentsList}"
+                                CommandParameter="{Binding}"
+                                DockPanel.Dock="Right"
+                                Padding="5"
+                                Margin="5">X</Button>
+                        <TextBlock Text="{Binding Subject}"
+                                   VerticalAlignment="Center"/>
+                    </DockPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
+    </Grid>
+</Window>
