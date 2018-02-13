@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Appointment.cs" />
+    <Compile Include="Entities\Group.cs" />
     <Compile Include="Entities\Location.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
