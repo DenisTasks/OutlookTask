@@ -17,6 +17,10 @@ namespace Model.ModelVIewElements
         private IGenericRepository<Role> _roles;
         private IGenericRepository<Location> _location;
 
+        public UnitOfWork()
+        {
+            _context = new WPFOutlookContext();
+        }
 
         public IGenericRepository<Appointment> Appointments
         {
