@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Model.Interfaces
 {
-    public interface IUnitOfWork<TEntity> : INotifyPropertyChanged where TEntity: class
+    public interface IUnitOfWork: IDisposable 
     {
-        IGenericRepository<Appointment> Managers { get; }
-        IGenericRepository<Group> Sales { get; }
+        IGenericRepository<Appointment> Appointments { get; }
+        IGenericRepository<Group> Groups { get; }
         IGenericRepository<User> Users { get; }
         IGenericRepository<Role> Roles { get; }
         IGenericRepository<Location> Locations { get; }
