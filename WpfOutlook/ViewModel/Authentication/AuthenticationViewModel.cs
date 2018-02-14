@@ -9,10 +9,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using ViewModel.Interfaces;
 
 namespace ViewModel.Authentication
 {
-    public class AuthenticationViewModel : INotifyPropertyChanged
+    public class AuthenticationViewModel : IViewModel, INotifyPropertyChanged
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly DelegateCommand _loginCommand;
@@ -55,12 +56,12 @@ namespace ViewModel.Authentication
                 {
                     return string.Format("Signed in as{0}", Thread.CurrentPrincipal.Identity.Name);
                 }
-                return "You are not authenticated";
+                else return "You are not authenticated!!!!";
             }
         }
 
 
-        public string[] GetUserRoles(User user)
+        private string[] getUserRoles(User user)
         {
             ICollection<string> res = new List<string>();
             foreach(var item in user.Roles)
@@ -77,17 +78,21 @@ namespace ViewModel.Authentication
             try
             {
                 User user = _authenticationService.AuthenticateUser(Username, clearTextPassword);
+
                 CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
                 if (customPrincipal == null)
                     throw new ArgumentException("The application's default thread principal must be set to a CustomPrincipal object on startup.");
-                customPrincipal.Identity = new CustomIdentity(user.UserName, user.Name, GetUserRoles(user));
-                NotifyPropertyChanged("AuthenticatedUser");
-                NotifyPropertyChanged("IsAuthenticated");
+                string[] ar = { "user", "admin" };
+                customPrincipal.Identity = new CustomIdentity(user.UserName, user.Name, ar );
+
+
                 _loginCommand.RaiseCanExecuteChanged();
                 _logoutCommand.RaiseCanExecuteChanged();
                 Username = string.Empty;
                 passwordBox.Password = string.Empty;
                 Status = string.Empty;
+                NotifyPropertyChanged("AuthenticatedUser");
+                NotifyPropertyChanged("IsAuthenticated");
             }
             catch (UnauthorizedAccessException)
             {
@@ -130,6 +135,24 @@ namespace ViewModel.Authentication
         }
 
 
+        private void ShowView(object parameter)
+        {
+            //try
+            //{
+            //    Status = string.Empty;
+            //    IView view;
+            //    if (parameter == null)
+            //        view = new SecretWindow();
+            //    else
+            //        view = new AdminWindow();
+
+            //    view.Show();
+            //}
+            //catch (SecurityException)
+            //{
+            //    Status = "You are not authorized!";
+            //}
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

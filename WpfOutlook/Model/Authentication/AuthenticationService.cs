@@ -1,5 +1,6 @@
 ﻿using Model.Entities;
 using Model.Interfaces;
+using Model.ModelVIewElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,19 +11,20 @@ namespace Model.Authentication
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private WPFOutlookContext _context;
+        private IUnitOfWork _db;
 
         public AuthenticationService()
         {
-            _context = new WPFOutlookContext();
+            _db = new UnitOfWork();
         }
 
         public User AuthenticateUser(string username, string password)
         {
-            User resultUser = _context.Users.FirstOrDefault(u => u.UserName.Equals(username) && u.Password.Equals(password));
+            User resultUser = _db.Users.Get(u => u.UserName.Equals(username) && u.Password.Equals(password)).FirstOrDefault();
             if (resultUser != null)
                 return resultUser;
             else throw new UnauthorizedAccessException("Wrong credentials.");
+            
         }
     }
 }

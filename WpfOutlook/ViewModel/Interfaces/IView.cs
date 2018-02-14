@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using ViewModel.Interfaces;
 
-namespace TestWpf.Interfaces
+namespace ViewModel.Interfaces
 {
-    interface IView
+    public interface IView
     {
-        IViewModel IViewModel { get; set; }
+        IViewModel ViewModel { get; set; }
         void Show();
     }
 }
