@@ -21,6 +21,7 @@ namespace Model.Entities
 
         public ICollection<Appointment> Appointments { get; set; }
         
+        
         public ICollection<Role> Roles { get; set; }
 
        
