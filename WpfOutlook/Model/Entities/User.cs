@@ -18,10 +18,10 @@ namespace Model.Entities
         public string Password { get; set; }
         
 
-        public ICollection<Appointment> Appointments { get; set; }
+        public virtual ICollection<Appointment> Appointments { get; set; }
         
         
-        public ICollection<Role> Roles { get; set; }
+        public virtual ICollection<Role> Roles { get; set; }
 
        
     }

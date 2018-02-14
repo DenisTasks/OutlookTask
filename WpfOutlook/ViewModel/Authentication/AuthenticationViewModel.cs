@@ -54,23 +54,12 @@ namespace ViewModel.Authentication
             {
                 if (IsAuthenticated)
                 {
-                    return string.Format("Signed in as{0}", Thread.CurrentPrincipal.Identity.Name);
+                    return string.Format("Signed in as {0}", Thread.CurrentPrincipal.Identity.Name);
                 }
                 else return "You are not authenticated!!!!";
             }
         }
-
-
-        private string[] getUserRoles(User user)
-        {
-            //ICollection<string> res = new List<string>();
-            //foreach(var item in user.Roles)
-            //{
-            //    res.Add(item.Name);
-            //}
-            //return res.ToArray();
-            return user.Roles.Select(r => r.Name).ToArray();
-        }
+        
 
         private void Login(object parameter)
         {
@@ -83,7 +72,7 @@ namespace ViewModel.Authentication
                 CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
                 if (customPrincipal == null)
                     throw new ArgumentException("The application's default thread principal must be set to a CustomPrincipal object on startup.");
-                customPrincipal.Identity = new CustomIdentity(user.UserName, user.Name, getUserRoles(user) );
+                customPrincipal.Identity = new CustomIdentity(user.UserName, user.Name, user.Roles.Select(r => r.Name).ToArray());
 
 
                 _loginCommand.RaiseCanExecuteChanged();
