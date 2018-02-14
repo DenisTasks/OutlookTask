@@ -1,5 +1,4 @@
 ﻿using Model.Entities;
-using Model.Interfaces;
 using Model.ModelVIewElements;
 using System;
 using System.Collections.Generic;
@@ -13,9 +12,12 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            using (IUnitOfWork uw = new UnitOfWork())
+            using(UnitOfWork uw= new UnitOfWork())
             {
-                uw.Roles.Create(new Role { RoleId = 1, Name = "hello" });
+                Role myrole = new Role { Name = "dsadasda", RoleId = 1 };
+                uw.Roles.Create(myrole);
+                uw.Save();
+                Console.WriteLine("Done");
             }
         }
     }
