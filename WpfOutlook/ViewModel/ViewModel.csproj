@@ -48,6 +48,7 @@
     <Compile Include="Authentication\CustomPrincipal.cs" />
     <Compile Include="Authentication\DelegateCommand.cs" />
     <Compile Include="Common\RelayCommand.cs" />
+    <Compile Include="Interfaces\IViewModel.cs" />
     <Compile Include="VM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -60,5 +61,6 @@
       <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
