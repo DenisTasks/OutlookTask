@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authentication\AuthenticationViewModel.cs" />
+    <Compile Include="Authentication\CustomPrincipal.cs" />
+    <Compile Include="Authentication\DelegateCommand.cs" />
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="VM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

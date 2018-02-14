@@ -21,9 +21,9 @@ namespace ViewModel.Authentication
         private string _username;
         private string _status;
 
-        public AuthenticationViewModel(IAuthenticationService authenticationService)
+        public AuthenticationViewModel()
         {
-            _authenticationService = authenticationService;
+            _authenticationService = new AuthenticationService();
             _loginCommand = new DelegateCommand(Login, CanLogin);
             _logoutCommand = new DelegateCommand(Logout, CanLogout);
             _showViewCommand = new DelegateCommand(ShowView, null);
