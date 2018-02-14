@@ -63,12 +63,13 @@ namespace ViewModel.Authentication
 
         private string[] getUserRoles(User user)
         {
-            ICollection<string> res = new List<string>();
-            foreach(var item in user.Roles)
-            {
-                res.Add(item.Name);
-            }
-            return res.ToArray();
+            //ICollection<string> res = new List<string>();
+            //foreach(var item in user.Roles)
+            //{
+            //    res.Add(item.Name);
+            //}
+            //return res.ToArray();
+            return user.Roles.Select(r => r.Name).ToArray();
         }
 
         private void Login(object parameter)
@@ -82,8 +83,7 @@ namespace ViewModel.Authentication
                 CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
                 if (customPrincipal == null)
                     throw new ArgumentException("The application's default thread principal must be set to a CustomPrincipal object on startup.");
-                string[] ar = { "user", "admin" };
-                customPrincipal.Identity = new CustomIdentity(user.UserName, user.Name, ar );
+                customPrincipal.Identity = new CustomIdentity(user.UserName, user.Name, getUserRoles(user) );
 
 
                 _loginCommand.RaiseCanExecuteChanged();
