@@ -17,7 +17,7 @@ namespace Model.ModelVIewElements
         public GenericRepository(WPFOutlookContext context)
         {
             _context = context;
-            _dbSet = context.Set<TEntity>();
+            _dbSet = _context.Set<TEntity>();
         }
 
         public IEnumerable<TEntity> Get()
