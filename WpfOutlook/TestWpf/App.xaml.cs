@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+using GalaSoft.MvvmLight.Threading;
 using ViewModel.Authentication;
 using ViewModel.Interfaces;
 
@@ -29,6 +24,10 @@ namespace TestWpf
             IView loginWindow = new LoginWindow(viewModel);
             loginWindow.Show();
 
+        }
+        static App()
+        {
+            DispatcherHelper.Initialize();
         }
     }
 }
