@@ -19,12 +19,6 @@ namespace TestWpf
                     {
                         var modalWindowVM = SimpleIoc.Default.GetInstance<ModalWindowViewModel>();
                         modalWindowVM.MyText = message.Argument;
-                        var modalWindow = new ModalWindow()
-                        {
-                            DataContext = modalWindowVM
-                        };
-                        var result = modalWindow.ShowDialog() ?? false;
-                        Messenger.Default.Send(result ? "Accepted" : "Rejected");
                     }
                     else
                     {
