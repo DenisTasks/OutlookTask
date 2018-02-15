@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestWpf"
         mc:Ignorable="d"
+        Background="LightCyan"
         DataContext="{Binding Main, Source={StaticResource Locator}}"
         
         Title="MainWindow" Height="350" Width="700">
