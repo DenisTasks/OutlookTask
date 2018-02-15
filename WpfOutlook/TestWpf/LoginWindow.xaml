@@ -37,11 +37,5 @@
         </StackPanel>
         <TextBlock Text="{Binding Status}" Grid.Row="4" Grid.Column="2"
                HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Red" TextWrapping="Wrap" Margin="72,0,268,0" />
-        <StackPanel Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,18.252,0,66">
-            <Button Content="Show secret view" Command="{Binding ShowViewCommand}"
-              HorizontalAlignment="Center" />
-            <Button Content="Show admin view" Command="{Binding ShowViewCommand}" CommandParameter="Admin"
-              HorizontalAlignment="Center" Margin="2,2,0,0" />
-        </StackPanel>
     </Grid>
 </Window>

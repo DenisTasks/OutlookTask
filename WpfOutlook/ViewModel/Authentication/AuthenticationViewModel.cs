@@ -18,7 +18,6 @@ namespace ViewModel.Authentication
         private readonly IAuthenticationService _authenticationService;
         private readonly DelegateCommand _loginCommand;
         private readonly DelegateCommand _logoutCommand;
-        private readonly DelegateCommand _showViewCommand;
         private string _username;
         private string _status;
 
@@ -27,7 +26,6 @@ namespace ViewModel.Authentication
             _authenticationService = new AuthenticationService();
             _loginCommand = new DelegateCommand(Login, CanLogin);
             _logoutCommand = new DelegateCommand(Logout, CanLogout);
-            _showViewCommand = new DelegateCommand(ShowView, null);
         }
 
         public DelegateCommand LoginCommand { get { return _loginCommand; } }
@@ -56,7 +54,7 @@ namespace ViewModel.Authentication
                 {
                     return string.Format("Signed in as {0}", Thread.CurrentPrincipal.Identity.Name);
                 }
-                else return "You are not authenticated!!!!";
+                else return "You are not authenticated!";
             }
         }
         
@@ -86,10 +84,12 @@ namespace ViewModel.Authentication
             catch (UnauthorizedAccessException)
             {
                 Status = "Login failed! Please provide some valid credentials.";
+                NotifyPropertyChanged("Status");
             }
             catch (Exception ex)
             {
                 Status = string.Format("ERROR: {0}", ex.Message);
+                NotifyPropertyChanged("Status");
             }
         }
 
@@ -122,26 +122,7 @@ namespace ViewModel.Authentication
         {
             return IsAuthenticated;
         }
-
-
-        private void ShowView(object parameter)
-        {
-            //try
-            //{
-            //    Status = string.Empty;
-            //    IView view;
-            //    if (parameter == null)
-            //        view = new SecretWindow();
-            //    else
-            //        view = new AdminWindow();
-
-            //    view.Show();
-            //}
-            //catch (SecurityException)
-            //{
-            //    Status = "You are not authorized!";
-            //}
-        }
+        
 
         public event PropertyChangedEventHandler PropertyChanged;
 
