@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Model.Entities
 {
+
     public class Appointment
     {
         [Key]
@@ -15,7 +16,7 @@ namespace Model.Entities
         public DateTime BeginningDate { get; set; }
         public DateTime EndingDate { get; set; }
 
-        ICollection<User> Users { get; set; }
+        public virtual ICollection<User> Users { get; set; }
 
         public int LocationId { get; set; }
         public Location Location { get; set; }

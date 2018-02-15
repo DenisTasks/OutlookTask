@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.Windows;
 using System.Windows.Data;
 using GalaSoft.MvvmLight;
@@ -85,8 +86,7 @@ namespace TestWpf.ViewModel
                 //for (int i = 1; i < 20; i++)
                 //{
                 //    Appointment x = new Appointment() { AppointmentId = i, BeginningDate = DateTime.Now, EndingDate = DateTime.Now, Location = new Location(), LocationId = i * i, Subject = $"Meeting {i}" };
-                //    Database.Appointments.Create(x);
-                //    Database.Save();
+                //    _service.AddAppointment(x);
                 //}
                 Appointments = new ObservableCollection<Appointment>(_service.GetAppointments());
             }

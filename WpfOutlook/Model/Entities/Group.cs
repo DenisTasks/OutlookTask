@@ -7,16 +7,17 @@ using System.Threading.Tasks;
 
 namespace Model.Entities
 {
+
     public class Group
     {
         [Key]
         public int GroupId { get; set; }
         public string GroupName { get; set; }
-        ICollection<User> Moderators { get; set; }
+        public virtual ICollection<User> Moderators { get; set; }
 
         public int CreatorId { get; set; }
         public User Creator { get; set; }
 
-        ICollection<User> Users { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

@@ -10,8 +10,8 @@
         Title="Add appointment" Height="500" Width="500">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -29,5 +29,17 @@
         
         <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Name}"/>
         
+        <Label Grid.Column="0" Grid.Row="1" Content="Subject"/>
+        <Label Grid.Column="0" Grid.Row="2" Content="Location"/>
+        <Label Grid.Column="0" Grid.Row="3" Content="Start Time"/>
+        <Label Grid.Column="0" Grid.Row="5" Content="End Time"/>
+
+        <TextBox Grid.Column="1" Grid.Row="1" Name="Subject"/>
+        <ComboBox Grid.Column="1" Grid.Row="2" Name="Location"/>
+        <Calendar Grid.Column="1" Grid.Row="3" Name="BeginningDate" DisplayMode="Month"/>
+        <ComboBox Grid.Column="1" Grid.Row="4" Name="BeginningTime"/>
+        <Calendar Grid.Column="1" Grid.Row="5" Name="EndingDate" DisplayMode="Month"/>
+        <ComboBox Grid.Column="1" Grid.Row="6" Name="EndingTime"/>
+
     </Grid>
 </Window>
