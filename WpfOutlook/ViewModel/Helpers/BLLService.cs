@@ -18,10 +18,7 @@ namespace ViewModel.Helpers
 
         public IEnumerable<Appointment> GetAppointments()
         {
-            using (var transaction = Database.BeginTransaction())
-            {
-                return Database.Appointments.Get();
-            }
+             return Database.Appointments.Get();
         }
 
         public void AddAppointment(Appointment appointment)

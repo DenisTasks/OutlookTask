@@ -19,7 +19,7 @@ namespace TestWpf.ViewModel
     {
         private readonly IBLLService _service;
         private ObservableCollection<Appointment> _appointments;
-        public RelayCommand AddAppCommand { get; }
+        public RelayCommand AddAppWindowCommand { get; }
         public RelayCommand<Appointment> RemoveAppCommand { get; }
         public RelayCommand SortByAppIdCommand { get; }
         public RelayCommand GroupBySubjectCommand { get; }
@@ -28,7 +28,7 @@ namespace TestWpf.ViewModel
         public MainWindowViewModel(IBLLService service)
         {
             _service = service;
-            AddAppCommand = new RelayCommand(
+            AddAppWindowCommand = new RelayCommand(
                 () =>
                 Messenger.Default.Send(
                     new OpenWindowMessage() { Type = WindowType.AddAppWindow, Argument = "1" }));
