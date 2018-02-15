@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Messaging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,5 +12,6 @@ namespace ViewModel.Interfaces
     {
         IViewModel ViewModel { get; set; }
         void Show();
+        void NotificationMessageReceived(NotificationMessage obj);
     }
 }

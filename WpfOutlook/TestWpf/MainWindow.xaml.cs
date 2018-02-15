@@ -10,21 +10,9 @@ namespace TestWpf
     {
         public MainWindow()
         {
+            
             InitializeComponent();
-            Closing += (s, e) => ViewModelLocator.Cleanup();
-            Messenger.Default.Register<OpenWindowMessage>(
-                this,
-                message => {
-                    if (message.Type == WindowType.kModal)
-                    {
-                        var modalWindowVM = SimpleIoc.Default.GetInstance<ModalWindowViewModel>();
-                        modalWindowVM.MyText = message.Argument;
-                    }
-                    else
-                    {
-                        // if nonModal
-                    }
-                });
+
         }
     }
 }

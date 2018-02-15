@@ -1,4 +1,5 @@
-﻿using Model.Authentication;
+﻿using GalaSoft.MvvmLight.Messaging;
+using Model.Authentication;
 using Model.Entities;
 using Model.Interfaces;
 using System;
@@ -51,7 +52,9 @@ namespace ViewModel.Authentication
             {
                 if (IsAuthenticated)
                 {
+                    Messenger.Default.Send(new NotificationMessage("LoginSuccess"));
                     return string.Format("Signed in as {0}", Thread.CurrentPrincipal.Identity.Name);
+
                 }
                 else return "You are not authenticated!";
             }

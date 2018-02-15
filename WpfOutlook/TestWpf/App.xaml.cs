@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Windows;
+using GalaSoft.MvvmLight.Ioc;
+using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
+using TestWpf.Helpers;
+using TestWpf.ViewModel;
 using ViewModel.Authentication;
 using ViewModel.Interfaces;
 
@@ -14,18 +18,16 @@ namespace TestWpf
         protected override void OnStartup(StartupEventArgs e)
         {
 
-            //Create a custom principal with an anonymous identity at startup
             CustomPrincipal customPrincipal = new CustomPrincipal();
             AppDomain.CurrentDomain.SetThreadPrincipal(customPrincipal);
 
             base.OnStartup(e);
-
-            //Show the login view
-            AuthenticationViewModel viewModel = new AuthenticationViewModel();
-            IView loginWindow = new LoginWindow(viewModel);
-            loginWindow.Show();
-
+            
+            //AuthenticationViewModel viewModel = new AuthenticationViewModel();
+            //IView loginWindow = new LoginWindow(viewModel);
+            //loginWindow.Show();
         }
+
         static App()
         {
             DispatcherHelper.Initialize();
