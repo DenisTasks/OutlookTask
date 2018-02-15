@@ -14,7 +14,7 @@ using ViewModel.Interfaces;
 
 namespace TestWpf.ViewModel
 {
-    public class MainViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase
     {
         private readonly IBLLService _service;
         private ObservableCollection<Appointment> _appointments;
@@ -24,7 +24,7 @@ namespace TestWpf.ViewModel
         public RelayCommand GroupBySubjectCommand { get; }
         public RelayCommand<Appointment> FilterBySubjectCommand { get; }
 
-        public MainViewModel(IBLLService service)
+        public MainWindowViewModel(IBLLService service)
         {
             _service = service;
             AddAppCommand = new RelayCommand(

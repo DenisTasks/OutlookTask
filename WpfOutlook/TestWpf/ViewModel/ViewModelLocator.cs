@@ -25,16 +25,16 @@ namespace TestWpf.ViewModel
                 SimpleIoc.Default.Register<IUnitOfWork, UnitOfWork>();
                 SimpleIoc.Default.Register<IBLLService, BLLService>();
             }
-
-            SimpleIoc.Default.Register<MainViewModel>();
+            // Register my view models
+            SimpleIoc.Default.Register<MainWindowViewModel>();
             SimpleIoc.Default.Register<AddAppWindowViewModel>();
         }
 
-        public MainViewModel Main
+        public MainWindowViewModel Main
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<MainViewModel>();
+                return ServiceLocator.Current.GetInstance<MainWindowViewModel>();
             }
         }
     }
