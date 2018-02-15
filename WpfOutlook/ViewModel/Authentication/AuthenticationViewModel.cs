@@ -31,8 +31,7 @@ namespace ViewModel.Authentication
         public DelegateCommand LoginCommand { get { return _loginCommand; } }
 
         public DelegateCommand LogoutCommand { get { return _logoutCommand; } }
-
-        public DelegateCommand ShowViewCommand { get { return _showViewCommand; } }
+        
 
         public string Username
         {
@@ -66,7 +65,6 @@ namespace ViewModel.Authentication
             try
             {
                 User user = _authenticationService.AuthenticateUser(Username, clearTextPassword);
-
                 CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
                 if (customPrincipal == null)
                     throw new ArgumentException("The application's default thread principal must be set to a CustomPrincipal object on startup.");
@@ -80,6 +78,7 @@ namespace ViewModel.Authentication
                 Status = string.Empty;
                 NotifyPropertyChanged("AuthenticatedUser");
                 NotifyPropertyChanged("IsAuthenticated");
+                
             }
             catch (UnauthorizedAccessException)
             {
