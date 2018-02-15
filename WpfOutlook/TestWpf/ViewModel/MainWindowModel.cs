@@ -1,5 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Data;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -8,26 +10,13 @@ using Model.Entities;
 using Model.Interfaces;
 using Model.ModelVIewElements;
 using TestWpf.Helpers;
+using ViewModel.Interfaces;
 
 namespace TestWpf.ViewModel
 {
     public class MainViewModel : ViewModelBase
-    //, INotifyPropertyChanged
     {
-        //#region INotifyPropertyChanged
-
-        //public event PropertyChangedEventHandler PropertyChanged;
-
-        //public void NotifyPropertyChanged(string propertyName)
-        //{
-        //    if (PropertyChanged != null)
-        //    {
-        //        PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        //    }
-        //}
-        //#endregion
-
-        private IUnitOfWork Database { get; set; }
+        private readonly IBLLService _service;
         private ObservableCollection<Appointment> _appointments;
         public RelayCommand AddAppCommand { get; }
         public RelayCommand<Appointment> RemoveAppCommand { get; }
@@ -35,12 +24,13 @@ namespace TestWpf.ViewModel
         public RelayCommand GroupBySubjectCommand { get; }
         public RelayCommand<Appointment> FilterBySubjectCommand { get; }
 
-        public MainViewModel()
+        public MainViewModel(IBLLService service)
         {
+            _service = service;
             AddAppCommand = new RelayCommand(
                 () =>
                 Messenger.Default.Send(
-                    new OpenWindowMessage() { Type = WindowType.kModal, Argument = "1" }));
+                    new OpenWindowMessage() { Type = WindowType.AddAppWindow, Argument = "1" }));
             RemoveAppCommand = new RelayCommand<Appointment>(RemoveAppointment);
             SortByAppIdCommand = new RelayCommand(SortByAppId);
             GroupBySubjectCommand = new RelayCommand(GroupBySubject);
@@ -75,7 +65,6 @@ namespace TestWpf.ViewModel
             }
         }
 
-
         public ObservableCollection<Appointment> Appointments
         {
             get => _appointments;
@@ -89,18 +78,21 @@ namespace TestWpf.ViewModel
             }
         }
 
-
         public void LoadData()
         {
-            using (Database = new UnitOfWork())
+            try
             {
                 //for (int i = 1; i < 20; i++)
                 //{
-                //    Appointment x = new Appointment() { AppointmentId = i, BeginningDate = DateTime.Now, EndingDate = DateTime.Now, Location = new Location(), LocationId = i*i, Subject = $"Meeting {i}" };
+                //    Appointment x = new Appointment() { AppointmentId = i, BeginningDate = DateTime.Now, EndingDate = DateTime.Now, Location = new Location(), LocationId = i * i, Subject = $"Meeting {i}" };
                 //    Database.Appointments.Create(x);
                 //    Database.Save();
                 //}
-                Appointments = new ObservableCollection<Appointment>(Database.Appointments.Get());
+                Appointments = new ObservableCollection<Appointment>(_service.GetAppointments());
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
             }
         }
 
@@ -133,12 +125,15 @@ namespace TestWpf.ViewModel
         {
             if (appointment != null)
             {
-                using (Database = new UnitOfWork())
+                try
                 {
-                    Database.Appointments.Remove(appointment);
-                    Database.Save();
+                    _service.RemoveAppointment(appointment);
                     Appointments.Remove(appointment);
                     base.RaisePropertyChanged();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.ToString());
                 }
             }
         }

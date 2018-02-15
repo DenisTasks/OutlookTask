@@ -17,9 +17,9 @@ namespace TestWpf
     /// <summary>
     /// Interaction logic for ModalWindow.xaml
     /// </summary>
-    public partial class ModalWindow : Window
+    public partial class AddAppWindow : Window
     {
-        public ModalWindow()
+        public AddAppWindow()
         {
             InitializeComponent();
         }

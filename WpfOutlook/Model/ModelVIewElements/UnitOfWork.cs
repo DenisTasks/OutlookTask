@@ -2,6 +2,7 @@
 using Model.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,10 @@ namespace Model.ModelVIewElements
             _context = new WPFOutlookContext();
         }
 
+        public DbContextTransaction BeginTransaction()
+        {
+            return _context.Database.BeginTransaction();
+        }
         public IGenericRepository<Appointment> Appointments
         {
             get

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -16,6 +17,7 @@ namespace Model.Interfaces
         IGenericRepository<User> Users { get; }
         IGenericRepository<Role> Roles { get; }
         IGenericRepository<Location> Locations { get; }
+        DbContextTransaction BeginTransaction();
         void Save();
     }
 }

@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestWpf"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Background="LightCyan"
         DataContext="{Binding Main, Source={StaticResource Locator}}"
         
-        Title="MainWindow" Height="350" Width="700">
+        Title="Outlook by Kudrin and Tarasevich" Height="500" Width="700">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />

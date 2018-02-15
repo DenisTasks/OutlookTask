@@ -11,24 +11,17 @@ namespace TestWpf
         public MainWindow()
         {
             InitializeComponent();
-            Closing += (s, e) => ViewModelLocator.Cleanup();
             Messenger.Default.Register<OpenWindowMessage>(
                 this,
                 message => {
-                    if (message.Type == WindowType.kModal)
+                    if (message.Type == WindowType.AddAppWindow)
                     {
-                        var modalWindowVM = SimpleIoc.Default.GetInstance<ModalWindowViewModel>();
-                        modalWindowVM.MyText = message.Argument;
-                        var modalWindow = new ModalWindow()
+                        var addAppWindowVM = SimpleIoc.Default.GetInstance<AddAppWindowViewModel>();
+                        var addAppWindow = new AddAppWindow()
                         {
-                            DataContext = modalWindowVM
+                            DataContext = addAppWindowVM
                         };
-                        var result = modalWindow.ShowDialog() ?? false;
-                        Messenger.Default.Send(result ? "Accepted" : "Rejected");
-                    }
-                    else
-                    {
-                        // if nonModal
+                        var result = addAppWindow.ShowDialog() ?? false;
                     }
                 });
         }
