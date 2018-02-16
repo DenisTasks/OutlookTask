@@ -56,33 +56,25 @@ namespace ViewModel.Print
 
         private void ButtonPrintPressed(object parametr)
         {
+            Grid grid = parametr as Grid;
             PrintDialog myPrintDialog = new PrintDialog();
-
             if (myPrintDialog.ShowDialog() == true)
-
             {
-
-                myPrintDialog.PrintVisual(this, "Form All Controls Print");
-
+                myPrintDialog.PrintVisual(grid, "Form All Controls Print");
             }
-
-
-
-            //open the pdf file
-            //FixedDocument fixedDocument;
-            //using (FileStream pdfFile = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read))
-            //{
-            //    Document document = new Document(pdfFile);
-            //    RenderSettings renderSettings = new RenderSettings();
-            //    ConvertToWpfOptions renderOptions = new ConvertToWpfOptions { ConvertToImages = false };
-            //    renderSettings.RenderPurpose = RenderPurpose.Print;
-            //    renderSettings.ColorSettings.TransformationMode = ColorTransformationMode.HighQuality;
-            //    //convert the pdf with the rendersettings and options to a fixed-size document which can be printed
-            //    fixedDocument = document.ConvertToWpf(renderSettings, renderOptions);
-            //}
-            //printDialog.PrintDocument(fixedDocument.DocumentPaginator, "Print");
         }
+
+
+        //public void PrintBtn_Click(object sender, RoutedEventArgs e)
+        //{
+        //    PrintDialog printDialog = new PrintDialog();
+        //    if (printDialog.ShowDialog() == true)
+        //    {
+        //        printDialog.PrintVisual(grid, "My First Print Job");
+        //    }
+        //}
+
+
     }
-        
-    
+       
 }
