@@ -114,10 +114,14 @@ namespace TestWpf.ViewModel
             if (SelectedUsersList.Count > 0)
             {
                 Appointment.Users = SelectedUsersList;
+                _service.AddAppointment(Appointment);
+                Messenger.Default.Send(new OpenWindowMessage() { Argument = "AddAppDone" });
+                window?.Close();
             }
-            _service.AddAppointment(Appointment);
-            Messenger.Default.Send(new OpenWindowMessage() { Argument = "AddAppDone" });
-            window?.Close();
+            else
+            {
+                MessageBox.Show("Please, add users to appointment list!");
+            }
         }
 
         public void AddUsersToList(UserDTO user)
