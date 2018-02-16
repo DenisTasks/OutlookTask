@@ -3,6 +3,7 @@ using CommonServiceLocator;
 using ViewModel.Authentication;
 using ViewModel.Interfaces;
 using GalaSoft.MvvmLight;
+using ViewModel.Print;
 
 namespace TestWpf.ViewModel
 {
@@ -26,13 +27,30 @@ namespace TestWpf.ViewModel
             SimpleIoc.Default.Register<AuthenticationViewModel>();
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<ModalWindowViewModel>();
+            SimpleIoc.Default.Register<PrintViewModel>();
         }
 
-        public AuthenticationViewModel Main
+        public AuthenticationViewModel LoginWindow
         {
             get
             {
                 return ServiceLocator.Current.GetInstance<AuthenticationViewModel>();
+            }
+        }
+
+        public MainViewModel MainWindow
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<MainViewModel>();
+            }
+        }
+
+        public PrintViewModel PrintWindow
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<PrintViewModel>();
             }
         }
 

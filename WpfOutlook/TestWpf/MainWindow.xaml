@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TestWpf"
         mc:Ignorable="d"
         Background="LightCyan"
-        DataContext="{Binding Main, Source={StaticResource Locator}}"
+        DataContext="{Binding MainWindow, Source={StaticResource Locator}}"
         
         Title="MainWindow" Height="350" Width="700">
     <Grid>

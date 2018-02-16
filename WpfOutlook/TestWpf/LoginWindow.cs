@@ -21,7 +21,7 @@ namespace TestWpf
             ViewModel = viewModel;
             InitializeComponent();
             Messenger.Default.Register<NotificationMessage>(this, NotificationMessageReceived);
-            
+
         }
         
 
@@ -36,14 +36,14 @@ namespace TestWpf
         {
             if (obj.Notification.Equals("LoginSuccess"))
             {
-                var test = Window.GetWindow(this);
-                test.Close();
                 var addAppWindowVM = SimpleIoc.Default.GetInstance<MainViewModel>();
                 var addAppWindow = new MainWindow()
                 {
                     DataContext = addAppWindowVM
                 };
                 var result = addAppWindow.ShowDialog() ?? false;
+                //var test = Window.GetWindow(this);
+                //test.Close();
             }
         }
     }
