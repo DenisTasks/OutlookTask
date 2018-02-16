@@ -45,6 +45,27 @@ namespace ViewModel.Print
            }
         }
 
+
+
+        private void PrintBtn_Click(object sender, RoutedEventArgs e)
+
+        {
+
+            PrintDialog printDialog = new PrintDialog();
+
+
+            if (printDialog.ShowDialog() == true)
+
+            {
+
+                //printDialog.PrintVisual(grid, "My First Print Job");
+
+            }
+        }
+
         
+
     }
+
 }
+

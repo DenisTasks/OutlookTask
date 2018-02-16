@@ -6,23 +6,29 @@
          DataContext="{Binding AppointmentWindow, Source={StaticResource Locator}}"
         xmlns:local="clr-namespace:TestWpf"
         mc:Ignorable="d"
-        Title="PrintAppointment" Height="300" Width="300">
+        Title="PrintAppointment" Height="264.507" Width="300">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="200" />
         </Grid.ColumnDefinitions>
 
 
         <Label Grid.Row="0" Grid.Column="0" Content="ID:"/>
         <Label Grid.Row="1" Grid.Column="0" Content="Name:"/>
-        <Label Grid.Row="1" Grid.Column="0" Content="DateofTheBeginning:" Margin="0,27,0,-27"/>
-        <Label Grid.Column="1" Grid.Row="0" Margin="3" Content="{Binding AppointmentId}" />
+        <Label Grid.Row="2" Grid.Column="0" Content="DateofTheBeginning:" />
+        <Label x:Name="test" Grid.Column="1" Grid.Row="0" Margin="3" Content="{Binding AppointmentId}" />
         <Label Grid.Column="1" Grid.Row="1" Margin="3" Content="{Binding AppointmentName}" />
-        <Label Grid.Column="1" Grid.Row="1" Margin="0,29,6,-23" Content="{Binding AppointmentBeginDate}" />
+        <Label Grid.Column="1" Grid.Row="2" Margin="3" Content="{Binding AppointmentBeginDate}" />
+        <Button Content="Print" HorizontalAlignment="Left" Margin="101,109,0,-113" Grid.Row="3" VerticalAlignment="Top" Width="86" Grid.ColumnSpan="2" Height="30"  Command="{Binding PrintCommand, Mode=OneTime}" CommandParameter="{Binding ElementName=test}"/>
+       
     </Grid>
+
 </Window>
