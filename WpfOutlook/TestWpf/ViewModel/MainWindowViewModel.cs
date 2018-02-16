@@ -33,6 +33,9 @@ namespace TestWpf.ViewModel
             SortByAppIdCommand = new RelayCommand(SortByAppId);
             GroupBySubjectCommand = new RelayCommand(GroupBySubject);
             FilterBySubjectCommand = new RelayCommand<Appointment>(FilterBySubject);
+
+            Messenger.Default.Register<string>(this, s => MessageBox.Show(s));
+
             LoadData();
         }
 

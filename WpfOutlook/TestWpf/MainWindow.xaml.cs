@@ -14,14 +14,18 @@ namespace TestWpf
             Messenger.Default.Register<OpenWindowMessage>(
                 this,
                 message => {
-                    if (message.Type == WindowType.AddAppWindow)
+                    if (message.Type == WindowType.AddAppWindow && message.Argument != "AddAppDone")
                     {
                         var addAppWindowVM = SimpleIoc.Default.GetInstance<AddAppWindowViewModel>();
                         var addAppWindow = new AddAppWindow()
                         {
                             DataContext = addAppWindowVM
                         };
-                        var result = addAppWindow.ShowDialog() ?? false;
+                        var result = addAppWindow.ShowDialog();
+                    }
+                    if (message.Argument == "AddAppDone")
+                    {
+                        Messenger.Default.Send("AddAppDone");
                     }
                 });
         }

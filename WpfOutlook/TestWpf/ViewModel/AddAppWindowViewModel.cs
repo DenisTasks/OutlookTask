@@ -5,7 +5,9 @@ using System.Linq;
 using System.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using Model.Entities;
+using TestWpf.Helpers;
 using ViewModel.Interfaces;
 
 namespace TestWpf.ViewModel
@@ -13,7 +15,7 @@ namespace TestWpf.ViewModel
     public class AddAppWindowViewModel : ViewModelBase
     {
         private readonly IBLLService _service;
-        public RelayCommand CreateAppCommand { get; }
+        public RelayCommand<Window> CreateAppCommand { get; }
         public RelayCommand<User> AddUsersToListCommand { get; }
         public RelayCommand<User> RemoveUsersFromListCommand { get; }
 
@@ -93,7 +95,7 @@ namespace TestWpf.ViewModel
             _service = service;
             AddUsersToListCommand = new RelayCommand<User>(AddUsersToList);
             RemoveUsersFromListCommand = new RelayCommand<User>(RemoveUsersFromList);
-            CreateAppCommand = new RelayCommand(CreateAppointment);
+            CreateAppCommand = new RelayCommand<Window>(CreateAppointment);
 
             UsersList = new ObservableCollection<User>(_service.GetUsers());
             SelectedUsersList = new ObservableCollection<User>();
@@ -105,7 +107,7 @@ namespace TestWpf.ViewModel
             EndingTime = new List<string>() { DateTime.Now.ToString("h:mm tt") };
         }
 
-        public void CreateAppointment()
+        public void CreateAppointment(Window window)
         {
             Appointment.BeginningDate = DateTime.Parse(_startDate.ToString("d") + " " + SelectedBeginningTime.ToString("h:mm tt"));
             Appointment.EndingDate = DateTime.Parse(_endingDate.ToString("d") + " " + SelectedEndingTime.ToString("h:mm tt"));
@@ -115,6 +117,8 @@ namespace TestWpf.ViewModel
                 Appointment.Users = SelectedUsersList;
             }
             _service.AddAppointment(Appointment);
+            Messenger.Default.Send(new OpenWindowMessage() { Argument = "AddAppDone"});
+            window?.Close();
         }
 
         public void AddUsersToList(User user)
