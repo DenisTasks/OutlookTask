@@ -34,11 +34,16 @@ namespace TestWpf.ViewModel
             GroupBySubjectCommand = new RelayCommand(GroupBySubject);
             FilterBySubjectCommand = new RelayCommand<Appointment>(FilterBySubject);
 
-            Messenger.Default.Register<string>(this, s => MessageBox.Show(s));
+            Messenger.Default.Register<string>(this, s => RefreshingAppointments());
 
             LoadData();
         }
 
+        public void RefreshingAppointments()
+        {
+            Appointments.Clear();
+            Appointments = new ObservableCollection<Appointment>(_service.GetAppointments());
+        }
         public void GetAllAppsByRoom(Appointment appointment)
         {
             if (appointment != null)

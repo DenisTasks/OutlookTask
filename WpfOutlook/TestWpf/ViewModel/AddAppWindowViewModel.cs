@@ -86,7 +86,6 @@ namespace TestWpf.ViewModel
             }
         }
 
-
         public DateTime SelectedBeginningTime { get; set; }
         public DateTime SelectedEndingTime { get; set; }
 
