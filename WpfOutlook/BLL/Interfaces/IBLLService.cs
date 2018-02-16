@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Model.Entities;
 
-namespace ViewModel.Interfaces
+namespace BLL.Interfaces
 {
     public interface IBLLService : IDisposable
     {

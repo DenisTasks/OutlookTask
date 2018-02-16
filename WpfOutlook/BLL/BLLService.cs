@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
+using BLL.Interfaces;
 using Model.Entities;
 using Model.Interfaces;
-using ViewModel.Interfaces;
 
-namespace ViewModel.Helpers
+namespace BLL
 {
     public class BLLService : IBLLService
     {
@@ -19,7 +21,7 @@ namespace ViewModel.Helpers
 
         public IEnumerable<Appointment> GetAppointments()
         {
-             return Database.Appointments.Get();
+            return Database.Appointments.Get();
         }
 
         public IEnumerable<Location> GetLocations()
@@ -31,10 +33,12 @@ namespace ViewModel.Helpers
         {
             return Database.Appointments.Get(x => x.LocationId == appointment.LocationId);
         }
+
         public IEnumerable<User> GetUsers()
         {
             return Database.Users.Get();
         }
+
         public void AddAppointment(Appointment appointment)
         {
             using (var transaction = Database.BeginTransaction())
@@ -70,6 +74,7 @@ namespace ViewModel.Helpers
                 }
             }
         }
+
         public void AddUser(User user)
         {
             using (var transaction = Database.BeginTransaction())
@@ -87,6 +92,7 @@ namespace ViewModel.Helpers
                 }
             }
         }
+
         public void RemoveAppointment(Appointment appointment)
         {
             using (var transaction = Database.BeginTransaction())

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using BLL.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using Model.Entities;
 using TestWpf.Helpers;
-using ViewModel.Interfaces;
 
 namespace TestWpf.ViewModel
 {
@@ -116,7 +116,7 @@ namespace TestWpf.ViewModel
                 Appointment.Users = SelectedUsersList;
             }
             _service.AddAppointment(Appointment);
-            Messenger.Default.Send(new OpenWindowMessage() { Argument = "AddAppDone"});
+            Messenger.Default.Send(new OpenWindowMessage() { Argument = "AddAppDone" });
             window?.Close();
         }
 

@@ -3,8 +3,8 @@ using CommonServiceLocator;
 using GalaSoft.MvvmLight;
 using Model.Interfaces;
 using Model.ModelVIewElements;
-using ViewModel.Helpers;
-using ViewModel.Interfaces;
+using BLL.Interfaces;
+using BLL;
 
 namespace TestWpf.ViewModel
 {
