@@ -31,14 +31,6 @@ namespace ViewModel.Print
 
         public DelegateCommand PrintCommand { get { return _print; } }
 
-        //public PrintAppointmentViewModel(int id)
-        //{
-        //    using (var uow = new UnitOfWork())
-        //    {
-        //        _appointment = uow.Appointments.FindById(id);
-        //    }
-        //}
-
         public string AppointmentName
         {
             get { return _appointment.Subject; }
@@ -63,18 +55,6 @@ namespace ViewModel.Print
                 myPrintDialog.PrintVisual(grid, "Form All Controls Print");
             }
         }
-
-
-        //public void PrintBtn_Click(object sender, RoutedEventArgs e)
-        //{
-        //    PrintDialog printDialog = new PrintDialog();
-        //    if (printDialog.ShowDialog() == true)
-        //    {
-        //        printDialog.PrintVisual(grid, "My First Print Job");
-        //    }
-        //}
-
-
     }
        
 }
