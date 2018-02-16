@@ -78,6 +78,9 @@
     </ApplicationDefinition>
     <Compile Include="Helpers\OpenWindowMessage.cs" />
     <Compile Include="Helpers\WindowType.cs" />
+    <Compile Include="PrintAppointment.xaml.cs">
+      <DependentUpon>PrintAppointment.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PrintTable.xaml.cs">
       <DependentUpon>PrintTable.xaml</DependentUpon>
     </Compile>
@@ -104,6 +107,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PrintAppointment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PrintTable.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

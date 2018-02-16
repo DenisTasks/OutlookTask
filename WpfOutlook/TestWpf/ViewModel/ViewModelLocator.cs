@@ -28,6 +28,7 @@ namespace TestWpf.ViewModel
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<ModalWindowViewModel>();
             SimpleIoc.Default.Register<PrintViewModel>();
+            SimpleIoc.Default.Register<PrintAppointmentViewModel>();
         }
 
         public AuthenticationViewModel LoginWindow
@@ -51,6 +52,14 @@ namespace TestWpf.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<PrintViewModel>();
+            }
+        }
+
+        public PrintAppointmentViewModel AppointmentWindow
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<PrintAppointmentViewModel>();
             }
         }
 
