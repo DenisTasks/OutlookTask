@@ -21,6 +21,15 @@ namespace ViewModel.Helpers
              return Database.Appointments.Get();
         }
 
+        public IEnumerable<Location> GetLocations()
+        {
+            return Database.Locations.Get();
+        }
+
+        public IEnumerable<User> GetUsers()
+        {
+            return Database.Users.Get();
+        }
         public void AddAppointment(Appointment appointment)
         {
             using (var transaction = Database.BeginTransaction())
@@ -39,6 +48,23 @@ namespace ViewModel.Helpers
             }
         }
 
+        public void AddUser(User user)
+        {
+            using (var transaction = Database.BeginTransaction())
+            {
+                try
+                {
+                    Database.Users.Create(user);
+                    Database.Save();
+                    transaction.Commit();
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    MessageBox.Show(e.ToString());
+                }
+            }
+        }
         public void RemoveAppointment(Appointment appointment)
         {
             using (var transaction = Database.BeginTransaction())

@@ -85,9 +85,21 @@ namespace TestWpf.ViewModel
             {
                 //for (int i = 1; i < 20; i++)
                 //{
-                //    Appointment x = new Appointment() { AppointmentId = i, BeginningDate = DateTime.Now, EndingDate = DateTime.Now, Location = new Location(), LocationId = i * i, Subject = $"Meeting {i}" };
+                //    Appointment x = new Appointment();
+                //    x.BeginningDate = DateTime.Now;
+                //    x.EndingDate = DateTime.Now.AddHours(1);
+                //    Location y = new Location();
+                //    y.Room = $"Room {i}";
+                //    x.Location = y;
+                //    x.Subject = $"Meeting {i}";
                 //    _service.AddAppointment(x);
                 //}
+                ////for (int i = 1; i < 20; i++)
+                ////{
+                ////    User user = new User();
+                ////    user.Name = "Name " + i;
+                ////    _service.AddUser(user);
+                ////}
                 Appointments = new ObservableCollection<Appointment>(_service.GetAppointments());
             }
             catch (Exception e)

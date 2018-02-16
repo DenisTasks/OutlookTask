@@ -7,11 +7,12 @@
         WindowStartupLocation="CenterScreen"
         Background="LightBlue"
         mc:Ignorable="d"
-        Title="Add appointment" Height="500" Width="500">
+        Title="Add appointment" Height="Auto" Width="500">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -27,30 +28,68 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
-        <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Name}"/>
-        
         <Label Grid.Column="0" Grid.Row="1" Content="Subject"/>
         <Label Grid.Column="0" Grid.Row="2" Content="Location"/>
         <Label Grid.Column="0" Grid.Row="3" Content="Start Time"/>
         <Label Grid.Column="0" Grid.Row="4" Content="End Time"/>
+        <Label Grid.Column="0" Grid.Row="6" Content="Users"/>
 
-        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding inputSubject}"/>
+        <TextBox Grid.Column="1" Grid.Row="1" 
+                 Text="{Binding Appointment.Subject}"/>
         <ComboBox Grid.Column="1" Grid.Row="2" 
-                  DisplayMemberPath="Room" 
-                  ItemsSource="{Binding LocationList}" 
-                  SelectedItem="{Binding selectedLocation}"/>
-        <DatePicker Grid.Column="1" Grid.Row="3" 
-                    SelectedDate="{Binding BeginningDate}"/>
-        <ComboBox Grid.Column="2" Grid.Row="3" 
-                  ItemsSource="{Binding BeginningTime}" 
+                  DisplayMemberPath="Room"
+                  ItemsSource="{Binding LocationList}"
+                  SelectedItem="{Binding Appointment.Location}"/>
+        <DatePicker Grid.Column="1" Grid.Row="3"
+                    SelectedDate="{Binding startBeginningDate}"/>
+        <ComboBox Grid.Column="3" Grid.Row="3"
+                  ItemsSource="{Binding BeginningTime}"
                   SelectedItem="{Binding selectedBeginningTime}"/>
-        <DatePicker Grid.Column="1" Grid.Row="4" 
-                    SelectedDate="{Binding EndingDate}" />
-        <ComboBox Grid.Column="2" Grid.Row="4" 
-                  ItemsSource="{Binding EndingTime}" 
+        <DatePicker Grid.Column="1" Grid.Row="4"
+                    SelectedDate="{Binding endBeginningDate}" />
+        <ComboBox Grid.Column="3" Grid.Row="4"
+                  ItemsSource="{Binding EndingTime}"
                   SelectedItem="{Binding selectedEndingTime}"/>
 
-        <Button Grid.Column="2" Grid.Row="9" 
+        <ListView Grid.Column="1"
+                  Grid.Row="6"
+                  Name="FromUsersList"
+                  ItemsSource="{Binding UsersList}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <Button Command="{Binding DataContext.AddUsersToListCommand, ElementName=ToUsersList}"
+                                CommandParameter="{Binding}"
+                                DockPanel.Dock="Right"
+                                Padding="2"
+                                Margin="2">+</Button>
+                        <TextBlock Text="{Binding Name}"
+                                   VerticalAlignment="Center"/>
+                    </DockPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <ListView Grid.Column="3"
+                  Grid.Row="6"
+                  Name="ToUsersList"
+                  ItemsSource="{Binding SelectedUsersList}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel >
+                        <Button Command="{Binding DataContext.RemoveUsersFromListCommand, ElementName=FromUsersList}"
+                                CommandParameter="{Binding}"
+                                DockPanel.Dock="Right"
+                                Padding="2"
+                                Margin="2">X</Button>
+                        <TextBlock Text="{Binding Name}"
+                                   VerticalAlignment="Center"/>
+                    </DockPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
+        <Button Grid.Column="3" Grid.Row="9" 
                 Command="{Binding CreateAppCommand}" 
                 Content="Add appointment"/>
     </Grid>
