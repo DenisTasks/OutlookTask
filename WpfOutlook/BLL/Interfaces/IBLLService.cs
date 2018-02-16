@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Model.Entities;
+using BLL.DTO;
 
 namespace BLL.Interfaces
 {
     public interface IBLLService : IDisposable
     {
-        IEnumerable<Appointment> GetAppointments();
-        IEnumerable<Location> GetLocations();
-        IEnumerable<User> GetUsers();
-        IEnumerable<Appointment> GetAppsByLocation(Appointment appointment);
-        void AddAppointment(Appointment appointment);
-        void RemoveAppointment(Appointment appointment);
-        void AddLocation(Location location);
-        void AddUser(User user);
+        IEnumerable<AppointmentDTO> GetAppointments();
+        IEnumerable<LocationDTO> GetLocations();
+        IEnumerable<UserDTO> GetUsers();
+        IEnumerable<AppointmentDTO> GetAppsByLocation(AppointmentDTO appointment);
+        void AddAppointment(AppointmentDTO appointment);
+        void RemoveAppointment(AppointmentDTO appointment);
+        void AddLocation(LocationDTO location);
+        void AddUser(UserDTO user);
     }
 }

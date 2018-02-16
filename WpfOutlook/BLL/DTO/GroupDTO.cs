@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace BLL.DTO
 {
-    public class Group
+    public class GroupDTO
     {
         public int GroupId { get; set; }
         public string GroupName { get; set; }
-        public ICollection<User> Moderators { get; set; }
+        public ICollection<UserDTO> Moderators { get; set; }
 
         public int CreatorId { get; set; }
-        public User Creator { get; set; }
+        public UserDTO Creator { get; set; }
 
-        public ICollection<User> Users { get; set; }
+        public ICollection<UserDTO> Users { get; set; }
     }
 }

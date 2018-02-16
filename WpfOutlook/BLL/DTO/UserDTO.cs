@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BLL.DTO
 {
-    public class User
+    public class UserDTO
     {
         public int UserId { get; set; }
         public bool IsActive { get; set; }
@@ -14,8 +14,8 @@ namespace BLL.DTO
         public string UserName { get; set; }
         public string Password { get; set; }
 
-        public ICollection<Appointment> Appointments { get; set; }
+        //public ICollection<AppointmentDTO> Appointments { get; set; }
 
-        public ICollection<Role> Roles { get; set; }
+        //public ICollection<RoleDTO> Roles { get; set; }
     }
 }

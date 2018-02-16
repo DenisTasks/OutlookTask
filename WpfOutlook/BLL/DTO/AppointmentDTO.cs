@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BLL.DTO
 {
-    public class Appointment
+    public class AppointmentDTO
     {
         public int AppointmentId { get; set; }
         public string Subject { get; set; }
@@ -14,7 +14,7 @@ namespace BLL.DTO
         public DateTime EndingDate { get; set; }
         public int LocationId { get; set; }
 
-        public ICollection<User> Users { get; set; }
+        public ICollection<UserDTO> Users { get; set; }
 
     }
 }

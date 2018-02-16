@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace BLL.DTO
 {
-    public class Location
+    public class LocationDTO
     {
         public int LocationId { get; set; }
         public string Room { get; set; }
 
-        public ICollection<Appointment> Appointments { get; set; }
+        public ICollection<AppointmentDTO> Appointments { get; set; }
     }
 }

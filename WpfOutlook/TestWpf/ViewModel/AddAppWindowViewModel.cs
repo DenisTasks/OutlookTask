@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using BLL.DTO;
 using BLL.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
-using Model.Entities;
 using TestWpf.Helpers;
 
 namespace TestWpf.ViewModel
@@ -16,11 +16,11 @@ namespace TestWpf.ViewModel
     {
         private readonly IBLLService _service;
         public RelayCommand<Window> CreateAppCommand { get; }
-        public RelayCommand<User> AddUsersToListCommand { get; }
-        public RelayCommand<User> RemoveUsersFromListCommand { get; }
+        public RelayCommand<UserDTO> AddUsersToListCommand { get; }
+        public RelayCommand<UserDTO> RemoveUsersFromListCommand { get; }
 
-        private ObservableCollection<User> _selectedUsersList;
-        public ObservableCollection<User> SelectedUsersList
+        private ObservableCollection<UserDTO> _selectedUsersList;
+        public ObservableCollection<UserDTO> SelectedUsersList
         {
             get => _selectedUsersList;
             set
@@ -33,8 +33,8 @@ namespace TestWpf.ViewModel
             }
         }
 
-        private ObservableCollection<User> _usersList;
-        public ObservableCollection<User> UsersList
+        private ObservableCollection<UserDTO> _usersList;
+        public ObservableCollection<UserDTO> UsersList
         {
             get => _usersList;
             private set
@@ -47,7 +47,7 @@ namespace TestWpf.ViewModel
             }
         }
 
-        public Appointment Appointment { get; set; }
+        public AppointmentDTO Appointment { get; set; }
 
         public List<string> BeginningTime { get; }
         public List<string> EndingTime { get; }
@@ -74,9 +74,9 @@ namespace TestWpf.ViewModel
             }
         }
 
-        public List<Location> LocationList { get; }
-        private Location _selectedLocation;
-        public Location SelectedLocation
+        public List<LocationDTO> LocationList { get; }
+        private LocationDTO _selectedLocation;
+        public LocationDTO SelectedLocation
         {
             get => _selectedLocation;
             set
@@ -92,13 +92,13 @@ namespace TestWpf.ViewModel
         public AddAppWindowViewModel(IBLLService service)
         {
             _service = service;
-            AddUsersToListCommand = new RelayCommand<User>(AddUsersToList);
-            RemoveUsersFromListCommand = new RelayCommand<User>(RemoveUsersFromList);
+            AddUsersToListCommand = new RelayCommand<UserDTO>(AddUsersToList);
+            RemoveUsersFromListCommand = new RelayCommand<UserDTO>(RemoveUsersFromList);
             CreateAppCommand = new RelayCommand<Window>(CreateAppointment);
 
-            UsersList = new ObservableCollection<User>(_service.GetUsers());
-            SelectedUsersList = new ObservableCollection<User>();
-            Appointment = new Appointment();
+            UsersList = new ObservableCollection<UserDTO>(_service.GetUsers());
+            SelectedUsersList = new ObservableCollection<UserDTO>();
+            Appointment = new AppointmentDTO();
 
             LocationList = _service.GetLocations().ToList();
 
@@ -120,7 +120,7 @@ namespace TestWpf.ViewModel
             window?.Close();
         }
 
-        public void AddUsersToList(User user)
+        public void AddUsersToList(UserDTO user)
         {
             if (user != null)
             {
@@ -130,7 +130,7 @@ namespace TestWpf.ViewModel
             }
         }
 
-        public void RemoveUsersFromList(User user)
+        public void RemoveUsersFromList(UserDTO user)
         {
             if (user != null)
             {

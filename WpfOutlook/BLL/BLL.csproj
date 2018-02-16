@@ -80,11 +80,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLLService.cs" />
-    <Compile Include="DTO\Appointment.cs" />
-    <Compile Include="DTO\Group.cs" />
-    <Compile Include="DTO\Location.cs" />
-    <Compile Include="DTO\Role.cs" />
-    <Compile Include="DTO\User.cs" />
+    <Compile Include="DTO\AppointmentDTO.cs" />
+    <Compile Include="DTO\GroupDTO.cs" />
+    <Compile Include="DTO\LocationDTO.cs" />
+    <Compile Include="DTO\RoleDTO.cs" />
+    <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="Interfaces\IBLLService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
