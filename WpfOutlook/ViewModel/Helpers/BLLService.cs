@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using Model.Entities;
 using Model.Interfaces;
@@ -26,6 +27,10 @@ namespace ViewModel.Helpers
             return Database.Locations.Get();
         }
 
+        public IEnumerable<Appointment> GetAppsByLocation(Appointment appointment)
+        {
+            return Database.Appointments.Get(x => x.LocationId == appointment.LocationId);
+        }
         public IEnumerable<User> GetUsers()
         {
             return Database.Users.Get();
@@ -48,6 +53,23 @@ namespace ViewModel.Helpers
             }
         }
 
+        public void AddLocation(Location location)
+        {
+            using (var transaction = Database.BeginTransaction())
+            {
+                try
+                {
+                    Database.Locations.Create(location);
+                    Database.Save();
+                    transaction.Commit();
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    MessageBox.Show(e.ToString());
+                }
+            }
+        }
         public void AddUser(User user)
         {
             using (var transaction = Database.BeginTransaction())

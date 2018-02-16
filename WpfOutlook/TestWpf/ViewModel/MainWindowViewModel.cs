@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Data.Entity;
 using System.Windows;
 using System.Windows.Data;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using Model.Entities;
-using Model.Interfaces;
-using Model.ModelVIewElements;
 using TestWpf.Helpers;
 using ViewModel.Interfaces;
 
@@ -31,7 +28,7 @@ namespace TestWpf.ViewModel
             AddAppWindowCommand = new RelayCommand(
                 () =>
                 Messenger.Default.Send(
-                    new OpenWindowMessage() { Type = WindowType.AddAppWindow, Argument = "1" }));
+                    new OpenWindowMessage() { Type = WindowType.AddAppWindow }));
             RemoveAppCommand = new RelayCommand<Appointment>(RemoveAppointment);
             SortByAppIdCommand = new RelayCommand(SortByAppId);
             GroupBySubjectCommand = new RelayCommand(GroupBySubject);
@@ -39,6 +36,20 @@ namespace TestWpf.ViewModel
             LoadData();
         }
 
+        public void GetAllAppsByRoom(Appointment appointment)
+        {
+            if (appointment != null)
+            {
+                try
+                {
+          //          var allApps = _service.GetAppsByLocation(appointment).ToList();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.ToString());
+                }
+            }
+        }
         public void GroupBySubject()
         {
             ICollectionView view = CollectionViewSource.GetDefaultView(Appointments);
@@ -83,23 +94,18 @@ namespace TestWpf.ViewModel
         {
             try
             {
-                //for (int i = 1; i < 20; i++)
+                //for (int i = 1; i < 5; i++)
                 //{
-                //    Appointment x = new Appointment();
-                //    x.BeginningDate = DateTime.Now;
-                //    x.EndingDate = DateTime.Now.AddHours(1);
-                //    Location y = new Location();
-                //    y.Room = $"Room {i}";
-                //    x.Location = y;
-                //    x.Subject = $"Meeting {i}";
-                //    _service.AddAppointment(x);
+                //    Location location = new Location();
+                //    location.Room = "Room number " + i;
+                //    _service.AddLocation(location);
                 //}
-                ////for (int i = 1; i < 20; i++)
-                ////{
-                ////    User user = new User();
-                ////    user.Name = "Name " + i;
-                ////    _service.AddUser(user);
-                ////}
+                //for (int i = 1; i < 5; i++)
+                //{
+                //    User user = new User();
+                //    user.Name = "MyName " + i;
+                //    _service.AddUser(user);
+                //}
                 Appointments = new ObservableCollection<Appointment>(_service.GetAppointments());
             }
             catch (Exception e)
@@ -117,21 +123,6 @@ namespace TestWpf.ViewModel
                 view.Filter = o => ((o as Appointment)?.Subject) == appointment.Subject;
             }
         }
-
-        //public void AddAppointment(Appointment appointment)
-        //{
-        //    if (appointment != null)
-        //    {
-        //        using (Database = new UnitOfWork())
-        //        {
-        //            Appointment x9 = new Appointment() { BeginningDate = DateTime.Now, EndingDate = DateTime.Now, Location = new Location(), LocationId = DateTime.Now.Second, Subject = "Meeting random" };
-        //            Database.Appointments.Create(x9);
-        //            Database.Save();
-        //            Appointments.Add(x9);
-        //            base.RaisePropertyChanged("Appointments");
-        //        }
-        //    }
-        //}
 
         public void RemoveAppointment(Appointment appointment)
         {

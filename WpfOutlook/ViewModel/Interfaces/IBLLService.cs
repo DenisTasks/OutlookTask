@@ -12,8 +12,10 @@ namespace ViewModel.Interfaces
         IEnumerable<Appointment> GetAppointments();
         IEnumerable<Location> GetLocations();
         IEnumerable<User> GetUsers();
+        IEnumerable<Appointment> GetAppsByLocation(Appointment appointment);
         void AddAppointment(Appointment appointment);
         void RemoveAppointment(Appointment appointment);
+        void AddLocation(Location location);
         void AddUser(User user);
     }
 }

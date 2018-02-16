@@ -51,7 +51,8 @@ namespace TestWpf.ViewModel
         public List<string> EndingTime { get; }
 
         private DateTime _startDate = DateTime.Today;
-        private DateTime _endingDate = DateTime.Today;
+        private DateTime _endingDate = DateTime.Today.AddHours(1);
+
         public DateTime StartBeginningDate
         {
             get => _startDate;
@@ -72,6 +73,17 @@ namespace TestWpf.ViewModel
         }
 
         public List<Location> LocationList { get; }
+        private Location _selectedLocation;
+        public Location SelectedLocation
+        {
+            get => _selectedLocation;
+            set
+            {
+                _selectedLocation = value;
+                base.RaisePropertyChanged();
+            }
+        }
+
 
         public DateTime SelectedBeginningTime { get; set; }
         public DateTime SelectedEndingTime { get; set; }
@@ -79,9 +91,9 @@ namespace TestWpf.ViewModel
         public AddAppWindowViewModel(IBLLService service)
         {
             _service = service;
-            CreateAppCommand = new RelayCommand(CreateAppointment);
             AddUsersToListCommand = new RelayCommand<User>(AddUsersToList);
             RemoveUsersFromListCommand = new RelayCommand<User>(RemoveUsersFromList);
+            CreateAppCommand = new RelayCommand(CreateAppointment);
 
             UsersList = new ObservableCollection<User>(_service.GetUsers());
             SelectedUsersList = new ObservableCollection<User>();
@@ -97,6 +109,7 @@ namespace TestWpf.ViewModel
         {
             Appointment.BeginningDate = DateTime.Parse(_startDate.ToString("d") + " " + SelectedBeginningTime.ToString("h:mm tt"));
             Appointment.EndingDate = DateTime.Parse(_endingDate.ToString("d") + " " + SelectedEndingTime.ToString("h:mm tt"));
+            Appointment.LocationId = SelectedLocation.LocationId;
             if (SelectedUsersList.Count > 0)
             {
                 Appointment.Users = SelectedUsersList;

@@ -39,7 +39,7 @@
         <ComboBox Grid.Column="1" Grid.Row="2" 
                   DisplayMemberPath="Room"
                   ItemsSource="{Binding LocationList}"
-                  SelectedItem="{Binding Appointment.Location}"/>
+                  SelectedItem="{Binding SelectedLocation}"/>
         <DatePicker Grid.Column="1" Grid.Row="3"
                     SelectedDate="{Binding StartBeginningDate}"/>
         <ComboBox Grid.Column="3" Grid.Row="3"
