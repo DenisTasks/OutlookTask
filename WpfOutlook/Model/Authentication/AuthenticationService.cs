@@ -11,15 +11,10 @@ namespace Model.Authentication
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private IUnitOfWork _db;
-
-        public AuthenticationService()
-        {
-            _db = new UnitOfWork();
-        }
-
         public User AuthenticateUser(string username, string password)
         {
+            var _db = new UnitOfWork();
+            
             User resultUser = _db.Users.Get(u => u.UserName.Equals(username) && u.Password.Equals(password)).FirstOrDefault();
             if (resultUser != null)
                 return resultUser;

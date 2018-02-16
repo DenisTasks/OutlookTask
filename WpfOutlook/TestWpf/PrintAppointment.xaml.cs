@@ -15,10 +15,13 @@ using System.Windows.Shapes;
 namespace TestWpf
 {
     /// <summary>
-    /// Interaction logic for SecretWindow.xaml
+    /// Interaction logic for PrintAppointment.xaml
     /// </summary>
-    public partial class SecretWindow : Window
+    public partial class PrintAppointment : Window
     {
-        
+        public PrintAppointment()
+        {
+            InitializeComponent();
+        }
     }
 }
