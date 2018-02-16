@@ -95,16 +95,13 @@ namespace TestWpf.ViewModel
 
         public void CreateAppointment()
         {
-            string beginning = _startDate.ToString("d") + " " + SelectedBeginningTime.ToString("h:mm tt");
-            string ending = _endingDate.ToString("d") + " " + SelectedEndingTime.ToString("h:mm tt");
-            Appointment.BeginningDate = DateTime.Parse(beginning);
-            Appointment.EndingDate = DateTime.Parse(ending);
+            Appointment.BeginningDate = DateTime.Parse(_startDate.ToString("d") + " " + SelectedBeginningTime.ToString("h:mm tt"));
+            Appointment.EndingDate = DateTime.Parse(_endingDate.ToString("d") + " " + SelectedEndingTime.ToString("h:mm tt"));
             if (SelectedUsersList.Count > 0)
             {
                 Appointment.Users = SelectedUsersList;
             }
             _service.AddAppointment(Appointment);
- //           MessageBox.Show(Appointment.Subject + Appointment.Location.Room + Appointment.BeginningDate.ToString("d") + Appointment.EndingDate.ToString("d") + SelectedBeginningTime.ToString("h:mm tt") + SelectedEndingTime.ToString("h:mm tt"));
         }
 
         public void AddUsersToList(User user)

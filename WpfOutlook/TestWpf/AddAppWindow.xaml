@@ -41,15 +41,15 @@
                   ItemsSource="{Binding LocationList}"
                   SelectedItem="{Binding Appointment.Location}"/>
         <DatePicker Grid.Column="1" Grid.Row="3"
-                    SelectedDate="{Binding startBeginningDate}"/>
+                    SelectedDate="{Binding StartBeginningDate}"/>
         <ComboBox Grid.Column="3" Grid.Row="3"
                   ItemsSource="{Binding BeginningTime}"
-                  SelectedItem="{Binding selectedBeginningTime}"/>
+                  SelectedItem="{Binding SelectedBeginningTime}"/>
         <DatePicker Grid.Column="1" Grid.Row="4"
-                    SelectedDate="{Binding endBeginningDate}" />
+                    SelectedDate="{Binding EndBeginningDate}" />
         <ComboBox Grid.Column="3" Grid.Row="4"
                   ItemsSource="{Binding EndingTime}"
-                  SelectedItem="{Binding selectedEndingTime}"/>
+                  SelectedItem="{Binding SelectedEndingTime}"/>
 
         <ListView Grid.Column="1"
                   Grid.Row="6"
