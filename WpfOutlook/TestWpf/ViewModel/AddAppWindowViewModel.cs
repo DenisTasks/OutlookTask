@@ -84,6 +84,7 @@ namespace TestWpf.ViewModel
             RemoveUsersFromListCommand = new RelayCommand<User>(RemoveUsersFromList);
 
             UsersList = new ObservableCollection<User>(_service.GetUsers());
+            SelectedUsersList = new ObservableCollection<User>();
             Appointment = new Appointment();
 
             LocationList = _service.GetLocations().ToList();
@@ -98,8 +99,12 @@ namespace TestWpf.ViewModel
             string ending = _endingDate.ToString("d") + " " + SelectedEndingTime.ToString("h:mm tt");
             Appointment.BeginningDate = DateTime.Parse(beginning);
             Appointment.EndingDate = DateTime.Parse(ending);
-
-            MessageBox.Show(Appointment.Subject + Appointment.Location.Room + Appointment.BeginningDate.ToString("d") + Appointment.EndingDate.ToString("d") + SelectedBeginningTime.ToString("h:mm tt") + SelectedEndingTime.ToString("h:mm tt"));
+            if (SelectedUsersList.Count > 0)
+            {
+                Appointment.Users = SelectedUsersList;
+            }
+            _service.AddAppointment(Appointment);
+ //           MessageBox.Show(Appointment.Subject + Appointment.Location.Room + Appointment.BeginningDate.ToString("d") + Appointment.EndingDate.ToString("d") + SelectedBeginningTime.ToString("h:mm tt") + SelectedEndingTime.ToString("h:mm tt"));
         }
 
         public void AddUsersToList(User user)
