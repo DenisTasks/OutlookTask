@@ -33,9 +33,9 @@ namespace TestWpf
                         Messenger.Default.Send(new OpenWindowMessage() { Argument = message.Argument, Appointment = message.Appointment });
                         var result = addAboutWindow.ShowDialog();
                     }
-                    if (message.Argument == "AddAppDone")
+                    if (message.Type == WindowType.None)
                     {
-                        Messenger.Default.Send(new OpenWindowMessage() { Argument = "AddAppDone" });
+                        Messenger.Default.Send(new OpenWindowMessage() { Type = WindowType.Refresh });
                     }
                 });
         }

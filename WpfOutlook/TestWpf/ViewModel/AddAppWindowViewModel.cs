@@ -98,9 +98,9 @@ namespace TestWpf.ViewModel
 
             UsersList = new ObservableCollection<UserDTO>(_service.GetUsers());
             SelectedUsersList = new ObservableCollection<UserDTO>();
-            Appointment = new AppointmentDTO();
-
             LocationList = _service.GetLocations().ToList();
+
+            Appointment = new AppointmentDTO();
 
             BeginningTime = new List<string>() { DateTime.Now.ToString("h:mm tt") };
             EndingTime = new List<string>() { DateTime.Now.ToString("h:mm tt") };
@@ -115,7 +115,7 @@ namespace TestWpf.ViewModel
                 Appointment.LocationId = SelectedLocation.LocationId;
                 Appointment.Users = SelectedUsersList;
                 _service.AddAppointment(Appointment);
-                Messenger.Default.Send(new OpenWindowMessage() { Argument = "AddAppDone" });
+                Messenger.Default.Send(new OpenWindowMessage() {Type = WindowType.None });
                 window?.Close();
             }
             else

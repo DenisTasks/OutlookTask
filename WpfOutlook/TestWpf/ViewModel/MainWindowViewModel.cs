@@ -29,6 +29,7 @@ namespace TestWpf.ViewModel
                 }
             }
         }
+
         public RelayCommand<AppointmentDTO> AboutAppointmentCommand { get; }
         public RelayCommand AddAppWindowCommand { get; }
         public RelayCommand<AppointmentDTO> RemoveAppCommand { get; }
@@ -51,7 +52,7 @@ namespace TestWpf.ViewModel
 
             Messenger.Default.Register<OpenWindowMessage>(this, message =>
             {
-                if (message.Argument == "AddAppDone")
+                if (message.Type == WindowType.Refresh)
                 {
                     RefreshingAppointments();
                 }
