@@ -138,6 +138,24 @@ namespace BLL
             }
         }
 
+        public void AddLocation(Location location)
+        {
+            using (var transaction = Database.BeginTransaction())
+            {
+                try
+                {
+                    Database.Locations.Create(location);
+                    Database.Save();
+                    transaction.Commit();
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    MessageBox.Show(e.ToString());
+                }
+            }
+        }
+
         public void AddUser(UserDTO user)
         {
             var userItem = FromUserDtoToUserMapper.Map<UserDTO, User>(user);
@@ -158,6 +176,24 @@ namespace BLL
             }
         }
 
+        public void AddUser(User user)
+        {
+            using (var transaction = Database.BeginTransaction())
+            {
+                try
+                {
+                    Database.Users.Create(user);
+                    Database.Save();
+                    transaction.Commit();
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    MessageBox.Show(e.ToString());
+                }
+            }
+        }
+
         public void RemoveAppointment(AppointmentDTO appointment)
         {
             var appointmentItem = FromAppDtoToAppMapper.Map<AppointmentDTO, Appointment>(appointment);
@@ -166,14 +202,14 @@ namespace BLL
             {
                 try
                 {
-                    Database.Appointments.Remove(appointmentItem);
+                    Database.Appointments.Remove(appointmentItem, key => key.AppointmentId);
                     Database.Save();
                     transaction.Commit();
                 }
                 catch (Exception e)
                 {
                     transaction.Rollback();
-                    throw new Exception(e.ToString());
+                    throw new Exception(e.ToString() + " from BLL");
                 }
             }
         }

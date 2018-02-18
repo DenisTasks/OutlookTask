@@ -9,7 +9,7 @@
         Background="LightCyan"
         DataContext="{Binding Main, 
                               Source={StaticResource Locator}}"
-        Title="Outlook by Kudrin and Tarasevich" Height="Auto" Width="Auto">
+        Title="Outlook application" Height="Auto" Width="Auto">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -51,6 +51,7 @@
                     <GridViewColumn Header="Beginning Date" DisplayMemberBinding="{Binding BeginningDate}"/>
                     <GridViewColumn Header="Ending Date" DisplayMemberBinding="{Binding EndingDate}"/>
                     <GridViewColumn Header="Location" DisplayMemberBinding="{Binding LocationId}"/>
+                    <GridViewColumn Header="Users" DisplayMemberBinding="{Binding Users.Count}"/>
                 </GridView>
             </ListView.View>
         </ListView>

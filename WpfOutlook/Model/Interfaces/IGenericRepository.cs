@@ -14,5 +14,6 @@ namespace Model.Interfaces
         void Create(TEntity item);
         void Update(TEntity item);
         void Remove(TEntity item);
+        void Remove(TEntity item, Func<TEntity, int> getKey);
     }
 }

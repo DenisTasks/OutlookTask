@@ -53,6 +53,38 @@ namespace Model.ModelVIewElements
                 _dbSet.Attach(item);
             }
             _dbSet.Remove(item);
+
+            //if (_context.Entry(item).State == EntityState.Detached)
+            //{
+            //    _dbSet.Attach(item);
+            //}
+            //_dbSet.Remove(item);
+        }
+
+        public void Remove(TEntity entity, Func<TEntity, int> getKey)
+        {
+            if (entity == null)
+            {
+                throw new ArgumentException("Cannot remove a null entity.");
+            }
+
+            var entry = _context.Entry<TEntity>(entity);
+
+            if (entry.State == EntityState.Detached)
+            {
+                var set = _context.Set<TEntity>();
+                TEntity attachedEntity = set.Find(getKey(entity));
+
+                if (attachedEntity != null)
+                {
+                    var attachedEntry = _context.Entry(attachedEntity);
+                    _dbSet.Remove(attachedEntry.Entity);
+                }
+                else
+                {
+                    _dbSet.Remove(entity);
+                }
+            }
         }
     }
 }

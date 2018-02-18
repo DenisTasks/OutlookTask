@@ -8,6 +8,7 @@ using BLL.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
+using Model.Entities;
 using TestWpf.Helpers;
 
 namespace TestWpf.ViewModel

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using BLL.DTO;
+using Model.Entities;
 
 namespace BLL.Interfaces
 {
@@ -14,5 +15,7 @@ namespace BLL.Interfaces
         void RemoveAppointment(AppointmentDTO appointment);
         void AddLocation(LocationDTO location);
         void AddUser(UserDTO user);
+        void AddUser(User user);
+        void AddLocation(Location location);
     }
 }
