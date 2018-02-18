@@ -1,4 +1,4 @@
-﻿using Model.Entities;
+﻿using BLL.DTO;
 
 namespace TestWpf.Helpers
 {
@@ -6,6 +6,6 @@ namespace TestWpf.Helpers
     {
         public WindowType Type { get; set; }
         public string Argument { get; set; }
-        public Appointment Appointment { get; set; }
+        public AppointmentDTO Appointment { get; set; }
     }
 }

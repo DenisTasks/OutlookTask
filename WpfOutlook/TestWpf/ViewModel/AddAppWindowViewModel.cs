@@ -110,9 +110,9 @@ namespace TestWpf.ViewModel
         {
             Appointment.BeginningDate = DateTime.Parse(_startDate.ToString("d") + " " + SelectedBeginningTime.ToString("h:mm tt"));
             Appointment.EndingDate = DateTime.Parse(_endingDate.ToString("d") + " " + SelectedEndingTime.ToString("h:mm tt"));
-            Appointment.LocationId = SelectedLocation.LocationId;
-            if (SelectedUsersList.Count > 0)
+            if (SelectedUsersList.Count > 0 && SelectedLocation.LocationId > 0)
             {
+                Appointment.LocationId = SelectedLocation.LocationId;
                 Appointment.Users = SelectedUsersList;
                 _service.AddAppointment(Appointment);
                 Messenger.Default.Send(new OpenWindowMessage() { Argument = "AddAppDone" });
@@ -120,7 +120,7 @@ namespace TestWpf.ViewModel
             }
             else
             {
-                MessageBox.Show("Please, add users to appointment list!");
+                MessageBox.Show("Please, add users or select location!");
             }
         }
 

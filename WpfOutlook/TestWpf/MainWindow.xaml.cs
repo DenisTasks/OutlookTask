@@ -14,7 +14,7 @@ namespace TestWpf
             Messenger.Default.Register<OpenWindowMessage>(
                 this,
                 message => {
-                    if (message.Type == WindowType.AddAppWindow && message.Argument != "AddAppDone")
+                    if (message.Type == WindowType.AddAppWindow && message.Argument != "Load this appointment")
                     {
                         var addAppWindowVM = SimpleIoc.Default.GetInstance<AddAppWindowViewModel>();
                         var addAppWindow = new AddAppWindow()
@@ -23,9 +23,19 @@ namespace TestWpf
                         };
                         var result = addAppWindow.ShowDialog();
                     }
+                    if (message.Type == WindowType.AddAboutAppointmentWindow)
+                    {
+                        var addAboutWindowVM = SimpleIoc.Default.GetInstance<AboutAppointmentWindowViewModel>();
+                        var addAboutWindow = new AboutAppWindow()
+                        {
+                            DataContext = addAboutWindowVM
+                        };
+                        Messenger.Default.Send(new OpenWindowMessage() { Argument = message.Argument, Appointment = message.Appointment });
+                        var result = addAboutWindow.ShowDialog();
+                    }
                     if (message.Argument == "AddAppDone")
                     {
-                        Messenger.Default.Send("AddAppDone");
+                        Messenger.Default.Send(new OpenWindowMessage() { Argument = "AddAppDone" });
                     }
                 });
         }

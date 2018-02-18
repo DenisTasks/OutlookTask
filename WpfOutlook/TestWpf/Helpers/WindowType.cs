@@ -3,6 +3,6 @@
     public enum WindowType
     {
         AddAppWindow,
-        AddGroup
+        AddAboutAppointmentWindow
     }
 }

@@ -28,6 +28,7 @@ namespace TestWpf.ViewModel
             // Register my view models
             SimpleIoc.Default.Register<MainWindowViewModel>();
             SimpleIoc.Default.Register<AddAppWindowViewModel>();
+            SimpleIoc.Default.Register<AboutAppointmentWindowViewModel>();
         }
 
         public MainWindowViewModel Main

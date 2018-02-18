@@ -8,7 +8,6 @@ using BLL.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
-using Model.Entities;
 using TestWpf.Helpers;
 
 namespace TestWpf.ViewModel
@@ -17,6 +16,20 @@ namespace TestWpf.ViewModel
     {
         private readonly IBLLService _service;
         private ObservableCollection<AppointmentDTO> _appointments;
+
+        public ObservableCollection<AppointmentDTO> Appointments
+        {
+            get => _appointments;
+            private set
+            {
+                if (value != _appointments)
+                {
+                    _appointments = value;
+                    base.RaisePropertyChanged();
+                }
+            }
+        }
+        public RelayCommand<AppointmentDTO> AboutAppointmentCommand { get; }
         public RelayCommand AddAppWindowCommand { get; }
         public RelayCommand<AppointmentDTO> RemoveAppCommand { get; }
         public RelayCommand SortByAppIdCommand { get; }
@@ -30,22 +43,38 @@ namespace TestWpf.ViewModel
                 () =>
                 Messenger.Default.Send(
                     new OpenWindowMessage() { Type = WindowType.AddAppWindow }));
+            AboutAppointmentCommand = new RelayCommand<AppointmentDTO>(AboutAppointment);
             RemoveAppCommand = new RelayCommand<AppointmentDTO>(RemoveAppointment);
             SortByAppIdCommand = new RelayCommand(SortByAppId);
             GroupBySubjectCommand = new RelayCommand(GroupBySubject);
             FilterBySubjectCommand = new RelayCommand<AppointmentDTO>(FilterBySubject);
 
-            Messenger.Default.Register<string>(this, s => RefreshingAppointments());
+            Messenger.Default.Register<OpenWindowMessage>(this, message =>
+            {
+                if (message.Argument == "AddAppDone")
+                {
+                    RefreshingAppointments();
+                }
+            });
 
             LoadData();
         }
 
-        public void RefreshingAppointments()
+        public void AboutAppointment(AppointmentDTO appointment)
+        {
+            if (appointment != null)
+            {
+                Messenger.Default.Send(new OpenWindowMessage()
+                { Type = WindowType.AddAboutAppointmentWindow, Appointment = appointment, Argument = "Load this appointment" });
+            }
+        }
+
+        private void RefreshingAppointments()
         {
             Appointments.Clear();
             Appointments = new ObservableCollection<AppointmentDTO>(_service.GetAppointments());
         }
-        public void GetAllAppsByRoom(AppointmentDTO appointment)
+        private void GetAllAppsByRoom(AppointmentDTO appointment)
         {
             if (appointment != null)
             {
@@ -59,13 +88,13 @@ namespace TestWpf.ViewModel
                 }
             }
         }
-        public void GroupBySubject()
+        private void GroupBySubject()
         {
             ICollectionView view = CollectionViewSource.GetDefaultView(Appointments);
             view.GroupDescriptions.Clear();
             view.GroupDescriptions.Add(new PropertyGroupDescription("Subject"));
         }
-        public void SortByAppId()
+        private void SortByAppId()
         {
             ICollectionView view = CollectionViewSource.GetDefaultView(Appointments);
             if (view.SortDescriptions.Count > 0
@@ -86,20 +115,7 @@ namespace TestWpf.ViewModel
             }
         }
 
-        public ObservableCollection<AppointmentDTO> Appointments
-        {
-            get => _appointments;
-            private set
-            {
-                if (value != _appointments)
-                {
-                    _appointments = value;
-                    base.RaisePropertyChanged();
-                }
-            }
-        }
-
-        public void LoadData()
+        private void LoadData()
         {
             try
             {
@@ -123,7 +139,7 @@ namespace TestWpf.ViewModel
             }
         }
 
-        public void FilterBySubject(AppointmentDTO appointment)
+        private void FilterBySubject(AppointmentDTO appointment)
         {
             if (appointment != null)
             {
@@ -133,7 +149,7 @@ namespace TestWpf.ViewModel
             }
         }
 
-        public void RemoveAppointment(AppointmentDTO appointment)
+        private void RemoveAppointment(AppointmentDTO appointment)
         {
             if (appointment != null)
             {
