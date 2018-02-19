@@ -66,6 +66,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BLLService\BLLService.cs" />
     <Compile Include="EntitesDTO\AppointmentDTO.cs" />
     <Compile Include="EntitesDTO\GroupDTO.cs" />
     <Compile Include="EntitesDTO\LocationDTO.cs" />
@@ -110,8 +111,6 @@
       <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="BLLService\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    public interface IBLLService
+    public interface IBLLService : IDisposable
     {
         IEnumerable<AppointmentDTO> GetAppointments();
         IEnumerable<LocationDTO> GetLocations();
