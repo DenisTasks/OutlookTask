@@ -18,11 +18,9 @@ namespace BLL
         private IMapper FromAppToAppDtoMapper { get; set; }
         private IMapper FromAppDtoToAppMapper { get; set; }
         private IMapper FromLocationToLocationDtoMapper { get; set; }
-        public BLLService(IUnitOfWork uOw)
-        {
-            Database = uOw;
 
-            //check
+        private IMapper GetFromUserToUserDtoMapper()
+        {
             FromUserToUserDtoMapper = new MapperConfiguration(cfg => cfg.CreateMap<User, UserDTO>()
                 .ForMember("UserId", opt => opt.MapFrom(s => s.UserId))
                 .ForMember("IsActive", opt => opt.MapFrom(s => s.IsActive))
@@ -30,8 +28,10 @@ namespace BLL
                 .ForMember("UserName", opt => opt.MapFrom(s => s.UserName))
                 .ForMember("Password", opt => opt.MapFrom(s => s.Password))
             ).CreateMapper();
-
-            //check
+            return FromUserToUserDtoMapper;
+        }
+        private IMapper GetFromUserDtoToUserMapper()
+        {
             FromUserDtoToUserMapper = new MapperConfiguration(cfg => cfg.CreateMap<UserDTO, User>()
                 .ForMember("UserId", opt => opt.MapFrom(s => s.UserId))
                 .ForMember("IsActive", opt => opt.MapFrom(s => s.IsActive))
@@ -39,33 +39,45 @@ namespace BLL
                 .ForMember("UserName", opt => opt.MapFrom(s => s.UserName))
                 .ForMember("Password", opt => opt.MapFrom(s => s.Password))
             ).CreateMapper();
-
-            // check
+            return FromUserDtoToUserMapper;
+        }
+        private IMapper GetFromAppToAppDtoMapper()
+        {
             FromAppToAppDtoMapper = new MapperConfiguration(cfg => cfg.CreateMap<Appointment, AppointmentDTO>()
                 .ForMember("AppointmentId", opt => opt.MapFrom(s => s.AppointmentId))
                 .ForMember("Subject", opt => opt.MapFrom(s => s.Subject))
                 .ForMember("BeginningDate", opt => opt.MapFrom(s => s.BeginningDate))
                 .ForMember("EndingDate", opt => opt.MapFrom(s => s.EndingDate))
                 .ForMember("LocationId", opt => opt.MapFrom(s => s.LocationId))
-                .ForMember(d => d.Users, opt => opt.MapFrom(s => FromUserToUserDtoMapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(s.Users)))
+                .ForMember(d => d.Users, opt => opt.MapFrom(s => GetFromUserToUserDtoMapper().Map<IEnumerable<User>, IEnumerable<UserDTO>>(s.Users)))
             ).CreateMapper();
-
-            //check
+            return FromAppToAppDtoMapper;
+        }
+        private IMapper GetFromAppDtoToAppMapper()
+        {
             FromAppDtoToAppMapper = new MapperConfiguration(cfg => cfg.CreateMap<AppointmentDTO, Appointment>()
                 .ForMember("AppointmentId", opt => opt.MapFrom(s => s.AppointmentId))
                 .ForMember("Subject", opt => opt.MapFrom(s => s.Subject))
                 .ForMember("BeginningDate", opt => opt.MapFrom(s => s.BeginningDate))
                 .ForMember("EndingDate", opt => opt.MapFrom(s => s.EndingDate))
                 .ForMember("LocationId", opt => opt.MapFrom(s => s.LocationId))
-                .ForMember(d => d.Users, opt => opt.MapFrom(s => FromUserDtoToUserMapper.Map<IEnumerable<UserDTO>, IEnumerable<User>>(s.Users)))
+                .ForMember(d => d.Users, opt => opt.MapFrom(s => GetFromUserDtoToUserMapper().Map<IEnumerable<UserDTO>, IEnumerable<User>>(s.Users)))
             ).CreateMapper();
-
-            //check
+            return FromAppDtoToAppMapper;
+        }
+        private IMapper GetFromLocationToLocationDtoMapper()
+        {
             FromLocationToLocationDtoMapper = new MapperConfiguration(cfg => cfg.CreateMap<Location, LocationDTO>()
                 .ForMember("LocationId", opt => opt.MapFrom(s => s.LocationId))
                 .ForMember("Room", opt => opt.MapFrom(s => s.Room))
-                .ForMember(d => d.Appointments, opt => opt.MapFrom(s => FromAppToAppDtoMapper.Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(s.Appointments)))
+                .ForMember(d => d.Appointments, opt => opt.MapFrom(s => GetFromAppToAppDtoMapper().Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(s.Appointments)))
             ).CreateMapper();
+            return FromLocationToLocationDtoMapper;
+        }
+
+        public BLLService(IUnitOfWork uOw)
+        {
+            Database = uOw;
         }
 
         public IEnumerable<AppointmentDTO> GetAppointments()
@@ -75,7 +87,7 @@ namespace BLL
             {
                 collection = Database.Appointments.Get().ToList();
             }
-            var mappingCollection = FromAppToAppDtoMapper.Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(collection);
+            var mappingCollection = GetFromAppToAppDtoMapper().Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(collection);
             return mappingCollection;
         }
 
@@ -86,7 +98,7 @@ namespace BLL
             {
                 appointment = Database.Appointments.FindById(id);
             }
-            var mappingItem = FromAppToAppDtoMapper.Map<Appointment, AppointmentDTO>(appointment);
+            var mappingItem = GetFromAppToAppDtoMapper().Map<Appointment, AppointmentDTO>(appointment);
             return mappingItem;
         }
 
@@ -97,22 +109,22 @@ namespace BLL
             {
                 location = Database.Locations.FindById(id);
             }
-            var mappingItem = FromLocationToLocationDtoMapper.Map<Location, LocationDTO>(location);
+            var mappingItem = GetFromLocationToLocationDtoMapper().Map<Location, LocationDTO>(location);
             return mappingItem;
         }
 
         public IEnumerable<LocationDTO> GetLocations()
         {
             var locationsMapper =
-                FromLocationToLocationDtoMapper.Map<IEnumerable<Location>, IEnumerable<LocationDTO>>(Database.Locations
+                GetFromLocationToLocationDtoMapper().Map<IEnumerable<Location>, IEnumerable<LocationDTO>>(Database.Locations
                     .Get());
             return locationsMapper;
         }
 
         public IEnumerable<AppointmentDTO> GetAppsByLocation(AppointmentDTO appointment)
         {
-            var appointmentItem = FromAppDtoToAppMapper.Map<AppointmentDTO, Appointment>(appointment);
-            return FromAppDtoToAppMapper.Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(Database.Appointments.Get(x => x.LocationId == appointmentItem.LocationId));
+            var appointmentItem = GetFromAppDtoToAppMapper().Map<AppointmentDTO, Appointment>(appointment);
+            return GetFromAppDtoToAppMapper().Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(Database.Appointments.Get(x => x.LocationId == appointmentItem.LocationId));
         }
 
         public IEnumerable<UserDTO> GetUsers()
@@ -122,7 +134,7 @@ namespace BLL
 
         public void AddAppointment(AppointmentDTO appointment)
         {
-            var appointmentItem = FromAppDtoToAppMapper.Map<AppointmentDTO, Appointment>(appointment);
+            var appointmentItem = GetFromAppDtoToAppMapper().Map<AppointmentDTO, Appointment>(appointment);
 
             using (var transaction = Database.BeginTransaction())
             {
@@ -146,7 +158,7 @@ namespace BLL
             var locationsMapper = new MapperConfiguration(cfg => cfg.CreateMap<LocationDTO, Location>()
                 .ForMember("LocationId", opt => opt.MapFrom(s => s.LocationId))
                 .ForMember("Room", opt => opt.MapFrom(s => s.Room))
-                .ForMember(d => d.Appointments, opt => opt.MapFrom(s => FromAppDtoToAppMapper.Map<IEnumerable<AppointmentDTO>, IEnumerable<Appointment>>(s.Appointments)))
+                .ForMember(d => d.Appointments, opt => opt.MapFrom(s => GetFromAppDtoToAppMapper().Map<IEnumerable<AppointmentDTO>, IEnumerable<Appointment>>(s.Appointments)))
             ).CreateMapper();
             var locationItem = locationsMapper.Map<LocationDTO, Location>(location);
 
@@ -186,7 +198,7 @@ namespace BLL
 
         public void AddUser(UserDTO user)
         {
-            var userItem = FromUserDtoToUserMapper.Map<UserDTO, User>(user);
+            var userItem = GetFromUserDtoToUserMapper().Map<UserDTO, User>(user);
 
             using (var transaction = Database.BeginTransaction())
             {
@@ -224,7 +236,7 @@ namespace BLL
 
         public void RemoveAppointment(AppointmentDTO appointment)
         {
-            var appointmentItem = FromAppDtoToAppMapper.Map<AppointmentDTO, Appointment>(appointment);
+            var appointmentItem = GetFromAppDtoToAppMapper().Map<AppointmentDTO, Appointment>(appointment);
 
             using (var transaction = Database.BeginTransaction())
             {
@@ -237,7 +249,7 @@ namespace BLL
                 catch (Exception e)
                 {
                     transaction.Rollback();
-                    throw new Exception(e.ToString() + " from BLL");
+                    throw new Exception(e + " from BLL");
                 }
             }
         }
