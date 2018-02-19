@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Ioc;
 using MVVM.Interfaces;
 using MVVM.Models;
+using MVVM.Models.Authenication;
 using MVVM.ViewModels.Administration;
 using MVVM.ViewModels.Authenication;
 
@@ -24,7 +25,7 @@ namespace MVVM.Helpers
             //    SimpleIoc.Default.Register<IViewModel, AuthenticationViewModel>();
             //}
 
-            SimpleIoc.Default.Register<AuthenticationViewModel>();
+            SimpleIoc.Default.Register(()=>new AuthenticationViewModel(new AuthenticationService()));
             SimpleIoc.Default.Register(()=>new AdministrationViewModel(new AdministrationService()));
         }
         
@@ -34,6 +35,14 @@ namespace MVVM.Helpers
             get
             {
                 return ServiceLocator.Current.GetInstance<AdministrationViewModel>();
+            }
+        }
+
+        public AuthenticationViewModel LoginWindow
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<AuthenticationViewModel>();
             }
         }
 
