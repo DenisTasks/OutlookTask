@@ -1,7 +1,12 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Input;
+using BLL;
 using BLL.DTO;
 using BLL.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Model.Interfaces;
+using Model.ModelVIewElements;
 using Moq;
 using TestWpf.ViewModel;
 

@@ -7,7 +7,7 @@
         WindowStartupLocation="CenterScreen"
         Background="LightBlue"
         mc:Ignorable="d"
-        Title="AboutAppWindow" Height="300" Width="300">
+        Title="AboutAppWindow" Height="500" Width="300">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />

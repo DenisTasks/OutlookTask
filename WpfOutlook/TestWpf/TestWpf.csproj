@@ -82,16 +82,24 @@
     <Compile Include="AboutAppWindow.xaml.cs">
       <DependentUpon>AboutAppWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AllAppByLocation.xaml.cs">
+      <DependentUpon>AllAppByLocation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\OpenWindowMessage.cs" />
     <Compile Include="Helpers\WindowType.cs" />
     <Compile Include="AddAppWindow.xaml.cs">
       <DependentUpon>AddAppWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\AboutAppointmentWindowViewModel.cs" />
+    <Compile Include="ViewModel\AllAppByLocationWindowViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\AddAppWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="AboutAppWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AllAppByLocation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -121,10 +121,9 @@ namespace BLL
             return locationsMapper;
         }
 
-        public IEnumerable<AppointmentDTO> GetAppsByLocation(AppointmentDTO appointment)
+        public IEnumerable<AppointmentDTO> GetAppsByLocation(int id)
         {
-            var appointmentItem = GetFromAppDtoToAppMapper().Map<AppointmentDTO, Appointment>(appointment);
-            return GetFromAppDtoToAppMapper().Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(Database.Appointments.Get(x => x.LocationId == appointmentItem.LocationId));
+            return GetFromAppDtoToAppMapper().Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(Database.Appointments.Get(x => x.LocationId == id));
         }
 
         public IEnumerable<UserDTO> GetUsers()

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using BLL.DTO;
@@ -31,6 +33,7 @@ namespace TestWpf.ViewModel
         }
 
         public RelayCommand<AppointmentDTO> AboutAppointmentCommand { get; }
+        public RelayCommand<AppointmentDTO> AllAppByLocationCommand { get; }
         public RelayCommand AddAppWindowCommand { get; }
         public RelayCommand<AppointmentDTO> RemoveAppCommand { get; }
         public RelayCommand SortByAppIdCommand { get; }
@@ -45,6 +48,7 @@ namespace TestWpf.ViewModel
                 Messenger.Default.Send(
                     new OpenWindowMessage() { Type = WindowType.AddAppWindow }));
             AboutAppointmentCommand = new RelayCommand<AppointmentDTO>(AboutAppointment);
+            AllAppByLocationCommand = new RelayCommand<AppointmentDTO>(GetAllAppsByRoom);
             RemoveAppCommand = new RelayCommand<AppointmentDTO>(RemoveAppointment);
             SortByAppIdCommand = new RelayCommand(SortByAppId);
             GroupBySubjectCommand = new RelayCommand(GroupBySubject);
@@ -61,7 +65,7 @@ namespace TestWpf.ViewModel
             LoadData();
         }
 
-        public void AboutAppointment(AppointmentDTO appointment)
+        private void AboutAppointment(AppointmentDTO appointment)
         {
             if (appointment != null)
             {
@@ -81,7 +85,8 @@ namespace TestWpf.ViewModel
             {
                 try
                 {
-          //          var allApps = _service.GetAppsByLocation(appointment).ToList();
+                    Messenger.Default.Send(new OpenWindowMessage()
+                        { Type = WindowType.AddAllAppByLocationWindow, Argument = appointment.LocationId.ToString() });
                 }
                 catch (Exception e)
                 {

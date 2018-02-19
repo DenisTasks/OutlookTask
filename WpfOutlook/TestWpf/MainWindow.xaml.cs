@@ -37,6 +37,16 @@ namespace TestWpf
                     {
                         Messenger.Default.Send(new OpenWindowMessage() { Type = WindowType.Refresh });
                     }
+                    if (message.Type == WindowType.AddAllAppByLocationWindow)
+                    {
+                        var addAllAppWindowVM = SimpleIoc.Default.GetInstance<AllAppByLocationWindowViewModel>();
+                        var addAllAppWindow = new AllAppByLocation()
+                        {
+                            DataContext = addAllAppWindowVM
+                        };
+                        Messenger.Default.Send(new OpenWindowMessage() { Type = WindowType.LoadLocations, Argument = message.Argument });
+                        var result = addAllAppWindow.ShowDialog();
+                    }
                 });
         }
     }
