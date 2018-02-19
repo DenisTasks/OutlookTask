@@ -1,4 +1,5 @@
-﻿using BLL.EntitesDTO;
+﻿using BLL.BLLService;
+using BLL.EntitesDTO;
 using MVVM.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -12,12 +13,13 @@ namespace MVVM.Models.Authenication
     {
         public UserDTO AuthenticateUser(string username, string password)
         {
-
-            //UserDTO resultUser = _db.Users.Get(u => u.UserName.Equals(username) && u.Password.Equals(password)).FirstOrDefault();
-            //if (resultUser != null)
-            //    return resultUser;
-            //else throw new UnauthorizedAccessException("Wrong credentials.");
-            return null;
+            using (var db = new BLLService())
+            {
+                UserDTO user = db.CheckUser(username, password);
+                if (user != null)
+                    return user;
+                else throw new UnauthorizedAccessException("Wrong credentials.");
+            }
         }
     }
 }

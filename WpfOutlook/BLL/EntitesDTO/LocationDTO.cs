@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,6 @@ namespace BLL.EntitesDTO
         public int LocationId { get; set; }
         public string Room { get; set; }
 
-        public ICollection<AppointmentDTO> Appointments { get; set; }
+        public ICollection<Appointment> Appointments { get; set; }
     }
 }

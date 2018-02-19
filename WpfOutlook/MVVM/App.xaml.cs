@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MVVM.ViewModels.Authenication;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +14,12 @@ namespace MVVM
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            CustomPrincipal customPrincipal = new CustomPrincipal();
+            AppDomain.CurrentDomain.SetThreadPrincipal(customPrincipal);
+
+            base.OnStartup(e);
+        }
     }
 }

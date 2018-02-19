@@ -16,6 +16,24 @@ namespace BLL.BLLService
     {
         private IUnitOfWork _db;
 
+        private IMapper userToUserDTO()
+        {
+            var mapper = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<User, UserDTO>()
+                .ForMember("UserId", opt => opt.MapFrom(s => s.UserId))
+                .ForMember("IsActive", opt => opt.MapFrom(s => s.IsActive))
+                .ForMember("Name", opt => opt.MapFrom(s => s.Name))
+                .ForMember("UserName", opt => opt.MapFrom(s => s.UserName))
+                .ForMember("Password", opt => opt.MapFrom(s => s.Password))
+                .ForMember("Roles", opt => opt.MapFrom(s => s.Roles));
+                //.ForMember("Appointments", opt => opt.MapFrom(s => s.Appointments))
+                //.ForMember("Groups", opt => opt.MapFrom(s => s.Groups));
+            }).CreateMapper();
+            
+            return mapper;
+        }
+
         public BLLService()
         {
             _db = new UnitOfWork();
@@ -52,6 +70,11 @@ namespace BLL.BLLService
             IMapper mapper = config.CreateMapper();
             _db.Users.Create(mapper.Map<UserDTO, User>(user));
             _db.Save();
+        }
+
+        public UserDTO CheckUser(string username, string password)
+        {
+            return userToUserDTO().Map<User,UserDTO>(_db.Users.Get(u => u.UserName.Equals(username) && u.Password.Equals(password)).FirstOrDefault());
         }
 
         public void Dispose()

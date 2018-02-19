@@ -10,7 +10,5 @@ namespace BLL.EntitesDTO
     {
         public int RoleId { get; set; }
         public string Name { get; set; }
-
-        public ICollection<UserDTO> Users { get; set; }
     }
 }
