@@ -5,6 +5,7 @@ using Model.Interfaces;
 using Model.ModelVIewElements;
 using BLL.Interfaces;
 using BLL;
+using ViewModel.ViewModels;
 
 namespace TestWpf.ViewModel
 {

@@ -8,9 +8,9 @@ using BLL.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
-using TestWpf.Helpers;
+using ViewModel.Helpers;
 
-namespace TestWpf.ViewModel
+namespace ViewModel.ViewModels
 {
     public class AddAppWindowViewModel : ViewModelBase
     {
@@ -115,7 +115,7 @@ namespace TestWpf.ViewModel
                 Appointment.LocationId = SelectedLocation.LocationId;
                 Appointment.Users = SelectedUsersList;
                 _service.AddAppointment(Appointment);
-                Messenger.Default.Send(new OpenWindowMessage() {Type = WindowType.None });
+                Messenger.Default.Send(new OpenWindowMessage() { Type = WindowType.None });
                 window?.Close();
             }
             else
@@ -144,4 +144,5 @@ namespace TestWpf.ViewModel
             }
         }
     }
+
 }

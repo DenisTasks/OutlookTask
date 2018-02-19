@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BLL.DTO;
 using BLL.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
-using TestWpf.Helpers;
+using ViewModel.Helpers;
 
-namespace TestWpf.ViewModel
+namespace ViewModel.ViewModels
 {
     public class AllAppByLocationWindowViewModel : ViewModelBase
     {
@@ -42,4 +38,5 @@ namespace TestWpf.ViewModel
             });
         }
     }
+
 }

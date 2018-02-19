@@ -5,9 +5,9 @@ using BLL.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
-using TestWpf.Helpers;
+using ViewModel.Helpers;
 
-namespace TestWpf.ViewModel
+namespace ViewModel.ViewModels
 {
     public class AboutAppointmentWindowViewModel : ViewModelBase
     {
@@ -71,4 +71,5 @@ namespace TestWpf.ViewModel
         }
 
     }
+
 }

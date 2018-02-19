@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
-using TestWpf.Helpers;
-using TestWpf.ViewModel;
+using ViewModel.Helpers;
+using ViewModel.ViewModels;
 
 namespace TestWpf
 {

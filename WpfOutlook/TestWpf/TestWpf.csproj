@@ -85,15 +85,9 @@
     <Compile Include="AllAppByLocation.xaml.cs">
       <DependentUpon>AllAppByLocation.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\OpenWindowMessage.cs" />
-    <Compile Include="Helpers\WindowType.cs" />
     <Compile Include="AddAppWindow.xaml.cs">
       <DependentUpon>AddAppWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\AboutAppointmentWindowViewModel.cs" />
-    <Compile Include="ViewModel\AllAppByLocationWindowViewModel.cs" />
-    <Compile Include="ViewModel\MainWindowViewModel.cs" />
-    <Compile Include="ViewModel\AddAppWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="AboutAppWindow.xaml">
       <SubType>Designer</SubType>
@@ -159,6 +153,8 @@
       <Name>ViewModel</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

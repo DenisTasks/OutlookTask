@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using BLL.DTO;
 using BLL.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using TestWpf.ViewModel;
+using ViewModel.ViewModels;
 
 namespace ViewModelTests
 {

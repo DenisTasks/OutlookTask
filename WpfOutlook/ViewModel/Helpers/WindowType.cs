@@ -2,7 +2,11 @@
 {
     public enum WindowType
     {
-        kModal,
-        kNonModal
+        AddAppWindow,
+        AddAboutAppointmentWindow,
+        AddAllAppByLocationWindow,
+        LoadLocations,
+        None,
+        Refresh
     }
 }

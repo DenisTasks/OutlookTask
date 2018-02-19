@@ -92,9 +92,9 @@
       <Project>{c92373ea-87ac-443a-a307-207f5a7ff9cf}</Project>
       <Name>Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TestWpf\TestWpf.csproj">
-      <Project>{141cb4fe-6133-47c2-a8b9-5e91c807887d}</Project>
-      <Name>TestWpf</Name>
+    <ProjectReference Include="..\ViewModel\ViewModel.csproj">
+      <Project>{1a1edb8e-f56c-4cf2-b0f9-364523634d9f}</Project>
+      <Name>ViewModel</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

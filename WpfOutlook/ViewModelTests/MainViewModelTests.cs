@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Model.Interfaces;
 using Model.ModelVIewElements;
 using Moq;
-using TestWpf.ViewModel;
+using ViewModel.ViewModels;
 
 namespace ViewModelTests
 {

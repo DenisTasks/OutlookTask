@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using BLL.DTO;
@@ -10,9 +8,9 @@ using BLL.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
-using TestWpf.Helpers;
+using ViewModel.Helpers;
 
-namespace TestWpf.ViewModel
+namespace ViewModel.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
@@ -86,7 +84,7 @@ namespace TestWpf.ViewModel
                 try
                 {
                     Messenger.Default.Send(new OpenWindowMessage()
-                        { Type = WindowType.AddAllAppByLocationWindow, Argument = appointment.LocationId.ToString() });
+                    { Type = WindowType.AddAllAppByLocationWindow, Argument = appointment.LocationId.ToString() });
                 }
                 catch (Exception e)
                 {
@@ -172,4 +170,5 @@ namespace TestWpf.ViewModel
             }
         }
     }
+
 }
