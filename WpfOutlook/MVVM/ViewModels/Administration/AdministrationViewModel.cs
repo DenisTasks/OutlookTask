@@ -1,4 +1,5 @@
 ﻿using BLL.EntitesDTO;
+using GalaSoft.MvvmLight;
 using MVVM.Helpers;
 using MVVM.Interfaces;
 using MVVM.Models;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MVVM.ViewModels.Administration
 {
-    public class AdministrationViewModel : IViewModel, INotifyPropertyChanged
+    public class AdministrationViewModel : ViewModelBase, INotifyPropertyChanged
     {
         private readonly IAdministrationService _administrationService;
         private readonly DelegateCommand _showEditUsersView;
@@ -37,20 +38,14 @@ namespace MVVM.ViewModels.Administration
 
         private void ShowRolesWindow(object parameter)
         {
-            IView view = new EditRolesWindow();
-            view.Show();
         }
 
         private void ShowGroupsWindow(object parameter)
         {
-            IView view = new EditGroupsWindow();
-            view.Show();
         }
 
         private void ShowUsersWindow(object parameter)
         {
-            IView view = new EditUsersWindow();
-            view.Show();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

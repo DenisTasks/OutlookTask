@@ -91,8 +91,6 @@
     <Compile Include="Helpers\DelegateCommand.cs" />
     <Compile Include="Helpers\ViewModelLocator.cs" />
     <Compile Include="Interfaces\IAdministrationService.cs" />
-    <Compile Include="Interfaces\IView.cs" />
-    <Compile Include="Interfaces\IViewModel.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>

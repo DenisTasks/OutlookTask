@@ -1,4 +1,5 @@
 ﻿using BLL.EntitesDTO;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using MVVM.Helpers;
 using MVVM.Interfaces;
@@ -11,10 +12,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Navigation;
 
 namespace MVVM.ViewModels.Authenication
 {
-    public class AuthenticationViewModel : IViewModel, INotifyPropertyChanged
+    public class AuthenticationViewModel : ViewModelBase,  INotifyPropertyChanged
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly DelegateCommand _loginCommand;
@@ -76,11 +79,8 @@ namespace MVVM.ViewModels.Authenication
 
                 _loginCommand.RaiseCanExecuteChanged();
                 _logoutCommand.RaiseCanExecuteChanged();
-                Username = string.Empty;
-                passwordBox.Password = string.Empty;
-                Status = string.Empty;
-                NotifyPropertyChanged("AuthenticatedUser");
                 NotifyPropertyChanged("IsAuthenticated");
+                NotifyPropertyChanged("AuthenticatedUser");
 
             }
             catch (UnauthorizedAccessException)

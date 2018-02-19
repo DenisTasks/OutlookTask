@@ -19,18 +19,11 @@ namespace MVVM
     /// <summary>
     /// Interaction logic for EditGroupsWindow.xaml
     /// </summary>
-    public partial class EditGroupsWindow : Window, IView
+    public partial class EditGroupsWindow : Window
     {
         public EditGroupsWindow()
         {
             InitializeComponent();
-        }
-
-        public IViewModel ViewModel { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        public void NotificationMessageReceived(NotificationMessage obj)
-        {
-            throw new NotImplementedException();
         }
     }
 }

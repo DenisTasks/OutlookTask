@@ -20,23 +20,11 @@ namespace MVVM
     /// <summary>
     /// Interaction logic for LoginWindow.xaml
     /// </summary>
-    public partial class LoginWindow : Window, IView
+    public partial class LoginWindow : Window
     {
         public LoginWindow()
         {
             InitializeComponent();
-        }
-
-        //[Dependency]
-        public IViewModel ViewModel
-        {
-            get { return DataContext as IViewModel; }
-            set { DataContext = value;  }
-        }
-
-        public void NotificationMessageReceived(NotificationMessage obj)
-        {
-            throw new NotImplementedException();
         }
     }
 }
