@@ -79,15 +79,13 @@
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\Authenication\AnonymousIdentity.cs" />
-    <Compile Include="ViewModel\Authenication\AuthenticationService.cs" />
-    <Compile Include="ViewModel\Authenication\AuthenticationViewModel.cs" />
-    <Compile Include="ViewModel\Authenication\CustomIdentity.cs" />
-    <Compile Include="ViewModel\Authenication\CustomPrincipal.cs" />
-    <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\Print\PrintAppointment.cs" />
-    <Compile Include="ViewModel\Print\PrintTable.cs" />
-    <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="ViewModels\Authenication\AnonymousIdentity.cs" />
+    <Compile Include="ViewModels\Authenication\AuthenticationService.cs" />
+    <Compile Include="ViewModels\Authenication\AuthenticationViewModel.cs" />
+    <Compile Include="ViewModels\Authenication\CustomIdentity.cs" />
+    <Compile Include="ViewModels\Authenication\CustomPrincipal.cs" />
+    <Compile Include="ViewModels\Print\PrintAppointmentViewModel.cs" />
+    <Compile Include="ViewModels\Print\PrintTableViewModel.cs" />
     <Page Include="AdminWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -144,7 +142,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ViewModel\Administration\" />
+    <Folder Include="Models\" />
+    <Folder Include="ViewModels\Administration\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,5 +1,6 @@
 ﻿using CommonServiceLocator;
 using GalaSoft.MvvmLight.Ioc;
+using MVVM.ViewModel.Authenication;
 using System;
 using System.Collections.Generic;
 using System.Linq;

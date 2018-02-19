@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MVVM.ViewModel.Print
 {
-    public class PrintAppointment
+    public class PrintAppointmentViewModel
     {
         private AppointmentDTO _appointment;
         private DelegateCommand _print;

@@ -10,11 +10,11 @@ using System.Windows.Controls;
 
 namespace MVVM.ViewModel.Print
 {
-    public class PrintTable
+    public class PrintTableViewModel
     {
         private ObservableCollection<AppointmentDTO> _appointments;
 
-        public PrintTable()
+        public PrintTableViewModel()
         {
             FillTable();
         }

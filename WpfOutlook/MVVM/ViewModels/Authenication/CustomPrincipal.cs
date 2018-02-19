@@ -5,7 +5,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MVVM.ViewModel.Authenication
+namespace MVVM.ViewModels.Authenication
 {
     class CustomPrincipal : IPrincipal
     {

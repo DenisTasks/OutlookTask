@@ -11,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace MVVM.ViewModel.Authenication
+namespace MVVM.ViewModels.Authenication
 {
     public class AuthenticationViewModel : IViewModel, INotifyPropertyChanged
     {
