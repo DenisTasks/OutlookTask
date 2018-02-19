@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BLL.EntitesDTO;
+using MVVM.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
