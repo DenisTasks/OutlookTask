@@ -22,9 +22,9 @@ namespace MVVM.ViewModels.Authenication
         private string _username;
         private string _status;
 
-        public AuthenticationViewModel()
+        public AuthenticationViewModel(IAuthenticationService authenticationService)
         {
-            _authenticationService = new AuthenticationService();
+            _authenticationService = authenticationService;
             _loginCommand = new DelegateCommand(Login, CanLogin);
             _logoutCommand = new DelegateCommand(Logout, CanLogout);
         }

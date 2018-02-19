@@ -1,5 +1,7 @@
 ﻿using CommonServiceLocator;
 using GalaSoft.MvvmLight.Ioc;
+using MVVM.Interfaces;
+using MVVM.Models;
 using MVVM.ViewModels.Administration;
 using MVVM.ViewModels.Authenication;
 
@@ -23,7 +25,7 @@ namespace MVVM.Helpers
             //}
 
             SimpleIoc.Default.Register<AuthenticationViewModel>();
-            SimpleIoc.Default.Register<AdministrationViewModel>();
+            SimpleIoc.Default.Register(()=>new AdministrationViewModel(new AdministrationService()));
         }
         
 

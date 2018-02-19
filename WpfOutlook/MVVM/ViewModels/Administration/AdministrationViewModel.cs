@@ -19,14 +19,14 @@ namespace MVVM.ViewModels.Administration
         private readonly DelegateCommand _showEditRolesView;
 
         public DelegateCommand ShowEditUsersView { get { return _showEditUsersView; } }
-        public DelegateCommand ShowEditgroupsView { get { return _showEditGroupsView; } }
+        public DelegateCommand ShowEditGroupsView { get { return _showEditGroupsView; } }
         public DelegateCommand ShowEditRoleswView { get { return _showEditRolesView; } }
 
 
 
-        public AdministrationViewModel()
+        public AdministrationViewModel(IAdministrationService administrationService)
         {
-            _administrationService = new AdministrationService();
+            _administrationService = administrationService;
             _showEditUsersView = new DelegateCommand(ShowUsersWindow, null);
             _showEditGroupsView = new DelegateCommand(ShowGroupsWindow, null);
             _showEditRolesView = new DelegateCommand(ShowRolesWindow, null);

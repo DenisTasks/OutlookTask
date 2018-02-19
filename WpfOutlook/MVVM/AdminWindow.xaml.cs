@@ -1,6 +1,9 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Messaging;
+using MVVM.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,16 +20,23 @@ namespace MVVM
     /// <summary>
     /// Interaction logic for AdminWindow.xaml
     /// </summary>
-    public partial class AdminWindow : Window
+    public partial class AdminWindow : Window, IView
     {
         public AdminWindow()
         {
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        //[Dependency]
+        public IViewModel ViewModel
         {
+            get { return DataContext as IViewModel; }
+            set { DataContext = value; }
+        }
 
+        public void NotificationMessageReceived(NotificationMessage obj)
+        {
+            throw new NotImplementedException();
         }
     }
 }
