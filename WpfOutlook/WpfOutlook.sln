@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfOutlook", "WpfOutlook\WpfOutlook.csproj", "{CFA96ECD-A366-4966-B703-6B3C51BA9226}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{C92373EA-87AC-443A-A307-207F5A7FF9CF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModel", "ViewModel\ViewModel.csproj", "{1A1EDB8E-F56C-4CF2-B0F9-364523634D9F}"
@@ -21,10 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CFA96ECD-A366-4966-B703-6B3C51BA9226}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CFA96ECD-A366-4966-B703-6B3C51BA9226}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CFA96ECD-A366-4966-B703-6B3C51BA9226}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CFA96ECD-A366-4966-B703-6B3C51BA9226}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C92373EA-87AC-443A-A307-207F5A7FF9CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C92373EA-87AC-443A-A307-207F5A7FF9CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C92373EA-87AC-443A-A307-207F5A7FF9CF}.Release|Any CPU.ActiveCfg = Release|Any CPU

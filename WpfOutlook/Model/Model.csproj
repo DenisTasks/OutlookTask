@@ -52,7 +52,6 @@
     <Compile Include="Entities\Location.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\User.cs" />
-    <Compile Include="Interfaces\IAuthenticationService.cs" />
     <Compile Include="Interfaces\IGenericRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="ModelService\GenericRepository.cs" />
