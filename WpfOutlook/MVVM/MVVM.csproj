@@ -91,15 +91,12 @@
     <Compile Include="Helpers\DelegateCommand.cs" />
     <Compile Include="Helpers\ViewModelLocator.cs" />
     <Compile Include="Interfaces\IAdministrationService.cs" />
-    <Compile Include="LoginWindow.xaml.cs">
-      <DependentUpon>LoginWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Models\AdministrationService.cs" />
-    <Compile Include="Page1.xaml.cs">
-      <DependentUpon>Page1.xaml</DependentUpon>
+    <Compile Include="LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Page2.xaml.cs">
-      <DependentUpon>Page2.xaml</DependentUpon>
+    <Compile Include="AdminPage.xaml.cs">
+      <DependentUpon>AdminPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="TestShell.xaml.cs">
       <DependentUpon>TestShell.xaml</DependentUpon>
@@ -129,10 +126,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LoginWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -146,11 +139,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Page1.xaml">
+    <Page Include="LoginPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Page2.xaml">
+    <Page Include="AdminPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

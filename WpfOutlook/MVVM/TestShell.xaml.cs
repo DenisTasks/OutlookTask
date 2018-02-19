@@ -25,7 +25,7 @@ namespace MVVM
         public TestShell()
         {
             InitializeComponent();
-            _mainFrame.Navigate(new Page1());
+            _mainFrame.Navigate(new LoginPage());
             Messenger.Default.Register<NotificationMessage>(this, NotificationMessageReceived);
         }
 
@@ -33,7 +33,7 @@ namespace MVVM
         {
             if (obj.Notification.Equals("LoginSuccess"))
             {
-                _mainFrame.Navigate(new Page2());
+                _mainFrame.Navigate(new AdminPage());
                 //var test = Window.GetWindow(this);
                 //test.Close();
             }

@@ -18,9 +18,9 @@ namespace MVVM
     /// <summary>
     /// Interaction logic for Page2.xaml
     /// </summary>
-    public partial class Page2 : Page
+    public partial class AdminPage : Page
     {
-        public Page2()
+        public AdminPage()
         {
             InitializeComponent();
         }

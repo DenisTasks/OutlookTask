@@ -27,19 +27,12 @@ namespace MVVM.Helpers
 
             SimpleIoc.Default.Register(()=>new AuthenticationViewModel(new AuthenticationService()));
             SimpleIoc.Default.Register(()=>new AdministrationViewModel(new AdministrationService()));
-            SimpleIoc.Default.Register(() => new ShellViewModel(new AuthenticationService()));
         }
         
 
-        public AdministrationViewModel AdminWindow
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<AdministrationViewModel>();
-            }
-        }
+      
 
-        public AuthenticationViewModel LoginWindow
+        public AuthenticationViewModel LoginPage
         {
             get
             {
@@ -47,15 +40,7 @@ namespace MVVM.Helpers
             }
         }
 
-        public ShellViewModel Page1
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<ShellViewModel>();
-            }
-        }
-
-        public AdministrationViewModel Page2
+        public AdministrationViewModel AdminPage
         {
             get
             {
