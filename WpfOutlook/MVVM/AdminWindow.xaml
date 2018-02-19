@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        DataContext="{Binding AdminWindow, Source={StaticResource Locator}}"
         xmlns:local="clr-namespace:MVVM"
         mc:Ignorable="d"
         Title="AdminWindow" Height="355.775" Width="574.648">
@@ -11,9 +12,9 @@
             <ColumnDefinition Width="37*"/>
             <ColumnDefinition Width="493*"/>
         </Grid.ColumnDefinitions>
-        <Button Content="Show all groups" Grid.Column="1" HorizontalAlignment="Left" Margin="10,53,0,0" VerticalAlignment="Top" Width="108" Height="24"/>
-        <Button Content="Show all roles" Grid.Column="1" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top" Width="108" Height="24" />
-        <Button Content="Show all users" Grid.Column="1" HorizontalAlignment="Left" Margin="10,158,0,0" VerticalAlignment="Top" Width="108" Height="24" />
+        <Button Content="Show all groups" Grid.Column="1" HorizontalAlignment="Left" Margin="10,53,0,0" VerticalAlignment="Top" Width="108" Height="24" Command="{Binding ShowEditgroupsView, Mode=OneTime}"/>
+        <Button Content="Show all roles" Grid.Column="1" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top" Width="108" Height="24" Command="{Binding ShowEditRoleswView, Mode=OneTime}"/>
+        <Button Content="Show all users" Grid.Column="1" HorizontalAlignment="Left" Margin="10,158,0,0" VerticalAlignment="Top" Width="108" Height="24" Command="{Binding ShowEditUsersView, Mode=OneTime}"/>
 
     </Grid>
 </Window>

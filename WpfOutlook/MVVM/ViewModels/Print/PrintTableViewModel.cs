@@ -10,11 +10,11 @@ using System.Windows.Controls;
 
 namespace MVVM.ViewModel.Print
 {
-    public class PrintTableViewModel
+    public class PrintTable
     {
         private ObservableCollection<AppointmentDTO> _appointments;
 
-        public PrintTableViewModel()
+        public PrintTable()
         {
             FillTable();
         }
@@ -27,17 +27,17 @@ namespace MVVM.ViewModel.Print
                 if (value != _appointments)
                 {
                     _appointments = value;
-                    base.RaisePropertyChanged();
+                    //base.RaisePropertyChanged();
                 }
             }
         }
 
         public void FillTable()
         {
-            using (var uow = new UnitOfWork())
-            {
-                Appointments = new ObservableCollection<AppointmentDTO>(uow.Appointments.Get());
-            }
+            //using (var uow = new UnitOfWork())
+            //{
+            //    //Appointments = new ObservableCollection<AppointmentDTO>(uow.Appointments.Get());
+            //}
         }
 
 

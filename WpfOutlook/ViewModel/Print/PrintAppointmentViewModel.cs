@@ -1,15 +1,8 @@
 ﻿using GalaSoft.MvvmLight;
 using Model.Entities;
-using Model.ModelVIewElements;
+using Model.ModelService;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using ViewModel.Authentication;
 using ViewModel.Interfaces;
 

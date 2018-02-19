@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Messaging;
 using MVVM.Helpers;
 using MVVM.Interfaces;
+using MVVM.Models.Authenication;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

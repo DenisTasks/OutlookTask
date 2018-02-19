@@ -18,7 +18,7 @@ namespace TestWpf
 
         public LoginWindow(AuthenticationViewModel viewModel)
         {
-            ViewModel = viewModel;
+            //ViewModel = viewModel;
             InitializeComponent();
             Messenger.Default.Register<NotificationMessage>(this, NotificationMessageReceived);
 

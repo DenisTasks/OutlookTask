@@ -1,11 +1,7 @@
 ﻿using CommonServiceLocator;
 using GalaSoft.MvvmLight.Ioc;
-using MVVM.ViewModel.Authenication;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MVVM.ViewModels.Administration;
+using MVVM.ViewModels.Authenication;
 
 namespace MVVM.Helpers
 {
@@ -27,41 +23,15 @@ namespace MVVM.Helpers
             //}
 
             SimpleIoc.Default.Register<AuthenticationViewModel>();
-            SimpleIoc.Default.Register<MainViewModel>();
-            SimpleIoc.Default.Register<ModalWindowViewModel>();
-            SimpleIoc.Default.Register<PrintViewModel>();
-            SimpleIoc.Default.Register<PrintAppointmentViewModel>();
+            SimpleIoc.Default.Register<AdministrationViewModel>();
         }
+        
 
-        public AuthenticationViewModel LoginWindow
+        public AdministrationViewModel AdminWindow
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<AuthenticationViewModel>();
-            }
-        }
-
-        public MainViewModel MainWindow
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<MainViewModel>();
-            }
-        }
-
-        public PrintViewModel PrintWindow
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<PrintViewModel>();
-            }
-        }
-
-        public PrintAppointmentViewModel AppointmentWindow
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<PrintAppointmentViewModel>();
+                return ServiceLocator.Current.GetInstance<AdministrationViewModel>();
             }
         }
 

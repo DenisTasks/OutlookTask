@@ -1,9 +1,11 @@
 ﻿using BLL.EntitesDTO;
+using MVVM.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace MVVM.ViewModel.Print
 {
@@ -15,10 +17,10 @@ namespace MVVM.ViewModel.Print
         public PrintAppointmentViewModel()
         {
             _print = new DelegateCommand(ButtonPrintPressed, null);
-            using (var uow = new UnitOfWork())
-            {
-                _appointment = uow.Appointments.FindById(9);
-            }
+            //using (var uow = new UnitOfWork())
+            //{
+            //    //_appointment = uow.Appointments.FindById(9);
+            //}
         }
 
         public DelegateCommand PrintCommand { get { return _print; } }

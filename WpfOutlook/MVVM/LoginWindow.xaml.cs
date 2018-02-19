@@ -21,7 +21,7 @@ namespace MVVM
     {
         public LoginWindow()
         {
-            InitializeComponent();
+            //InitializeComponent();
         }
     }
 }

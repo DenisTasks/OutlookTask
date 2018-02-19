@@ -1,16 +1,9 @@
 ﻿using GalaSoft.MvvmLight;
 using Model.Entities;
-using Model.ModelVIewElements;
-using System;
-using System.Collections.Generic;
+using Model.ModelService;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using ViewModel.Authentication;
 using ViewModel.Interfaces;
 
 namespace ViewModel.Print

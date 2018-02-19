@@ -6,7 +6,7 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using Model.Entities;
 using Model.Interfaces;
-using Model.ModelVIewElements;
+using Model.ModelService;
 using TestWpf.Helpers;
 
 namespace TestWpf.ViewModel
