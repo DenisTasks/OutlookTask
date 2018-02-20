@@ -12,5 +12,10 @@ namespace BLL.DTO
         public string Room { get; set; }
 
         public ICollection<AppointmentDTO> Appointments { get; set; }
+
+        public LocationDTO()
+        {
+            
+        }
     }
 }
