@@ -132,9 +132,10 @@ namespace ViewModel.ViewModels
 
         private void ChekingTimeBegin()
         {
-            if (_selectedLocation != null)
+            _isAvailible = 0;
+            ChekingBeginEndDates();
+            if (_selectedLocation != null && _isAvailible == 0)
             {
-                _isAvailible = 0;
                 var parseDateBegin = DateTime.Parse(_startDate.ToString("d") + " " + _selectedBeginningTime.ToString("h:mm tt"));
 
                 var byDay = _service.GetAppsByLocation(_selectedLocation.LocationId)
@@ -158,17 +159,34 @@ namespace ViewModel.ViewModels
                     MessageBox.Show("This room is availible for selected begin time period!");
                 }
             }
-            else
-            {
-                MessageBox.Show("Please, select location room!");
-            }
         }
 
+        private void ChekingBeginEndDates()
+        {
+            MessageBox.Show("I am in ChekingBeginEndDates");
+            if (DateTime.Compare(EndBeginningDate, StartBeginningDate) != 0)
+            {
+                MessageBox.Show("I am in ChekingBeginEndDates and i check it");
+                // another app in my Dates
+                var byDayIn = _service.GetAppsByLocation(_selectedLocation.LocationId)
+                    .Where(s => s.BeginningDate.DayOfYear >= StartBeginningDate.DayOfYear && s.EndingDate.DayOfYear <= EndBeginningDate.DayOfYear).ToList();
+                var byDayAgoAfter = _service.GetAppsByLocation(_selectedLocation.LocationId)
+                    .Where(s => (s.BeginningDate.DayOfYear >= StartBeginningDate.DayOfYear && s.BeginningDate.DayOfYear <= EndBeginningDate.DayOfYear)
+                    || (s.EndingDate.DayOfYear >= StartBeginningDate.DayOfYear && s.EndingDate.DayOfYear <= EndBeginningDate.DayOfYear)).ToList();
+
+                if (byDayIn.Count > 0 || byDayAgoAfter.Count > 0)
+                {
+                    _isAvailible++;
+                    MessageBox.Show($"In your dates created appointments!");
+                }
+            }
+        }
         private void ChekingTimeEnd()
         {
-            if (_selectedLocation != null)
+            _isAvailible = 0;
+            ChekingBeginEndDates();
+            if (_selectedLocation != null && _isAvailible == 0)
             {
-                _isAvailible = 0;
                 var parseDateEnd = DateTime.Parse(_endingDate.ToString("d") + " " + _selectedEndingTime.ToString("h:mm tt"));
 
                 var byDay = _service.GetAppsByLocation(_selectedLocation.LocationId)
@@ -191,10 +209,6 @@ namespace ViewModel.ViewModels
                 {
                     MessageBox.Show("This room is availible for selected end time period!");
                 }
-            }
-            else
-            {
-                MessageBox.Show("Please, select location room!");
             }
         }
 
