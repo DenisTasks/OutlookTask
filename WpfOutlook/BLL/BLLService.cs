@@ -133,7 +133,27 @@ namespace BLL
 
         public void AddAppointment(AppointmentDTO appointment)
         {
-            var appointmentItem = GetFromAppDtoToAppMapper().Map<AppointmentDTO, Appointment>(appointment);
+            ICollection<User> users = new List<User>();
+            var convert = GetFromUserDtoToUserMapper().Map<IEnumerable<UserDTO>, IEnumerable<User>>(appointment.Users);
+            foreach (var item in convert)
+            {
+                if (Database.Users.FindById(item.UserId) != null)
+                {
+                    users.Add(Database.Users.FindById(item.UserId));
+                }
+            }
+
+            FromAppDtoToAppMapper = new MapperConfiguration(cfg => cfg.CreateMap<AppointmentDTO, Appointment>()
+                .ForMember("AppointmentId", opt => opt.MapFrom(s => s.AppointmentId))
+                .ForMember("Subject", opt => opt.MapFrom(s => s.Subject))
+                .ForMember("BeginningDate", opt => opt.MapFrom(s => s.BeginningDate))
+                .ForMember("EndingDate", opt => opt.MapFrom(s => s.EndingDate))
+                .ForMember("LocationId", opt => opt.MapFrom(s => s.LocationId))
+                .ForMember(s => s.Location, opt => opt.MapFrom(loc => Database.Locations.FindById(loc.LocationId)))
+                .ForMember(d => d.Users, opt => opt.MapFrom(s => users))
+            ).CreateMapper();
+
+            var appointmentItem = FromAppDtoToAppMapper.Map<AppointmentDTO, Appointment>(appointment);
 
             using (var transaction = Database.BeginTransaction())
             {

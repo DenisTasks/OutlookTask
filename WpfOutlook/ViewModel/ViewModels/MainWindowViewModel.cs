@@ -20,7 +20,7 @@ namespace ViewModel.ViewModels
         public ObservableCollection<AppointmentDTO> Appointments
         {
             get => _appointments;
-            private set
+            set
             {
                 if (value != _appointments)
                 {

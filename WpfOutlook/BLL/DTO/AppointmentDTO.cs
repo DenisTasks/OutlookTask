@@ -10,8 +10,6 @@ namespace BLL.DTO
         public DateTime BeginningDate { get; set; }
         public DateTime EndingDate { get; set; }
         public int LocationId { get; set; }
-
         public ICollection<UserDTO> Users { get; set; }
-
     }
 }

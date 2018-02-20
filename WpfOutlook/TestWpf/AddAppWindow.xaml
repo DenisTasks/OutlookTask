@@ -54,6 +54,7 @@
 
         <ListView Grid.Column="1"
                   Grid.Row="6"
+                  MaxHeight="200"
                   Name="FromUsersList"
                   ItemsSource="{Binding UsersList}">
             <ListView.ItemTemplate>
@@ -73,6 +74,7 @@
 
         <ListView Grid.Column="3"
                   Grid.Row="6"
+                  MaxHeight="200"
                   Name="ToUsersList"
                   ItemsSource="{Binding SelectedUsersList}">
             <ListView.ItemTemplate>
