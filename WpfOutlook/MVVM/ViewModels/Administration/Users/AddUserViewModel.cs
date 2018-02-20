@@ -8,5 +8,6 @@ namespace MVVM.ViewModels.Administration.Users
 {
     public class AddUserViewModel
     {
+
     }
 }

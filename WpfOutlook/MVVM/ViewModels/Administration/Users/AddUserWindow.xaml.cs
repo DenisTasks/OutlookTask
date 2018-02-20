@@ -23,5 +23,6 @@ namespace MVVM.ViewModels.Administration.Users
         {
             InitializeComponent();
         }
+        
     }
 }

@@ -8,6 +8,126 @@
         mc:Ignorable="d"
         Title="" Height="410.308" Width="431.903">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
+        <Label Grid.Column="0" Grid.Row="1" Content="Name"/>
+        <Label Grid.Column="0" Grid.Row="2" Content="UserName"/>
+        <Label Grid.Column="0" Grid.Row="3" Content="Password"/>
+        <Label Grid.Column="0" Grid.Row="4" Content="Activity"/>
+        <Label Grid.Column="0" Grid.Row="5" Content="Roles"/>
+        <Label Grid.Column="0" Grid.Row="6" Content="Groups"/>
+
+        <TextBox Grid.Column="1" Grid.Row="1" 
+                 Text="{Binding User.Name}"/>
+        <TextBox Grid.Column="1" Grid.Row="2" 
+                 Text="{Binding User.UserName}"/>
+        <TextBox Grid.Column="1" Grid.Row="3" 
+                 Text="{Binding User.Password}"/>
+        <CheckBox Grid.Column="1" Grid.Row="4" 
+                 IsChecked="{Binding User.IsActive}" />
+
+        <ListView Grid.Column="1"
+                  Grid.Row="5"
+                  MaxHeight="200"
+                  Name="FromRoleList"
+                  ItemsSource="{Binding RoleList}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <Button Command="{Binding DataContext.AddUsersToListCommand, ElementName=ToRoleList}"
+                                CommandParameter="{Binding}"
+                                DockPanel.Dock="Right"
+                                Padding="2"
+                                Margin="2">+</Button>
+                        <TextBlock Text="{Binding Name}"
+                                   VerticalAlignment="Center"/>
+                    </DockPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
+        <ListView Grid.Column="3"
+                  Grid.Row="5"
+                  MaxHeight="200"
+                  Name="ToRoleList"
+                  ItemsSource="{Binding SelectedRoleList}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel >
+                        <Button Command="{Binding DataContext.RemoveUsersFromListCommand, ElementName=FromRoleList}"
+                                CommandParameter="{Binding}"
+                                DockPanel.Dock="Right"
+                                Padding="2"
+                                Margin="2">X</Button>
+                        <TextBlock Text="{Binding Name}"
+                                   VerticalAlignment="Center"/>
+                    </DockPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
+        <ListView Grid.Column="1"
+                  Grid.Row="6"
+                  MaxHeight="200"
+                  Name="FromGroupList"
+                  ItemsSource="{Binding GroupList}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <Button Command="{Binding DataContext.AddUsersToListCommand, ElementName=ToGroupList}"
+                                CommandParameter="{Binding}"
+                                DockPanel.Dock="Right"
+                                Padding="2"
+                                Margin="2">+</Button>
+                        <TextBlock Text="{Binding Name}"
+                                   VerticalAlignment="Center"/>
+                    </DockPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        
+
+        <ListView Grid.Column="3"
+                  Grid.Row="6"
+                  MaxHeight="200"
+                  Name="ToGroupList"
+                  ItemsSource="{Binding SelectedGroupList}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel >
+                        <Button Command="{Binding DataContext.RemoveUsersFromListCommand, ElementName=FromGroupList}"
+                                CommandParameter="{Binding}"
+                                DockPanel.Dock="Right"
+                                Padding="2"
+                                Margin="2">X</Button>
+                        <TextBlock Text="{Binding Name}"
+                                   VerticalAlignment="Center"/>
+                    </DockPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Button Grid.Column="3" Grid.Row="9" 
+                Command="{Binding CreateAppCommand}" 
+                CommandParameter="{Binding ElementName=AddNewAppWindow}"
+                Content="Add user" />
     </Grid>
 </Window>
