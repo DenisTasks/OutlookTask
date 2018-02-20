@@ -61,8 +61,7 @@ namespace MVVM.ViewModels.Administration.Users
         {
             if (user != null)
             {
-                //Messenger.Default.Send(new OpenWindowMessage()
-                //{ Type = WindowType.AddAboutAppointmentWindow, Appointment = appointment, Argument = "Load this appointment" });
+                //Method to send data to view
             }
         }
 

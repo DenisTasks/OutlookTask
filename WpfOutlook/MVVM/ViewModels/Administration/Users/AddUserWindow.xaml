@@ -6,8 +6,8 @@
         DataContext="{Binding AddUserWindow, Source={StaticResource Locator}}"
         xmlns:local="clr-namespace:MVVM.ViewModels.Administration.Users"
         mc:Ignorable="d"
-        Title="AddUserWindow" Height="300" Width="300">
+        Title="" Height="410.308" Width="431.903">
     <Grid>
-        
+
     </Grid>
 </Window>
