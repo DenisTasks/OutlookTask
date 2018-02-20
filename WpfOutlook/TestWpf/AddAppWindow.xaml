@@ -45,7 +45,8 @@
                     SelectedDate="{Binding StartBeginningDate}"/>
         <ComboBox Grid.Column="3" Grid.Row="3"
                   ItemsSource="{Binding BeginningTime}"
-                  SelectedItem="{Binding SelectedBeginningTime}"/>
+                  SelectedItem="{Binding SelectedBeginningTime}">
+        </ComboBox>
         <DatePicker Grid.Column="1" Grid.Row="4"
                     SelectedDate="{Binding EndBeginningDate}" />
         <ComboBox Grid.Column="3" Grid.Row="4"

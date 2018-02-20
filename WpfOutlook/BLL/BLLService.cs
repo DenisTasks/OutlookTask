@@ -81,8 +81,10 @@ namespace BLL
             List<Appointment> collection;
             using (Database.BeginTransaction())
             {
+                //collection = Database.Appointments.Get(s => s.Users.Any(d => d.UserId == 92)).ToList();
                 collection = Database.Appointments.Get().ToList();
             }
+
             var mappingCollection = GetFromAppToAppDtoMapper().Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(collection);
             return mappingCollection;
         }

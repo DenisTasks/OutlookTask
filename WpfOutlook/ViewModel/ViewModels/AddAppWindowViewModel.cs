@@ -15,11 +15,21 @@ namespace ViewModel.ViewModels
     public class AddAppWindowViewModel : ViewModelBase
     {
         private readonly IBLLService _service;
+
+        private ObservableCollection<UserDTO> _usersList;
+        private ObservableCollection<UserDTO> _selectedUsersList;
+
+        private DateTime _selectedBeginningTime;
+        private DateTime _selectedEndingTime;
+        private DateTime _startDate = DateTime.Today;
+        private DateTime _endingDate = DateTime.Today.AddHours(1);
+        private LocationDTO _selectedLocation;
+        private int _isAvailible;
+
         public RelayCommand<Window> CreateAppCommand { get; }
         public RelayCommand<UserDTO> AddUsersToListCommand { get; }
         public RelayCommand<UserDTO> RemoveUsersFromListCommand { get; }
 
-        private ObservableCollection<UserDTO> _selectedUsersList;
         public ObservableCollection<UserDTO> SelectedUsersList
         {
             get => _selectedUsersList;
@@ -32,8 +42,6 @@ namespace ViewModel.ViewModels
                 }
             }
         }
-
-        private ObservableCollection<UserDTO> _usersList;
         public ObservableCollection<UserDTO> UsersList
         {
             get => _usersList;
@@ -46,15 +54,10 @@ namespace ViewModel.ViewModels
                 }
             }
         }
-
         public AppointmentDTO Appointment { get; set; }
 
         public List<string> BeginningTime { get; }
         public List<string> EndingTime { get; }
-
-        private DateTime _startDate = DateTime.Today;
-        private DateTime _endingDate = DateTime.Today.AddHours(1);
-
         public DateTime StartBeginningDate
         {
             get => _startDate;
@@ -73,9 +76,7 @@ namespace ViewModel.ViewModels
                 base.RaisePropertyChanged();
             }
         }
-
         public List<LocationDTO> LocationList { get; }
-        private LocationDTO _selectedLocation;
         public LocationDTO SelectedLocation
         {
             get => _selectedLocation;
@@ -85,9 +86,32 @@ namespace ViewModel.ViewModels
                 base.RaisePropertyChanged();
             }
         }
-
-        public DateTime SelectedBeginningTime { get; set; }
-        public DateTime SelectedEndingTime { get; set; }
+        public DateTime SelectedBeginningTime
+        {
+            get => _selectedBeginningTime;
+            set
+            {
+                if (value != _selectedBeginningTime)
+                {
+                    _selectedBeginningTime = value;
+                    ChekingTimeBegin();
+                    base.RaisePropertyChanged();
+                }
+            }
+        }
+        public DateTime SelectedEndingTime
+        {
+            get => _selectedEndingTime;
+            set
+            {
+                if (value != _selectedEndingTime)
+                {
+                    _selectedEndingTime = value;
+                    ChekingTimeEnd();
+                    base.RaisePropertyChanged();
+                }
+            }
+        }
 
         public AddAppWindowViewModel(IBLLService service)
         {
@@ -102,15 +126,83 @@ namespace ViewModel.ViewModels
 
             Appointment = new AppointmentDTO();
 
-            BeginningTime = new List<string>() { DateTime.Now.ToString("h:mm tt") };
-            EndingTime = new List<string>() { DateTime.Now.ToString("h:mm tt") };
+            BeginningTime = new List<string>() { DateTime.Now.ToString("h:mm tt"), DateTime.Now.AddHours(1).ToString("h:mm tt"), DateTime.Now.AddHours(2).ToString("h:mm tt") };
+            EndingTime = new List<string>() { DateTime.Now.AddHours(1).ToString("h:mm tt"), DateTime.Now.AddHours(2).ToString("h:mm tt"), DateTime.Now.AddHours(3).ToString("h:mm tt") };
         }
 
-        public void CreateAppointment(Window window)
+        private void ChekingTimeBegin()
         {
-            Appointment.BeginningDate = DateTime.Parse(_startDate.ToString("d") + " " + SelectedBeginningTime.ToString("h:mm tt"));
-            Appointment.EndingDate = DateTime.Parse(_endingDate.ToString("d") + " " + SelectedEndingTime.ToString("h:mm tt"));
-            if (SelectedUsersList.Count > 0 && SelectedLocation.LocationId > 0)
+            if (_selectedLocation != null)
+            {
+                _isAvailible = 0;
+                var parseDateBegin = DateTime.Parse(_startDate.ToString("d") + " " + _selectedBeginningTime.ToString("h:mm tt"));
+
+                var byDay = _service.GetAppsByLocation(_selectedLocation.LocationId)
+                    .Where(s => s.BeginningDate.DayOfYear == StartBeginningDate.DayOfYear).ToList();
+
+                foreach (var s in byDay.ToList())
+                {
+                    int resultStartFirst = DateTime.Compare(s.BeginningDate, parseDateBegin); // -1
+                    int resultStartSecond = DateTime.Compare(parseDateBegin, s.EndingDate); // -1
+                    if (resultStartFirst == -1 && resultStartSecond == -1)
+                    {
+                        _isAvailible++;
+                    }
+                }
+                if (_isAvailible > 0)
+                {
+                    MessageBox.Show("You are have same time with " + _isAvailible + " locations!");
+                }
+                if (_isAvailible == 0)
+                {
+                    MessageBox.Show("This room is availible for selected begin time period!");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please, select location room!");
+            }
+        }
+
+        private void ChekingTimeEnd()
+        {
+            if (_selectedLocation != null)
+            {
+                _isAvailible = 0;
+                var parseDateEnd = DateTime.Parse(_endingDate.ToString("d") + " " + _selectedEndingTime.ToString("h:mm tt"));
+
+                var byDay = _service.GetAppsByLocation(_selectedLocation.LocationId)
+                    .Where(s => s.EndingDate.DayOfYear == EndBeginningDate.DayOfYear).ToList();
+
+                foreach (var s in byDay.ToList())
+                {
+                    int resultEndFirst = DateTime.Compare(s.BeginningDate, parseDateEnd); // -1
+                    int resultEndSecond = DateTime.Compare(parseDateEnd, s.EndingDate); // -1
+                    if (resultEndFirst == -1 && resultEndSecond == -1)
+                    {
+                        _isAvailible++;
+                    }
+                }
+                if (_isAvailible > 0)
+                {
+                    MessageBox.Show("You are have same time with " + _isAvailible + " locations!");
+                }
+                if (_isAvailible == 0)
+                {
+                    MessageBox.Show("This room is availible for selected end time period!");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please, select location room!");
+            }
+        }
+
+        private void CreateAppointment(Window window)
+        {
+            Appointment.BeginningDate = DateTime.Parse(_startDate.ToString("d") + " " + _selectedBeginningTime.ToString("h:mm tt"));
+            Appointment.EndingDate = DateTime.Parse(_endingDate.ToString("d") + " " + _selectedEndingTime.ToString("h:mm tt"));
+            if (SelectedUsersList.Count > 0 && SelectedLocation.LocationId > 0 && _isAvailible == 0)
             {
                 Appointment.LocationId = SelectedLocation.LocationId;
                 Appointment.Users = SelectedUsersList;
@@ -120,11 +212,11 @@ namespace ViewModel.ViewModels
             }
             else
             {
-                MessageBox.Show("Please, add users or select location!");
+                MessageBox.Show("Please, check your choice!");
             }
         }
 
-        public void AddUsersToList(UserDTO user)
+        private void AddUsersToList(UserDTO user)
         {
             if (user != null)
             {
@@ -134,7 +226,7 @@ namespace ViewModel.ViewModels
             }
         }
 
-        public void RemoveUsersFromList(UserDTO user)
+        private void RemoveUsersFromList(UserDTO user)
         {
             if (user != null)
             {

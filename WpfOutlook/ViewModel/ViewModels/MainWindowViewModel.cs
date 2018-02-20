@@ -41,10 +41,7 @@ namespace ViewModel.ViewModels
         public MainWindowViewModel(IBLLService service)
         {
             _service = service;
-            AddAppWindowCommand = new RelayCommand(
-                () =>
-                Messenger.Default.Send(
-                    new OpenWindowMessage() { Type = WindowType.AddAppWindow }));
+            AddAppWindowCommand = new RelayCommand(AddAppointment);
             AboutAppointmentCommand = new RelayCommand<AppointmentDTO>(AboutAppointment);
             AllAppByLocationCommand = new RelayCommand<AppointmentDTO>(GetAllAppsByRoom);
             RemoveAppCommand = new RelayCommand<AppointmentDTO>(RemoveAppointment);
@@ -63,6 +60,11 @@ namespace ViewModel.ViewModels
             LoadData();
         }
 
+        private void AddAppointment()
+        {
+            Messenger.Default.Send( new OpenWindowMessage() { Type = WindowType.AddAppWindow });
+
+        }
         private void AboutAppointment(AppointmentDTO appointment)
         {
             if (appointment != null)
