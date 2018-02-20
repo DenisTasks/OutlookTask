@@ -107,6 +107,10 @@
     <Compile Include="ViewModels\Administration\Users\AddUserWindow.xaml.cs">
       <DependentUpon>AddUserWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\Administration\Users\EditUserViewModel.cs" />
+    <Compile Include="ViewModels\Administration\Users\EditUserWindow.xaml.cs">
+      <DependentUpon>EditUserWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\Administration\Users\ShowAllUsersPage.xaml.cs">
       <DependentUpon>ShowAllUsersPage.xaml</DependentUpon>
     </Compile>
@@ -161,6 +165,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ViewModels\Administration\Users\AddUserWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewModels\Administration\Users\EditUserWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

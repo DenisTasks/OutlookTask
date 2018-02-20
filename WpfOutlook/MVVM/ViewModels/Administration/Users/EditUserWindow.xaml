@@ -1,13 +1,13 @@
-﻿<Window x:Class="MVVM.TestShell"
+﻿<Window x:Class="MVVM.ViewModels.Administration.Users.EditUserWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MVVM"
+        DataContext="{Binding EditUserWindow, Source={StaticResource Locator}}"
+        xmlns:local="clr-namespace:MVVM.ViewModels.Administration.Users"
         mc:Ignorable="d"
-        Title="TestShell" Height="600" Width="485">
-
-    <DockPanel>
-        <Frame x:Name="_mainFrame"  NavigationUIVisibility="Hidden" Panel.ZIndex="1" />
-    </DockPanel>
+        Title="EditUserWindow" Height="300" Width="300">
+    <Grid>
+        
+    </Grid>
 </Window>

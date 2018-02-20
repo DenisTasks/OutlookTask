@@ -61,7 +61,8 @@ namespace MVVM.ViewModels.Administration.Users
         {
             if (user != null)
             {
-                //Method to send data to view
+                var addAppWindow = new EditUserWindow();
+                var result = addAppWindow.ShowDialog();
             }
         }
 

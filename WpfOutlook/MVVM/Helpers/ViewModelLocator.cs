@@ -1,4 +1,5 @@
-﻿using CommonServiceLocator;
+﻿using BLL.EntitesDTO;
+using CommonServiceLocator;
 using GalaSoft.MvvmLight.Ioc;
 using MVVM.Services;
 using MVVM.ViewModels.Administration;
@@ -26,6 +27,7 @@ namespace MVVM.Helpers
 
             SimpleIoc.Default.Register(()=>new AuthenticationViewModel(new AuthenticationService()));
             SimpleIoc.Default.Register(()=>new AdministrationViewModel(new AdministrationService()));
+            SimpleIoc.Default.Register(() => new EditUserViewModel(new UserDTO()));  
             SimpleIoc.Default.Register(() => new AddUserViewModel());
             SimpleIoc.Default.Register(() => new ShowAllUsersViewModel());
         }
@@ -62,6 +64,14 @@ namespace MVVM.Helpers
             get
             {
                 return ServiceLocator.Current.GetInstance<AddUserViewModel>();
+            }
+        }
+
+        public EditUserViewModel EditUserWindow
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<EditUserViewModel>();
             }
         }
 
