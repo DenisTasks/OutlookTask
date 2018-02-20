@@ -1,10 +1,9 @@
 ﻿using CommonServiceLocator;
 using GalaSoft.MvvmLight.Ioc;
-using MVVM.Models;
-using MVVM.Models.Authenication;
+using MVVM.Services;
 using MVVM.ViewModels.Administration;
+using MVVM.ViewModels.Administration.Users;
 using MVVM.ViewModels.Authenication;
-using MVVM.ViewModels.TestShell;
 
 namespace MVVM.Helpers
 {
@@ -27,6 +26,7 @@ namespace MVVM.Helpers
 
             SimpleIoc.Default.Register(()=>new AuthenticationViewModel(new AuthenticationService()));
             SimpleIoc.Default.Register(()=>new AdministrationViewModel(new AdministrationService()));
+            SimpleIoc.Default.Register(() => new ShowAllUsersViewModel());
         }
         
 
@@ -45,6 +45,14 @@ namespace MVVM.Helpers
             get
             {
                 return ServiceLocator.Current.GetInstance<AdministrationViewModel>();
+            }
+        }
+
+        public ShowAllUsersViewModel AllUsersPage
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<ShowAllUsersViewModel>();
             }
         }
 

@@ -91,7 +91,7 @@
     <Compile Include="Helpers\DelegateCommand.cs" />
     <Compile Include="Helpers\ViewModelLocator.cs" />
     <Compile Include="Interfaces\IAdministrationService.cs" />
-    <Compile Include="Models\AdministrationService.cs" />
+    <Compile Include="Services\AdministrationService.cs" />
     <Compile Include="LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
@@ -102,8 +102,13 @@
       <DependentUpon>TestShell.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\Administration\AdministrationViewModel.cs" />
+    <Compile Include="ViewModels\Administration\EditRolesViewModel.cs" />
+    <Compile Include="ViewModels\Administration\Users\ShowAllUsersPage.xaml.cs">
+      <DependentUpon>ShowAllUsersPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Administration\Users\ShowAllUsersViewModel.cs" />
     <Compile Include="ViewModels\Authenication\AnonymousIdentity.cs" />
-    <Compile Include="Models\AuthenticationService.cs" />
+    <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="ViewModels\Authenication\AuthenticationViewModel.cs" />
     <Compile Include="ViewModels\Authenication\CustomIdentity.cs" />
     <Compile Include="ViewModels\Authenication\CustomPrincipal.cs" />
@@ -148,6 +153,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TestShell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewModels\Administration\Users\ShowAllUsersPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

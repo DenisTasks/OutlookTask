@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
+using MVVM.ViewModels.Administration.Users;
 using MVVM.ViewModels.TestShell;
 using System;
 using System.Collections.Generic;
@@ -34,8 +35,10 @@ namespace MVVM
             if (obj.Notification.Equals("LoginSuccess"))
             {
                 _mainFrame.Navigate(new AdminPage());
-                //var test = Window.GetWindow(this);
-                //test.Close();
+            }
+            if (obj.Notification.Equals("ShowAllUsersPage"))
+            {
+                _mainFrame.Navigate(new ShowAllUsersPage());
             }
         }
     }

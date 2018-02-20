@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MVVM.Models
+namespace MVVM.Services
 {
     public class AdministrationService : IAdministrationService
     {

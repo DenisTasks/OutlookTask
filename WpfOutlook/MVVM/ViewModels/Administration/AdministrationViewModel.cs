@@ -1,14 +1,8 @@
-﻿using BLL.EntitesDTO;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Messaging;
 using MVVM.Helpers;
 using MVVM.Interfaces;
-using MVVM.Models;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MVVM.ViewModels.Administration
 {
@@ -38,14 +32,17 @@ namespace MVVM.ViewModels.Administration
 
         private void ShowRolesWindow(object parameter)
         {
+            Messenger.Default.Send(new NotificationMessage("ShowAllRolesPage"));
         }
 
         private void ShowGroupsWindow(object parameter)
         {
+            Messenger.Default.Send(new NotificationMessage("ShowAllUsersPage"));
         }
 
         private void ShowUsersWindow(object parameter)
         {
+            Messenger.Default.Send(new NotificationMessage("ShowAllUsersPage"));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

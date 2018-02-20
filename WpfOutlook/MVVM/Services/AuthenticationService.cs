@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MVVM.Models.Authenication
+namespace MVVM.Services
 {
     public class AuthenticationService : IAuthenticationService
     {

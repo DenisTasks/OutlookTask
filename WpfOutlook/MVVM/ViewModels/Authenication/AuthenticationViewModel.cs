@@ -3,17 +3,11 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using MVVM.Helpers;
 using MVVM.Interfaces;
-using MVVM.Models.Authenication;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Navigation;
 
 namespace MVVM.ViewModels.Authenication
 {
