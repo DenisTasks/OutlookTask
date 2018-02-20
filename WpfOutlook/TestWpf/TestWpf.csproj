@@ -88,6 +88,9 @@
     <Compile Include="AddAppWindow.xaml.cs">
       <DependentUpon>AddAppWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MainWindowPage.xaml.cs">
+      <DependentUpon>MainWindowPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="AboutAppWindow.xaml">
       <SubType>Designer</SubType>
@@ -110,6 +113,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="AddAppWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindowPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
