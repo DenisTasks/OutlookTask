@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using MVVM.Helpers;
 using MVVM.Interfaces;
@@ -9,38 +10,38 @@ namespace MVVM.ViewModels.Administration
     public class AdministrationViewModel : ViewModelBase, INotifyPropertyChanged
     {
         private readonly IAdministrationService _administrationService;
-        private readonly DelegateCommand _showEditUsersView;
-        private readonly DelegateCommand _showEditGroupsView;
-        private readonly DelegateCommand _showEditRolesView;
+        private readonly RelayCommand _showEditUsersView;
+        private readonly RelayCommand _showEditGroupsView;
+        private readonly RelayCommand _showEditRolesView;
 
-        public DelegateCommand ShowEditUsersView { get { return _showEditUsersView; } }
-        public DelegateCommand ShowEditGroupsView { get { return _showEditGroupsView; } }
-        public DelegateCommand ShowEditRoleswView { get { return _showEditRolesView; } }
+        public RelayCommand ShowEditUsersView { get { return _showEditUsersView; } }
+        public RelayCommand ShowEditGroupsView { get { return _showEditGroupsView; } }
+        public RelayCommand ShowEditRoleswView { get { return _showEditRolesView; } }
 
 
 
         public AdministrationViewModel(IAdministrationService administrationService)
         {
             _administrationService = administrationService;
-            _showEditUsersView = new DelegateCommand(ShowUsersWindow, null);
-            _showEditGroupsView = new DelegateCommand(ShowGroupsWindow, null);
-            _showEditRolesView = new DelegateCommand(ShowRolesWindow, null);
+            _showEditUsersView = new RelayCommand(ShowUsersWindow);
+            _showEditGroupsView = new RelayCommand(ShowGroupsWindow);
+            _showEditRolesView = new RelayCommand(ShowRolesWindow);
         }
 
 
 
 
-        private void ShowRolesWindow(object parameter)
+        private void ShowRolesWindow()
         {
             Messenger.Default.Send(new NotificationMessage("ShowAllRolesPage"));
         }
 
-        private void ShowGroupsWindow(object parameter)
+        private void ShowGroupsWindow()
         {
             Messenger.Default.Send(new NotificationMessage("ShowAllUsersPage"));
         }
 
-        private void ShowUsersWindow(object parameter)
+        private void ShowUsersWindow()
         {
             Messenger.Default.Send(new NotificationMessage("ShowAllUsersPage"));
         }

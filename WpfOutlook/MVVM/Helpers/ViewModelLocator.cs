@@ -1,6 +1,8 @@
 ﻿using BLL.EntitesDTO;
 using CommonServiceLocator;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
+using MVVM.Interfaces;
 using MVVM.Services;
 using MVVM.ViewModels.Administration;
 using MVVM.ViewModels.Administration.Users;
@@ -13,23 +15,27 @@ namespace MVVM.Helpers
         public ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-            
+
             //if (ViewModelBase.IsInDesignModeStatic)
             //{
-            //    // Create design time view services and models
-            //    SimpleIoc.Default.Register<IViewModel, AuthenticationViewModel>();
+            //     Create design time view services and models
+            //    SimpleIoc.Default.Register<IAuthenticationService, AuthenticationService>();
+            //    SimpleIoc.Default.Register<IAdministrationService, AdministrationService>();
             //}
             //else
             //{
-            //    // Create run time view services and models
-            //    SimpleIoc.Default.Register<IViewModel, AuthenticationViewModel>();
+            //     Create run time view services and models
+            //    SimpleIoc.Default.Register<IAuthenticationService, AuthenticationViewModel>();
             //}
 
-            SimpleIoc.Default.Register(()=>new AuthenticationViewModel(new AuthenticationService()));
-            SimpleIoc.Default.Register(()=>new AdministrationViewModel(new AdministrationService()));
-            SimpleIoc.Default.Register(() => new EditUserViewModel(new UserDTO()));  
-            SimpleIoc.Default.Register(() => new AddUserViewModel());
-            SimpleIoc.Default.Register(() => new ShowAllUsersViewModel());
+            SimpleIoc.Default.Register<IAuthenticationService, AuthenticationService>();
+            SimpleIoc.Default.Register<IAdministrationService, AdministrationService>();
+
+            SimpleIoc.Default.Register<AdministrationViewModel>();
+            SimpleIoc.Default.Register<AuthenticationViewModel>();
+            SimpleIoc.Default.Register<EditUserViewModel>();
+            SimpleIoc.Default.Register<AddUserViewModel>();
+            SimpleIoc.Default.Register<ShowAllUsersViewModel>();
         }
         
 

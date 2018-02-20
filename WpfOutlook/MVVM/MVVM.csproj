@@ -88,7 +88,6 @@
     <Compile Include="EditUsersWindow.xaml.cs">
       <DependentUpon>EditUsersWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\DelegateCommand.cs" />
     <Compile Include="Helpers\ViewModelLocator.cs" />
     <Compile Include="Interfaces\IAdministrationService.cs" />
     <Compile Include="Services\AdministrationService.cs" />

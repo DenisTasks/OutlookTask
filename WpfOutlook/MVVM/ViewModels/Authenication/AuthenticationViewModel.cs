@@ -1,5 +1,6 @@
 ﻿using BLL.EntitesDTO;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using MVVM.Helpers;
 using MVVM.Interfaces;
@@ -14,21 +15,21 @@ namespace MVVM.ViewModels.Authenication
     public class AuthenticationViewModel : ViewModelBase,  INotifyPropertyChanged
     {
         private readonly IAuthenticationService _authenticationService;
-        private readonly DelegateCommand _loginCommand;
-        private readonly DelegateCommand _logoutCommand;
+        private readonly RelayCommand<object> _loginCommand;
+        private readonly RelayCommand _logoutCommand;
         private string _username;
         private string _status;
 
         public AuthenticationViewModel(IAuthenticationService authenticationService)
         {
             _authenticationService = authenticationService;
-            _loginCommand = new DelegateCommand(Login, CanLogin);
-            _logoutCommand = new DelegateCommand(Logout, CanLogout);
+            _loginCommand = new RelayCommand<object>(Login, CanLogin);
+            _logoutCommand = new RelayCommand(Logout, CanLogout);
         }
 
-        public DelegateCommand LoginCommand { get { return _loginCommand; } }
+        public RelayCommand<object> LoginCommand { get { return _loginCommand; } }
 
-        public DelegateCommand LogoutCommand { get { return _logoutCommand; } }
+        public RelayCommand LogoutCommand { get { return _logoutCommand; } }
 
 
         public string Username
@@ -99,7 +100,7 @@ namespace MVVM.ViewModels.Authenication
             get { return Thread.CurrentPrincipal.Identity.IsAuthenticated; }
         }
 
-        private void Logout(object parameter)
+        private void Logout()
         {
             CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
             if (customPrincipal != null)
@@ -114,7 +115,7 @@ namespace MVVM.ViewModels.Authenication
         }
 
 
-        private bool CanLogout(object parameter)
+        private bool CanLogout()
         {
             return IsAuthenticated;
         }

@@ -15,7 +15,7 @@ namespace MVVM.ViewModels.Administration
     public class EditRolesViewModel: ViewModelBase, INotifyPropertyChanged
     {
         private ObservableCollection<RoleDTO> _roles;
-        private RelayCommand _addRoleCommand;
+        private GalaSoft.MvvmLight.Command.RelayCommand _addRoleCommand;
 
         public EditRolesViewModel()
         {

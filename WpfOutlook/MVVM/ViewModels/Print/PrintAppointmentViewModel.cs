@@ -1,4 +1,5 @@
 ﻿using BLL.EntitesDTO;
+using GalaSoft.MvvmLight.Command;
 using MVVM.Helpers;
 using System;
 using System.Collections.Generic;
@@ -12,18 +13,18 @@ namespace MVVM.ViewModel.Print
     public class PrintAppointmentViewModel
     {
         private AppointmentDTO _appointment;
-        private DelegateCommand _print;
+        private RelayCommand<object> _print;
 
         public PrintAppointmentViewModel()
         {
-            _print = new DelegateCommand(ButtonPrintPressed, null);
+            _print = new RelayCommand<object>(ButtonPrintPressed);
             //using (var uow = new UnitOfWork())
             //{
             //    //_appointment = uow.Appointments.FindById(9);
             //}
         }
 
-        public DelegateCommand PrintCommand { get { return _print; } }
+        public RelayCommand<object> PrintCommand { get { return _print; } }
 
         public string AppointmentName
         {

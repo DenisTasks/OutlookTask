@@ -26,7 +26,7 @@ namespace MVVM
         public TestShell()
         {
             InitializeComponent();
-            _mainFrame.Navigate(new AdminPage());
+            _mainFrame.Navigate(new LoginPage());
             Messenger.Default.Register<NotificationMessage>(this, NotificationMessageReceived);
         }
 
