@@ -26,6 +26,7 @@ namespace MVVM.Helpers
 
             SimpleIoc.Default.Register(()=>new AuthenticationViewModel(new AuthenticationService()));
             SimpleIoc.Default.Register(()=>new AdministrationViewModel(new AdministrationService()));
+            SimpleIoc.Default.Register(() => new AddUserViewModel());
             SimpleIoc.Default.Register(() => new ShowAllUsersViewModel());
         }
         
@@ -53,6 +54,14 @@ namespace MVVM.Helpers
             get
             {
                 return ServiceLocator.Current.GetInstance<ShowAllUsersViewModel>();
+            }
+        }
+
+        public AddUserViewModel AddUserWindow
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<AddUserViewModel>();
             }
         }
 

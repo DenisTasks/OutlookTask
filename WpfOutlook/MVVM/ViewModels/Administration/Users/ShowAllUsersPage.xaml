@@ -42,25 +42,26 @@
                         <GridViewColumn Header="Id" DisplayMemberBinding="{Binding UserId}"/>
                         <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
                         <GridViewColumn Header="UserName" DisplayMemberBinding="{Binding UserName}"/>
+                        <GridViewColumn Header="Activity" DisplayMemberBinding="{Binding IsActive}"/>
                         <GridViewColumn Header="RolesCount" DisplayMemberBinding="{Binding Roles.Count}"/>
                         <GridViewColumn Header="GroupCount" DisplayMemberBinding="{Binding Groups.Count}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
-            
+
             <Button Grid.Column="1"
                 Grid.Row="2"
-                Command="{Binding AddAppWindowCommand}"
+                Command="{Binding AddUserCommand}"
                 VerticalAlignment="Center"
                 Margin="10, 0"
-                Padding="10, 0">New App</Button>
-            
+                Padding="10, 0">Add user</Button>
+
             <Button Grid.Column="0"
                 Grid.Row="2"
-                Command="{Binding SortByAppIdCommand}"
+                Command="{Binding EditUserCommand}"
                 VerticalAlignment="Center"
                 Margin="10, 0"
-                Padding="10, 0">Sort by</Button>
+                Padding="10, 0">Edit user</Button>
 
             <Button Grid.Column="2"
                 Grid.Row="2"
@@ -68,7 +69,7 @@
                 CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}"
                 VerticalAlignment="Center"
                 Margin="10, 0"
-                Padding="10, 0">Filter by</Button>
+                Padding="10, 0">Change activity</Button>
         </Grid>
     </Grid>
 </Page>
