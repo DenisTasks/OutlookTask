@@ -1,9 +1,8 @@
 ﻿using BLL.EntitesDTO;
+using BLL.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
-using MVVM.Helpers;
-using MVVM.Interfaces;
 using System;
 using System.ComponentModel;
 using System.Linq;

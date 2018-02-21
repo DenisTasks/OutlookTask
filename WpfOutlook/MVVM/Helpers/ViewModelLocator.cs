@@ -1,9 +1,7 @@
-﻿using BLL.EntitesDTO;
+﻿using BLL.Interfaces;
+using BLL.Services;
 using CommonServiceLocator;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
-using MVVM.Interfaces;
-using MVVM.Services;
 using MVVM.ViewModels.Administration;
 using MVVM.ViewModels.Administration.Users;
 using MVVM.ViewModels.Authenication;

@@ -38,7 +38,7 @@ namespace MVVM.ViewModels.Administration.Users
             get => _users;
             set
             {
-                if (value != _users)
+                if (value != null)
                 {
                     _users = value;
                     base.RaisePropertyChanged();
@@ -55,6 +55,8 @@ namespace MVVM.ViewModels.Administration.Users
         {
             var addAppWindow = new AddUserWindow();
             var result = addAppWindow.ShowDialog();
+            LoadData();
+            Users = _users;
         }
 
         private void EditUser(UserDTO user)

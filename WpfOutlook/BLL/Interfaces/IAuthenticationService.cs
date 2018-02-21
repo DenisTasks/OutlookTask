@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MVVM.Interfaces
+namespace BLL.Interfaces
 {
-    public interface IAuthenticationService
+    public interface IAuthenticationService : IDisposable
     {
         UserDTO AuthenticateUser(string username, string password);
     }

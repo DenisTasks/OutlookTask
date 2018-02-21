@@ -5,10 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MVVM.Interfaces
+namespace BLL.Interfaces
 {
-    public interface IAdministrationService
+    public interface IAdministrationService: IDisposable
     {
+        void CreateUser(UserDTO user);
+        bool CheckUser(string username);
         void AddUserToGroup(UserDTO user);
         void RemoveUserFromGroup(UserDTO user);
         void CreateGroup(GroupDTO group);
@@ -18,5 +20,7 @@ namespace MVVM.Interfaces
         void EditUser(UserDTO user);
         void ChangeUserStatus(UserDTO user);
         void ShowLogs();
+        ICollection<RoleDTO> GetRoles();
+        ICollection<GroupDTO> GetGroups();
     }
 }

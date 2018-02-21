@@ -1,8 +1,7 @@
-﻿using GalaSoft.MvvmLight;
+﻿using BLL.Interfaces;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
-using MVVM.Helpers;
-using MVVM.Interfaces;
 using System.ComponentModel;
 
 namespace MVVM.ViewModels.Administration
