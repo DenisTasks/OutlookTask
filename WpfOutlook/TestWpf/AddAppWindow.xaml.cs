@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using ViewModel;
 
 namespace TestWpf
 {
@@ -14,7 +13,6 @@ namespace TestWpf
             Closing += (s, e) =>
             {
                 DialogResult = true;
-                ViewModelLocator.CleanUp();
             };
         }
     }

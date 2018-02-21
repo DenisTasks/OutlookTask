@@ -6,7 +6,6 @@
         AddAboutAppointmentWindow,
         AddAllAppByLocationWindow,
         LoadLocations,
-        None,
         Refresh
     }
 }

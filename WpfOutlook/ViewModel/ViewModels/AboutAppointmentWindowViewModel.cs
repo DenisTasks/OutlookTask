@@ -1,9 +1,6 @@
-﻿using System;
-using System.Windows;
-using BLL.DTO;
+﻿using BLL.DTO;
 using BLL.Interfaces;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using ViewModel.Helpers;
 
@@ -11,7 +8,6 @@ namespace ViewModel.ViewModels
 {
     public class AboutAppointmentWindowViewModel : ViewModelBase
     {
-        private readonly IBLLService _service;
         private AppointmentDTO _appointment;
         private LocationDTO _location;
         public LocationDTO Location
@@ -40,36 +36,17 @@ namespace ViewModel.ViewModels
             }
         }
 
-        public RelayCommand<AppointmentDTO> RemoveAppCommand { get; set; }
         public AboutAppointmentWindowViewModel(IBLLService service)
         {
-            _service = service;
             Messenger.Default.Register<OpenWindowMessage>(this, message =>
             {
                 if (message.Argument == "Load this appointment")
                 {
                     Appointment = message.Appointment;
-                    Location = _service.GetLocationById(message.Appointment.LocationId);
+                    Location = service.GetLocationById(message.Appointment.LocationId);
                 }
             });
-            RemoveAppCommand = new RelayCommand<AppointmentDTO>(RemoveAppointment);
         }
-
-        private void RemoveAppointment(AppointmentDTO appointment)
-        {
-            if (appointment != null)
-            {
-                try
-                {
-                    _service.RemoveAppointment(appointment);
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.ToString());
-                }
-            }
-        }
-
     }
 
 }

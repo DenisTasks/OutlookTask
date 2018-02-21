@@ -1,25 +1,35 @@
-﻿
-using Model.Interfaces;
+﻿using Model.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Model.ModelVIewElements
 {
-    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity: class
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
         private WPFOutlookContext _context;
         private DbSet<TEntity> _dbSet;
 
-        public GenericRepository(WPFOutlookContext context)
+        public GenericRepository()
         {
-            _context = context;
+            _context = new WPFOutlookContext();
             _dbSet = _context.Set<TEntity>();
         }
 
+        public DbContextTransaction BeginTransaction()
+        {
+            return _context.Database.BeginTransaction();
+        }
+        public void Dispose()
+        {
+            _context.Dispose();
+        }
+
+        public void Save()
+        {
+            _context.SaveChanges();
+        }
         public IEnumerable<TEntity> Get()
         {
             return _dbSet.AsNoTracking().ToList();

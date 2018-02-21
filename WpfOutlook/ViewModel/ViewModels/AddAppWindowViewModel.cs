@@ -155,7 +155,6 @@ namespace ViewModel.ViewModels
                     .Where(s => s.BeginningDate.DayOfYear == StartBeginningDate.DayOfYear).ToList();
                 foreach (var s in bySameDayBegin.ToList())
                 {
-                    // если есть такие аппы, где начало моего аппа попадает в их "с начала до конца" ИЛИ совпадает с их началом (с концом можно)
                     int resultStartFirst = DateTime.Compare(s.BeginningDate, parseDateBegin); // -1 or 0
                     int resultStartSecond = DateTime.Compare(s.EndingDate, parseDateBegin); // -1
                     if ((resultStartFirst == -1 || resultStartFirst == 0) && resultStartSecond == -1)
@@ -170,7 +169,6 @@ namespace ViewModel.ViewModels
                     .Where(s => s.EndingDate.DayOfYear == EndBeginningDate.DayOfYear).ToList();
                 foreach (var s in bySameDayEnd.ToList())
                 {
-                    // если есть такие аппы, где конец моего аппа совпадает с их концом ИЛИ попадает в их "с начала до конца"
                     int resultEndFirst = DateTime.Compare(parseDateEnd, s.BeginningDate); // -1
                     int resultEndSecond = DateTime.Compare(s.EndingDate, parseDateEnd); // -1 or 0
                     if (resultEndFirst == -1 && (resultEndSecond == -1 || resultEndSecond == 0))
@@ -183,10 +181,8 @@ namespace ViewModel.ViewModels
                 #region If inside or outside
                 foreach (var s in bySameDayBegin.ToList())
                 {
-                    // если есть такие аппы, которые попадают В мои сроки полностью или их сроки РАВНЫ моим
-                    // если есть такие аппы, которые шире мои сроков в обе стороны
-                    int resultInStart = DateTime.Compare(s.BeginningDate, parseDateBegin); // -1 or 0     or 1/0 если шире
-                    int resultInEnd = DateTime.Compare(parseDateEnd, s.EndingDate); // -1 or 0            or 1/0 если шире
+                    int resultInStart = DateTime.Compare(s.BeginningDate, parseDateBegin); // -1 or 0
+                    int resultInEnd = DateTime.Compare(parseDateEnd, s.EndingDate); // -1 or 0
                     if (((resultInStart == 0 || resultInStart == -1) && (resultInEnd == 0 || resultInEnd == -1))
                         || ((resultInStart == 1 || resultInStart == 0) && (resultInEnd == 1 || resultInEnd == 0)))
                     {

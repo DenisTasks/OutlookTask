@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using BLL.DTO;
 using Model.Entities;
 
 namespace BLL.Interfaces
 {
-    public interface IBLLService : IDisposable
+    public interface IBLLService
     {
         IEnumerable<AppointmentDTO> GetAppointments();
         IEnumerable<LocationDTO> GetLocations();

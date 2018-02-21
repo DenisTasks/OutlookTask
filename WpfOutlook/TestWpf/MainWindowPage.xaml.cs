@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
 using ViewModel.Helpers;
@@ -14,13 +15,12 @@ namespace TestWpf
         public MainWindowPage()
         {
             InitializeComponent();
-            //Closing += (s, e) => ViewModelLocator.CleanUp();
             Messenger.Default.Register<OpenWindowMessage>(
                 this,
                 message => {
                     if (message.Type == WindowType.AddAppWindow && message.Argument != "Load this appointment")
                     {
-                        var addAppWindowVM = SimpleIoc.Default.GetInstance<AddAppWindowViewModel>();
+                        var addAppWindowVM = SimpleIoc.Default.GetInstance<AddAppWindowViewModel>(Guid.NewGuid().ToString());
                         var addAppWindow = new AddAppWindow()
                         {
                             DataContext = addAppWindowVM
@@ -30,7 +30,7 @@ namespace TestWpf
                     }
                     if (message.Type == WindowType.AddAboutAppointmentWindow)
                     {
-                        var addAboutWindowVM = SimpleIoc.Default.GetInstance<AboutAppointmentWindowViewModel>();
+                        var addAboutWindowVM = SimpleIoc.Default.GetInstance<AboutAppointmentWindowViewModel>(Guid.NewGuid().ToString());
                         var addAboutWindow = new AboutAppWindow()
                         {
                             DataContext = addAboutWindowVM
@@ -40,7 +40,7 @@ namespace TestWpf
                     }
                     if (message.Type == WindowType.AddAllAppByLocationWindow)
                     {
-                        var addAllAppWindowVM = SimpleIoc.Default.GetInstance<AllAppByLocationWindowViewModel>();
+                        var addAllAppWindowVM = SimpleIoc.Default.GetInstance<AllAppByLocationWindowViewModel>(Guid.NewGuid().ToString());
                         var addAllAppWindow = new AllAppByLocation()
                         {
                             DataContext = addAllAppWindowVM

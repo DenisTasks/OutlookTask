@@ -30,7 +30,7 @@ namespace ViewModel.ViewModels
             }
         }
 
-        // commands
+        #region Commands
         public RelayCommand<AppointmentDTO> AboutAppointmentCommand { get; }
         public RelayCommand<AppointmentDTO> AllAppByLocationCommand { get; }
         public RelayCommand AddAppWindowCommand { get; }
@@ -38,10 +38,12 @@ namespace ViewModel.ViewModels
         public RelayCommand SortByAppIdCommand { get; }
         public RelayCommand GroupBySubjectCommand { get; }
         public RelayCommand<AppointmentDTO> FilterBySubjectCommand { get; }
+        #endregion
 
         public MainWindowViewModel(IBLLService service)
         {
             _service = service;
+            LoadData();
 
             AddAppWindowCommand = new RelayCommand(AddAppointment);
             AboutAppointmentCommand = new RelayCommand<AppointmentDTO>(AboutAppointment);
@@ -58,14 +60,11 @@ namespace ViewModel.ViewModels
                     RefreshingAppointments();
                 }
             });
-
-            LoadData();
         }
 
         private void AddAppointment()
         {
             Messenger.Default.Send( new OpenWindowMessage() { Type = WindowType.AddAppWindow });
-
         }
         private void AboutAppointment(AppointmentDTO appointment)
         {
@@ -75,7 +74,6 @@ namespace ViewModel.ViewModels
                 { Type = WindowType.AddAboutAppointmentWindow, Appointment = appointment, Argument = "Load this appointment" });
             }
         }
-
         private void RefreshingAppointments()
         {
             Appointments.Clear();
@@ -122,7 +120,6 @@ namespace ViewModel.ViewModels
                 view.SortDescriptions.Add(new SortDescription("AppointmentId", ListSortDirection.Ascending));
             }
         }
-
         private void LoadData()
         {
             try
@@ -146,7 +143,6 @@ namespace ViewModel.ViewModels
                 MessageBox.Show(e.ToString());
             }
         }
-
         private void FilterBySubject(AppointmentDTO appointment)
         {
             if (appointment != null)
@@ -156,7 +152,6 @@ namespace ViewModel.ViewModels
                 view.Filter = o => ((o as AppointmentDTO)?.Subject) == appointment.Subject;
             }
         }
-
         private void RemoveAppointment(AppointmentDTO appointment)
         {
             if (appointment != null)
@@ -174,5 +169,4 @@ namespace ViewModel.ViewModels
             }
         }
     }
-
 }

@@ -5,20 +5,16 @@ using System.Windows;
 using AutoMapper;
 using BLL.DTO;
 using BLL.Interfaces;
-using Model;
 using Model.Entities;
 using Model.Interfaces;
-using Model.ModelVIewElements;
 
 namespace BLL
 {
     public class BLLService : IBLLService
     {
-        private IUnitOfWork Database { get; }
-        //
-        private ITestInterface<Appointment> _appointments;
-        private ITestInterface<User> _users;
-        private ITestInterface<Location> _location;
+        private readonly IGenericRepository<Appointment> _appointments;
+        private readonly IGenericRepository<User> _users;
+        private readonly IGenericRepository<Location> _locations;
 
         private IMapper GetDefaultMapper<TEntityFrom, TEntityTo>() where TEntityFrom : class  where  TEntityTo : class 
         {
@@ -46,16 +42,16 @@ namespace BLL
             var convert = GetDefaultMapper<UserDTO, User>().Map<IEnumerable<UserDTO>, IEnumerable<User>>(usersDTO);
             foreach (var item in convert)
             {
-                if (Database.Users.FindById(item.UserId) != null)
+                if (_users.FindById(item.UserId) != null)
                 {
-                    users.Add(Database.Users.FindById(item.UserId));
+                    users.Add(_users.FindById(item.UserId));
                 }
             }
 
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<AppointmentDTO, Appointment>()
-                    .ForMember(s => s.Location, opt => opt.MapFrom(loc => Database.Locations.FindById(loc.LocationId)))
+                    .ForMember(s => s.Location, opt => opt.MapFrom(loc => _locations.FindById(loc.LocationId)))
                     .ForMember(d => d.Users, opt => opt.MapFrom(s => users));
             });
             IMapper mapper = config.CreateMapper();
@@ -77,17 +73,11 @@ namespace BLL
             return mapper;
         }
 
-        public BLLService(IUnitOfWork uOw, ITestInterface<Appointment> app, ITestInterface<User> users, ITestInterface<Location> loc)
+        public BLLService(IGenericRepository<Appointment> appointments, IGenericRepository<User> users, IGenericRepository<Location> locations)
         {
-            //_context = new WPFOutlookContext();
-            //_users = new GenericRepository<User>(_context);
-            //_groups = new GenericRepository<Group>(_context);
-
-            _appointments = app;
+            _appointments = appointments;
             _users = users;
-            _location = loc;
-
-            Database = uOw;
+            _locations = locations;
         }
 
         public IEnumerable<AppointmentDTO> GetAppointments()
@@ -106,9 +96,9 @@ namespace BLL
         public AppointmentDTO GetAppointmentById(int id)
         {
             Appointment appointment;
-            using (Database.BeginTransaction())
+            using (_appointments.BeginTransaction())
             {
-                appointment = Database.Appointments.FindById(id);
+                appointment = _appointments.FindById(id);
             }
             var mappingItem = GetFromAppToAppDtoMapper().Map<Appointment, AppointmentDTO>(appointment);
             return mappingItem;
@@ -117,9 +107,9 @@ namespace BLL
         public LocationDTO GetLocationById(int id)
         {
             Location location;
-            using (Database.BeginTransaction())
+            using (_locations.BeginTransaction())
             {
-                location = Database.Locations.FindById(id);
+                location = _locations.FindById(id);
             }
             var mappingItem = GetFromLocationToLocationDtoMapper().Map<Location, LocationDTO>(location);
             return mappingItem;
@@ -128,7 +118,7 @@ namespace BLL
         public IEnumerable<LocationDTO> GetLocations()
         {
             var locationsMapper =
-                GetFromLocationToLocationDtoMapper().Map<IEnumerable<Location>, IEnumerable<LocationDTO>>(Database.Locations
+                GetFromLocationToLocationDtoMapper().Map<IEnumerable<Location>, IEnumerable<LocationDTO>>(_locations
                     .Get());
             return locationsMapper;
         }
@@ -138,27 +128,27 @@ namespace BLL
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<AppointmentDTO, Appointment>()
-                    .ForMember(s => s.Location, opt => opt.MapFrom(loc => Database.Locations.FindById(loc.LocationId)));
+                    .ForMember(s => s.Location, opt => opt.MapFrom(loc => _locations.FindById(loc.LocationId)));
             });
             IMapper mapper = config.CreateMapper();
-            return mapper.Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(Database.Appointments.Get(x => x.LocationId == id));
+            return mapper.Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(_appointments.Get(x => x.LocationId == id));
         }
 
         public IEnumerable<UserDTO> GetUsers()
         {
-            return GetDefaultMapper<User, UserDTO>().Map<IEnumerable<User>, IEnumerable<UserDTO>>(Database.Users.Get());
+            return GetDefaultMapper<User, UserDTO>().Map<IEnumerable<User>, IEnumerable<UserDTO>>(_users.Get());
         }
 
         public void AddAppointment(AppointmentDTO appointment)
         {
             var appointmentItem = GetFromAppDtoToAppMapper(appointment.Users).Map<AppointmentDTO, Appointment>(appointment);
 
-            using (var transaction = Database.BeginTransaction())
+            using (var transaction = _appointments.BeginTransaction())
             {
                 try
                 {
-                    Database.Appointments.Create(appointmentItem);
-                    Database.Save();
+                    _appointments.Create(appointmentItem);
+                    _appointments.Save();
                     transaction.Commit();
                 }
                 catch (Exception e)
@@ -179,12 +169,12 @@ namespace BLL
 
             var locationItem = mapper.Map<LocationDTO, Location>(location);
 
-            using (var transaction = Database.BeginTransaction())
+            using (var transaction = _locations.BeginTransaction())
             {
                 try
                 {
-                    Database.Locations.Create(locationItem);
-                    Database.Save();
+                    _locations.Create(locationItem);
+                    _locations.Save();
                     transaction.Commit();
                 }
                 catch (Exception e)
@@ -197,12 +187,12 @@ namespace BLL
 
         public void AddLocation(Location location)
         {
-            using (var transaction = Database.BeginTransaction())
+            using (var transaction = _locations.BeginTransaction())
             {
                 try
                 {
-                    Database.Locations.Create(location);
-                    Database.Save();
+                    _locations.Create(location);
+                    _locations.Save();
                     transaction.Commit();
                 }
                 catch (Exception e)
@@ -217,12 +207,12 @@ namespace BLL
         {
             var userItem = GetDefaultMapper<UserDTO, User>().Map<UserDTO, User>(user);
 
-            using (var transaction = Database.BeginTransaction())
+            using (var transaction = _users.BeginTransaction())
             {
                 try
                 {
-                    Database.Users.Create(userItem);
-                    Database.Save();
+                    _users.Create(userItem);
+                    _users.Save();
                     transaction.Commit();
                 }
                 catch (Exception e)
@@ -235,12 +225,12 @@ namespace BLL
 
         public void AddUser(User user)
         {
-            using (var transaction = Database.BeginTransaction())
+            using (var transaction = _users.BeginTransaction())
             {
                 try
                 {
-                    Database.Users.Create(user);
-                    Database.Save();
+                    _users.Create(user);
+                    _users.Save();
                     transaction.Commit();
                 }
                 catch (Exception e)
@@ -255,12 +245,12 @@ namespace BLL
         {
             var appointmentItem = GetFromAppDtoToAppMapper(appointment.Users).Map<AppointmentDTO, Appointment>(appointment);
 
-            using (var transaction = Database.BeginTransaction())
+            using (var transaction = _appointments.BeginTransaction())
             {
                 try
                 {
-                    Database.Appointments.Remove(appointmentItem, key => key.AppointmentId);
-                    Database.Save();
+                    _appointments.Remove(appointmentItem, key => key.AppointmentId);
+                    _appointments.Save();
                     transaction.Commit();
                 }
                 catch (Exception e)
@@ -269,11 +259,6 @@ namespace BLL
                     throw new Exception(e + " from BLL");
                 }
             }
-        }
-
-        public void Dispose()
-        {
-            Database.Dispose();
         }
     }
 }

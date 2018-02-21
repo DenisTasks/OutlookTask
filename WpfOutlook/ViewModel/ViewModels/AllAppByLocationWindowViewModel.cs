@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using BLL.DTO;
 using BLL.Interfaces;
 using GalaSoft.MvvmLight;
@@ -12,7 +10,6 @@ namespace ViewModel.ViewModels
 {
     public class AllAppByLocationWindowViewModel : ViewModelBase
     {
-        private readonly IBLLService _service;
         private ObservableCollection<AppointmentDTO> _appointments;
 
         public ObservableCollection<AppointmentDTO> Appointments
@@ -30,12 +27,11 @@ namespace ViewModel.ViewModels
 
         public AllAppByLocationWindowViewModel(IBLLService service)
         {
-            _service = service;
             Messenger.Default.Register<OpenWindowMessage>(this, message =>
             {
                 if (message.Type == WindowType.LoadLocations && message.Argument != null)
                 {
-                    Appointments = new ObservableCollection<AppointmentDTO>(_service.GetAppsByLocation(Int32.Parse(message.Argument)));
+                    Appointments = new ObservableCollection<AppointmentDTO>(service.GetAppsByLocation(Int32.Parse(message.Argument)));
                 }
             });
         }

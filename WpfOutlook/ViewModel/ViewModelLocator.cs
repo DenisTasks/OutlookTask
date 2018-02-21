@@ -19,20 +19,18 @@ namespace ViewModel
             if (ViewModelBase.IsInDesignModeStatic)
             {
                 // Create design time view services and models
-                SimpleIoc.Default.Register<IUnitOfWork, UnitOfWork>();
                 SimpleIoc.Default.Register<IBLLService, BLLService>();
-                SimpleIoc.Default.Register<ITestInterface<Appointment>, TestGeneric<Appointment>>();
-                SimpleIoc.Default.Register<ITestInterface<User>, TestGeneric<User>>();
-                SimpleIoc.Default.Register<ITestInterface<Location>, TestGeneric<Location>>();
+                SimpleIoc.Default.Register<IGenericRepository<Appointment>, GenericRepository<Appointment>>();
+                SimpleIoc.Default.Register<IGenericRepository<User>, GenericRepository<User>>();
+                SimpleIoc.Default.Register<IGenericRepository<Location>, GenericRepository<Location>>();
             }
             else
             {
                 // Create run time view services and models
-                SimpleIoc.Default.Register<IUnitOfWork, UnitOfWork>();
                 SimpleIoc.Default.Register<IBLLService, BLLService>();
-                SimpleIoc.Default.Register<ITestInterface<Appointment>, TestGeneric<Appointment>>();
-                SimpleIoc.Default.Register<ITestInterface<User>, TestGeneric<User>>();
-                SimpleIoc.Default.Register<ITestInterface<Location>, TestGeneric<Location>>();
+                SimpleIoc.Default.Register<IGenericRepository<Appointment>, GenericRepository<Appointment>>();
+                SimpleIoc.Default.Register<IGenericRepository<User>, GenericRepository<User>>();
+                SimpleIoc.Default.Register<IGenericRepository<Location>, GenericRepository<Location>>();
             }
             // Register my view models
             SimpleIoc.Default.Register<MainWindowViewModel>();
@@ -45,14 +43,8 @@ namespace ViewModel
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<MainWindowViewModel>(Guid.NewGuid().ToString());
+                return ServiceLocator.Current.GetInstance<MainWindowViewModel>();
             }
-        }
-
-        public static void CleanUp()
-        {
-            SimpleIoc.Default.Unregister<AddAppWindowViewModel>();
-            SimpleIoc.Default.Register<AddAppWindowViewModel>();
         }
     }
 
