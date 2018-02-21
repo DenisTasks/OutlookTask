@@ -57,11 +57,11 @@
                   Grid.Row="6"
                   MaxHeight="200"
                   Name="FromUsersList"
-                  ItemsSource="{Binding UsersList}">
+                  ItemsSource="{Binding UserList}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <DockPanel>
-                        <Button Command="{Binding DataContext.AddUsersToListCommand, ElementName=ToUsersList}"
+                        <Button Command="{Binding DataContext.AddUsersToListCommand, ElementName=ToUserList}"
                                 CommandParameter="{Binding}"
                                 DockPanel.Dock="Right"
                                 Padding="2"
@@ -77,11 +77,11 @@
                   Grid.Row="6"
                   MaxHeight="200"
                   Name="ToUsersList"
-                  ItemsSource="{Binding SelectedUsersList}">
+                  ItemsSource="{Binding SelectedUserList}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <DockPanel >
-                        <Button Command="{Binding DataContext.RemoveUsersFromListCommand, ElementName=FromUsersList}"
+                        <Button Command="{Binding DataContext.RemoveUsersFromListCommand, ElementName=FromUserList}"
                                 CommandParameter="{Binding}"
                                 DockPanel.Dock="Right"
                                 Padding="2"

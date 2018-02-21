@@ -5,14 +5,29 @@ using System.Windows;
 using AutoMapper;
 using BLL.DTO;
 using BLL.Interfaces;
+using Model;
 using Model.Entities;
 using Model.Interfaces;
+using Model.ModelVIewElements;
 
 namespace BLL
 {
     public class BLLService : IBLLService
     {
         private IUnitOfWork Database { get; }
+        //
+        private ITestInterface<Appointment> _appointments;
+        private ITestInterface<User> _users;
+        private ITestInterface<Location> _location;
+
+        //public IGenericRepository<Appointment> Appointments
+        //{
+        //    get
+        //    {
+        //        return _appointments ?? new GenericRepository<Appointment>(_context);
+        //    }
+        //}
+        //
 
         private IMapper GetDefaultMapper<TEntityFrom, TEntityTo>() where TEntityFrom : class  where  TEntityTo : class 
         {
@@ -71,18 +86,22 @@ namespace BLL
             return mapper;
         }
 
-        public BLLService(IUnitOfWork uOw)
+        public BLLService(IUnitOfWork uOw, ITestInterface<Appointment> app, ITestInterface<User> users, ITestInterface<Location> loc)
         {
+            _appointments = app;
+            _users = users;
+            _location = loc;
+
             Database = uOw;
         }
 
         public IEnumerable<AppointmentDTO> GetAppointments()
         {
             List<Appointment> collection;
-            using (Database.BeginTransaction())
+            using (_appointments.BeginTransaction())
             {
                 //collection = Database.Appointments.Get(s => s.Users.Any(d => d.UserId == 92)).ToList();
-                collection = Database.Appointments.Get().ToList();
+                collection = _appointments.Get().ToList();
             }
 
             var mappingCollection = GetFromAppToAppDtoMapper().Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(collection);

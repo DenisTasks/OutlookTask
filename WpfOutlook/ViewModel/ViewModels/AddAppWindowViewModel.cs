@@ -30,7 +30,7 @@ namespace ViewModel.ViewModels
         public RelayCommand<UserDTO> AddUsersToListCommand { get; }
         public RelayCommand<UserDTO> RemoveUsersFromListCommand { get; }
 
-        public ObservableCollection<UserDTO> SelectedUsersList
+        public ObservableCollection<UserDTO> SelectedUserList
         {
             get => _selectedUsersList;
             set
@@ -42,7 +42,7 @@ namespace ViewModel.ViewModels
                 }
             }
         }
-        public ObservableCollection<UserDTO> UsersList
+        public ObservableCollection<UserDTO> UserList
         {
             get => _usersList;
             private set
@@ -64,6 +64,7 @@ namespace ViewModel.ViewModels
             set
             {
                 _startDate = value;
+                ChekingTimeBegin();
                 base.RaisePropertyChanged();
             }
         }
@@ -73,6 +74,7 @@ namespace ViewModel.ViewModels
             set
             {
                 _endingDate = value;
+                ChekingTimeEnd();
                 base.RaisePropertyChanged();
             }
         }
@@ -120,8 +122,8 @@ namespace ViewModel.ViewModels
             RemoveUsersFromListCommand = new RelayCommand<UserDTO>(RemoveUsersFromList);
             CreateAppCommand = new RelayCommand<Window>(CreateAppointment);
 
-            UsersList = new ObservableCollection<UserDTO>(_service.GetUsers());
-            SelectedUsersList = new ObservableCollection<UserDTO>();
+            UserList = new ObservableCollection<UserDTO>(_service.GetUsers());
+            SelectedUserList = new ObservableCollection<UserDTO>();
             LocationList = _service.GetLocations().ToList();
 
             Appointment = new AppointmentDTO();
@@ -163,11 +165,9 @@ namespace ViewModel.ViewModels
 
         private void ChekingBeginEndDates()
         {
-            MessageBox.Show("I am in ChekingBeginEndDates");
-            if (DateTime.Compare(EndBeginningDate, StartBeginningDate) != 0)
+            if (DateTime.Compare(EndBeginningDate, StartBeginningDate) != 0 && _selectedLocation != null)
             {
-                MessageBox.Show("I am in ChekingBeginEndDates and i check it");
-                // another app in my Dates
+                // concat?
                 var byDayIn = _service.GetAppsByLocation(_selectedLocation.LocationId)
                     .Where(s => s.BeginningDate.DayOfYear >= StartBeginningDate.DayOfYear && s.EndingDate.DayOfYear <= EndBeginningDate.DayOfYear).ToList();
                 var byDayAgoAfter = _service.GetAppsByLocation(_selectedLocation.LocationId)
@@ -181,6 +181,7 @@ namespace ViewModel.ViewModels
                 }
             }
         }
+
         private void ChekingTimeEnd()
         {
             _isAvailible = 0;
@@ -216,10 +217,10 @@ namespace ViewModel.ViewModels
         {
             Appointment.BeginningDate = DateTime.Parse(_startDate.ToString("d") + " " + _selectedBeginningTime.ToString("h:mm tt"));
             Appointment.EndingDate = DateTime.Parse(_endingDate.ToString("d") + " " + _selectedEndingTime.ToString("h:mm tt"));
-            if (SelectedUsersList.Count > 0 && SelectedLocation.LocationId > 0 && _isAvailible == 0)
+            if (SelectedUserList.Count > 0 && SelectedLocation.LocationId > 0 && _isAvailible == 0)
             {
                 Appointment.LocationId = SelectedLocation.LocationId;
-                Appointment.Users = SelectedUsersList;
+                Appointment.Users = SelectedUserList;
                 _service.AddAppointment(Appointment);
                 Messenger.Default.Send(new OpenWindowMessage() { Type = WindowType.None });
                 window?.Close();
@@ -234,8 +235,8 @@ namespace ViewModel.ViewModels
         {
             if (user != null)
             {
-                SelectedUsersList.Add(user);
-                UsersList.Remove(user);
+                SelectedUserList.Add(user);
+                UserList.Remove(user);
                 base.RaisePropertyChanged();
             }
         }
@@ -244,8 +245,8 @@ namespace ViewModel.ViewModels
         {
             if (user != null)
             {
-                UsersList.Add(user);
-                SelectedUsersList.Remove(user);
+                UserList.Add(user);
+                SelectedUserList.Remove(user);
                 base.RaisePropertyChanged();
             }
         }
