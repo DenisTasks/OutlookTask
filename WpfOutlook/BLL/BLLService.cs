@@ -20,15 +20,6 @@ namespace BLL
         private ITestInterface<User> _users;
         private ITestInterface<Location> _location;
 
-        //public IGenericRepository<Appointment> Appointments
-        //{
-        //    get
-        //    {
-        //        return _appointments ?? new GenericRepository<Appointment>(_context);
-        //    }
-        //}
-        //
-
         private IMapper GetDefaultMapper<TEntityFrom, TEntityTo>() where TEntityFrom : class  where  TEntityTo : class 
         {
             var config = new MapperConfiguration(cfg =>
@@ -88,6 +79,10 @@ namespace BLL
 
         public BLLService(IUnitOfWork uOw, ITestInterface<Appointment> app, ITestInterface<User> users, ITestInterface<Location> loc)
         {
+            //_context = new WPFOutlookContext();
+            //_users = new GenericRepository<User>(_context);
+            //_groups = new GenericRepository<Group>(_context);
+
             _appointments = app;
             _users = users;
             _location = loc;

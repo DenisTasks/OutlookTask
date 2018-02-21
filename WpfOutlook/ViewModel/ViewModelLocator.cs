@@ -1,14 +1,15 @@
-using GalaSoft.MvvmLight.Ioc;
+﻿using System;
+using BLL;
+using BLL.Interfaces;
 using CommonServiceLocator;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Ioc;
+using Model.Entities;
 using Model.Interfaces;
 using Model.ModelVIewElements;
-using BLL.Interfaces;
-using BLL;
 using ViewModel.ViewModels;
-using Model.Entities;
 
-namespace TestWpf.ViewModel
+namespace ViewModel
 {
     public class ViewModelLocator
     {
@@ -44,8 +45,15 @@ namespace TestWpf.ViewModel
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<MainWindowViewModel>();
+                return ServiceLocator.Current.GetInstance<MainWindowViewModel>(Guid.NewGuid().ToString());
             }
         }
+
+        public static void CleanUp()
+        {
+            SimpleIoc.Default.Unregister<AddAppWindowViewModel>();
+            SimpleIoc.Default.Register<AddAppWindowViewModel>();
+        }
     }
+
 }

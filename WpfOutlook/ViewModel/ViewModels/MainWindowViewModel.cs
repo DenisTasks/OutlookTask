@@ -30,6 +30,7 @@ namespace ViewModel.ViewModels
             }
         }
 
+        // commands
         public RelayCommand<AppointmentDTO> AboutAppointmentCommand { get; }
         public RelayCommand<AppointmentDTO> AllAppByLocationCommand { get; }
         public RelayCommand AddAppWindowCommand { get; }
@@ -41,6 +42,7 @@ namespace ViewModel.ViewModels
         public MainWindowViewModel(IBLLService service)
         {
             _service = service;
+
             AddAppWindowCommand = new RelayCommand(AddAppointment);
             AboutAppointmentCommand = new RelayCommand<AppointmentDTO>(AboutAppointment);
             AllAppByLocationCommand = new RelayCommand<AppointmentDTO>(GetAllAppsByRoom);

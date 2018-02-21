@@ -43,25 +43,31 @@
                   SelectedItem="{Binding SelectedLocation}"/>
         <DatePicker Grid.Column="1" Grid.Row="3"
                     SelectedDate="{Binding StartBeginningDate}"/>
+
         <ComboBox Grid.Column="3" Grid.Row="3"
                   ItemsSource="{Binding BeginningTime}"
-                  SelectedItem="{Binding SelectedBeginningTime}">
-        </ComboBox>
+                  SelectedItem="{Binding SelectedBeginningTime, Mode=TwoWay}"
+                  ItemStringFormat="{}{0:h:mm tt}"
+                  IsSynchronizedWithCurrentItem="True"/>
+        
         <DatePicker Grid.Column="1" Grid.Row="4"
                     SelectedDate="{Binding EndBeginningDate}" />
+        
         <ComboBox Grid.Column="3" Grid.Row="4"
                   ItemsSource="{Binding EndingTime}"
-                  SelectedItem="{Binding SelectedEndingTime}"/>
+                  SelectedItem="{Binding SelectedEndingTime, Mode=TwoWay}"
+                  ItemStringFormat="{}{0:h:mm tt}"
+                  IsSynchronizedWithCurrentItem="True"/>
 
         <ListView Grid.Column="1"
                   Grid.Row="6"
                   MaxHeight="200"
-                  Name="FromUsersList"
+                  Name="FromUserList"
                   ItemsSource="{Binding UserList}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <DockPanel>
-                        <Button Command="{Binding DataContext.AddUsersToListCommand, ElementName=ToUserList}"
+                        <Button Command="{Binding DataContext.AddUserToListCommand, ElementName=ToUserList}"
                                 CommandParameter="{Binding}"
                                 DockPanel.Dock="Right"
                                 Padding="2"
@@ -76,12 +82,12 @@
         <ListView Grid.Column="3"
                   Grid.Row="6"
                   MaxHeight="200"
-                  Name="ToUsersList"
+                  Name="ToUserList"
                   ItemsSource="{Binding SelectedUserList}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <DockPanel >
-                        <Button Command="{Binding DataContext.RemoveUsersFromListCommand, ElementName=FromUserList}"
+                        <Button Command="{Binding DataContext.RemoveUserFromListCommand, ElementName=FromUserList}"
                                 CommandParameter="{Binding}"
                                 DockPanel.Dock="Right"
                                 Padding="2"

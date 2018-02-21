@@ -7,8 +7,6 @@ using BLL.DTO;
 using BLL.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
-using ViewModel.Helpers;
 
 namespace ViewModel.ViewModels
 {
@@ -16,55 +14,67 @@ namespace ViewModel.ViewModels
     {
         private readonly IBLLService _service;
 
-        private ObservableCollection<UserDTO> _usersList;
-        private ObservableCollection<UserDTO> _selectedUsersList;
+        private ObservableCollection<UserDTO> _userList;
+        private ObservableCollection<UserDTO> _selectedUserList;
 
         private DateTime _selectedBeginningTime;
         private DateTime _selectedEndingTime;
         private DateTime _startDate = DateTime.Today;
-        private DateTime _endingDate = DateTime.Today.AddHours(1);
+        private DateTime _endingDate = DateTime.Today;
         private LocationDTO _selectedLocation;
         private int _isAvailible;
 
         public RelayCommand<Window> CreateAppCommand { get; }
-        public RelayCommand<UserDTO> AddUsersToListCommand { get; }
-        public RelayCommand<UserDTO> RemoveUsersFromListCommand { get; }
+        public RelayCommand<UserDTO> AddUserToListCommand { get; }
+        public RelayCommand<UserDTO> RemoveUserFromListCommand { get; }
 
         public ObservableCollection<UserDTO> SelectedUserList
         {
-            get => _selectedUsersList;
+            get => _selectedUserList;
             set
             {
-                if (value != _selectedUsersList)
+                if (value != _selectedUserList)
                 {
-                    _selectedUsersList = value;
+                    _selectedUserList = value;
                     base.RaisePropertyChanged();
                 }
             }
         }
         public ObservableCollection<UserDTO> UserList
         {
-            get => _usersList;
+            get => _userList;
             private set
             {
-                if (value != _usersList)
+                if (value != _userList)
                 {
-                    _usersList = value;
+                    _userList = value;
                     base.RaisePropertyChanged();
                 }
             }
         }
         public AppointmentDTO Appointment { get; set; }
 
-        public List<string> BeginningTime { get; }
-        public List<string> EndingTime { get; }
+        // combo boxes
+        public List<DateTime> BeginningTime { get; }
+        public List<DateTime> EndingTime { get; }
+        public List<LocationDTO> LocationList { get; }
+
+        // selected
+        public LocationDTO SelectedLocation
+        {
+            get => _selectedLocation;
+            set
+            {
+                _selectedLocation = value;
+                base.RaisePropertyChanged();
+            }
+        }
         public DateTime StartBeginningDate
         {
             get => _startDate;
             set
             {
                 _startDate = value;
-                ChekingTimeBegin();
                 base.RaisePropertyChanged();
             }
         }
@@ -74,17 +84,6 @@ namespace ViewModel.ViewModels
             set
             {
                 _endingDate = value;
-                ChekingTimeEnd();
-                base.RaisePropertyChanged();
-            }
-        }
-        public List<LocationDTO> LocationList { get; }
-        public LocationDTO SelectedLocation
-        {
-            get => _selectedLocation;
-            set
-            {
-                _selectedLocation = value;
                 base.RaisePropertyChanged();
             }
         }
@@ -96,7 +95,6 @@ namespace ViewModel.ViewModels
                 if (value != _selectedBeginningTime)
                 {
                     _selectedBeginningTime = value;
-                    ChekingTimeBegin();
                     base.RaisePropertyChanged();
                 }
             }
@@ -109,7 +107,6 @@ namespace ViewModel.ViewModels
                 if (value != _selectedEndingTime)
                 {
                     _selectedEndingTime = value;
-                    ChekingTimeEnd();
                     base.RaisePropertyChanged();
                 }
             }
@@ -118,98 +115,111 @@ namespace ViewModel.ViewModels
         public AddAppWindowViewModel(IBLLService service)
         {
             _service = service;
-            AddUsersToListCommand = new RelayCommand<UserDTO>(AddUsersToList);
-            RemoveUsersFromListCommand = new RelayCommand<UserDTO>(RemoveUsersFromList);
+            AddUserToListCommand = new RelayCommand<UserDTO>(AddUsersToList);
+            RemoveUserFromListCommand = new RelayCommand<UserDTO>(RemoveUsersFromList);
             CreateAppCommand = new RelayCommand<Window>(CreateAppointment);
 
             UserList = new ObservableCollection<UserDTO>(_service.GetUsers());
             SelectedUserList = new ObservableCollection<UserDTO>();
             LocationList = _service.GetLocations().ToList();
-
+            
             Appointment = new AppointmentDTO();
 
-            BeginningTime = new List<string>() { DateTime.Now.ToString("h:mm tt"), DateTime.Now.AddHours(1).ToString("h:mm tt"), DateTime.Now.AddHours(2).ToString("h:mm tt") };
-            EndingTime = new List<string>() { DateTime.Now.AddHours(1).ToString("h:mm tt"), DateTime.Now.AddHours(2).ToString("h:mm tt"), DateTime.Now.AddHours(3).ToString("h:mm tt") };
+            BeginningTime = LoadTimeRange();
+            EndingTime = LoadTimeRange();
         }
 
-        private void ChekingTimeBegin()
+        private List<DateTime> LoadTimeRange()
+        {
+            var timeList = new List<DateTime>();
+            DateTime day = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 00, 00, 00);
+            DateTime day2 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 59, 00);
+            for (TimeSpan i = day.TimeOfDay; i < day2.TimeOfDay; i += TimeSpan.FromMinutes(30))
+            {
+                timeList.Add(DateTime.Parse(i.ToString()));
+            }
+            return timeList;
+        }
+
+        private void ChekingTime()
         {
             _isAvailible = 0;
-            ChekingBeginEndDates();
+            ChekingBetweenDates();
             if (_selectedLocation != null && _isAvailible == 0)
             {
+                #region Only beginning time after start and previous ending
                 var parseDateBegin = DateTime.Parse(_startDate.ToString("d") + " " + _selectedBeginningTime.ToString("h:mm tt"));
-
-                var byDay = _service.GetAppsByLocation(_selectedLocation.LocationId)
-                    .Where(s => s.BeginningDate.DayOfYear == StartBeginningDate.DayOfYear).ToList();
-
-                foreach (var s in byDay.ToList())
-                {
-                    int resultStartFirst = DateTime.Compare(s.BeginningDate, parseDateBegin); // -1
-                    int resultStartSecond = DateTime.Compare(parseDateBegin, s.EndingDate); // -1
-                    if (resultStartFirst == -1 && resultStartSecond == -1)
-                    {
-                        _isAvailible++;
-                    }
-                }
-                if (_isAvailible > 0)
-                {
-                    MessageBox.Show("You are have same time with " + _isAvailible + " locations!");
-                }
-                if (_isAvailible == 0)
-                {
-                    MessageBox.Show("This room is availible for selected begin time period!");
-                }
-            }
-        }
-
-        private void ChekingBeginEndDates()
-        {
-            if (DateTime.Compare(EndBeginningDate, StartBeginningDate) != 0 && _selectedLocation != null)
-            {
-                // concat?
-                var byDayIn = _service.GetAppsByLocation(_selectedLocation.LocationId)
-                    .Where(s => s.BeginningDate.DayOfYear >= StartBeginningDate.DayOfYear && s.EndingDate.DayOfYear <= EndBeginningDate.DayOfYear).ToList();
-                var byDayAgoAfter = _service.GetAppsByLocation(_selectedLocation.LocationId)
-                    .Where(s => (s.BeginningDate.DayOfYear >= StartBeginningDate.DayOfYear && s.BeginningDate.DayOfYear <= EndBeginningDate.DayOfYear)
-                    || (s.EndingDate.DayOfYear >= StartBeginningDate.DayOfYear && s.EndingDate.DayOfYear <= EndBeginningDate.DayOfYear)).ToList();
-
-                if (byDayIn.Count > 0 || byDayAgoAfter.Count > 0)
-                {
-                    _isAvailible++;
-                    MessageBox.Show($"In your dates created appointments!");
-                }
-            }
-        }
-
-        private void ChekingTimeEnd()
-        {
-            _isAvailible = 0;
-            ChekingBeginEndDates();
-            if (_selectedLocation != null && _isAvailible == 0)
-            {
                 var parseDateEnd = DateTime.Parse(_endingDate.ToString("d") + " " + _selectedEndingTime.ToString("h:mm tt"));
 
-                var byDay = _service.GetAppsByLocation(_selectedLocation.LocationId)
-                    .Where(s => s.EndingDate.DayOfYear == EndBeginningDate.DayOfYear).ToList();
-
-                foreach (var s in byDay.ToList())
+                var bySameDayBegin = _service.GetAppsByLocation(_selectedLocation.LocationId)
+                    .Where(s => s.BeginningDate.DayOfYear == StartBeginningDate.DayOfYear).ToList();
+                foreach (var s in bySameDayBegin.ToList())
                 {
-                    int resultEndFirst = DateTime.Compare(s.BeginningDate, parseDateEnd); // -1
-                    int resultEndSecond = DateTime.Compare(parseDateEnd, s.EndingDate); // -1
-                    if (resultEndFirst == -1 && resultEndSecond == -1)
+                    // если есть такие аппы, где начало моего аппа попадает в их "с начала до конца" ИЛИ совпадает с их началом (с концом можно)
+                    int resultStartFirst = DateTime.Compare(s.BeginningDate, parseDateBegin); // -1 or 0
+                    int resultStartSecond = DateTime.Compare(s.EndingDate, parseDateBegin); // -1
+                    if ((resultStartFirst == -1 || resultStartFirst == 0) && resultStartSecond == -1)
                     {
                         _isAvailible++;
                     }
                 }
-                if (_isAvailible > 0)
+                #endregion
+
+                #region Only ending time after start and previous ending
+                var bySameDayEnd = _service.GetAppsByLocation(_selectedLocation.LocationId)
+                    .Where(s => s.EndingDate.DayOfYear == EndBeginningDate.DayOfYear).ToList();
+                foreach (var s in bySameDayEnd.ToList())
                 {
-                    MessageBox.Show("You are have same time with " + _isAvailible + " locations!");
+                    // если есть такие аппы, где конец моего аппа совпадает с их концом ИЛИ попадает в их "с начала до конца"
+                    int resultEndFirst = DateTime.Compare(parseDateEnd, s.BeginningDate); // -1
+                    int resultEndSecond = DateTime.Compare(s.EndingDate, parseDateEnd); // -1 or 0
+                    if (resultEndFirst == -1 && (resultEndSecond == -1 || resultEndSecond == 0))
+                    {
+                        _isAvailible++;
+                    }
                 }
-                if (_isAvailible == 0)
+                #endregion
+
+                #region If inside or outside
+                foreach (var s in bySameDayBegin.ToList())
                 {
-                    MessageBox.Show("This room is availible for selected end time period!");
+                    // если есть такие аппы, которые попадают В мои сроки полностью или их сроки РАВНЫ моим
+                    // если есть такие аппы, которые шире мои сроков в обе стороны
+                    int resultInStart = DateTime.Compare(s.BeginningDate, parseDateBegin); // -1 or 0     or 1/0 если шире
+                    int resultInEnd = DateTime.Compare(parseDateEnd, s.EndingDate); // -1 or 0            or 1/0 если шире
+                    if (((resultInStart == 0 || resultInStart == -1) && (resultInEnd == 0 || resultInEnd == -1))
+                        || ((resultInStart == 1 || resultInStart == 0) && (resultInEnd == 1 || resultInEnd == 0)))
+                    {
+                        _isAvailible++;
+                    }
                 }
+                #endregion
+            }
+        }
+
+        private void ChekingBetweenDates()
+        {
+            if (_selectedLocation != null)
+            {
+                if (DateTime.Compare(_endingDate, _startDate) != 0)
+                {
+                    // concat?
+                    var byDayIn = _service.GetAppsByLocation(_selectedLocation.LocationId)
+                        .Where(s => s.BeginningDate.DayOfYear >= _startDate.DayOfYear && s.EndingDate.DayOfYear <= _endingDate.DayOfYear).ToList();
+                    var byDayAgoAfter = _service.GetAppsByLocation(_selectedLocation.LocationId)
+                        .Where(s => (s.BeginningDate.DayOfYear >= _startDate.DayOfYear && s.BeginningDate.DayOfYear <= _endingDate.DayOfYear)
+                                    || (s.EndingDate.DayOfYear >= _startDate.DayOfYear && s.EndingDate.DayOfYear <= _endingDate.DayOfYear)).ToList();
+
+                    if (byDayIn.Count > 0 || byDayAgoAfter.Count > 0)
+                    {
+                        _isAvailible++;
+                        MessageBox.Show($"In your dates created appointments!");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Select location!");
             }
         }
 
@@ -217,12 +227,13 @@ namespace ViewModel.ViewModels
         {
             Appointment.BeginningDate = DateTime.Parse(_startDate.ToString("d") + " " + _selectedBeginningTime.ToString("h:mm tt"));
             Appointment.EndingDate = DateTime.Parse(_endingDate.ToString("d") + " " + _selectedEndingTime.ToString("h:mm tt"));
-            if (SelectedUserList.Count > 0 && SelectedLocation.LocationId > 0 && _isAvailible == 0)
+            ChekingTime();
+
+            if (SelectedUserList.Count > 0 && _isAvailible == 0 && SelectedLocation.LocationId > 0)
             {
                 Appointment.LocationId = SelectedLocation.LocationId;
                 Appointment.Users = SelectedUserList;
                 _service.AddAppointment(Appointment);
-                Messenger.Default.Send(new OpenWindowMessage() { Type = WindowType.None });
                 window?.Close();
             }
             else

@@ -14,6 +14,7 @@ namespace TestWpf
         public MainWindowPage()
         {
             InitializeComponent();
+            //Closing += (s, e) => ViewModelLocator.CleanUp();
             Messenger.Default.Register<OpenWindowMessage>(
                 this,
                 message => {
@@ -24,7 +25,8 @@ namespace TestWpf
                         {
                             DataContext = addAppWindowVM
                         };
-                        var result = addAppWindow.ShowDialog();
+                        var result = addAppWindow.ShowDialog() ?? false;
+                        Messenger.Default.Send(result ? new OpenWindowMessage() { Type = WindowType.Refresh } : null);
                     }
                     if (message.Type == WindowType.AddAboutAppointmentWindow)
                     {
@@ -35,10 +37,6 @@ namespace TestWpf
                         };
                         Messenger.Default.Send(new OpenWindowMessage() { Argument = message.Argument, Appointment = message.Appointment });
                         var result = addAboutWindow.ShowDialog();
-                    }
-                    if (message.Type == WindowType.None)
-                    {
-                        Messenger.Default.Send(new OpenWindowMessage() { Type = WindowType.Refresh });
                     }
                     if (message.Type == WindowType.AddAllAppByLocationWindow)
                     {

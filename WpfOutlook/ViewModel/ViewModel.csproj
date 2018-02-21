@@ -68,6 +68,7 @@
     <Compile Include="Helpers\OpenWindowMessage.cs" />
     <Compile Include="Helpers\WindowType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModelLocator.cs" />
     <Compile Include="ViewModels\AboutAppointmentWindowViewModel.cs" />
     <Compile Include="ViewModels\AddAppWindowViewModel.cs" />
     <Compile Include="ViewModels\AllAppByLocationWindowViewModel.cs" />
