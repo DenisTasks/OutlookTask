@@ -11,12 +11,6 @@ namespace Model.ModelVIewElements
         private WPFOutlookContext _context;
         private DbSet<TEntity> _dbSet;
 
-        public GenericRepository()
-        {
-            _context = new WPFOutlookContext();
-            _dbSet = _context.Set<TEntity>();
-        }
-
         public GenericRepository(WPFOutlookContext context)
         {
             _context = context;

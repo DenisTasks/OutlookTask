@@ -7,6 +7,7 @@ using BLL.DTO;
 using BLL.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace ViewModel.ViewModels
 {
@@ -74,6 +75,10 @@ namespace ViewModel.ViewModels
             get => _startDate;
             set
             {
+                if (EndBeginningDate != value)
+                {
+                    EndBeginningDate = value;
+                }
                 _startDate = value;
                 base.RaisePropertyChanged();
             }
@@ -169,11 +174,12 @@ namespace ViewModel.ViewModels
             Appointment.EndingDate = DateTime.Parse(_endingDate.ToString("d") + " " + _selectedEndingTime.ToString("h:mm tt"));
             CheckDates();
 
-            if (SelectedUserList.Count > 0 && _isAvailible == 0 && SelectedLocation.LocationId > 0)
+            if (SelectedUserList.Count > 0 && _isAvailible == 0 && SelectedLocation.LocationId > 0 && (Appointment.BeginningDate <= Appointment.EndingDate))
             {
                 Appointment.LocationId = SelectedLocation.LocationId;
                 Appointment.Users = SelectedUserList;
                 _service.AddAppointment(Appointment);
+                Messenger.Default.Send<NotificationMessage, MainWindowViewModel>(new NotificationMessage("Refresh"));
                 window?.Close();
             }
             else

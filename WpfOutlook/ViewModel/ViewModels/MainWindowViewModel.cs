@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using BLL.DTO;
@@ -54,9 +53,9 @@ namespace ViewModel.ViewModels
             GroupBySubjectCommand = new RelayCommand(GroupBySubject);
             FilterBySubjectCommand = new RelayCommand<AppointmentDTO>(FilterBySubject);
 
-            Messenger.Default.Register<OpenWindowMessage>(this, message =>
+            Messenger.Default.Register<NotificationMessage>(this, message =>
             {
-                if (message.Type == WindowType.Refresh)
+                if (message.Notification == "Refresh")
                 {
                     RefreshingAppointments();
                 }
