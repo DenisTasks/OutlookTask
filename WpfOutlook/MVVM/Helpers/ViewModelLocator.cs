@@ -5,6 +5,7 @@ using GalaSoft.MvvmLight.Ioc;
 using MVVM.ViewModels.Administration;
 using MVVM.ViewModels.Administration.Users;
 using MVVM.ViewModels.Authenication;
+using System;
 
 namespace MVVM.Helpers
 {
@@ -43,7 +44,7 @@ namespace MVVM.Helpers
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<AuthenticationViewModel>();
+                return ServiceLocator.Current.GetInstance<AuthenticationViewModel>(Guid.NewGuid().ToString());
             }
         }
 
@@ -51,7 +52,7 @@ namespace MVVM.Helpers
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<AdministrationViewModel>();
+                return ServiceLocator.Current.GetInstance<AdministrationViewModel>(Guid.NewGuid().ToString());
             }
         }
 
@@ -59,7 +60,7 @@ namespace MVVM.Helpers
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<ShowAllUsersViewModel>();
+                return ServiceLocator.Current.GetInstance<ShowAllUsersViewModel>(Guid.NewGuid().ToString());
             }
         }
 
@@ -67,7 +68,7 @@ namespace MVVM.Helpers
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<AddUserViewModel>();
+                return ServiceLocator.Current.GetInstance<AddUserViewModel>(Guid.NewGuid().ToString());
             }
         }
 
@@ -75,7 +76,7 @@ namespace MVVM.Helpers
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<EditUserViewModel>();
+                return ServiceLocator.Current.GetInstance<EditUserViewModel>(Guid.NewGuid().ToString());
             }
         }
 

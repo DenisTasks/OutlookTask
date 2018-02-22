@@ -10,6 +10,7 @@ namespace BLL.Interfaces
     public interface IAdministrationService: IDisposable
     {
         void CreateUser(UserDTO user);
+        UserDTO GetUserById(int id);
         bool CheckUser(string username);
         void AddUserToGroup(UserDTO user);
         void DeactivateUser(int id);

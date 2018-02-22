@@ -4,6 +4,7 @@ using BLL.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
+using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -68,11 +69,7 @@ namespace MVVM.ViewModels.Administration.Users
 
         private void AddUser()
         {
-            var addUserWindowVM = SimpleIoc.Default.GetInstance<AddUserViewModel>(Guid.NewGuid().ToString());
-            var addUserWindow = new AddUserWindow()
-            {
-                DataContext = addUserWindowVM
-            };
+            var addUserWindow = new AddUserWindow();
             var result = addUserWindow.ShowDialog();
             LoadData();
             Users = _users;
@@ -82,8 +79,11 @@ namespace MVVM.ViewModels.Administration.Users
         {
             if (user != null)
             {
-                var addAppWindow = new EditUserWindow();
-                var result = addAppWindow.ShowDialog();
+                var editUserWindow = new EditUserWindow();
+                Messenger.Default.Send<UserDTO, EditUserViewModel>(user);
+                var result = editUserWindow.ShowDialog();
+                LoadData();
+                Users = _users;
             }
         }
 

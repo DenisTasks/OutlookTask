@@ -50,7 +50,7 @@ namespace BLL.Services
             return mapper;
         }
 
-            private IMapper UserDTOToUser()
+            private IMapper GetUserDTOToUserMapper()
         {
             var mapper = new MapperConfiguration(cfg =>
             {
@@ -113,7 +113,31 @@ namespace BLL.Services
 
         public void EditUser(UserDTO user)
         {
-            throw new NotImplementedException();
+            if (user.UserName != null && user.Password != null)
+            {
+                User userToEdit = _users.FindById(user.UserId);
+                if (user.Name != null) userToEdit.Name = user.Name;
+                if ((user.UserName != null || userToEdit.UserName == user.UserName) && CheckUser(user.UserName)) userToEdit.UserName = user.UserName;
+                if (user.Password != null) userToEdit.Password = user.Password;
+                if (user.IsActive != userToEdit.IsActive) userToEdit.IsActive = user.IsActive;
+                ICollection<Role> roles = new List<Role>();
+                var convert = GetDefaultMapper<RoleDTO, Role>().Map<IEnumerable<RoleDTO>, IEnumerable<Role>>(user.Roles);
+                foreach (var item in convert)
+                {
+                    if (_roles.FindById(item.RoleId) != null)
+                    {
+                        roles.Add(_roles.FindById(item.RoleId));
+                    }
+                }
+
+                if (user.Roles != userToEdit.Roles) userToEdit.Roles = roles;
+                if (user.Groups != userToEdit.Groups) userToEdit.Groups = GetDefaultMapper<GroupDTO, Group>().Map<IEnumerable<GroupDTO>, ICollection<Group>>(user.Groups);
+                _users.Update(userToEdit);
+                //userToEdit = GetFromUserDTOToUserMapper(user.Roles).Map<UserDTO, User>(user);
+                //_users.Update(GetFromUserDTOToUserMapper(user.Roles).Map<UserDTO, User>(user));
+                _context.SaveChanges();
+            }
+            
         }
 
         public ICollection<GroupDTO> GetGroups()
@@ -163,6 +187,11 @@ namespace BLL.Services
                 user.IsActive = false;
             else user.IsActive = true;
             _context.SaveChanges();
+        }
+
+        public UserDTO GetUserById(int id)
+        {
+            return GetUserDTOToUserMapper().Map<User, UserDTO>(_users.Get(u => u.UserId == id).FirstOrDefault());
         }
     }
 }
