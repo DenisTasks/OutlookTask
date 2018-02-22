@@ -6,11 +6,10 @@
       xmlns:local="clr-namespace:TestWpf"
       mc:Ignorable="d"
       Background="LightCyan"
-      DataContext="{Binding Main, 
+      DataContext="{Binding MainWindow,
                               Source={StaticResource Locator}}"
 
       Title="Outlook application" Height="Auto" Width="Auto" d:DesignWidth="882.035" d:DesignHeight="618.333">
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />

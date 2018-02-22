@@ -6,6 +6,8 @@
         WindowStartupLocation="CenterScreen"
         xmlns:local="clr-namespace:TestWpf"
         mc:Ignorable="d"
+        DataContext="{Binding AllAppByLocWindow, 
+                              Source={StaticResource Locator}}"
         Title="AllAppByLocation" Height="400" Width="600">
     <Grid>
         <Grid.ColumnDefinitions>

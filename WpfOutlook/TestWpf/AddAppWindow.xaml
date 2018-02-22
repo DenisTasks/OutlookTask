@@ -8,6 +8,8 @@
         WindowStartupLocation="CenterScreen"
         Background="LightBlue"
         mc:Ignorable="d"
+        DataContext="{Binding AddAppWindow, 
+                              Source={StaticResource Locator}}"
         Title="Add appointment" Height="Auto" Width="500">
     <Grid>
         <Grid.ColumnDefinitions>

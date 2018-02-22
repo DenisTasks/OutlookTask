@@ -154,7 +154,7 @@ namespace BLL
                 catch (Exception e)
                 {
                     transaction.Rollback();
-                    MessageBox.Show(e.ToString());
+                    MessageBox.Show(e + " from BLL service!");
                 }
             }
         }

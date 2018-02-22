@@ -17,6 +17,11 @@ namespace Model.ModelVIewElements
             _dbSet = _context.Set<TEntity>();
         }
 
+        public GenericRepository(WPFOutlookContext context)
+        {
+            _context = context;
+            _dbSet = _context.Set<TEntity>();
+        }
         public DbContextTransaction BeginTransaction()
         {
             return _context.Database.BeginTransaction();
