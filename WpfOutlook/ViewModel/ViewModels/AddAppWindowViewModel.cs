@@ -141,81 +141,25 @@ namespace ViewModel.ViewModels
             return timeList;
         }
 
-        private void ChekingTime()
+        private void CheckDates()
         {
             _isAvailible = 0;
-            ChekingBetweenDates();
-            if (_selectedLocation != null && _isAvailible == 0)
-            {
-                #region Only beginning time after start and previous ending
-                var parseDateBegin = DateTime.Parse(_startDate.ToString("d") + " " + _selectedBeginningTime.ToString("h:mm tt"));
-                var parseDateEnd = DateTime.Parse(_endingDate.ToString("d") + " " + _selectedEndingTime.ToString("h:mm tt"));
-
-                var bySameDayBegin = _service.GetAppsByLocation(_selectedLocation.LocationId)
-                    .Where(s => s.BeginningDate.DayOfYear == StartBeginningDate.DayOfYear).ToList();
-                foreach (var s in bySameDayBegin.ToList())
-                {
-                    int resultStartFirst = DateTime.Compare(s.BeginningDate, parseDateBegin); // -1 or 0
-                    int resultStartSecond = DateTime.Compare(s.EndingDate, parseDateBegin); // -1
-                    if ((resultStartFirst == -1 || resultStartFirst == 0) && resultStartSecond == -1)
-                    {
-                        _isAvailible++;
-                    }
-                }
-                #endregion
-
-                #region Only ending time after start and previous ending
-                var bySameDayEnd = _service.GetAppsByLocation(_selectedLocation.LocationId)
-                    .Where(s => s.EndingDate.DayOfYear == EndBeginningDate.DayOfYear).ToList();
-                foreach (var s in bySameDayEnd.ToList())
-                {
-                    int resultEndFirst = DateTime.Compare(parseDateEnd, s.BeginningDate); // -1
-                    int resultEndSecond = DateTime.Compare(s.EndingDate, parseDateEnd); // -1 or 0
-                    if (resultEndFirst == -1 && (resultEndSecond == -1 || resultEndSecond == 0))
-                    {
-                        _isAvailible++;
-                    }
-                }
-                #endregion
-
-                #region If inside or outside
-                foreach (var s in bySameDayBegin.ToList())
-                {
-                    int resultInStart = DateTime.Compare(s.BeginningDate, parseDateBegin); // -1 or 0
-                    int resultInEnd = DateTime.Compare(parseDateEnd, s.EndingDate); // -1 or 0
-                    if (((resultInStart == 0 || resultInStart == -1) && (resultInEnd == 0 || resultInEnd == -1))
-                        || ((resultInStart == 1 || resultInStart == 0) && (resultInEnd == 1 || resultInEnd == 0)))
-                    {
-                        _isAvailible++;
-                    }
-                }
-                #endregion
-            }
-        }
-
-        private void ChekingBetweenDates()
-        {
             if (_selectedLocation != null)
             {
-                if (DateTime.Compare(_endingDate, _startDate) != 0)
-                {
-                    // concat?
-                    var byDayIn = _service.GetAppsByLocation(_selectedLocation.LocationId)
-                        .Where(s => s.BeginningDate.DayOfYear >= _startDate.DayOfYear && s.EndingDate.DayOfYear <= _endingDate.DayOfYear).ToList();
-                    var byDayAgoAfter = _service.GetAppsByLocation(_selectedLocation.LocationId)
-                        .Where(s => (s.BeginningDate.DayOfYear >= _startDate.DayOfYear && s.BeginningDate.DayOfYear <= _endingDate.DayOfYear)
-                                    || (s.EndingDate.DayOfYear >= _startDate.DayOfYear && s.EndingDate.DayOfYear <= _endingDate.DayOfYear)).ToList();
+                var startA = DateTime.Parse(_startDate.ToString("d") + " " + _selectedBeginningTime.ToString("h:mm tt"));
+                var endA = DateTime.Parse(_endingDate.ToString("d") + " " + _selectedEndingTime.ToString("h:mm tt"));
 
-                    if (byDayIn.Count > 0 || byDayAgoAfter.Count > 0)
+                var bySameDay = _service.GetAppsByLocation(_selectedLocation.LocationId)
+                    .Where(s => s.BeginningDate.DayOfYear == startA.DayOfYear).ToList();
+
+                foreach (var b in bySameDay)
+                {
+                    bool overlap = startA < b.EndingDate && b.BeginningDate < endA;
+                    if (overlap)
                     {
                         _isAvailible++;
-                        MessageBox.Show($"In your dates created appointments!");
                     }
                 }
-            }
-            else
-            {
-                MessageBox.Show("Select location!");
             }
         }
 
@@ -223,7 +167,7 @@ namespace ViewModel.ViewModels
         {
             Appointment.BeginningDate = DateTime.Parse(_startDate.ToString("d") + " " + _selectedBeginningTime.ToString("h:mm tt"));
             Appointment.EndingDate = DateTime.Parse(_endingDate.ToString("d") + " " + _selectedEndingTime.ToString("h:mm tt"));
-            ChekingTime();
+            CheckDates();
 
             if (SelectedUserList.Count > 0 && _isAvailible == 0 && SelectedLocation.LocationId > 0)
             {
