@@ -144,7 +144,6 @@ namespace MVVM.ViewModels.Administration.Users
                     User.Roles = SelectedRoleList;
                     User.Groups = SelectedGroupList;
                     _administrationService.CreateUser(User);
-                    _administrationService.Dispose();
                     window.Close();
                 }
                 else

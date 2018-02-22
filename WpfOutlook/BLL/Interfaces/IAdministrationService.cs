@@ -12,6 +12,7 @@ namespace BLL.Interfaces
         void CreateUser(UserDTO user);
         bool CheckUser(string username);
         void AddUserToGroup(UserDTO user);
+        void DeactivateUser(int id);
         void RemoveUserFromGroup(UserDTO user);
         void CreateGroup(GroupDTO group);
         void DeleteGroup(GroupDTO group);

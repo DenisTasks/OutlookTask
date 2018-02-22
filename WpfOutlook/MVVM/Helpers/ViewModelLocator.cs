@@ -79,7 +79,7 @@ namespace MVVM.Helpers
             }
         }
 
-        public static void Cleanup()
+        public static void CleanUp()
         {
         }
     }

@@ -155,5 +155,14 @@ namespace BLL.Services
         {
             _context.Dispose();
         }
+
+        public void DeactivateUser(int id)
+        {
+            User user = _users.FindById(id);
+            if (user.IsActive == true)
+                user.IsActive = false;
+            else user.IsActive = true;
+            _context.SaveChanges();
+        }
     }
 }

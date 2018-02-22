@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BLL.EntitesDTO
 {
-    public class UserDTO
+    public class UserDTO 
     {
         public int UserId { get; set; }
         public bool IsActive { get; set; }

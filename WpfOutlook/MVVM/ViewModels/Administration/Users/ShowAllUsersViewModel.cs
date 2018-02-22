@@ -1,11 +1,13 @@
 ﻿using BLL.BLLService;
 using BLL.EntitesDTO;
+using BLL.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,13 +16,15 @@ namespace MVVM.ViewModels.Administration.Users
 {
     public class ShowAllUsersViewModel: ViewModelBase
     {
+        private readonly IAdministrationService _administrationService;
         private ObservableCollection<UserDTO> _users;
         private RelayCommand<UserDTO> _editUserCommand { get; }
         private RelayCommand _addUserCommand { get; }
         private RelayCommand<UserDTO> _deactivateUserCommand { get; }
 
-        public ShowAllUsersViewModel()
+        public ShowAllUsersViewModel(IAdministrationService administrationService)
         {
+            _administrationService = administrationService;
             LoadData();
             _editUserCommand = new RelayCommand<UserDTO>(EditUser);
             _addUserCommand = new RelayCommand(AddUser);
@@ -48,13 +52,28 @@ namespace MVVM.ViewModels.Administration.Users
 
         private void DeactivateUser(UserDTO user)
         {
-
+            _administrationService.DeactivateUser(user.UserId);
+            if (user.IsActive == true)
+            {
+                user.IsActive = false;
+            }
+            else
+            {
+                user.IsActive = true;
+            }
+            Users.Add(user);
+            Users.Remove(Users.Last());
+            Users = new ObservableCollection<UserDTO>(Users.OrderBy(s => s.UserId));
         }
 
         private void AddUser()
         {
-            var addAppWindow = new AddUserWindow();
-            var result = addAppWindow.ShowDialog();
+            var addUserWindowVM = SimpleIoc.Default.GetInstance<AddUserViewModel>(Guid.NewGuid().ToString());
+            var addUserWindow = new AddUserWindow()
+            {
+                DataContext = addUserWindowVM
+            };
+            var result = addUserWindow.ShowDialog();
             LoadData();
             Users = _users;
         }
@@ -76,6 +95,12 @@ namespace MVVM.ViewModels.Administration.Users
             }
         }
 
+        //public event PropertyChangedEventHandler PropertyChanged;
 
+        //private void NotifyPropertyChanged(string propertyName)
+        //{
+        //    if (PropertyChanged != null)
+        //        PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        //}
     }
 }
