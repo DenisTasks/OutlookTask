@@ -35,9 +35,10 @@ namespace ViewModel.ViewModels
         public RelayCommand<AppointmentDTO> AllAppByLocationCommand { get; }
         public RelayCommand AddAppWindowCommand { get; }
         public RelayCommand<AppointmentDTO> RemoveAppCommand { get; }
-        public RelayCommand SortByAppIdCommand { get; }
+        public RelayCommand<object> SortCommand { get; }
         public RelayCommand GroupBySubjectCommand { get; }
         public RelayCommand<AppointmentDTO> FilterBySubjectCommand { get; }
+        public RelayCommand CalendarWindowCommand { get; }
         #endregion
 
         public MainWindowViewModel(IBLLService service)
@@ -49,9 +50,10 @@ namespace ViewModel.ViewModels
             AboutAppointmentCommand = new RelayCommand<AppointmentDTO>(AboutAppointment);
             AllAppByLocationCommand = new RelayCommand<AppointmentDTO>(GetAllAppsByRoom);
             RemoveAppCommand = new RelayCommand<AppointmentDTO>(RemoveAppointment);
-            SortByAppIdCommand = new RelayCommand(SortByAppId);
+            SortCommand = new RelayCommand<object>(SortBy);
             GroupBySubjectCommand = new RelayCommand(GroupBySubject);
             FilterBySubjectCommand = new RelayCommand<AppointmentDTO>(FilterBySubject);
+            CalendarWindowCommand = new RelayCommand(GetCalendar);
 
             Messenger.Default.Register<NotificationMessage>(this, message =>
             {
@@ -73,6 +75,11 @@ namespace ViewModel.ViewModels
                 Messenger.Default.Send(new OpenWindowMessage()
                 { Type = WindowType.AddAboutAppointmentWindow, Appointment = appointment, Argument = "Load this appointment" });
             }
+        }
+
+        private void GetCalendar()
+        {
+            Messenger.Default.Send(new OpenWindowMessage() { Type = WindowType.Calendar });
         }
         private void RefreshingAppointments()
         {
@@ -100,24 +107,28 @@ namespace ViewModel.ViewModels
             view.GroupDescriptions.Clear();
             view.GroupDescriptions.Add(new PropertyGroupDescription("Subject"));
         }
-        private void SortByAppId()
+        private void SortBy(object parameter)
         {
-            ICollectionView view = CollectionViewSource.GetDefaultView(Appointments);
-            if (view.SortDescriptions.Count > 0
-                && view.SortDescriptions[0].PropertyName == "AppointmentId"
-                && view.SortDescriptions[0].Direction == ListSortDirection.Ascending)
+            string column = parameter as string;
+            if (column != null)
             {
-                view.GroupDescriptions.Clear();
-                view.Filter = null;
-                view.SortDescriptions.Clear();
-                view.SortDescriptions.Add(new SortDescription("AppointmentId", ListSortDirection.Descending));
-            }
-            else
-            {
-                view.GroupDescriptions.Clear();
-                view.Filter = null;
-                view.SortDescriptions.Clear();
-                view.SortDescriptions.Add(new SortDescription("AppointmentId", ListSortDirection.Ascending));
+                ICollectionView view = CollectionViewSource.GetDefaultView(Appointments);
+                if (view.SortDescriptions.Count > 0
+                    && view.SortDescriptions[0].PropertyName == column
+                    && view.SortDescriptions[0].Direction == ListSortDirection.Ascending)
+                {
+                    view.GroupDescriptions.Clear();
+                    view.Filter = null;
+                    view.SortDescriptions.Clear();
+                    view.SortDescriptions.Add(new SortDescription(column, ListSortDirection.Descending));
+                }
+                else
+                {
+                    view.GroupDescriptions.Clear();
+                    view.Filter = null;
+                    view.SortDescriptions.Clear();
+                    view.SortDescriptions.Add(new SortDescription(column, ListSortDirection.Ascending));
+                }
             }
         }
         private void LoadData()
@@ -149,7 +160,7 @@ namespace ViewModel.ViewModels
             {
                 ICollectionView view = CollectionViewSource.GetDefaultView(Appointments);
                 view.GroupDescriptions.Clear();
-                view.Filter = o => ((o as AppointmentDTO)?.Subject) == appointment.Subject;
+                view.Filter = s => ((s as AppointmentDTO)?.Subject) == appointment.Subject;
             }
         }
         private void RemoveAppointment(AppointmentDTO appointment)

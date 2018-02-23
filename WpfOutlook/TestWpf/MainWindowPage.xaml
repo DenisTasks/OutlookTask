@@ -8,31 +8,51 @@
       Background="LightCyan"
       DataContext="{Binding MainWindow,
                               Source={StaticResource Locator}}"
+      WindowHeight="500" WindowWidth="800"
+      
+      Title="Outlook application">
 
-      Title="Outlook application" Height="Auto" Width="Auto" d:DesignWidth="882.035" d:DesignHeight="618.333">
-    <Grid>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="0.8*"/>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.12*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="0.08*"/>
+            <RowDefinition Height="0.8*"/>
         </Grid.RowDefinitions>
+        
+        <WrapPanel Grid.Row="0"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="3"
+                   HorizontalAlignment="Stretch">
+            
+            <Button Command="{Binding AddAppWindowCommand}">New App</Button>
+
+            <Button Command="{Binding FilterBySubjectCommand}"
+                    CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}">Filter by</Button>
+
+            <Button Command="{Binding GroupBySubjectCommand}">Group by</Button>
+
+            <Button Command="{Binding AboutAppointmentCommand}"
+                    CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}">About</Button>
+
+            <Button Command="{Binding AllAppByLocationCommand}"
+                    CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}">AllAppByLocation</Button>
+
+            <Button Command="{Binding CalendarWindowCommand}">Open calendar</Button>
+
+        </WrapPanel>
+        
         <ListView Name="AppointmentsList"
-                  Grid.Row="0"
-                  MaxHeight="300"
+                  Grid.Row="1"
+                  VerticalContentAlignment="Stretch"
+                  HorizontalContentAlignment="Stretch"
                   SelectionMode="Single"
+                  
                   ItemsSource="{Binding Appointments}">
+
             <ListView.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.HeaderTemplate>
@@ -45,81 +65,71 @@
                 </GroupStyle>
             </ListView.GroupStyle>
             <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding AppointmentId}"/>
-                    <GridViewColumn Header="Subject" DisplayMemberBinding="{Binding Subject}"/>
-                    <GridViewColumn Header="Beginning Date" DisplayMemberBinding="{Binding BeginningDate}"/>
-                    <GridViewColumn Header="Ending Date" DisplayMemberBinding="{Binding EndingDate}"/>
-                    <GridViewColumn Header="Location" DisplayMemberBinding="{Binding LocationId}"/>
-                    <GridViewColumn Header="Users" DisplayMemberBinding="{Binding Users.Count}"/>
+                <GridView
+                    ColumnHeaderTemplate="{StaticResource mainHeaderTemplate}"
+                    ColumnHeaderContainerStyle="{StaticResource mainHeaderStyle}">
+                    <GridViewColumn DisplayMemberBinding="{Binding AppointmentId}">
+                        <GridViewColumnHeader Content="Id"
+                                              Command="{Binding SortCommand}"
+                                              CommandParameter="AppointmentId"/>
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Subject}"
+                                    Width="150">
+                        <GridViewColumnHeader Content="Subject"
+                                              Command="{Binding SortCommand}"
+                                              CommandParameter="Subject"/>
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding BeginningDate}">
+                        <GridViewColumnHeader Content="Beginning Date"
+                                              Command="{Binding SortCommand}"
+                                              CommandParameter="BeginningDate"/>
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding EndingDate}">
+                        <GridViewColumnHeader Content="Ending Date"
+                                              Command="{Binding SortCommand}"
+                                              CommandParameter="EndingDate"/>
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding LocationId}">
+                        <GridViewColumnHeader Content="Location"
+                                              Command="{Binding SortCommand}"
+                                              CommandParameter="LocationId"/>
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Users.Count}">
+                        <GridViewColumnHeader Content="Users"
+                                              Command="{Binding SortCommand}"
+                                              CommandParameter="Users.Count"/>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="Foreground" Value="DarkBlue"/>
+                    <Setter Property="FontWeight" Value="Medium"/>
+                    <Setter Property="FontStyle" Value="Normal"/>
+                </Style>
+            </ListView.ItemContainerStyle>
         </ListView>
-
-        <Button Grid.Column="1"
-                Grid.Row="0"
-                Command="{Binding AddAppWindowCommand}"
-                VerticalAlignment="Center"
-                Margin="10, 0"
-                Padding="10, 0">New App</Button>
-
-        <Button Grid.Column="1"
-                Grid.Row="1"
-                Command="{Binding SortByAppIdCommand}"
-                VerticalAlignment="Center"
-                Margin="10, 0"
-                Padding="10, 0">Sort by</Button>
-
-        <Button Grid.Column="1"
-                Grid.Row="2"
-                Command="{Binding FilterBySubjectCommand}"
-                CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}"
-                VerticalAlignment="Center"
-                Margin="10, 0"
-                Padding="10, 0">Filter by</Button>
-
-        <Button Grid.Column="1"
-                Grid.Row="3"
-                Command="{Binding GroupBySubjectCommand}"
-                VerticalAlignment="Center"
-                Margin="10, 0"
-                Padding="10, 0">Group by</Button>
-
-        <Button Grid.Column="1"
-                Grid.Row="6"
-                Command="{Binding AboutAppointmentCommand}"
-                CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}"
-                VerticalAlignment="Center"
-                Margin="10, 0"
-                Padding="10, 0">About</Button>
-
-        <Button Grid.Column="1"
-                Grid.Row="7"
-                Command="{Binding AllAppByLocationCommand}"
-                CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}"
-                VerticalAlignment="Center"
-                Margin="10, 0"
-                Padding="10, 0">AllAppByLocation</Button>
-
+        
         <ListView Grid.Column="2"
-                  Grid.Row="0"
-                  MaxHeight="300"
-                  HorizontalContentAlignment="Stretch"
+                  Grid.Row="1"
+                  VerticalContentAlignment="Stretch"
                   ItemsSource="{Binding Appointments}">
 
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <DockPanel >
+                    <DockPanel>
+                        <TextBlock Text="{Binding Subject}"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Stretch"/>
                         <Button Command="{Binding DataContext.RemoveAppCommand, ElementName=AppointmentsList}"
                                 CommandParameter="{Binding}"
-                                DockPanel.Dock="Right"
-                                Padding="2"
-                                Margin="2">X</Button>
-                        <TextBlock Text="{Binding Subject}"
-                                   VerticalAlignment="Center"/>
+                                Style="{StaticResource DeleteButton}"
+                                DockPanel.Dock="Right">Delete</Button>
                     </DockPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
     </Grid>
 </Page>
+

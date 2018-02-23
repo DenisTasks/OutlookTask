@@ -6,6 +6,7 @@
         AddAboutAppointmentWindow,
         AddAllAppByLocationWindow,
         LoadLocations,
+        Calendar,
         None,
         Refresh
     }

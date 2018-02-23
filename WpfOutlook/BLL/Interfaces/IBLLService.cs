@@ -7,6 +7,7 @@ namespace BLL.Interfaces
     public interface IBLLService
     {
         IEnumerable<AppointmentDTO> GetAppointments();
+        IEnumerable<AppointmentDTO> GetCalendar();
         IEnumerable<LocationDTO> GetLocations();
         IEnumerable<UserDTO> GetUsers();
         IEnumerable<AppointmentDTO> GetAppsByLocation(int id);

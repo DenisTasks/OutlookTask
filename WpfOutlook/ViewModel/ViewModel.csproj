@@ -72,6 +72,7 @@
     <Compile Include="ViewModels\AboutAppointmentWindowViewModel.cs" />
     <Compile Include="ViewModels\AddAppWindowViewModel.cs" />
     <Compile Include="ViewModels\AllAppByLocationWindowViewModel.cs" />
+    <Compile Include="ViewModels\CalendarWindowViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

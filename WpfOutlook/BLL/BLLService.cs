@@ -93,6 +93,18 @@ namespace BLL
             return mappingCollection;
         }
 
+        public IEnumerable<AppointmentDTO> GetCalendar()
+        {
+            List<Appointment> collection;
+            using (_appointments.BeginTransaction())
+            {
+                collection = _appointments.Get().ToList();
+            }
+
+            var mappingCollection = GetFromAppToAppDtoMapper().Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(collection);
+            return mappingCollection;
+        }
+
         public AppointmentDTO GetAppointmentById(int id)
         {
             Appointment appointment;

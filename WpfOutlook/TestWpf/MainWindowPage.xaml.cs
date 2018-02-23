@@ -32,6 +32,11 @@ namespace TestWpf
                         Messenger.Default.Send(new OpenWindowMessage() { Type = WindowType.LoadLocations, Argument = message.Argument });
                         var result = addAllAppWindow.ShowDialog();
                     }
+                    if (message.Type == WindowType.Calendar)
+                    {
+                        var addCalendarWindow = new CalendarWindow();
+                        var result = addCalendarWindow.ShowDialog();
+                    }
                 });
         }
     }
