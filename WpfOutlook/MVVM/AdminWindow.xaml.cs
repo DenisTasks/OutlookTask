@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Security.Permissions;
+using System.Windows;
 
 namespace MVVM
 {
