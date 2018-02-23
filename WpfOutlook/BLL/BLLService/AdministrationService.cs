@@ -183,10 +183,16 @@ namespace BLL.Services
         {
             ICollection<string> ancstrorNameList = new List<string>();
 
+            Group group;
             while (groupName != null)
             {
                 ancstrorNameList.Add(groupName);
-                groupName = _groups.Get(g => g.GroupName.Equals(groupName)).FirstOrDefault().GroupName;
+                group = _groups.Get(g => g.GroupName.Equals(groupName)).FirstOrDefault();
+                if (group != null && group.ParentId!=null)
+                {
+                    groupName = _groups.FindById((int)group.ParentId).GroupName;
+                }
+                else { groupName = null; }
             }
             return ancstrorNameList;
         }

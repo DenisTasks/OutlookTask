@@ -22,9 +22,9 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
         private ObservableCollection<UserDTO> _userList;
         private ObservableCollection<UserDTO> _selectedUserList;
 
-        private string _groupNameForFilter;
+        private GroupDTO _groupNameForFilter;
 
-        public string GroupNameForFilte
+        public GroupDTO GroupNameForFilter
         {
             get => _groupNameForFilter;
             set
@@ -34,22 +34,15 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
             }
         }
 
-        private void FilterGroupList(string groupName)
+        private void FilterGroupList(GroupDTO group)
         {
-            ICollection<string> groupNameList = _administrationService.GetGroupAncestors(groupName);
-            ObservableCollection<GroupDTO> filterGroupCollection = GroupList;
-            foreach(var item in GroupList)
+            ICollection<string> groupNameList = _administrationService.GetGroupAncestors(group.GroupName);
+            ICollection<GroupDTO> filterGroupCollection = _administrationService.GetGroups();
+            foreach(var item in groupNameList)
             {
-                foreach(var name in groupNameList)
-                {
-                    if (item.GroupName == name)
-                    {
-                        filterGroupCollection.Remove(item);
-                        break;
-                    }
-                }
+                filterGroupCollection = filterGroupCollection.Where(r => r.GroupName != item).ToList();
             }
-            GroupList = filterGroupCollection;
+            GroupList = new ObservableCollection<GroupDTO>(filterGroupCollection);
         }
 
         
