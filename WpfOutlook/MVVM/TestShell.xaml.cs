@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
 using MVVM.ViewModels.Administration.Users;
+using MVVM.ViewModels.CommonViewModels.Groups;
 using MVVM.ViewModels.TestShell;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,10 @@ namespace MVVM
             if (obj.Notification.Equals("ShowAllUsersPage"))
             {
                 _mainFrame.Navigate(new ShowAllUsersPage());
+            }
+            if (obj.Notification.Equals("ShowAllGroupsPage"))
+            {
+                _mainFrame.Navigate(new ShowAllGroupsPage());
             }
         }
     }

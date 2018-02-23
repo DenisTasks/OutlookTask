@@ -172,7 +172,11 @@ namespace BLL.Services
 
         public ICollection<UserDTO> GetUsers()
         {
-            throw new NotImplementedException();
+            var mapper = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<User, UserDTO>();
+            }).CreateMapper();
+            return mapper.Map<IEnumerable<User>, ICollection<UserDTO>>(_users.Get());
         }
     }
 }

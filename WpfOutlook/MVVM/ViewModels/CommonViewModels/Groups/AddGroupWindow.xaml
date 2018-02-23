@@ -1,8 +1,10 @@
 ﻿<Window x:Class="MVVM.ViewModels.CommonViewModels.Groups.AddGroupWindow"
+        x:Name="AddNewGroupWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        DataContext="{Binding AddGroupWindow, Source={StaticResource Locator}}"
         xmlns:local="clr-namespace:MVVM.ViewModels.CommonViewModels"
         mc:Ignorable="d"
         Title="AddGroupWindow" Height="302.007" Width="364.214">
@@ -26,34 +28,32 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Label Grid.Column="0" Grid.Row="1" Content="Name"/>
-        <Label Grid.Column="0" Grid.Row="2" Content="UserName"/>
-        <Label Grid.Column="0" Grid.Row="3" Content="Password"/>
-        <Label Grid.Column="0" Grid.Row="4" Content="Activity"/>
+        <Label Grid.Column="0" Grid.Row="1" Content="Group Name"/>
+        <Label Grid.Column="0" Grid.Row="2" Content="Creator Name"/>
+        <Label Grid.Column="0" Grid.Row="3" Content="Parent Group"/>
+        <Label Grid.Column="0" Grid.Row="4" Content="Child Groups"/>
         <Label Grid.Column="0" Grid.Row="5" Content="Roles"/>
         <Label Grid.Column="0" Grid.Row="6" Content="Groups"/>
 
         <TextBox Grid.Column="1" Grid.Row="1" 
-                 Text="{Binding User.Name}"/>
+                 Text="{Binding Group.GroupName}"/>
         <TextBox Grid.Column="1" Grid.Row="2" 
-                 Text="{Binding User.UserName}"/>
-        <TextBox Grid.Column="1" Grid.Row="3" 
-                 Text="{Binding User.Password}"/>
-        <CheckBox Grid.Column="1" Grid.Row="4" 
-                 IsChecked="{Binding User.IsActive}" />
+                 Text="{Binding Group.CreatorId}"/>
+        <ComboBox Grid.Column="1" Grid.Row="3"
+                  ItemsSource="{Binding GroupList}" DisplayMemberPath="GroupName" />
 
         <ListView Grid.Column="1"
                   Grid.Row="5"
                   MaxHeight="200"
-                  Name="FromRoleList"
-                  ItemsSource="{Binding RoleList}">
+                  Name="FromUserList"
+                  ItemsSource="{Binding UserList}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <DockPanel >
                         <TextBlock Text="{Binding Name}"
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Left"/>
-                        <Button Command="{Binding DataContext.AddRoleCommand, ElementName=ToRoleList}"
+                        <Button Command="{Binding DataContext.AddRoleCommand, ElementName=ToUserList}"
                                 CommandParameter="{Binding}"
                                 HorizontalContentAlignment="Right"
                                 DockPanel.Dock="Right"
@@ -68,12 +68,12 @@
         <ListView Grid.Column="3"
                   Grid.Row="5"
                   MaxHeight="200"
-                  Name="ToRoleList"
-                  ItemsSource="{Binding SelectedRoleList}">
+                  Name="ToUserList"
+                  ItemsSource="{Binding SelectedUserList}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <DockPanel >
-                        <Button Command="{Binding DataContext.RemoveRoleCommand, ElementName=FromRoleList}"
+                        <Button Command="{Binding DataContext.RemoveRoleCommand, ElementName=FromUserList}"
                                 CommandParameter="{Binding}"
                                 DockPanel.Dock="Right"
                                 Padding="2"
@@ -98,7 +98,7 @@
                                 DockPanel.Dock="Right"
                                 Padding="2"
                                 Margin="2">add</Button>
-                        <TextBlock Text="{Binding Name}"
+                        <TextBlock Text="{Binding GroupName}"
                                    VerticalAlignment="Center"/>
                     </DockPanel>
                 </DataTemplate>
@@ -120,7 +120,7 @@
                                 DockPanel.Dock="Right"
                                 Padding="2"
                                 Margin="2">remove</Button>
-                        <TextBlock Text="{Binding Name}"
+                        <TextBlock Text="{Binding GroupName}"
                                    VerticalAlignment="Center"/>
                     </DockPanel>
                 </DataTemplate>
@@ -129,7 +129,7 @@
 
         <Button Grid.Column="3" Grid.Row="9" 
                 Command="{Binding CreateUserCommand}" 
-                CommandParameter="{Binding ElementName=AddNewUserWindow}"
-                Content="Add user" />
+                CommandParameter="{Binding ElementName=AddNewGroupWindow}"
+                Content="Add group" />
     </Grid>
 </Window>

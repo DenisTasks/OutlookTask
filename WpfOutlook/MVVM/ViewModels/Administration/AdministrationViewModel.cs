@@ -37,7 +37,7 @@ namespace MVVM.ViewModels.Administration
 
         private void ShowGroupsWindow()
         {
-            Messenger.Default.Send(new NotificationMessage("ShowAllUsersPage"));
+            Messenger.Default.Send(new NotificationMessage("ShowAllGroupsPage"));
         }
 
         private void ShowUsersWindow()

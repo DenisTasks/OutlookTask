@@ -5,6 +5,7 @@ using GalaSoft.MvvmLight.Ioc;
 using MVVM.ViewModels.Administration;
 using MVVM.ViewModels.Administration.Users;
 using MVVM.ViewModels.Authenication;
+using MVVM.ViewModels.CommonViewModels.Groups;
 using System;
 
 namespace MVVM.Helpers
@@ -35,6 +36,9 @@ namespace MVVM.Helpers
             SimpleIoc.Default.Register<EditUserViewModel>();
             SimpleIoc.Default.Register<AddUserViewModel>();
             SimpleIoc.Default.Register<ShowAllUsersViewModel>();
+            SimpleIoc.Default.Register<EditUserViewModel>();
+            SimpleIoc.Default.Register<ShowAllGroupsViewModel>();
+            SimpleIoc.Default.Register<AddGroupViewModel>();
         }
         
 
@@ -64,6 +68,14 @@ namespace MVVM.Helpers
             }
         }
 
+        public ShowAllGroupsViewModel AllGroupsPage
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<ShowAllGroupsViewModel>(Guid.NewGuid().ToString());
+            }
+        }
+
         public AddUserViewModel AddUserWindow
         {
             get
@@ -77,6 +89,14 @@ namespace MVVM.Helpers
             get
             {
                 return ServiceLocator.Current.GetInstance<EditUserViewModel>(Guid.NewGuid().ToString());
+            }
+        }
+
+        public AddGroupViewModel AddGroupWindow
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<AddGroupViewModel>(Guid.NewGuid().ToString());
             }
         }
 

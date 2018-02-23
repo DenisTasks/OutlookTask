@@ -56,7 +56,10 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
 
         private void AddGroup()
         {
-            
+            var addGroupWindow = new AddGroupWindow();
+            var result = addGroupWindow.ShowDialog();
+            LoadData();
+            Groups = _groups;
         }
 
         private void EditGroup(GroupDTO group)
