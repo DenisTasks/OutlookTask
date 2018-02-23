@@ -11,6 +11,7 @@ namespace BLL.Interfaces
     {
         void CreateUser(UserDTO user);
         UserDTO GetUserById(int id);
+        ICollection<string> GetGroupAncestors(string groupName);
         bool CheckUser(string username);
         void DeactivateUser(int id);
         void CreateGroup(GroupDTO group);

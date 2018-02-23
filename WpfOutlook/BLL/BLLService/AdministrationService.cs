@@ -178,5 +178,17 @@ namespace BLL.Services
             }).CreateMapper();
             return mapper.Map<IEnumerable<User>, ICollection<UserDTO>>(_users.Get());
         }
+
+        public ICollection<string> GetGroupAncestors(string groupName)
+        {
+            ICollection<string> ancstrorNameList = new List<string>();
+
+            while (groupName != null)
+            {
+                ancstrorNameList.Add(groupName);
+                groupName = _groups.Get(g => g.GroupName.Equals(groupName)).FirstOrDefault().GroupName;
+            }
+            return ancstrorNameList;
+        }
     }
 }

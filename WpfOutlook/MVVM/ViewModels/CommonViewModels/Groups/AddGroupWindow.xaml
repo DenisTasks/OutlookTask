@@ -32,7 +32,7 @@
         <Label Grid.Column="0" Grid.Row="2" Content="Creator Name"/>
         <Label Grid.Column="0" Grid.Row="3" Content="Parent Group"/>
         <Label Grid.Column="0" Grid.Row="4" Content="Child Groups"/>
-        <Label Grid.Column="0" Grid.Row="5" Content="Roles"/>
+        <Label Grid.Column="0" Grid.Row="5" Content="Users"/>
         <Label Grid.Column="0" Grid.Row="6" Content="Groups"/>
 
         <TextBox Grid.Column="1" Grid.Row="1" 
@@ -40,7 +40,7 @@
         <TextBox Grid.Column="1" Grid.Row="2" 
                  Text="{Binding Group.CreatorId}"/>
         <ComboBox Grid.Column="1" Grid.Row="3"
-                  ItemsSource="{Binding GroupList}" DisplayMemberPath="GroupName" />
+                  ItemsSource="{Binding GroupList}" DisplayMemberPath="GroupName" SelectedValue="GroupNameForFilter"/>
 
         <ListView Grid.Column="1"
                   Grid.Row="5"
@@ -104,8 +104,6 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
-
 
         <ListView Grid.Column="3"
                   Grid.Row="6"

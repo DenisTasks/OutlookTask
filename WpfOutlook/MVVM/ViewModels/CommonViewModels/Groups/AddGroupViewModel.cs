@@ -22,6 +22,38 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
         private ObservableCollection<UserDTO> _userList;
         private ObservableCollection<UserDTO> _selectedUserList;
 
+        private string _groupNameForFilter;
+
+        public string GroupNameForFilte
+        {
+            get => _groupNameForFilter;
+            set
+            {
+                _groupNameForFilter = value;
+                FilterGroupList(_groupNameForFilter);
+            }
+        }
+
+        private void FilterGroupList(string groupName)
+        {
+            ICollection<string> groupNameList = _administrationService.GetGroupAncestors(groupName);
+            ObservableCollection<GroupDTO> filterGroupCollection = GroupList;
+            foreach(var item in GroupList)
+            {
+                foreach(var name in groupNameList)
+                {
+                    if (item.GroupName == name)
+                    {
+                        filterGroupCollection.Remove(item);
+                        break;
+                    }
+                }
+            }
+            GroupList = filterGroupCollection;
+        }
+
+        
+
         public GroupDTO Group { get; set; }
 
         public AddGroupViewModel(IAdministrationService administrationService)
