@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,6 +19,7 @@ namespace MVVM.ViewModels.Administration.Users
     /// <summary>
     /// Interaction logic for AddUserWindow.xaml
     /// </summary>
+    [PrincipalPermission(SecurityAction.Demand, Role = "admin")]
     public partial class AddUserWindow : Window
     {
         public AddUserWindow()

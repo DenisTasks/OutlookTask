@@ -14,10 +14,10 @@ namespace BLL.EntitesDTO
         public int ParentId { get; set; }
 
         public ICollection<GroupDTO> Childs { get; set; }
+        public ICollection<GroupDTO> SelectedGroups { get; set; }
 
         public int CreatorId { get; set; }
 
         public ICollection<UserDTO> Users { get; set; }
-        public ICollection<UserDTO> Moderators { get; set; }
     }
 }

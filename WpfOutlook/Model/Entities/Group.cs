@@ -17,11 +17,11 @@ namespace Model.Entities
         public Group Parent { get; set; }
 
         public virtual ICollection<Group> Childs { get; set; }
+        public virtual ICollection<Group> SelectedGroups { get; set; }
 
         public int CreatorId { get; set; }
         public User Creator { get; set; }
 
         public virtual ICollection<User> Users { get; set; }
-        public virtual ICollection<User> Moderators { get; set; }
     }
 }

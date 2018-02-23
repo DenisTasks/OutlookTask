@@ -75,25 +75,11 @@ namespace BLL.Services
             _groups = new GenericRepository<Group>(_context);
         }
 
-        public void AddUserToGroup(UserDTO user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ChangeUserStatus(UserDTO user)
-        {
-            throw new NotImplementedException();
-        }
-
         public void CreateGroup(GroupDTO group)
         {
             throw new NotImplementedException();
         }
 
-        public void CreateRole(RoleDTO role)
-        {
-            throw new NotImplementedException();
-        }
 
         public void CreateUser(UserDTO user)
         {
@@ -102,11 +88,6 @@ namespace BLL.Services
         }
 
         public void DeleteGroup(GroupDTO group)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteRole(RoleDTO role)
         {
             throw new NotImplementedException();
         }
@@ -158,11 +139,6 @@ namespace BLL.Services
             return mapper.Map <IEnumerable<Role>,ICollection<RoleDTO>> (_roles.Get());
         }
 
-        public void RemoveUserFromGroup(UserDTO user)
-        {
-            throw new NotImplementedException();
-        }
-
         public void ShowLogs()
         {
             throw new NotImplementedException();
@@ -192,6 +168,11 @@ namespace BLL.Services
         public UserDTO GetUserById(int id)
         {
             return GetUserDTOToUserMapper().Map<User, UserDTO>(_users.Get(u => u.UserId == id).FirstOrDefault());
+        }
+
+        public ICollection<UserDTO> GetUsers()
+        {
+            throw new NotImplementedException();
         }
     }
 }

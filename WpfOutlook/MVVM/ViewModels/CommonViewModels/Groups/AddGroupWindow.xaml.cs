@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MVVM.ViewModels.Administration.Groups
+namespace MVVM.ViewModels.CommonViewModels.Groups
 {
     /// <summary>
-    /// Interaction logic for ShowAllGroupsPage.xaml
+    /// Interaction logic for AddGroupWindow.xaml
     /// </summary>
-    public partial class ShowAllGroupsPage : Page
+    public partial class AddGroupWindow : Window
     {
-        public ShowAllGroupsPage()
+        public AddGroupWindow()
         {
             InitializeComponent();
         }

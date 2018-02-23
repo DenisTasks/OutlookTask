@@ -100,10 +100,10 @@
     </Compile>
     <Compile Include="ViewModels\Administration\AdministrationViewModel.cs" />
     <Compile Include="ViewModels\Administration\EditRolesViewModel.cs" />
-    <Compile Include="ViewModels\Administration\Groups\ShowAllGroupsPage.xaml.cs">
+    <Compile Include="ViewModels\CommonViewModels\Groups\ShowAllGroupsPage.xaml.cs">
       <DependentUpon>ShowAllGroupsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\Administration\Groups\ShowAllGroupsViewModel.cs" />
+    <Compile Include="ViewModels\CommonViewModels\Groups\ShowAllGroupsViewModel.cs" />
     <Compile Include="ViewModels\Administration\Users\AddUserViewModel.cs" />
     <Compile Include="ViewModels\Administration\Users\AddUserWindow.xaml.cs">
       <DependentUpon>AddUserWindow.xaml</DependentUpon>
@@ -120,8 +120,8 @@
     <Compile Include="ViewModels\Authenication\AuthenticationViewModel.cs" />
     <Compile Include="ViewModels\Authenication\CustomIdentity.cs" />
     <Compile Include="ViewModels\Authenication\CustomPrincipal.cs" />
-    <Compile Include="ViewModels\CommonViewModels\AddGroupViewModel.cs" />
-    <Compile Include="ViewModels\CommonViewModels\AddGroupWindow.xaml.cs">
+    <Compile Include="ViewModels\CommonViewModels\Groups\AddGroupViewModel.cs" />
+    <Compile Include="ViewModels\CommonViewModels\Groups\AddGroupWindow.xaml.cs">
       <DependentUpon>AddGroupWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\Print\PrintAppointmentViewModel.cs" />
@@ -167,7 +167,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ViewModels\Administration\Groups\ShowAllGroupsPage.xaml">
+    <Page Include="ViewModels\CommonViewModels\Groups\ShowAllGroupsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -183,7 +183,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ViewModels\CommonViewModels\AddGroupWindow.xaml">
+    <Page Include="ViewModels\CommonViewModels\Groups\AddGroupWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

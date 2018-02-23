@@ -6,11 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MVVM.ViewModels.Administration.Groups
+namespace MVVM.ViewModels.CommonViewModels.Groups
 {
+    [PrincipalPermission(SecurityAction.Demand, Role = "admin")]
     public class ShowAllGroupsViewModel : ViewModelBase
     {
         private readonly IAdministrationService _administationService;
