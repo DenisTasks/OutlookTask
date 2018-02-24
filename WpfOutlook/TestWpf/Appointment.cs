@@ -8,8 +8,8 @@ namespace TestWpf
 {
     public class Appointment
     {
-        public DateTime BeginningDate { get; set; }
-        public DateTime EndingDate { get; set; }
+        public DateTime Start { get; set; }
+        public DateTime Finish { get; set; }
         public string Subject { get; set; }
         public string Location { get; set; }
         public string Organizer { get; set; }

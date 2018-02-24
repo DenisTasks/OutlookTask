@@ -108,6 +108,11 @@
     <Compile Include="MainWindowPage.xaml.cs">
       <DependentUpon>MainWindowPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Primitives\CalendarViewContentPresenter.cs" />
+    <Compile Include="Primitives\CalendarViewPeriodPresenter.cs" />
+    <Compile Include="RestyledListBoxWindow.xaml.cs">
+      <DependentUpon>RestyledListBoxWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="VerticalRangePanelWindow.xaml.cs">
       <DependentUpon>VerticalRangePanelWindow.xaml</DependentUpon>
     </Compile>
@@ -132,6 +137,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindowPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RestyledListBoxWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

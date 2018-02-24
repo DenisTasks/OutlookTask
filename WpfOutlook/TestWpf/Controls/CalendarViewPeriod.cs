@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace TestWpf.Controls
 {
-    // appointment
     public class CalendarViewPeriod : DependencyObject
     {
         public static readonly DependencyProperty BeginningDateProperty =
@@ -16,26 +11,26 @@ namespace TestWpf.Controls
         public static readonly DependencyProperty EndingDateProperty =
             DependencyProperty.Register("EndingDate", typeof(DateTime),
                 typeof(CalendarViewPeriod));
-        public static readonly DependencyProperty SubjectProperty =
-            DependencyProperty.Register("Subject", typeof(object),
+        public static readonly DependencyProperty HeaderProperty =
+            DependencyProperty.Register("Header", typeof(object),
                 typeof(CalendarViewPeriod));
 
         public DateTime BeginningDate
         {
-            get { return (DateTime)this.GetValue(BeginningDateProperty); }
-            set { this.SetValue(BeginningDateProperty, value); }
+            get => (DateTime)GetValue(BeginningDateProperty);
+            set => SetValue(BeginningDateProperty, value);
         }
 
         public DateTime EndingDate
         {
-            get { return (DateTime)this.GetValue(EndingDateProperty); }
-            set { this.SetValue(EndingDateProperty, value); }
+            get => (DateTime)GetValue(EndingDateProperty);
+            set => SetValue(EndingDateProperty, value);
         }
 
-        public object Subject
+        public object Header
         {
-            get { return (object)this.GetValue(SubjectProperty); }
-            set { this.SetValue(SubjectProperty, value); }
+            get => GetValue(HeaderProperty);
+            set => SetValue(HeaderProperty, value);
         }
 
     }

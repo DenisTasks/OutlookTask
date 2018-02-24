@@ -13,14 +13,22 @@
     <Grid>
         <ListView>
             <ListView.View>
-                <controls:CalendarView ItemBeginningDateBinding="{Binding Path=BeginningDate}" ItemEndingDateBinding="{Binding Path=EndingDate}" />
+                <controls:CalendarView ItemBeginningDateBinding="{Binding Path=Start}" ItemEndingDateBinding="{Binding Path=Finish}">
+                    <controls:CalendarView.Periods>
+                        <controls:CalendarViewPeriod BeginningDate="03/02/2009 12:00 AM" EndingDate="03/02/2009 8:00 AM" Header="Monday" />
+                        <controls:CalendarViewPeriod BeginningDate="03/03/2009 12:00 AM" EndingDate="03/03/2009 8:00 AM" Header="Tuesday" />
+                        <controls:CalendarViewPeriod BeginningDate="03/04/2009 12:00 AM" EndingDate="03/04/2009 8:00 AM" Header="Wednesday" />
+                        <controls:CalendarViewPeriod BeginningDate="03/05/2009 12:00 AM" EndingDate="03/05/2009 8:00 AM" Header="Thursday" />
+                        <controls:CalendarViewPeriod BeginningDate="03/06/2009 12:00 AM" EndingDate="03/06/2009 8:00 AM" Header="Friday" />
+                    </controls:CalendarView.Periods>
+                </controls:CalendarView>
             </ListView.View>
             <ListView.Items>
-                <local:Appointment BeginningDate="03/02/2009 2:00 AM" EndingDate="03/02/2009 3:00 AM" Subject="Meet with John" Location="Southwest Meeting Room" Organizer="Jim Smith" />
-                <local:Appointment BeginningDate="03/03/2009 4:00 AM" EndingDate="03/03/2009 5:00 AM" Subject="Meet with Rick" Location="Southwest Meeting Room" Organizer="Jim Smith" />
-                <local:Appointment BeginningDate="03/04/2009 6:00 AM" EndingDate="03/04/2009 6:30 AM" Subject="Meet with Dave" Location="Southwest Meeting Room" Organizer="Jim Smith" />
-                <local:Appointment BeginningDate="03/02/2009 1:30 AM" EndingDate="03/02/2009 5:00 AM" Subject="Meet with Larry" Location="Southwest Meeting Room" Organizer="Jim Smith" />
-                <local:Appointment BeginningDate="03/03/2009 4:30 AM" EndingDate="03/03/2009 7:30 AM" Subject="Meet with Jim" Location="Southwest Meeting Room" Organizer="Jim Smith" />
+                <local:Appointment Start="03/02/2009 2:00 AM" Finish="03/02/2009 3:00 AM" Subject="Meet with John" Location="Southwest Meeting Room" Organizer="Jim Smith" />
+                <local:Appointment Start="03/03/2009 4:00 AM" Finish="03/03/2009 5:00 AM" Subject="Meet with Rick" Location="Southwest Meeting Room" Organizer="Jim Smith" />
+                <local:Appointment Start="03/04/2009 6:00 AM" Finish="03/04/2009 6:30 AM" Subject="Meet with Dave" Location="Southwest Meeting Room" Organizer="Jim Smith" />
+                <local:Appointment Start="03/02/2009 1:30 AM" Finish="03/02/2009 5:00 AM" Subject="Meet with Larry" Location="Southwest Meeting Room" Organizer="Jim Smith" />
+                <local:Appointment Start="03/03/2009 4:30 AM" Finish="03/03/2009 7:30 AM" Subject="Meet with Jim" Location="Southwest Meeting Room" Organizer="Jim Smith" />
             </ListView.Items>
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">

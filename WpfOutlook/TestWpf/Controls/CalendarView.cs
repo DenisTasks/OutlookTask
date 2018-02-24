@@ -1,17 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace TestWpf.Controls
 {
+    [TemplatePart(Name="PART_Header", Type=typeof(TextBlock))]
+    [TemplatePart(Name="PART_TimeScale", Type=typeof(TextBlock))]
+    [TemplatePart(Name="PART_ContentPresenter", Type=typeof(TextBlock))]
     public class CalendarView : ViewBase
     {
-        private CalendarViewPeriodCollection periods;
+        public static DependencyProperty BeginningDateProperty = DependencyProperty.RegisterAttached("BeginningDate", typeof(DateTime), typeof(ListViewItem));
+        public static DependencyProperty EndingDateProperty = DependencyProperty.RegisterAttached("EndingDate", typeof(DateTime), typeof(ListViewItem));
+
+        private CalendarViewPeriodCollection _periods;
 
         public BindingBase ItemBeginningDateBinding { get; set; }
 
@@ -21,21 +23,49 @@ namespace TestWpf.Controls
         {
             get
             {
-                if (periods == null)
-                    periods = new CalendarViewPeriodCollection();
+                if (_periods == null)
+                    _periods = new CalendarViewPeriodCollection();
 
-                return periods;
+                return _periods;
             }
         }
 
-        protected override object DefaultStyleKey
+        protected override object DefaultStyleKey => new ComponentResourceKey(GetType(), "DefaultStyleKey");
+
+        protected override object ItemContainerDefaultStyleKey => new ComponentResourceKey(GetType(), "ItemContainerDefaultStyleKey");
+
+        public static DateTime GetBegin(DependencyObject item)
         {
-            get { return new ComponentResourceKey(GetType(), "DefaultStyleKey"); }
+            return (DateTime)item.GetValue(BeginningDateProperty);
         }
 
-        protected override object ItemContainerDefaultStyleKey
+        public static DateTime GetEnd(DependencyObject item)
         {
-            get { return new ComponentResourceKey(this.GetType(), "ItemContainerDefaultStyleKey"); }
+            return (DateTime)item.GetValue(EndingDateProperty);
+        }
+
+        public static void SetBegin(DependencyObject item, DateTime value)
+        {
+            item.SetValue(BeginningDateProperty, value);
+        }
+
+        public static void SetEnd(DependencyObject item, DateTime value)
+        {
+            item.SetValue(EndingDateProperty, value);
+        }
+
+        protected override void PrepareItem(ListViewItem item)
+        {
+            item.SetBinding(BeginningDateProperty, ItemBeginningDateBinding);
+            item.SetBinding(EndingDateProperty, ItemEndingDateBinding);
+        }
+
+        public bool PeriodContainsItem(ListViewItem item, CalendarViewPeriod period)
+        {
+            DateTime itemBegin = (DateTime)item.GetValue(BeginningDateProperty);
+            DateTime itemEnd = (DateTime)item.GetValue(EndingDateProperty);
+
+            return (((itemBegin <= period.BeginningDate) && (itemEnd >= period.BeginningDate)) || ((itemBegin <= period.EndingDate) && (itemEnd >= period.BeginningDate)));
         }
     }
 }
