@@ -4,23 +4,52 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestWpf"
+        xmlns:controls="clr-namespace:TestWpf.Controls"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Background="LightCyan"
-        DataContext="{Binding CalendarWindow,
-                              Source={StaticResource Locator}}"
-        Title="Calendar Window" Height="300" Width="300">
-    <Grid HorizontalAlignment="Stretch"
-          VerticalAlignment="Stretch"
-          ShowGridLines="True">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.8*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="0.12*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="0.08*"/>
-            <RowDefinition Height="0.8*"/>
-        </Grid.RowDefinitions>
+        Title="Calendar Window" Height="500" Width="400">
+
+    <Grid>
+        <ListView>
+            <ListView.View>
+                <controls:CalendarView ItemBeginningDateBinding="{Binding Path=BeginningDate}" ItemEndingDateBinding="{Binding Path=EndingDate}" />
+            </ListView.View>
+            <ListView.Items>
+                <local:Appointment BeginningDate="03/02/2009 2:00 AM" EndingDate="03/02/2009 3:00 AM" Subject="Meet with John" Location="Southwest Meeting Room" Organizer="Jim Smith" />
+                <local:Appointment BeginningDate="03/03/2009 4:00 AM" EndingDate="03/03/2009 5:00 AM" Subject="Meet with Rick" Location="Southwest Meeting Room" Organizer="Jim Smith" />
+                <local:Appointment BeginningDate="03/04/2009 6:00 AM" EndingDate="03/04/2009 6:30 AM" Subject="Meet with Dave" Location="Southwest Meeting Room" Organizer="Jim Smith" />
+                <local:Appointment BeginningDate="03/02/2009 1:30 AM" EndingDate="03/02/2009 5:00 AM" Subject="Meet with Larry" Location="Southwest Meeting Room" Organizer="Jim Smith" />
+                <local:Appointment BeginningDate="03/03/2009 4:30 AM" EndingDate="03/03/2009 7:30 AM" Subject="Meet with Jim" Location="Southwest Meeting Room" Organizer="Jim Smith" />
+            </ListView.Items>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Style.Setters>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                    <Border BorderBrush="#5076A7" BorderThickness="1,1,1,1" CornerRadius="4,4,4,4">
+                                        <Border.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                <GradientStop Color="#FFFFFF" Offset="0.0" />
+                                                <GradientStop Color="#C0D3EA" Offset="1.0" />
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                        <StackPanel TextElement.FontFamily="Segoe UI" TextElement.FontSize="12">
+                                            <TextBlock FontWeight="Bold" Padding="3,0,0,0" Text="{Binding Path=Subject}" />
+                                            <TextBlock Padding="3,0,0,0" Text="{Binding Path=Location}" />
+                                            <TextBlock Padding="3,0,0,0" Text="{Binding Path=Organizer}" />
+                                        </StackPanel>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style.Setters>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
     </Grid>
 </Window>
+
+
+

@@ -34,7 +34,7 @@ namespace TestWpf
                     }
                     if (message.Type == WindowType.Calendar)
                     {
-                        var addCalendarWindow = new CalendarWindow();
+                        var addCalendarWindow = new VerticalRangePanelWindow();
                         var result = addCalendarWindow.ShowDialog();
                     }
                 });
