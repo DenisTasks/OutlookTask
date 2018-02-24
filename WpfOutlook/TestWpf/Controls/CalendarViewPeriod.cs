@@ -3,28 +3,23 @@ using System.Windows;
 
 namespace TestWpf.Controls
 {
+    // day
     public class CalendarViewPeriod : DependencyObject
     {
-        public static readonly DependencyProperty BeginningDateProperty =
-            DependencyProperty.Register("BeginningDate", typeof(DateTime),
-                typeof(CalendarViewPeriod));
-        public static readonly DependencyProperty EndingDateProperty =
-            DependencyProperty.Register("EndingDate", typeof(DateTime),
-                typeof(CalendarViewPeriod));
-        public static readonly DependencyProperty HeaderProperty =
-            DependencyProperty.Register("Header", typeof(object),
-                typeof(CalendarViewPeriod));
+        public static readonly DependencyProperty BeginDateProperty = DependencyProperty.Register("BeginDate", typeof(DateTime), typeof(CalendarViewPeriod));
+        public static readonly DependencyProperty EndDateProperty = DependencyProperty.Register("EndDate", typeof(DateTime), typeof(CalendarViewPeriod));
+        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(object), typeof(CalendarViewPeriod));
 
-        public DateTime BeginningDate
+        public DateTime BeginDate
         {
-            get => (DateTime)GetValue(BeginningDateProperty);
-            set => SetValue(BeginningDateProperty, value);
+            get => (DateTime)GetValue(BeginDateProperty);
+            set => SetValue(BeginDateProperty, value);
         }
 
-        public DateTime EndingDate
+        public DateTime EndDate
         {
-            get => (DateTime)GetValue(EndingDateProperty);
-            set => SetValue(EndingDateProperty, value);
+            get => (DateTime)GetValue(EndDateProperty);
+            set => SetValue(EndDateProperty, value);
         }
 
         public object Header

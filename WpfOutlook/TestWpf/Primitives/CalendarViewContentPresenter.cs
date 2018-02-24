@@ -8,6 +8,7 @@ using TestWpf.Controls;
 
 namespace TestWpf.Primitives
 {
+    // area "Content"
     public class CalendarViewContentPresenter : Panel
     {
         private UIElementCollection _visualChildren;
@@ -21,18 +22,17 @@ namespace TestWpf.Primitives
 
         internal List<UIElement> ListViewItemVisuals => _listViewItemVisuals;
 
+        // set x/y for children (days). Input - size of all window.
         protected override Size ArrangeOverride(Size finalSize)
         {
             int columnCount = CalendarView.Periods.Count;
             Size columnSize = new Size(finalSize.Width / columnCount, finalSize.Height);
             double elementX = 0;
-
             foreach (UIElement element in _visualChildren)
             {
                 element.Arrange(new Rect(new Point(elementX, 0), columnSize));
                 elementX = elementX + columnSize.Width;
             }
-
             return finalSize;
         }
 

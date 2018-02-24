@@ -10,22 +10,28 @@ namespace TestWpf.Controls
     [TemplatePart(Name="PART_ContentPresenter", Type=typeof(TextBlock))]
     public class CalendarView : ViewBase
     {
-        public static DependencyProperty BeginningDateProperty = DependencyProperty.RegisterAttached("BeginningDate", typeof(DateTime), typeof(ListViewItem));
-        public static DependencyProperty EndingDateProperty = DependencyProperty.RegisterAttached("EndingDate", typeof(DateTime), typeof(ListViewItem));
+        public static DependencyProperty BeginDateProperty = DependencyProperty.RegisterAttached("BeginDate", typeof(DateTime), typeof(ListViewItem));
+        public static DependencyProperty EndDateProperty = DependencyProperty.RegisterAttached("EndDate", typeof(DateTime), typeof(ListViewItem));
 
         private CalendarViewPeriodCollection _periods;
 
-        public BindingBase ItemBeginningDateBinding { get; set; }
+        public BindingBase ItemBeginDateBinding { get; set; }
 
-        public BindingBase ItemEndingDateBinding { get; set; }
+        public BindingBase ItemEndDateBinding { get; set; }
 
         public CalendarViewPeriodCollection Periods
         {
             get
             {
                 if (_periods == null)
-                    _periods = new CalendarViewPeriodCollection();
-
+                    _periods = new CalendarViewPeriodCollection()
+                    {
+                        new CalendarViewPeriod() {BeginDate = DateTime.Parse("02/19/2018 12:00 AM"), EndDate = DateTime.Parse("02/19/2018 11:30 PM"), Header = "Monday"},
+                        new CalendarViewPeriod() {BeginDate = DateTime.Parse("02/20/2018 12:00 AM"), EndDate = DateTime.Parse("02/20/2018 11:30 PM"), Header = "Tuesday"},
+                        new CalendarViewPeriod() {BeginDate = DateTime.Parse("02/21/2018 12:00 AM"), EndDate = DateTime.Parse("02/21/2018 11:30 PM"), Header = "Wednesday"},
+                        new CalendarViewPeriod() {BeginDate = DateTime.Parse("02/22/2018 12:00 AM"), EndDate = DateTime.Parse("02/22/2018 11:30 PM"), Header = "Thursday"},
+                        new CalendarViewPeriod() {BeginDate = DateTime.Parse("02/23/2018 12:00 AM"), EndDate = DateTime.Parse("02/23/2018 11:30 PM"), Header = "Friday"},
+                    };
                 return _periods;
             }
         }
@@ -36,36 +42,36 @@ namespace TestWpf.Controls
 
         public static DateTime GetBegin(DependencyObject item)
         {
-            return (DateTime)item.GetValue(BeginningDateProperty);
+            return (DateTime)item.GetValue(BeginDateProperty);
         }
 
         public static DateTime GetEnd(DependencyObject item)
         {
-            return (DateTime)item.GetValue(EndingDateProperty);
+            return (DateTime)item.GetValue(EndDateProperty);
         }
 
         public static void SetBegin(DependencyObject item, DateTime value)
         {
-            item.SetValue(BeginningDateProperty, value);
+            item.SetValue(BeginDateProperty, value);
         }
 
         public static void SetEnd(DependencyObject item, DateTime value)
         {
-            item.SetValue(EndingDateProperty, value);
+            item.SetValue(EndDateProperty, value);
         }
 
         protected override void PrepareItem(ListViewItem item)
         {
-            item.SetBinding(BeginningDateProperty, ItemBeginningDateBinding);
-            item.SetBinding(EndingDateProperty, ItemEndingDateBinding);
+            item.SetBinding(BeginDateProperty, ItemBeginDateBinding);
+            item.SetBinding(EndDateProperty, ItemEndDateBinding);
         }
 
         public bool PeriodContainsItem(ListViewItem item, CalendarViewPeriod period)
         {
-            DateTime itemBegin = (DateTime)item.GetValue(BeginningDateProperty);
-            DateTime itemEnd = (DateTime)item.GetValue(EndingDateProperty);
+            DateTime itemBegin = (DateTime)item.GetValue(BeginDateProperty);
+            DateTime itemEnd = (DateTime)item.GetValue(EndDateProperty);
 
-            return (((itemBegin <= period.BeginningDate) && (itemEnd >= period.BeginningDate)) || ((itemBegin <= period.EndingDate) && (itemEnd >= period.BeginningDate)));
+            return (((itemBegin <= period.BeginDate) && (itemEnd >= period.BeginDate)) || ((itemBegin <= period.EndDate) && (itemEnd >= period.BeginDate)));
         }
     }
 }
