@@ -39,6 +39,20 @@ namespace ViewModel.ViewModels
         public RelayCommand GroupBySubjectCommand { get; }
         public RelayCommand<AppointmentDTO> FilterBySubjectCommand { get; }
         public RelayCommand CalendarWindowCommand { get; }
+        private RelayCommand _toastCommand;
+        public RelayCommand ToastCommand
+        {
+            get
+            {
+                return _toastCommand
+                       ?? (_toastCommand = new RelayCommand(
+                           () =>
+                           {
+                               OpenWindowMessage msg = new OpenWindowMessage {Type = WindowType.Toast, Argument = "tested toast notify", SecondsToShow = 5 };
+                               Messenger.Default.Send<OpenWindowMessage>(msg);
+                           }));
+            }
+        }
         #endregion
 
         public MainWindowViewModel(IBLLService service)

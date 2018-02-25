@@ -27,6 +27,5 @@ namespace TestWpf.Controls
             get => GetValue(HeaderProperty);
             set => SetValue(HeaderProperty, value);
         }
-
     }
 }

@@ -25,12 +25,12 @@ namespace TestWpf.Controls
             {
                 if (_periods == null)
                     _periods = new CalendarViewPeriodCollection()
-                    {
-                        new CalendarViewPeriod() {BeginDate = DateTime.Parse("02/19/2018 12:00 AM"), EndDate = DateTime.Parse("02/19/2018 11:30 PM"), Header = "Monday"},
-                        new CalendarViewPeriod() {BeginDate = DateTime.Parse("02/20/2018 12:00 AM"), EndDate = DateTime.Parse("02/20/2018 11:30 PM"), Header = "Tuesday"},
-                        new CalendarViewPeriod() {BeginDate = DateTime.Parse("02/21/2018 12:00 AM"), EndDate = DateTime.Parse("02/21/2018 11:30 PM"), Header = "Wednesday"},
-                        new CalendarViewPeriod() {BeginDate = DateTime.Parse("02/22/2018 12:00 AM"), EndDate = DateTime.Parse("02/22/2018 11:30 PM"), Header = "Thursday"},
-                        new CalendarViewPeriod() {BeginDate = DateTime.Parse("02/23/2018 12:00 AM"), EndDate = DateTime.Parse("02/23/2018 11:30 PM"), Header = "Friday"},
+                {
+                    new CalendarViewPeriod() { BeginDate = DateTime.Parse("02/19/2018 12:00 AM"), EndDate = DateTime.Parse("02/19/2018 11:30 PM"), Header = "Monday" },
+                        new CalendarViewPeriod() { BeginDate = DateTime.Parse("02/20/2018 12:00 AM"), EndDate = DateTime.Parse("02/20/2018 11:30 PM"), Header = "Tuesday" },
+                        new CalendarViewPeriod() { BeginDate = DateTime.Parse("02/21/2018 12:00 AM"), EndDate = DateTime.Parse("02/21/2018 11:30 PM"), Header = "Wednesday" },
+                        new CalendarViewPeriod() { BeginDate = DateTime.Parse("02/22/2018 12:00 AM"), EndDate = DateTime.Parse("02/22/2018 11:30 PM"), Header = "Thursday" },
+                        new CalendarViewPeriod() { BeginDate = DateTime.Parse("02/23/2018 12:00 AM"), EndDate = DateTime.Parse("02/23/2018 11:30 PM"), Header = "Friday" }
                     };
                 return _periods;
             }

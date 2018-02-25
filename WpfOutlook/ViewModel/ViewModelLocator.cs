@@ -35,7 +35,9 @@ namespace ViewModel
         public AddAppWindowViewModel AddAppWindow => _kernel.Get<AddAppWindowViewModel>();
         public AboutAppointmentWindowViewModel AboutAppWindow => _kernel.Get<AboutAppointmentWindowViewModel>();
         public AllAppByLocationWindowViewModel AllAppByLocWindow => _kernel.Get<AllAppByLocationWindowViewModel>();
-        //public CalendarView CalendarWindow => _kernel.Get<CalendarView>();
+        public CalendarWindowViewModel CalendarWindow => _kernel.Get<CalendarWindowViewModel>();
+        public ToastListViewModel ToastWindow => _kernel.Get<ToastListViewModel>();
+
 
         private readonly IKernel _kernel;
         public ViewModelLocator()

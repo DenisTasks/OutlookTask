@@ -73,15 +73,16 @@ namespace TestWpf.Primitives
                 _visualChildren.Clear();
 
             RangePanel panel = new RangePanel();
-            panel.SetBinding(RangePanel.MinimumProperty, new Binding("BeginDate.Ticks") { Source = Period });
-            panel.SetBinding(RangePanel.MaximumProperty, new Binding("EndDate.Ticks") { Source = Period });
+            panel.SetBinding(RangePanel.MinimumHeightProperty, new Binding("BeginDate.Ticks") { Source = Period });
+            panel.SetBinding(RangePanel.MaximumHeightProperty, new Binding("EndDate.Ticks") { Source = Period });
 
             foreach (ListViewItem item in ContentPresenter.ListViewItemVisuals)
             {
                 if (CalendarView.PeriodContainsItem(item, Period))
                 {
-                    item.SetValue(RangePanel.BeginDateProperty, Convert.ToDouble(((DateTime)item.GetValue(CalendarView.BeginDateProperty)).Ticks));
-                    item.SetValue(RangePanel.EndDateProperty, Convert.ToDouble(((DateTime)item.GetValue(CalendarView.EndDateProperty)).Ticks));
+                    item.SetValue(RangePanel.StartProperty, Convert.ToDouble(((DateTime)item.GetValue(CalendarView.BeginDateProperty)).Ticks));
+                    item.SetValue(RangePanel.FinishProperty, Convert.ToDouble(((DateTime)item.GetValue(CalendarView.EndDateProperty)).Ticks));
+                    item.SetValue(RangePanel.DayOfYearProperty, Convert.ToDateTime(item.GetValue(CalendarView.BeginDateProperty)).DayOfYear);
                     panel.Children.Add(item);
                 }
             }

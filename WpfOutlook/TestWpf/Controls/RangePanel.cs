@@ -1,79 +1,131 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 
 namespace TestWpf.Controls
 {
     public class RangePanel : Panel
     {
-        public static DependencyProperty MinimumProperty = DependencyProperty.Register("Minimum", typeof(double), typeof(RangePanel), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsArrange));
-        public static DependencyProperty MaximumProperty = DependencyProperty.Register("Maximum", typeof(double), typeof(RangePanel), new FrameworkPropertyMetadata(100.0, FrameworkPropertyMetadataOptions.AffectsArrange));
-        public static DependencyProperty OrientationProperty = DependencyProperty.Register("Orientation", typeof(Orientation), typeof(RangePanel), new FrameworkPropertyMetadata(Orientation.Vertical, FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static DependencyProperty MinimumHeightProperty = DependencyProperty.Register("MinimumHeight", typeof(double), typeof(RangePanel), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static DependencyProperty MaximumHeightProperty = DependencyProperty.Register("MaximumHeight", typeof(double), typeof(RangePanel), new FrameworkPropertyMetadata(100.0, FrameworkPropertyMetadataOptions.AffectsArrange));
 
-        public static DependencyProperty BeginDateProperty = DependencyProperty.RegisterAttached("BeginDate", typeof(double), typeof(UIElement), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsArrange));
-        public static DependencyProperty EndDateProperty = DependencyProperty.RegisterAttached("EndDate", typeof(double), typeof(UIElement), new FrameworkPropertyMetadata(100.0, FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static DependencyProperty StartProperty = DependencyProperty.RegisterAttached("Start", typeof(double), typeof(UIElement), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static DependencyProperty FinishProperty = DependencyProperty.RegisterAttached("Finish", typeof(double), typeof(UIElement), new FrameworkPropertyMetadata(100.0, FrameworkPropertyMetadataOptions.AffectsArrange));
 
-        public static void SetBegin(UIElement element, double value)
+        public static DependencyProperty DayOfYearProperty = DependencyProperty.RegisterAttached("DayOfYear", typeof(int), typeof(UIElement), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsArrange));
+
+        public static void SetDayOfYear(UIElement element, int value)
         {
-            element.SetValue(BeginDateProperty, value);
+            element.SetValue(DayOfYearProperty, value);
+        }
+        public static int GetDayOfYear(UIElement element)
+        {
+            return (int) element.GetValue(DayOfYearProperty);
+        }
+        public static void SetStart(UIElement element, double value)
+        {
+            element.SetValue(StartProperty, value);
+        }
+        public static double GetStart(UIElement element)
+        {
+            return (double)element.GetValue(StartProperty);
+        }
+        public static void SetFinish(UIElement element, double value)
+        {
+            element.SetValue(FinishProperty, value);
+        }
+        public static double GetFinish(UIElement element)
+        {
+            return (double)element.GetValue(FinishProperty);
         }
 
-        public static double GetBegin(UIElement element)
+        public double MaximumHeight
         {
-            return (double)element.GetValue(BeginDateProperty);
+            get { return (double)this.GetValue(MaximumHeightProperty); }
+            set { this.SetValue(MaximumHeightProperty, value); }
         }
-
-        public static void SetEnd(UIElement element, double value)
+        public double MinimumHeight
         {
-            element.SetValue(EndDateProperty, value);
-        }
-
-        public static double GetEnd(UIElement element)
-        {
-            return (double)element.GetValue(EndDateProperty);
-        }
-
-        public double Maximum
-        {
-            get { return (double)this.GetValue(MaximumProperty); }
-            set { this.SetValue(MaximumProperty, value); }
-        }
-
-        public double Minimum
-        {
-            get { return (double)this.GetValue(MinimumProperty); }
-            set { this.SetValue(MinimumProperty, value); }
-        }
-
-        public Orientation Orientation
-        {
-            get { return (Orientation)this.GetValue(OrientationProperty); }
-            set { this.SetValue(OrientationProperty, value); }
+            get { return (double)this.GetValue(MinimumHeightProperty); }
+            set { this.SetValue(MinimumHeightProperty, value); }
         }
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            double containerRange = (this.Maximum - this.Minimum);
+            double containerRangeHeigth = (this.MaximumHeight - this.MinimumHeight);
 
+            List<UIElement> uiAll = new List<UIElement>();
+            List<UIElement> uiOverlapping = new List<UIElement>();
+
+            foreach (UIElement item in this.Children)
+            {
+                uiAll.Add(item);
+            }
+
+            for (int i = 0; i < uiAll.Count; i++)
+            {
+                double begin = (double)uiAll.ElementAt(i).GetValue(StartProperty);
+                double end = (double)uiAll.ElementAt(i).GetValue(FinishProperty);
+                int dayOfYear = (int)uiAll.ElementAt(i).GetValue(DayOfYearProperty);
+
+                var forOverlap = uiAll.Where(s => (double)s.GetValue(FinishProperty) > begin 
+                && (double)s.GetValue(StartProperty) < end
+                && (int)s.GetValue(DayOfYearProperty) == dayOfYear).ToList();
+
+                foreach (var item in forOverlap)
+                {
+                    if (!uiOverlapping.Contains(item) && forOverlap.Count > 1)
+                    {
+                        uiOverlapping.Add(item);
+                    }
+                }
+            }
+
+
+            Size widthOverlap = new Size();
+            widthOverlap.Width = finalSize.Width / uiOverlapping.Count;
+            Point locationX = new Point();
+            locationX.X = 0;
             foreach (UIElement element in this.Children)
             {
-                double begin = (double)element.GetValue(RangePanel.BeginDateProperty);
-                double end = (double)element.GetValue(RangePanel.EndDateProperty);
-                double elementRange = end - begin;
+                if (uiOverlapping.Contains(element))
+                {
+                    double begin = (double)element.GetValue(StartProperty);
+                    double end = (double)element.GetValue(FinishProperty);
+                    double elementRange = end - begin;
 
-                Size size = new Size();
-                size.Width = (Orientation == Orientation.Vertical) ? finalSize.Width : elementRange / containerRange * finalSize.Width;
-                size.Height = (Orientation == Orientation.Vertical) ? elementRange / containerRange * finalSize.Height : finalSize.Height;
+                    Size size = new Size();
+                    size.Width = widthOverlap.Width; // property for overlapped appointment
+                    size.Height = elementRange / containerRangeHeigth * finalSize.Height;
 
-                Point location = new Point();
-                location.X = (Orientation == Orientation.Vertical) ? 0 : (begin - this.Minimum) / containerRange * finalSize.Width;
-                location.Y = (Orientation == Orientation.Vertical) ? (begin - this.Minimum) / containerRange * finalSize.Height : 0;
+                    Point location = new Point();
+                    location.X = locationX.X; // property for overlapped appointment
+                    location.Y = (begin - MinimumHeight) / containerRangeHeigth * finalSize.Height;
 
-                element.Arrange(new Rect(location, size));
+                    element.Arrange(new Rect(location, size));
+
+                    widthOverlap.Width = finalSize.Width / uiOverlapping.Count;
+                    locationX.X = locationX.X + finalSize.Width / uiOverlapping.Count;
+                }
+                else
+                {
+                    double begin = (double)element.GetValue(StartProperty);
+                    double end = (double)element.GetValue(FinishProperty);
+                    double elementRange = end - begin;
+
+                    Size size = new Size();
+                    size.Width = finalSize.Width;
+                    size.Height = elementRange / containerRangeHeigth * finalSize.Height;
+
+                    Point location = new Point();
+                    location.X = 0;
+                    location.Y = (begin - MinimumHeight) / containerRangeHeigth * finalSize.Height;
+
+                    element.Arrange(new Rect(location, size));
+                }
             }
 
             return finalSize;

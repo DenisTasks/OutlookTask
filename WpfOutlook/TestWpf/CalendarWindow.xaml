@@ -8,13 +8,14 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Background="LightCyan"
+        DataContext="{Binding CalendarWindow,
+                              Source={StaticResource Locator}}"
         Title="Calendar Window" Height="Auto" Width="Auto">
 
     <Grid>
-        <ListView Name="Testing">
+        <ListView Name="Testing" ItemsSource="{Binding Appointments}">
             <ListView.View>
-                <controls:CalendarView ItemBeginDateBinding="{Binding Path=Start}" ItemEndDateBinding="{Binding Path=Finish}">
-
+                <controls:CalendarView ItemBeginDateBinding="{Binding Path=BeginningDate}" ItemEndDateBinding="{Binding Path=EndingDate}">
                 </controls:CalendarView>
             </ListView.View>
 
@@ -33,8 +34,9 @@
                                         </Border.Background>
                                         <StackPanel TextElement.FontFamily="Segoe UI" TextElement.FontSize="12">
                                             <TextBlock FontWeight="Bold" Padding="3,0,0,0" Text="{Binding Path=Subject}" />
-                                            <TextBlock Padding="3,0,0,0" Text="{Binding Path=Location}" />
-                                            <TextBlock Padding="3,0,0,0" Text="{Binding Path=Organizer}" />
+                                            <TextBlock Padding="3,0,0,0" Text="{Binding Path=BeginningDate}" />
+                                            <TextBlock Padding="3,0,0,0" Text="{Binding Path=EndingDate}" />
+                                            <TextBlock Padding="3,0,0,0" Text="{Binding Path=Users.Count}" />
                                         </StackPanel>
                                     </Border>
                                 </ControlTemplate>

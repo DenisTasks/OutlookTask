@@ -8,14 +8,14 @@
       Background="LightCyan"
       DataContext="{Binding MainWindow,
                               Source={StaticResource Locator}}"
-      WindowHeight="500" WindowWidth="800"
+      WindowHeight="500" WindowWidth="1000"
       
       Title="Outlook application">
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.8*"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="0.12*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -42,6 +42,8 @@
                     CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}">AllAppByLocation</Button>
 
             <Button Command="{Binding CalendarWindowCommand}">Open calendar</Button>
+
+            <Button Command="{Binding ToastCommand}">Toast</Button>
 
         </WrapPanel>
         
@@ -101,6 +103,7 @@
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
+
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="FontSize" Value="14"/>
@@ -130,6 +133,8 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
+        <local:ToastList Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="150"/>
     </Grid>
 </Page>
 

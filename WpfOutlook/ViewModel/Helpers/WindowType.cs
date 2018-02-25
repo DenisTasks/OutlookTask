@@ -7,6 +7,7 @@
         AddAllAppByLocationWindow,
         LoadLocations,
         Calendar,
+        Toast,
         None,
         Refresh
     }
