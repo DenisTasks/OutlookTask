@@ -16,6 +16,17 @@ namespace BLL.Services
         private WPFOutlookContext _context;
         private IGenericRepository<User> _users;
 
+        private IMapper GetDefaultMapper<TEntityFrom, TEntityTo>() where TEntityFrom : class where TEntityTo : class
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<TEntityFrom, TEntityTo>();
+            });
+            IMapper mapper = config.CreateMapper();
+            return mapper;
+        }
+
+
         private IMapper userToUserDTO()
         {
             var mapper = new MapperConfiguration(cfg =>
@@ -28,7 +39,7 @@ namespace BLL.Services
                 .ForMember("Password", opt => opt.MapFrom(s => s.Password))
                 .ForMember("Roles", opt => opt.MapFrom(s => s.Roles))
                 .ForMember("Appointments", opt => opt.MapFrom(s => s.Appointments))
-                .ForMember("Groups", opt => opt.MapFrom(s => s.Groups));
+                .ForMember("Groups", opt => opt.MapFrom(s =>s.Groups));
             }).CreateMapper();
 
             return mapper;
@@ -42,7 +53,6 @@ namespace BLL.Services
 
         public UserDTO AuthenticateUser(string username, string password)
         {
-
             UserDTO user = userToUserDTO().Map<User, UserDTO>(_users.Get(u => u.UserName.Equals(username) && u.Password.Equals(password)).FirstOrDefault());
             if (user != null)
                 return user;

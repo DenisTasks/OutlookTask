@@ -164,12 +164,15 @@ namespace MVVM.ViewModels.Administration.Users
                         roleCollection = roleCollection.Where(r => r.Name != item.Name).ToList();
                     }
                     RoleList = new ObservableCollection<RoleDTO>(roleCollection);
-
-                    _groupList = new ObservableCollection<GroupDTO>(_administrationService.GetGroups());
-                    _selectedGroupList = new ObservableCollection<GroupDTO>(User.Groups);
+                    
+                    SelectedGroupList = new ObservableCollection<GroupDTO>(User.Groups);
+                    ICollection<GroupDTO> groupCollection = _administrationService.GetGroups();
+                    foreach(var item in _selectedGroupList)
+                    {
+                        groupCollection = groupCollection.Where(g => g.GroupName != item.GroupName).ToList();
+                    }
+                    GroupList = new ObservableCollection<GroupDTO>(groupCollection);
                     Messenger.Default.Unregister<UserDTO>(this);
-                    //foreach (var item in SelectedGroupList)
-                    //    _groupList.Remove(item);
                 }
             });
             _administrationService = administrationService;

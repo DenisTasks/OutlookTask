@@ -12,9 +12,8 @@ namespace BLL.EntitesDTO
         public string GroupName { get; set; }
 
         public int? ParentId { get; set; }
-
-        public ICollection<GroupDTO> Childs { get; set; }
-        public ICollection<GroupDTO> SelectedGroups { get; set; }
+        
+        public ICollection<GroupDTO> Groups { get; set; }
 
         public int CreatorId { get; set; }
 

@@ -48,14 +48,22 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
         //To Do : Remake
         private void FilterGroupList(GroupDTO group)
         {
-            Group.ParentId = group.GroupId;
-            ICollection<string> groupNameList = _administrationService.GetGroupAncestors(group.GroupName);
-            ICollection<GroupDTO> filterGroupCollection = _administrationService.GetGroups();
-            foreach (var item in groupNameList)
+            if (group.GroupName != "Not")
             {
-                filterGroupCollection = filterGroupCollection.Where(r => r.GroupName != item).ToList();
+                Group.ParentId = group.GroupId;
+                ICollection<string> groupNameList = _administrationService.GetGroupAncestors(group.GroupName);
+                ICollection<GroupDTO> filterGroupCollection = _administrationService.GetGroups();
+                foreach (var item in groupNameList)
+                {
+                    filterGroupCollection = filterGroupCollection.Where(r => r.GroupName != item).ToList();
+                }
+                GroupList = new ObservableCollection<GroupDTO>(filterGroupCollection);
+                SelectedGroupList = null;
             }
-            GroupList = new ObservableCollection<GroupDTO>(filterGroupCollection);
+            else
+            {
+                Group.ParentId = null;
+            }
         }
 
         
@@ -79,7 +87,7 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
             _removeUserCommand = new RelayCommand<UserDTO>(RemoveUser);
             _addGroupCommand = new RelayCommand<GroupDTO>(AddGroup);
             _removeGroupCommand = new RelayCommand<GroupDTO>(RemoveGroup);
-            _createUserCommand = new RelayCommand<Window>(CreateUser);
+            _createGroupCommand = new RelayCommand<Window>(CreateGroup);
 
             Group = new GroupDTO();
 
@@ -178,19 +186,18 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
             base.RaisePropertyChanged();
         }
 
-        private RelayCommand<Window> _createUserCommand;
+        private RelayCommand<Window> _createGroupCommand;
 
-        public RelayCommand<Window> CreateUserCommand { get { return _createUserCommand; } }
+        public RelayCommand<Window> CreateGroupCommand { get { return _createGroupCommand; } }
 
-        public void CreateUser(Window window)
+        public void CreateGroup(Window window)
         {
             if (Group.GroupName!=null)
             {
-                    Group.SelectedGroups = SelectedGroupList;
-                    Group.Users = SelectedUserList; 
-                    _administrationService.CreateGroup(Group);
-                    window.Close();
-              
+                Group.Groups = SelectedGroupList;
+               // Group.Users = SelectedUserList;
+                _administrationService.CreateGroup(Group);
+                window.Close();
             }
             else
             {

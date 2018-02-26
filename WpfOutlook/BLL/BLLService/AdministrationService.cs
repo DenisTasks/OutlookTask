@@ -54,7 +54,7 @@ namespace BLL.Services
             {
                 cfg.CreateMap<GroupDTO, Group>()
                     .ForMember(d => d.Users, opt => opt.MapFrom(s => users))
-                    .ForMember(d => d.SelectedGroups, opt => opt.MapFrom(s => groups));
+                    .ForMember(d => d.Groups, opt => opt.MapFrom(s => groups));
 
             });
 
@@ -106,8 +106,7 @@ namespace BLL.Services
                 .ForMember("Name", opt => opt.MapFrom(s => s.Name))
                 .ForMember("UserName", opt => opt.MapFrom(s => s.UserName))
                 .ForMember("Password", opt => opt.MapFrom(s => s.Password))
-                .ForMember("Roles", opt => opt.MapFrom(s => GetDefaultMapper<RoleDTO, Role>().Map<IEnumerable<RoleDTO>, ICollection<Role>>(s.Roles)))
-                .ForMember("Groups", opt => opt.MapFrom(s => GetDefaultMapper<GroupDTO, Group>().Map<IEnumerable<GroupDTO>, ICollection<Group>>(s.Groups)));
+                .ForMember("Roles", opt => opt.MapFrom(s => GetDefaultMapper<RoleDTO, Role>().Map<IEnumerable<RoleDTO>, ICollection<Role>>(s.Roles)));
             }).CreateMapper();
 
             return mapper;
@@ -124,14 +123,14 @@ namespace BLL.Services
 
         public void CreateGroup(GroupDTO group)
         {
-            _groups.Create(GetFromGroupDTOtoGroupMapper(group.SelectedGroups, group.Users).Map<GroupDTO, Group>(group));
-            _context.SaveChanges(); 
+            _groups.Create(GetFromGroupDTOtoGroupMapper(group.Groups, group.Users).Map<GroupDTO, Group>(group));
+            _context.SaveChanges();
         }
 
 
         public void CreateUser(UserDTO user)
         {
-            _users.Create(GetFromUserDTOToUserMapper(user.Roles , user.Groups).Map<UserDTO, User>(user));
+            _users.Create(GetFromUserDTOToUserMapper(user.Roles, user.Groups).Map<UserDTO, User>(user));
             _context.SaveChanges();
         }
 
@@ -150,8 +149,8 @@ namespace BLL.Services
                 if (user.Password != null) userToEdit.Password = user.Password;
                 if (user.IsActive != userToEdit.IsActive) userToEdit.IsActive = user.IsActive;
                 ICollection<Role> roles = new List<Role>();
-                var convert = GetDefaultMapper<RoleDTO, Role>().Map<IEnumerable<RoleDTO>, IEnumerable<Role>>(user.Roles);
-                foreach (var item in convert)
+                var convertRoles = GetDefaultMapper<RoleDTO, Role>().Map<IEnumerable<RoleDTO>, IEnumerable<Role>>(user.Roles);
+                foreach (var item in convertRoles)
                 {
                     if (_roles.FindById(item.RoleId) != null)
                     {
@@ -160,7 +159,17 @@ namespace BLL.Services
                 }
 
                 if (user.Roles != userToEdit.Roles) userToEdit.Roles = roles;
-                if (user.Groups != userToEdit.Groups) userToEdit.Groups = GetDefaultMapper<GroupDTO, Group>().Map<IEnumerable<GroupDTO>, ICollection<Group>>(user.Groups);
+
+                ICollection<Group> groups = new List<Group>();
+                var convertGroups = GetDefaultMapper<GroupDTO, Group>().Map<IEnumerable<GroupDTO>, ICollection<Group>>(user.Groups);
+                foreach (var item in convertGroups)
+                {
+                    if (_groups.FindById(item.GroupId) != null)
+                    {
+                        groups.Add(_groups.FindById(item.GroupId));
+                    }
+                }
+                if (user.Groups != userToEdit.Groups) userToEdit.Groups = groups;
                 _users.Update(userToEdit);
                 //userToEdit = GetFromUserDTOToUserMapper(user.Roles).Map<UserDTO, User>(user);
                 //_users.Update(GetFromUserDTOToUserMapper(user.Roles).Map<UserDTO, User>(user));
@@ -236,7 +245,8 @@ namespace BLL.Services
             {
                 ancstrorNameList.Add(groupName);
                 group = _groups.Get(g => g.GroupName.Equals(groupName)).FirstOrDefault();
-                if (group != null && group.ParentId!=null)
+
+                if (group != null && group.ParentId != null)
                 {
                     groupName = _groups.FindById((int)group.ParentId).GroupName;
                 }

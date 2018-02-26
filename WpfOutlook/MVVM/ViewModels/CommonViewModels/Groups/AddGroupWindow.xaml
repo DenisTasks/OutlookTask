@@ -126,7 +126,7 @@
         </ListView>
 
         <Button Grid.Column="3" Grid.Row="9" 
-                Command="{Binding CreateUserCommand}" 
+                Command="{Binding CreateGroupCommand}" 
                 CommandParameter="{Binding ElementName=AddNewGroupWindow}"
                 Content="Add group" />
     </Grid>
