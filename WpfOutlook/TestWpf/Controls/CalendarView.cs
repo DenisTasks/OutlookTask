@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -10,24 +12,25 @@ namespace TestWpf.Controls
         public static DependencyProperty BeginDateProperty = DependencyProperty.RegisterAttached("BeginDate", typeof(DateTime), typeof(ListViewItem));
         public static DependencyProperty EndDateProperty = DependencyProperty.RegisterAttached("EndDate", typeof(DateTime), typeof(ListViewItem));
 
-        private CalendarViewPeriodCollection _periods;
+        private ObservableCollection<CalendarViewPeriod> _periods;
         
         public BindingBase ItemBeginDateBinding { get; set; }
 
         public BindingBase ItemEndDateBinding { get; set; }
 
-        public CalendarViewPeriodCollection Periods
+        public ObservableCollection<CalendarViewPeriod> Periods
         {
             get
             {
                 if (_periods == null)
-                    _periods = new CalendarViewPeriodCollection()
+                    _periods = new ObservableCollection<CalendarViewPeriod>()
                 {
-                        new CalendarViewPeriod() { BeginDate = DateTime.Parse("02/19/2018 12:00 AM"), EndDate = DateTime.Parse("02/19/2018 11:59:59 PM"), Header = "Monday" },
-                        new CalendarViewPeriod() { BeginDate = DateTime.Parse("02/20/2018 12:00 AM"), EndDate = DateTime.Parse("02/20/2018 11:59:59 PM"), Header = "Tuesday" },
-                        new CalendarViewPeriod() { BeginDate = DateTime.Parse("02/21/2018 12:00 AM"), EndDate = DateTime.Parse("02/21/2018 11:59:59 PM"), Header = "Wednesday" },
-                        new CalendarViewPeriod() { BeginDate = DateTime.Parse("02/22/2018 12:00 AM"), EndDate = DateTime.Parse("02/22/2018 11:59:59 PM"), Header = "Thursday" },
-                        new CalendarViewPeriod() { BeginDate = DateTime.Parse("02/23/2018 12:00 AM"), EndDate = DateTime.Parse("02/23/2018 11:59:59 PM"), Header = "Friday" }
+                        new CalendarViewPeriod() { BeginDate = DateTime.Parse("02/19/2018 12:00 AM"), EndDate = DateTime.Parse("02/19/2018 11:59:59 PM") },
+                        new CalendarViewPeriod() { BeginDate = DateTime.Parse("02/20/2018 12:00 AM"), EndDate = DateTime.Parse("02/20/2018 11:59:59 PM") },
+                        new CalendarViewPeriod() { BeginDate = DateTime.Parse("02/21/2018 12:00 AM"), EndDate = DateTime.Parse("02/21/2018 11:59:59 PM") },
+                        new CalendarViewPeriod() { BeginDate = DateTime.Parse("02/22/2018 12:00 AM"), EndDate = DateTime.Parse("02/22/2018 11:59:59 PM") },
+                        new CalendarViewPeriod() { BeginDate = DateTime.Parse("02/23/2018 12:00 AM"), EndDate = DateTime.Parse("02/23/2018 11:59:59 PM") },
+                        new CalendarViewPeriod() { BeginDate = DateTime.Parse("02/24/2018 12:00 AM"), EndDate = DateTime.Parse("02/24/2018 11:59:59 PM") }
                     };
                 return _periods;
             }

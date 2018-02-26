@@ -23,7 +23,6 @@ namespace ViewModel.ViewModels
 
         }
 
-
         private async void AddMessage(OpenWindowMessage msg)
         {
             Message4ListBox message4ListBox = new Message4ListBox { Msg = msg.Argument, IsGoing = false };

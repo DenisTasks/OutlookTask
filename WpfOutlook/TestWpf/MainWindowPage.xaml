@@ -8,13 +8,19 @@
       Background="LightCyan"
       DataContext="{Binding MainWindow,
                               Source={StaticResource Locator}}"
-      WindowHeight="500" WindowWidth="1000"
+      WindowHeight="500" WindowWidth="1100"
       
       Title="Outlook application">
 
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ShowGridLines="True">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.8*"/>
+            <ColumnDefinition Width="0.05*"/>
+            <ColumnDefinition Width="0.16*"/>
+            <ColumnDefinition Width="0.16*"/>
+            <ColumnDefinition Width="0.16*"/>
+            <ColumnDefinition Width="0.1*"/>
+            <ColumnDefinition Width="0.05*"/>
+            
             <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="0.12*"/>
         </Grid.ColumnDefinitions>
@@ -22,10 +28,15 @@
             <RowDefinition Height="0.08*"/>
             <RowDefinition Height="0.8*"/>
         </Grid.RowDefinitions>
-        
+        <Grid Grid.Column="0" x:Name="helperField1"/>
+        <Grid Grid.Column="1" x:Name="helperField2"/>
+        <Grid Grid.Column="2" x:Name="helperField3"/>
+        <Grid Grid.Column="3" x:Name="helperField4"/>
+        <Grid Grid.Column="4" x:Name="helperField5"/>
+        <Grid Grid.Column="5" x:Name="helperField6"/>
         <WrapPanel Grid.Row="0"
                    Grid.Column="0"
-                   Grid.ColumnSpan="3"
+                   Grid.ColumnSpan="8"
                    HorizontalAlignment="Stretch">
             
             <Button Command="{Binding AddAppWindowCommand}">New App</Button>
@@ -49,10 +60,11 @@
         
         <ListView Name="AppointmentsList"
                   Grid.Row="1"
+                  Grid.ColumnSpan="6"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   VerticalContentAlignment="Stretch"
                   HorizontalContentAlignment="Stretch"
                   SelectionMode="Single"
-                  
                   ItemsSource="{Binding Appointments}">
 
             <ListView.GroupStyle>
@@ -70,33 +82,38 @@
                 <GridView
                     ColumnHeaderTemplate="{StaticResource mainHeaderTemplate}"
                     ColumnHeaderContainerStyle="{StaticResource mainHeaderStyle}">
-                    <GridViewColumn DisplayMemberBinding="{Binding AppointmentId}">
+                    <GridViewColumn DisplayMemberBinding="{Binding AppointmentId}"
+                                    Width="{Binding ElementName=helperField1, Path=ActualWidth}">
                         <GridViewColumnHeader Content="Id"
                                               Command="{Binding SortCommand}"
                                               CommandParameter="AppointmentId"/>
                     </GridViewColumn>
                     <GridViewColumn DisplayMemberBinding="{Binding Subject}"
-                                    Width="150">
+                                    Width="{Binding ElementName=helperField2, Path=ActualWidth}">
                         <GridViewColumnHeader Content="Subject"
                                               Command="{Binding SortCommand}"
                                               CommandParameter="Subject"/>
                     </GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding BeginningDate}">
+                    <GridViewColumn DisplayMemberBinding="{Binding BeginningDate}"
+                                    Width="{Binding ElementName=helperField3, Path=ActualWidth}">
                         <GridViewColumnHeader Content="Beginning Date"
                                               Command="{Binding SortCommand}"
                                               CommandParameter="BeginningDate"/>
                     </GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding EndingDate}">
+                    <GridViewColumn DisplayMemberBinding="{Binding EndingDate}"
+                                    Width="{Binding ElementName=helperField4, Path=ActualWidth}">
                         <GridViewColumnHeader Content="Ending Date"
                                               Command="{Binding SortCommand}"
                                               CommandParameter="EndingDate"/>
                     </GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding LocationId}">
+                    <GridViewColumn DisplayMemberBinding="{Binding LocationId}"
+                                    Width="{Binding ElementName=helperField5, Path=ActualWidth}">
                         <GridViewColumnHeader Content="Location"
                                               Command="{Binding SortCommand}"
                                               CommandParameter="LocationId"/>
                     </GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Users.Count}">
+                    <GridViewColumn DisplayMemberBinding="{Binding Users.Count}"
+                                    Width="{Binding ElementName=helperField6, Path=ActualWidth}">
                         <GridViewColumnHeader Content="Users"
                                               Command="{Binding SortCommand}"
                                               CommandParameter="Users.Count"/>
@@ -110,11 +127,12 @@
                     <Setter Property="Foreground" Value="DarkBlue"/>
                     <Setter Property="FontWeight" Value="Medium"/>
                     <Setter Property="FontStyle" Value="Normal"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
         
-        <ListView Grid.Column="2"
+        <ListView Grid.Column="7"
                   Grid.Row="1"
                   VerticalContentAlignment="Stretch"
                   ItemsSource="{Binding Appointments}">
@@ -134,7 +152,7 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <local:ToastList Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="150"/>
+        <local:ToastList Grid.Row="1" Grid.Column="6" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="150"/>
     </Grid>
 </Page>
 

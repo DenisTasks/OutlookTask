@@ -39,20 +39,7 @@ namespace ViewModel.ViewModels
         public RelayCommand GroupBySubjectCommand { get; }
         public RelayCommand<AppointmentDTO> FilterBySubjectCommand { get; }
         public RelayCommand CalendarWindowCommand { get; }
-        private RelayCommand _toastCommand;
-        public RelayCommand ToastCommand
-        {
-            get
-            {
-                return _toastCommand
-                       ?? (_toastCommand = new RelayCommand(
-                           () =>
-                           {
-                               OpenWindowMessage msg = new OpenWindowMessage {Type = WindowType.Toast, Argument = "tested toast notify", SecondsToShow = 5 };
-                               Messenger.Default.Send<OpenWindowMessage>(msg);
-                           }));
-            }
-        }
+        public RelayCommand ToastCommand { get; }
         #endregion
 
         public MainWindowViewModel(IBLLService service)
@@ -68,6 +55,7 @@ namespace ViewModel.ViewModels
             GroupBySubjectCommand = new RelayCommand(GroupBySubject);
             FilterBySubjectCommand = new RelayCommand<AppointmentDTO>(FilterBySubject);
             CalendarWindowCommand = new RelayCommand(GetCalendar);
+            ToastCommand = new RelayCommand(ToastWindow);
 
             Messenger.Default.Register<NotificationMessage>(this, message =>
             {
@@ -76,6 +64,11 @@ namespace ViewModel.ViewModels
                     RefreshingAppointments();
                 }
             });
+        }
+
+        private void ToastWindow()
+        {
+            Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.Toast, Argument = "You have a new\r\nappointment! Check\r\nyour calendar, please!", SecondsToShow = 5 });
         }
 
         private void AddAppointment()
@@ -149,18 +142,6 @@ namespace ViewModel.ViewModels
         {
             try
             {
-                //for (int i = 1; i < 5; i++)
-                //{
-                //    Location location = new Location();
-                //    location.Room = "Room number " + i;
-                //    _service.AddLocation(location);
-                //}
-                //for (int i = 1; i < 5; i++)
-                //{
-                //    User user = new User();
-                //    user.Name = "MyName " + i;
-                //    _service.AddUser(user);
-                //}
                 Appointments = new ObservableCollection<AppointmentDTO>(_service.GetAppointments());
             }
             catch (Exception e)

@@ -8,7 +8,6 @@ namespace TestWpf.Controls
     {
         public static readonly DependencyProperty BeginDateProperty = DependencyProperty.Register("BeginDate", typeof(DateTime), typeof(CalendarViewPeriod));
         public static readonly DependencyProperty EndDateProperty = DependencyProperty.Register("EndDate", typeof(DateTime), typeof(CalendarViewPeriod));
-        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(object), typeof(CalendarViewPeriod));
 
         public DateTime BeginDate
         {
@@ -20,12 +19,6 @@ namespace TestWpf.Controls
         {
             get => (DateTime)GetValue(EndDateProperty);
             set => SetValue(EndDateProperty, value);
-        }
-
-        public object Header
-        {
-            get => GetValue(HeaderProperty);
-            set => SetValue(HeaderProperty, value);
         }
     }
 }

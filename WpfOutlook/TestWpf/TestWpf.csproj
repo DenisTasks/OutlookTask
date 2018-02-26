@@ -104,8 +104,8 @@
     </Compile>
     <Compile Include="Controls\CalendarView.cs" />
     <Compile Include="Controls\CalendarViewPeriod.cs" />
-    <Compile Include="Controls\CalendarViewPeriodCollection.cs" />
-    <Compile Include="Controls\DaysOfWeekControl.cs" />
+    <Compile Include="Primitives\DaysOfWeekPresenter.cs" />
+    <Compile Include="Primitives\DaysPresenter.cs" />
     <Compile Include="Controls\TimeScaleControl.cs" />
     <Compile Include="Controls\RangePanel.cs" />
     <Compile Include="MainWindowPage.xaml.cs">

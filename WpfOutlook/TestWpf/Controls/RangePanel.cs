@@ -84,6 +84,7 @@ namespace TestWpf.Controls
             widthOverlap.Width = finalSize.Width / uiOverlapping.Count;
             Point locationX = new Point();
             locationX.X = 0;
+
             foreach (UIElement element in this.Children)
             {
                 if (uiOverlapping.Contains(element))
