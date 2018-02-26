@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -87,12 +88,11 @@ namespace TestWpf.Primitives
                 }
             }
 
-            Border border = new Border() { BorderBrush = Brushes.Blue, BorderThickness = new Thickness(1.0) };
+            Border border = new Border() { BorderBrush = Brushes.Orange, BorderThickness = new Thickness(2.0), CornerRadius = new CornerRadius(10, 10, 10, 10)};
             border.Child = panel;
             _visualChildren.Add(border);
 
             _visualChildrenGenerated = true;
         }
     }
-
 }

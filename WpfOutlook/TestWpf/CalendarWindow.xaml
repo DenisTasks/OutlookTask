@@ -13,7 +13,7 @@
         Title="Calendar Window" Height="Auto" Width="Auto">
 
     <Grid>
-        <ListView Name="Testing" ItemsSource="{Binding Appointments}">
+        <ListView ItemsSource="{Binding Appointments}">
             <ListView.View>
                 <controls:CalendarView ItemBeginDateBinding="{Binding Path=BeginningDate}" ItemEndDateBinding="{Binding Path=EndingDate}">
                 </controls:CalendarView>
@@ -32,11 +32,11 @@
                                                 <GradientStop Color="#C0D3EA" Offset="1.0" />
                                             </LinearGradientBrush>
                                         </Border.Background>
-                                        <StackPanel TextElement.FontFamily="Segoe UI" TextElement.FontSize="12">
+                                        <StackPanel TextElement.FontFamily="Segoe UI" TextElement.FontSize="10">
                                             <TextBlock FontWeight="Bold" Padding="3,0,0,0" Text="{Binding Path=Subject}" />
-                                            <TextBlock Padding="3,0,0,0" Text="{Binding Path=BeginningDate}" />
-                                            <TextBlock Padding="3,0,0,0" Text="{Binding Path=EndingDate}" />
-                                            <TextBlock Padding="3,0,0,0" Text="{Binding Path=Users.Count}" />
+                                            <TextBlock Padding="3,0,0,0" Text="{Binding Path=BeginningDate, StringFormat=Date: {0: ddd}}" />
+                                            <TextBlock Padding="3,0,0,0" Text="{Binding Path=BeginningDate, StringFormat=Start: {0:HH:mm}}" />
+                                            <TextBlock Padding="3,0,0,0" Text="{Binding Path=EndingDate, StringFormat=Finish: {0:HH:mm}}" />
                                         </StackPanel>
                                     </Border>
                                 </ControlTemplate>

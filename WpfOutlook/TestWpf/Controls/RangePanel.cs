@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
-
 namespace TestWpf.Controls
 {
     public class RangePanel : Panel
@@ -14,7 +11,6 @@ namespace TestWpf.Controls
 
         public static DependencyProperty StartProperty = DependencyProperty.RegisterAttached("Start", typeof(double), typeof(UIElement), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsArrange));
         public static DependencyProperty FinishProperty = DependencyProperty.RegisterAttached("Finish", typeof(double), typeof(UIElement), new FrameworkPropertyMetadata(100.0, FrameworkPropertyMetadataOptions.AffectsArrange));
-
         public static DependencyProperty DayOfYearProperty = DependencyProperty.RegisterAttached("DayOfYear", typeof(int), typeof(UIElement), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsArrange));
 
         public static void SetDayOfYear(UIElement element, int value)
@@ -83,7 +79,6 @@ namespace TestWpf.Controls
                     }
                 }
             }
-
 
             Size widthOverlap = new Size();
             widthOverlap.Width = finalSize.Width / uiOverlapping.Count;

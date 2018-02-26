@@ -11,7 +11,6 @@ namespace TestWpf
     {
         public CalendarWindow()
         {
-
             InitializeComponent();
         }
     }

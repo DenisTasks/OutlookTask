@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -22,7 +23,7 @@ namespace TestWpf.Primitives
 
         internal List<UIElement> ListViewItemVisuals => _listViewItemVisuals;
 
-        // set x/y for children (days). Input - size of all window.
+        // set x/y for children (days). Input - size of all window (area "Content")
         protected override Size ArrangeOverride(Size finalSize)
         {
             int columnCount = CalendarView.Periods.Count;
@@ -108,5 +109,4 @@ namespace TestWpf.Primitives
             }
         }
     }
-
 }
