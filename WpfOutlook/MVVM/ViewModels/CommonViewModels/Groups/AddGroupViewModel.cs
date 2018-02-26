@@ -22,6 +22,17 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
         private ObservableCollection<UserDTO> _userList;
         private ObservableCollection<UserDTO> _selectedUserList;
 
+        private ICollection<GroupDTO> _groupsForComboBox;
+
+        public ICollection<GroupDTO> GroupsForComboBox
+        {
+            get => _groupsForComboBox;
+            set
+            {
+                _groupsForComboBox = value;        
+            }
+        }
+
         private GroupDTO _groupNameForFilter;
 
         public GroupDTO GroupNameForFilter
@@ -34,11 +45,13 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
             }
         }
 
+        //To Do : Remake
         private void FilterGroupList(GroupDTO group)
         {
+            Group.ParentId = group.GroupId;
             ICollection<string> groupNameList = _administrationService.GetGroupAncestors(group.GroupName);
             ICollection<GroupDTO> filterGroupCollection = _administrationService.GetGroups();
-            foreach(var item in groupNameList)
+            foreach (var item in groupNameList)
             {
                 filterGroupCollection = filterGroupCollection.Where(r => r.GroupName != item).ToList();
             }
@@ -55,8 +68,12 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
             _userList = new ObservableCollection<UserDTO>(_administrationService.GetUsers());
             _selectedUserList = new ObservableCollection<UserDTO>();
 
-            _groupList = new ObservableCollection<GroupDTO>(_administrationService.GetGroups());
+            _groupsForComboBox = _administrationService.GetGroups();
+            _groupList = new ObservableCollection<GroupDTO>(_groupsForComboBox);
             _selectedGroupList = new ObservableCollection<GroupDTO>();
+            _groupsForComboBox.Add(new GroupDTO { GroupName = "Not" }); 
+
+            
 
             _addUserCommand = new RelayCommand<UserDTO>(AddUser);
             _removeUserCommand = new RelayCommand<UserDTO>(RemoveUser);
@@ -170,7 +187,7 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
             if (Group.GroupName!=null)
             {
                     Group.SelectedGroups = SelectedGroupList;
-                    
+                    Group.Users = SelectedUserList; 
                     _administrationService.CreateGroup(Group);
                     window.Close();
               
