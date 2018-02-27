@@ -129,7 +129,7 @@ namespace BLL.Services
             throw new NotImplementedException();
         }
 
-        public void EditUser(UserDTO user)
+        public void EditUser(UserDTO user, ICollection<GroupDTO> groups, ICollection<RoleDTO> roles)
         {
             if (user.UserName != null && user.Password != null)
             {
@@ -138,29 +138,9 @@ namespace BLL.Services
                 if ((user.UserName != null || userToEdit.UserName == user.UserName) && CheckUser(user.UserName)) userToEdit.UserName = user.UserName;
                 if (user.Password != null) userToEdit.Password = user.Password;
                 if (user.IsActive != userToEdit.IsActive) userToEdit.IsActive = user.IsActive;
-                //ICollection<Role> roles = new List<Role>();
-                //var convertRoles = GetDefaultMapper<RoleDTO, Role>().Map<IEnumerable<RoleDTO>, IEnumerable<Role>>(user.Roles);
-                //foreach (var item in convertRoles)
-                //{
-                //    if (_roles.FindById(item.RoleId) != null)
-                //    {
-                //        roles.Add(_roles.FindById(item.RoleId));
-                //    }
-                //}
-
-                //if (user.Roles != userToEdit.Roles) userToEdit.Roles = roles;
-
-                //ICollection<Group> groups = new List<Group>();
-                //var convertGroups = GetDefaultMapper<GroupDTO, Group>().Map<IEnumerable<GroupDTO>, ICollection<Group>>(user.Groups);
-                //foreach (var item in convertGroups)
-                //{
-                //    if (_groups.FindById(item.GroupId) != null)
-                //    {
-                //        groups.Add(_groups.FindById(item.GroupId));
-                //    }
-                //}
-                //if (user.Groups != userToEdit.Groups) userToEdit.Groups = groups;
-                //_users.Update(userToEdit);
+                if (roles != userToEdit.Roles) userToEdit.Roles = ConvertRolesDTO(roles);
+                if (groups != userToEdit.Groups) userToEdit.Groups = ConvertGroupsDTO(groups);
+                _users.Update(userToEdit);
                 //userToEdit = GetFromUserDTOToUserMapper(user.Roles).Map<UserDTO, User>(user);
                 //_users.Update(GetFromUserDTOToUserMapper(user.Roles).Map<UserDTO, User>(user));
                 _context.SaveChanges();
@@ -244,6 +224,16 @@ namespace BLL.Services
                 else { groupName = null; }
             }
             return ancstrorNameList;
+        }
+
+        public ICollection<RoleDTO> GetUserRoles(int id)
+        {
+            return GetDefaultMapper<Role, RoleDTO>().Map<IEnumerable<Role>,ICollection<RoleDTO>>(_users.FindById(id).Roles);
+        }
+
+        public ICollection<GroupDTO> GetUserGroups(int id)
+        {
+            return GetDefaultMapper<Group, GroupDTO>().Map<IEnumerable<Group>, ICollection<GroupDTO>>(_users.FindById(id).Groups);
         }
     }
 }
