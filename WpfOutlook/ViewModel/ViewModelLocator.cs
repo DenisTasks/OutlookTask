@@ -1,8 +1,6 @@
 ﻿using BLL;
 using BLL.Interfaces;
-using CommonServiceLocator;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Ioc;
 using Model;
 using Model.Interfaces;
 using Model.ModelVIewElements;
@@ -31,18 +29,18 @@ namespace ViewModel
 
     public class ViewModelLocator
     {
+        private readonly IKernel _kernel;
+
         public MainWindowViewModel MainWindow => _kernel.Get<MainWindowViewModel>();
         public AddAppWindowViewModel AddAppWindow => _kernel.Get<AddAppWindowViewModel>();
         public AboutAppointmentWindowViewModel AboutAppWindow => _kernel.Get<AboutAppointmentWindowViewModel>();
         public AllAppByLocationWindowViewModel AllAppByLocWindow => _kernel.Get<AllAppByLocationWindowViewModel>();
         public CalendarWindowViewModel CalendarWindow => _kernel.Get<CalendarWindowViewModel>();
         public ToastListViewModel ToastWindow => _kernel.Get<ToastListViewModel>();
+        public SyncWindowViewModel SyncWindow => _kernel.Get<SyncWindowViewModel>();
 
-
-        private readonly IKernel _kernel;
         public ViewModelLocator()
         {
-            ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
             if (ViewModelBase.IsInDesignModeStatic)
             {
                 _kernel = new StandardKernel(new DesignTimeModule());

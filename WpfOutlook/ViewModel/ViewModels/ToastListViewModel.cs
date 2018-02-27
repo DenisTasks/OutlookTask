@@ -35,6 +35,7 @@ namespace ViewModel.ViewModels
             Messages.Remove(message4ListBox);
         }
     }
+
     public class Message4ListBox : ViewModelBase
     {
         public String Msg { get; set; }

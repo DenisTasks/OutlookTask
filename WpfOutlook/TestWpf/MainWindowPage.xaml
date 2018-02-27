@@ -12,7 +12,7 @@
       
       Title="Outlook application">
 
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ShowGridLines="True">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.05*"/>
             <ColumnDefinition Width="0.16*"/>
@@ -28,32 +28,27 @@
             <RowDefinition Height="0.08*"/>
             <RowDefinition Height="0.8*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Column="0" x:Name="helperField1"/>
-        <Grid Grid.Column="1" x:Name="helperField2"/>
-        <Grid Grid.Column="2" x:Name="helperField3"/>
-        <Grid Grid.Column="3" x:Name="helperField4"/>
-        <Grid Grid.Column="4" x:Name="helperField5"/>
-        <Grid Grid.Column="5" x:Name="helperField6"/>
+            <Grid Grid.Column="0" x:Name="HelperField1"/>
+            <Grid Grid.Column="1" x:Name="HelperField2"/>
+            <Grid Grid.Column="2" x:Name="HelperField3"/>
+            <Grid Grid.Column="3" x:Name="HelperField4"/>
+            <Grid Grid.Column="4" x:Name="HelperField5"/>
+            <Grid Grid.Column="5" x:Name="HelperField6"/>
+        
         <WrapPanel Grid.Row="0"
                    Grid.Column="0"
                    Grid.ColumnSpan="8"
                    HorizontalAlignment="Stretch">
-            
-            <Button Command="{Binding AddAppWindowCommand}">New App</Button>
 
+            <Button Command="{Binding AddAppWindowCommand}">New App</Button>
             <Button Command="{Binding FilterBySubjectCommand}"
                     CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}">Filter by</Button>
-
             <Button Command="{Binding GroupBySubjectCommand}">Group by</Button>
-
             <Button Command="{Binding AboutAppointmentCommand}"
                     CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}">About</Button>
-
             <Button Command="{Binding AllAppByLocationCommand}"
                     CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}">AllAppByLocation</Button>
-
             <Button Command="{Binding CalendarWindowCommand}">Open calendar</Button>
-
             <Button Command="{Binding ToastCommand}">Toast</Button>
 
         </WrapPanel>
@@ -83,37 +78,37 @@
                     ColumnHeaderTemplate="{StaticResource mainHeaderTemplate}"
                     ColumnHeaderContainerStyle="{StaticResource mainHeaderStyle}">
                     <GridViewColumn DisplayMemberBinding="{Binding AppointmentId}"
-                                    Width="{Binding ElementName=helperField1, Path=ActualWidth}">
+                                    Width="{Binding ElementName=HelperField1, Path=ActualWidth}">
                         <GridViewColumnHeader Content="Id"
                                               Command="{Binding SortCommand}"
                                               CommandParameter="AppointmentId"/>
                     </GridViewColumn>
                     <GridViewColumn DisplayMemberBinding="{Binding Subject}"
-                                    Width="{Binding ElementName=helperField2, Path=ActualWidth}">
+                                    Width="{Binding ElementName=HelperField2, Path=ActualWidth}">
                         <GridViewColumnHeader Content="Subject"
                                               Command="{Binding SortCommand}"
                                               CommandParameter="Subject"/>
                     </GridViewColumn>
                     <GridViewColumn DisplayMemberBinding="{Binding BeginningDate}"
-                                    Width="{Binding ElementName=helperField3, Path=ActualWidth}">
+                                    Width="{Binding ElementName=HelperField3, Path=ActualWidth}">
                         <GridViewColumnHeader Content="Beginning Date"
                                               Command="{Binding SortCommand}"
                                               CommandParameter="BeginningDate"/>
                     </GridViewColumn>
                     <GridViewColumn DisplayMemberBinding="{Binding EndingDate}"
-                                    Width="{Binding ElementName=helperField4, Path=ActualWidth}">
+                                    Width="{Binding ElementName=HelperField4, Path=ActualWidth}">
                         <GridViewColumnHeader Content="Ending Date"
                                               Command="{Binding SortCommand}"
                                               CommandParameter="EndingDate"/>
                     </GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding LocationId}"
-                                    Width="{Binding ElementName=helperField5, Path=ActualWidth}">
+                    <GridViewColumn DisplayMemberBinding="{Binding Room}"
+                                    Width="{Binding ElementName=HelperField5, Path=ActualWidth}">
                         <GridViewColumnHeader Content="Location"
                                               Command="{Binding SortCommand}"
                                               CommandParameter="LocationId"/>
                     </GridViewColumn>
                     <GridViewColumn DisplayMemberBinding="{Binding Users.Count}"
-                                    Width="{Binding ElementName=helperField6, Path=ActualWidth}">
+                                    Width="{Binding ElementName=HelperField6, Path=ActualWidth}">
                         <GridViewColumnHeader Content="Users"
                                               Command="{Binding SortCommand}"
                                               CommandParameter="Users.Count"/>

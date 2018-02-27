@@ -8,6 +8,7 @@
         LoadLocations,
         Calendar,
         Toast,
+        Sync,
         None,
         Refresh
     }

@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Threading;
 using BLL.DTO;
 using BLL.Interfaces;
 using GalaSoft.MvvmLight;
@@ -70,7 +71,6 @@ namespace ViewModel.ViewModels
         {
             Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.Toast, Argument = "You have a new\r\nappointment! Check\r\nyour calendar, please!", SecondsToShow = 5 });
         }
-
         private void AddAppointment()
         {
             Messenger.Default.Send( new OpenWindowMessage() { Type = WindowType.AddAppWindow });
@@ -83,7 +83,6 @@ namespace ViewModel.ViewModels
                 { Type = WindowType.AddAboutAppointmentWindow, Appointment = appointment, Argument = "Load this appointment" });
             }
         }
-
         private void GetCalendar()
         {
             Messenger.Default.Send(new OpenWindowMessage() { Type = WindowType.Calendar });

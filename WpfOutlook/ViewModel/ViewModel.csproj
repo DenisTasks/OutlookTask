@@ -75,6 +75,7 @@
     <Compile Include="ViewModels\AllAppByLocationWindowViewModel.cs" />
     <Compile Include="ViewModels\CalendarWindowViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\SyncWindowViewModel.cs" />
     <Compile Include="ViewModels\ToastListViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

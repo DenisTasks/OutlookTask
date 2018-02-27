@@ -113,6 +113,9 @@
     </Compile>
     <Compile Include="Primitives\CalendarViewContentPresenter.cs" />
     <Compile Include="Primitives\CalendarViewPeriodPresenter.cs" />
+    <Compile Include="SyncListControl.xaml.cs">
+      <DependentUpon>SyncListControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ToastList.xaml.cs">
       <DependentUpon>ToastList.xaml</DependentUpon>
     </Compile>
@@ -137,6 +140,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindowPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SyncListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
