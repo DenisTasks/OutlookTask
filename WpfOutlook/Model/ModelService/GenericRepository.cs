@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,6 +29,12 @@ namespace Model.ModelService
         public IEnumerable<TEntity> Get(Func<TEntity, bool> predicate)
         {
             return _dbSet.AsNoTracking().Where(predicate).ToList();
+        }
+        
+        public IQueryable<TEntity> FindBy(Func<TEntity, bool> predicate, params Expression<Func<TEntity, object>>[] includes)
+        {
+            var query = Get(predicate).AsQueryable();
+            return includes.Aggregate( query, (current, includeProperty) => current.Include(includeProperty));
         }
 
         public TEntity FindById(int id)

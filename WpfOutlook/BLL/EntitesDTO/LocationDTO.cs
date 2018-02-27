@@ -11,7 +11,5 @@ namespace BLL.EntitesDTO
     {
         public int LocationId { get; set; }
         public string Room { get; set; }
-
-        public ICollection<Appointment> Appointments { get; set; }
     }
 }

@@ -10,5 +10,6 @@ namespace BLL.Interfaces
     public interface IAuthenticationService : IDisposable
     {
         UserDTO AuthenticateUser(string username, string password);
+        string[] GetRoles(int userId);
     }
 }

@@ -194,7 +194,7 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
         {
             if (Group.GroupName!=null)
             {
-                Group.Groups = SelectedGroupList;
+                //Group.Groups = SelectedGroupList;
                // Group.Users = SelectedUserList;
                 _administrationService.CreateGroup(Group);
                 window.Close();

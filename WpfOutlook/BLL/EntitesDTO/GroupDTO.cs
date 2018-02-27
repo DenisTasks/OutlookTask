@@ -10,13 +10,7 @@ namespace BLL.EntitesDTO
     {
         public int GroupId { get; set; }
         public string GroupName { get; set; }
-
         public int? ParentId { get; set; }
-        
-        public ICollection<GroupDTO> Groups { get; set; }
-
         public int CreatorId { get; set; }
-
-        public ICollection<UserDTO> Users { get; set; }
     }
 }

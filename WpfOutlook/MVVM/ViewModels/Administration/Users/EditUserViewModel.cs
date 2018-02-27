@@ -138,8 +138,8 @@ namespace MVVM.ViewModels.Administration.Users
         {
             if (User.UserName != null)
             {
-                User.Roles = SelectedRoleList;
-                User.Groups = SelectedGroupList;
+                //User.Roles = SelectedRoleList;
+                //User.Groups = SelectedGroupList;
                 _administrationService.EditUser(User);
                 window.Close();
             }
@@ -157,22 +157,22 @@ namespace MVVM.ViewModels.Administration.Users
                 if (user != null)
                 {
                     User = user;
-                    SelectedRoleList = new ObservableCollection<RoleDTO>(User.Roles);
-                    ICollection<RoleDTO> roleCollection = _administrationService.GetRoles();
-                    foreach (var item in User.Roles)
-                    {
-                        roleCollection = roleCollection.Where(r => r.Name != item.Name).ToList();
-                    }
-                    RoleList = new ObservableCollection<RoleDTO>(roleCollection);
+                    //SelectedRoleList = new ObservableCollection<RoleDTO>(User.Roles);
+                    //ICollection<RoleDTO> roleCollection = _administrationService.GetRoles();
+                    //foreach (var item in User.Roles)
+                    //{
+                    //    roleCollection = roleCollection.Where(r => r.Name != item.Name).ToList();
+                    //}
+                    //RoleList = new ObservableCollection<RoleDTO>(roleCollection);
                     
-                    SelectedGroupList = new ObservableCollection<GroupDTO>(User.Groups);
-                    ICollection<GroupDTO> groupCollection = _administrationService.GetGroups();
-                    foreach(var item in _selectedGroupList)
-                    {
-                        groupCollection = groupCollection.Where(g => g.GroupName != item.GroupName).ToList();
-                    }
-                    GroupList = new ObservableCollection<GroupDTO>(groupCollection);
-                    Messenger.Default.Unregister<UserDTO>(this);
+                    //SelectedGroupList = new ObservableCollection<GroupDTO>(_administrationService.GetUserGroups(User.UserId));
+                    //ICollection<GroupDTO> groupCollection = _administrationService.GetGroups();
+                    //foreach(var item in _selectedGroupList)
+                    //{
+                    //    groupCollection = groupCollection.Where(g => g.GroupName != item.GroupName).ToList();
+                    //}
+                    //GroupList = new ObservableCollection<GroupDTO>(groupCollection);
+                    //Messenger.Default.Unregister<UserDTO>(this);
                 }
             });
             _administrationService = administrationService;

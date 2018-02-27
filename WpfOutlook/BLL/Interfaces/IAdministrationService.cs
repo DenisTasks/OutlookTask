@@ -9,7 +9,7 @@ namespace BLL.Interfaces
 {
     public interface IAdministrationService: IDisposable
     {
-        void CreateUser(UserDTO user);
+        void CreateUser(UserDTO user, ICollection<GroupDTO> groups, ICollection<RoleDTO> roles);
         UserDTO GetUserById(int id);
         ICollection<string> GetGroupAncestors(string groupName);
         bool CheckUser(string username);

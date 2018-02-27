@@ -68,7 +68,7 @@ namespace MVVM.ViewModels.Authenication
                 CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
                 if (customPrincipal == null)
                     throw new ArgumentException("The application's default thread principal must be set to a CustomPrincipal object on startup.");
-                customPrincipal.Identity = new CustomIdentity(user.UserName, user.Name, user.Roles.Select(r => r.Name).ToArray());
+                customPrincipal.Identity = new CustomIdentity(user.UserName, user.Name, _authenticationService.GetRoles(user.UserId));
 
 
                 _loginCommand.RaiseCanExecuteChanged();

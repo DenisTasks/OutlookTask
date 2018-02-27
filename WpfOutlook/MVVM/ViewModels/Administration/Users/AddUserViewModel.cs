@@ -141,9 +141,7 @@ namespace MVVM.ViewModels.Administration.Users
             {
                 if (_administrationService.CheckUser(User.UserName))
                 {
-                    User.Roles = SelectedRoleList;
-                    User.Groups = SelectedGroupList;
-                    _administrationService.CreateUser(User);
+                    _administrationService.CreateUser(User , SelectedGroupList, SelectedRoleList);
                     window.Close();
                 }
                 else
