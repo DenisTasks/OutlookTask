@@ -45,7 +45,6 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
             }
         }
 
-        //To Do : Remake
         private void FilterGroupList(GroupDTO group)
         {
             if (group.GroupName != "Not")
@@ -58,11 +57,13 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
                     filterGroupCollection = filterGroupCollection.Where(r => r.GroupName != item).ToList();
                 }
                 GroupList = new ObservableCollection<GroupDTO>(filterGroupCollection);
-                SelectedGroupList = null;
+                SelectedGroupList = new ObservableCollection<GroupDTO>();
             }
             else
             {
                 Group.ParentId = null;
+                SelectedGroupList = new ObservableCollection<GroupDTO>();
+                GroupList = new ObservableCollection<GroupDTO>(_administrationService.GetGroups());
             }
         }
 
@@ -73,6 +74,7 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
         public AddGroupViewModel(IAdministrationService administrationService)
         {
             _administrationService = administrationService;
+
             _userList = new ObservableCollection<UserDTO>(_administrationService.GetUsers());
             _selectedUserList = new ObservableCollection<UserDTO>();
 
@@ -81,8 +83,6 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
             _selectedGroupList = new ObservableCollection<GroupDTO>();
             _groupsForComboBox.Add(new GroupDTO { GroupName = "Not" }); 
 
-            
-
             _addUserCommand = new RelayCommand<UserDTO>(AddUser);
             _removeUserCommand = new RelayCommand<UserDTO>(RemoveUser);
             _addGroupCommand = new RelayCommand<GroupDTO>(AddGroup);
@@ -90,7 +90,6 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
             _createGroupCommand = new RelayCommand<Window>(CreateGroup);
 
             Group = new GroupDTO();
-
         }
 
         public ObservableCollection<UserDTO> UserList
@@ -194,9 +193,7 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
         {
             if (Group.GroupName!=null)
             {
-                //Group.Groups = SelectedGroupList;
-               // Group.Users = SelectedUserList;
-                _administrationService.CreateGroup(Group);
+                _administrationService.CreateGroup(Group, SelectedGroupList, SelectedUserList);
                 window.Close();
             }
             else

@@ -28,52 +28,18 @@ namespace BLL.Services
             return mapper;
         }
 
-        private IMapper GetFromGroupDTOtoGroupMapper(ICollection<GroupDTO> groupsDTO, ICollection<UserDTO> usersDTO)
-        {
-            ICollection<Group> groups = new List<Group>();
-            var convertGroups = GetDefaultMapper<GroupDTO, Group>().Map<IEnumerable<GroupDTO>, ICollection<Group>>(groupsDTO);
-            foreach (var item in convertGroups)
-            {
-                if (_groups.FindById(item.GroupId) != null)
-                {
-                    groups.Add(_groups.FindById(item.GroupId));
-                }
-            }
-
-            //ICollection<User> users = new List<User>();
-            //var convertUsers = GetUserDTOToUserMapper().Map<IEnumerable<UserDTO>, ICollection<User>>(usersDTO);
-            //foreach (var item in convertUsers)
-            //{
-            //    if (_users.FindById(item.UserId) != null)
-            //    {
-            //        users.Add(_users.FindById(item.UserId));
-            //    }
-            //}
-
-            //var config = new MapperConfiguration(cfg =>
-            //{
-            //    cfg.CreateMap<GroupDTO, Group>()
-            //        .ForMember(d => d.Users, opt => opt.MapFrom(s => users))
-            //        .ForMember(d => d.Groups, opt => opt.MapFrom(s => groups));
-
-            //});
-
-            //IMapper mapper = config.CreateMapper();
-
-            //return mapper;
-            return null;
-        }
-        
-
         private ICollection<Group> ConvertGroupsDTO(ICollection<GroupDTO> groupsDTO)
         {
             ICollection<Group> groups = new List<Group>();
-            var convert = GetDefaultMapper<GroupDTO, Group>().Map<IEnumerable<GroupDTO>, IEnumerable<Group>>(groupsDTO);
-            foreach (var item in convert)
+            if (groupsDTO != null)
             {
-                if (_groups.FindById(item.GroupId) != null)
+                var convert = GetDefaultMapper<GroupDTO, Group>().Map<IEnumerable<GroupDTO>, IEnumerable<Group>>(groupsDTO);
+                foreach (var item in convert)
                 {
-                    groups.Add(_groups.FindById(item.GroupId));
+                    if (_groups.FindById(item.GroupId) != null)
+                    {
+                        groups.Add(_groups.FindById(item.GroupId));
+                    }
                 }
             }
             return groups;
@@ -82,16 +48,36 @@ namespace BLL.Services
         private ICollection<Role> ConvertRolesDTO(ICollection<RoleDTO> rolesDTO)
         {
             ICollection<Role> roles = new List<Role>();
-            var convert = GetDefaultMapper<RoleDTO, Role>().Map<IEnumerable<RoleDTO>, IEnumerable<Role>>(rolesDTO);
-            foreach (var item in convert)
+            if (rolesDTO != null)
             {
-                if (_roles.FindById(item.RoleId) != null)
+                var convert = GetDefaultMapper<RoleDTO, Role>().Map<IEnumerable<RoleDTO>, IEnumerable<Role>>(rolesDTO);
+                foreach (var item in convert)
                 {
-                    roles.Add(_roles.FindById(item.RoleId));
+                    if (_roles.FindById(item.RoleId) != null)
+                    {
+                        roles.Add(_roles.FindById(item.RoleId));
+                    }
                 }
             }
 
             return roles;
+        }
+
+        private ICollection<User> ConvertUsersDTO(ICollection<UserDTO> usersDTO)
+        {
+            ICollection<User> users = new List<User>();
+            if (usersDTO != null)
+            {
+                var convert = GetDefaultMapper<UserDTO, User>().Map<IEnumerable<UserDTO>, ICollection<User>>(usersDTO);
+                foreach (var item in convert)
+                {
+                    if (_users.FindById(item.UserId) != null)
+                    {
+                        users.Add(_users.FindById(item.UserId));
+                    }
+                }
+            }
+            return users;
         }
 
 
@@ -103,10 +89,18 @@ namespace BLL.Services
             _groups = new GenericRepository<Group>(_context);
         }
 
-        public void CreateGroup(GroupDTO group)
+        public void CreateGroup(GroupDTO group, ICollection<GroupDTO> groups, ICollection<UserDTO> users)
         {
-            //_groups.Create(GetFromGroupDTOtoGroupMapper(group.Groups, group.Users).Map<GroupDTO, Group>(group));
-            //_context.SaveChanges();
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<GroupDTO, Group>()
+                    .ForMember(d => d.Users, opt => opt.MapFrom(s => ConvertUsersDTO(users)))
+                    .ForMember(d => d.Groups, opt => opt.MapFrom(s => ConvertGroupsDTO(groups)));
+
+            });
+            IMapper mapper = config.CreateMapper();
+            _groups.Create(mapper.Map<GroupDTO, Group>(group));
+            _context.SaveChanges();
         }
 
 
