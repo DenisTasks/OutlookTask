@@ -12,7 +12,6 @@ namespace Model.Interfaces
         IEnumerable<TEntity> Get();
         IEnumerable<TEntity> Get(Func<TEntity, Boolean> predicate);
         TEntity FindById(int id);
-        IQueryable<TEntity> FindBy(Func<TEntity, bool> predicate, params Expression<Func<TEntity, object>>[] include);
         void Create(TEntity item);
         void Update(TEntity item);
         void Remove(TEntity item);

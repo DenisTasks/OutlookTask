@@ -29,13 +29,7 @@ namespace Model.ModelService
         public IEnumerable<TEntity> Get(Func<TEntity, bool> predicate)
         {
             return _dbSet.AsNoTracking().Where(predicate).ToList();
-        }
-        
-        public IQueryable<TEntity> FindBy(Func<TEntity, bool> predicate, params Expression<Func<TEntity, object>>[] includes)
-        {
-            var query = Get(predicate).AsQueryable();
-            return includes.Aggregate( query, (current, includeProperty) => current.Include(includeProperty));
-        }
+        }      
 
         public TEntity FindById(int id)
         {
@@ -45,12 +39,15 @@ namespace Model.ModelService
         public void Create(TEntity item)
         {
             _dbSet.Add(item);
+            _context.SaveChanges();
         }
 
         public void Update(TEntity item)
         {
-            _dbSet.Attach(item);
+            if(_context.Entry(item).State == EntityState.Detached)
+                _dbSet.Attach(item);
             _context.Entry(item).State = EntityState.Modified;
+            _context.SaveChanges();
         }
 
         public void Remove(TEntity item)
@@ -60,6 +57,7 @@ namespace Model.ModelService
                 _dbSet.Attach(item);
             }
             _dbSet.Remove(item);
+            _context.SaveChanges();
         }
     }
 }

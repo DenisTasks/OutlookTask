@@ -52,7 +52,9 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
         private void DeleteGroup(GroupDTO group)
         {
             _administationService.DeleteGroup(group);
-            Groups.Remove(group);
+            LoadData();
+            Groups = _groups;
+
         }
 
         private void AddGroup()
