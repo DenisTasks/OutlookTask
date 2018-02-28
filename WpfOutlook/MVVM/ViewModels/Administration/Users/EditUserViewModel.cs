@@ -156,20 +156,40 @@ namespace MVVM.ViewModels.Administration.Users
                 {
                     User = user;
                     SelectedRoleList = new ObservableCollection<RoleDTO>(_administrationService.GetUserRoles(user.UserId));
-                    ICollection<RoleDTO> roleCollection = _administrationService.GetRoles();
+                    RoleList = new ObservableCollection<RoleDTO>(_administrationService.GetRoles());
                     foreach (var item in SelectedRoleList)
                     {
-                        roleCollection = roleCollection.Where(r => r.Name != item.Name).ToList();
+                        foreach(var temp in RoleList.ToList())
+                        {
+                            if(item.Name == temp.Name)
+                            {
+                                RoleList.Remove(temp);
+                            }
+                        }
                     }
-                    RoleList = new ObservableCollection<RoleDTO>(roleCollection);
 
                     SelectedGroupList = new ObservableCollection<GroupDTO>(_administrationService.GetUserGroups(User.UserId));
-                    ICollection<GroupDTO> groupCollection = _administrationService.GetGroups();
-                    foreach (var item in _selectedGroupList)
+                    GroupList = new ObservableCollection<GroupDTO>(_administrationService.GetGroups());
+                    foreach (var item in SelectedGroupList)
                     {
-                        groupCollection = groupCollection.Where(g => g.GroupName != item.GroupName).ToList();
+                        foreach (var temp in GroupList.ToList())
+                        {
+                            if (item.GroupName == temp.GroupName)
+                            {
+                                GroupList.Remove(temp);
+                            }
+                        }
                     }
-                    GroupList = new ObservableCollection<GroupDTO>(groupCollection);
+
+
+
+
+                    //ICollection<GroupDTO> groupCollection = _administrationService.GetGroups();
+                    //foreach (var item in _selectedGroupList)
+                    //{
+                    //    groupCollection = groupCollection.Where(g => g.GroupName != item.GroupName).ToList();
+                    //}
+                    //GroupList = new ObservableCollection<GroupDTO>(groupCollection);
                     Messenger.Default.Unregister<UserDTO>(this);
                 }
             });

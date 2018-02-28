@@ -15,7 +15,9 @@ namespace BLL.Interfaces
         ICollection<GroupDTO> GetUserGroups(int id);
         UserDTO GetUserById(int id);
         ICollection<string> GetGroupAncestors(string groupName);
+        ICollection<string> GetGroupChildren(int id);
         bool CheckUser(string username);
+        bool CheckGroup(string groupName);
         void DeactivateUser(int id);
         void CreateGroup(GroupDTO group, ICollection<GroupDTO> Groups, ICollection<UserDTO> users);
         void DeleteGroup(GroupDTO group);

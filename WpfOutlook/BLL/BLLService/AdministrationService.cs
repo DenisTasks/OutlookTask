@@ -7,6 +7,7 @@ using Model.Interfaces;
 using Model.ModelService;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 
 namespace BLL.Services
@@ -118,9 +119,11 @@ namespace BLL.Services
             _context.SaveChanges();
         }
 
-        public void DeleteGroup(GroupDTO group)
+        public void DeleteGroup(GroupDTO groupDTO)
         {
-            throw new NotImplementedException();
+            Group group = _groups.FindById(groupDTO.GroupId);
+            _groups.Remove(group);
+            _context.SaveChanges(); 
         }
 
         public void EditUser(UserDTO user, ICollection<GroupDTO> groups, ICollection<RoleDTO> roles)
@@ -188,8 +191,7 @@ namespace BLL.Services
 
         public UserDTO GetUserById(int id)
         {
-            //return GetUserDTOToUserMapper().Map<User, UserDTO>(_users.Get(u => u.UserId == id).FirstOrDefault());
-            return null;
+            return GetDefaultMapper<User, UserDTO>().Map<User, UserDTO>(_users.Get(u => u.UserId == id).FirstOrDefault());
         }
 
         public ICollection<UserDTO> GetUsers()
@@ -228,6 +230,29 @@ namespace BLL.Services
         public ICollection<GroupDTO> GetUserGroups(int id)
         {
             return GetDefaultMapper<Group, GroupDTO>().Map<IEnumerable<Group>, ICollection<GroupDTO>>(_users.FindById(id).Groups);
+        }
+
+        public ICollection<string> GetGroupChildren(int id)
+        {
+            SqlParameter param = new SqlParameter("@groupId", id);
+            var groups = _context.Database.SqlQuery<string>("GetGroupChilds @groupId", param).ToList();
+            var groupsCollection = _groups.FindById(id).Groups;
+            if (groupsCollection.Any())
+            {
+                foreach(var item in groupsCollection)
+                {
+                    groups.Add(item.GroupName);
+                    groups.AddRange(GetGroupChildren(item.GroupId));
+                }
+            }
+            return groups.Distinct().ToList();
+        }
+
+        public bool CheckGroup(string groupName)
+        {
+            if (_groups.Get(g => g.GroupName.ToLower().Equals(groupName.ToLower())).Any())
+                return false;
+            else return true;
         }
     }
 }

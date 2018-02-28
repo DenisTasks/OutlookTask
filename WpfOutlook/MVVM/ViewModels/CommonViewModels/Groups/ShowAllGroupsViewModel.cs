@@ -19,7 +19,7 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
         private ObservableCollection<GroupDTO> _groups;
         private RelayCommand<GroupDTO> _editUserCommand { get; }
         private RelayCommand _addUserCommand { get; }
-        private RelayCommand<GroupDTO> _deactivateUserCommand { get; }
+        private RelayCommand<GroupDTO> _deleteGroupCommand { get; }
 
         public ShowAllGroupsViewModel(IAdministrationService administationService)
         {
@@ -27,14 +27,14 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
             LoadData();
             _editUserCommand = new RelayCommand<GroupDTO>(EditGroup);
             _addUserCommand = new RelayCommand(AddGroup);
-            _deactivateUserCommand = new RelayCommand<GroupDTO>(DeleteGroup);
+            _deleteGroupCommand = new RelayCommand<GroupDTO>(DeleteGroup);
         }
 
         public RelayCommand<GroupDTO> EditUserCommand { get { return _editUserCommand; } }
 
         public RelayCommand AddUserCommand { get { return _addUserCommand; } }
 
-        public RelayCommand<GroupDTO> DeactivateUserCommand { get { return _deactivateUserCommand; } }
+        public RelayCommand<GroupDTO> DeleteGroupCommand { get { return _deleteGroupCommand; } }
 
         public ObservableCollection<GroupDTO> Groups
         {
@@ -51,7 +51,8 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
 
         private void DeleteGroup(GroupDTO group)
         {
-            
+            _administationService.DeleteGroup(group);
+            Groups.Remove(group);
         }
 
         private void AddGroup()

@@ -16,6 +16,8 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
     {
         private readonly IAdministrationService _administrationService;
 
+        private ICollection<GroupDTO> _selectedGroupChildren;
+
         private ObservableCollection<GroupDTO> _groupList;
         private ObservableCollection<GroupDTO> _selectedGroupList;
 
@@ -74,6 +76,8 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
         public AddGroupViewModel(IAdministrationService administrationService)
         {
             _administrationService = administrationService;
+
+            _selectedGroupChildren = new List<GroupDTO>();
 
             _userList = new ObservableCollection<UserDTO>(_administrationService.GetUsers());
             _selectedUserList = new ObservableCollection<UserDTO>();
@@ -153,6 +157,7 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
         public void AddUser(UserDTO user)
         {
             SelectedUserList.Add(user);
+
             UserList.Remove(user);
             base.RaisePropertyChanged();
         }
@@ -174,14 +179,44 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
         public void AddGroup(GroupDTO group)
         {
             SelectedGroupList.Add(group);
+            foreach(var childName in _administrationService.GetGroupChildren(group.GroupId))
+            {
+                foreach (var item in GroupList.Where(g=>g.GroupName==childName).ToList())
+                {
+                    GroupList.Remove(item);
+                    _selectedGroupChildren.Add(item); 
+                }
+            }
             GroupList.Remove(group);
             base.RaisePropertyChanged();
         }
 
         public void RemoveGroup(GroupDTO group)
         {
-            GroupList.Add(group);
             SelectedGroupList.Remove(group);
+            GroupList.Add(group);
+            List<string> childrenInTheStoredList = new List<string>();
+            ICollection<string> childrenToGroupList = _administrationService.GetGroupChildren(group.GroupId);
+            foreach(var item in SelectedGroupList)
+            {
+                childrenInTheStoredList.AddRange(_administrationService.GetGroupChildren(item.GroupId));
+            }
+            childrenInTheStoredList.Distinct();
+            foreach (var item in childrenInTheStoredList)
+            {
+                childrenToGroupList = childrenToGroupList.Where(ch => ch != item).ToList();
+            }
+            foreach(var item in childrenToGroupList)
+            {
+                foreach(var tmp in _selectedGroupChildren.ToList())
+                {
+                    if(item == tmp.GroupName)
+                    {
+                        _selectedGroupChildren.Remove(tmp);
+                        GroupList.Add(tmp);
+                    }
+                }
+            }
             base.RaisePropertyChanged();
         }
 
@@ -191,7 +226,7 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
 
         public void CreateGroup(Window window)
         {
-            if (Group.GroupName!=null)
+            if (Group.GroupName!=null && _administrationService.CheckGroup(Group.GroupName))
             {
                 _administrationService.CreateGroup(Group, SelectedGroupList, SelectedUserList);
                 window.Close();
