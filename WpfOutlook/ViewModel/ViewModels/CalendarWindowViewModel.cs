@@ -67,7 +67,7 @@ namespace ViewModel.ViewModels
         {
             if (_selectedSyncUser != null)
             {
-                Messenger.Default.Send(new OpenWindowMessage() { Type = WindowType.Sync, User = new UserDTO(){UserId = _selectedSyncUser.UserId}});
+                Messenger.Default.Send(new OpenWindowMessage{ Type = WindowType.Sync, User = new UserDTO(){UserId = _selectedSyncUser.UserId}});
             }
         }
 

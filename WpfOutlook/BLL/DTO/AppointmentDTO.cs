@@ -7,9 +7,12 @@ namespace BLL.DTO
     public class AppointmentDTO : IDataErrorInfo, INotifyPropertyChanged
     {
         private string _subject;
+        private int _locationId;
+        private DateTime _beginningDate;
+        private DateTime _endingDate;
+        private ICollection<UserDTO> _users;
 
         public int AppointmentId { get; set; }
-
         public string Subject
         {
             get { return _subject; }
@@ -19,12 +22,43 @@ namespace BLL.DTO
                 NotifyPropertyChanged("Subject");
             }
         }
-
-        public DateTime BeginningDate { get; set; }
-        public DateTime EndingDate { get; set; }
-        public int LocationId { get; set; }
+        public DateTime BeginningDate
+        {
+            get { return _beginningDate; }
+            set
+            {
+                _beginningDate = value;
+                NotifyPropertyChanged("BeginningDate");
+            }
+        }
+        public DateTime EndingDate
+        {
+            get { return _endingDate; }
+            set
+            {
+                _endingDate = value;
+                NotifyPropertyChanged("EndingDate");
+            }
+        }
+        public int LocationId
+        {
+            get { return _locationId; }
+            set
+            {
+                _locationId = value;
+                NotifyPropertyChanged("LocationId");
+            }
+        }
         public string Room { get; set; }
-        public ICollection<UserDTO> Users { get; set; }
+        public ICollection<UserDTO> Users
+        {
+            get { return _users; }
+            set
+            {
+                _users = value;
+                NotifyPropertyChanged("Users");
+            }
+        }
 
         public AppointmentDTO()
         {
@@ -46,12 +80,26 @@ namespace BLL.DTO
         }
         #endregion
 
-
         #region Validation
         static readonly string[] ValidatedProperties =
         {
-            "Subject"
+            "Subject", "Users", "LocationId", "BeginningDate"
         };
+
+        public bool IsValid
+        {
+            get
+            {
+                foreach (var property in ValidatedProperties)
+                {
+                    if (GetValidationError(property) != null)
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
 
         string GetValidationError(string propertyName)
         {
@@ -62,22 +110,57 @@ namespace BLL.DTO
                 case "Subject":
                     error = ValidateSubject();
                     break;
+
+                case "Users":
+                    error = ValidateUsers();
+                    break;
+
+                case "LocationId":
+                    error = ValidateLocationId();
+                    break;
+
+                case "BeginningDate":
+                    error = ValidateBeginningDate();
+                    break;
             }
 
             return error;
         }
 
+
+        private string ValidateBeginningDate()
+        {
+            if (BeginningDate >= EndingDate)
+            {
+                return "Check beginning and ending date!";
+            }
+            return null;
+        }
+        private string ValidateLocationId()
+        {
+            if (LocationId == 0 || LocationId < 0)
+            {
+                return "Select location!";
+            }
+            return null;
+        }
+        private string ValidateUsers()
+        {
+            if (Users.Count == 0)
+            {
+                return "User list can not be empty!";
+            }
+            return null;
+        }
         private string ValidateSubject()
         {
             if (String.IsNullOrWhiteSpace(Subject))
             {
                 return "Subject can not be empty!";
             }
-
             return null;
         }
         #endregion
-
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;

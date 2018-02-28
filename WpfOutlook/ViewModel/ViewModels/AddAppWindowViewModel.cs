@@ -22,7 +22,7 @@ namespace ViewModel.ViewModels
         private DateTime _selectedEndingTime;
         private DateTime _startDate = DateTime.Today;
         private DateTime _endingDate = DateTime.Today;
-        private LocationDTO _selectedLocation;
+        private LocationDTO _selectedLocation = new LocationDTO(){LocationId = 0};
         private int _isAvailible;
 
         public RelayCommand<Window> CreateAppCommand { get; }
@@ -172,12 +172,12 @@ namespace ViewModel.ViewModels
         {
             Appointment.BeginningDate = DateTime.Parse(_startDate.ToString("d") + " " + _selectedBeginningTime.ToString("h:mm tt"));
             Appointment.EndingDate = DateTime.Parse(_endingDate.ToString("d") + " " + _selectedEndingTime.ToString("h:mm tt"));
+            Appointment.LocationId = SelectedLocation.LocationId;
+            Appointment.Users = SelectedUserList;
             CheckDates();
 
-            if (SelectedUserList.Count > 0 && _isAvailible == 0 && SelectedLocation.LocationId > 0 && (Appointment.BeginningDate <= Appointment.EndingDate))
+            if (Appointment.IsValid && _isAvailible == 0)
             {
-                Appointment.LocationId = SelectedLocation.LocationId;
-                Appointment.Users = SelectedUserList;
                 _service.AddAppointment(Appointment);
                 Messenger.Default.Send<NotificationMessage, MainWindowViewModel>(new NotificationMessage("Refresh"));
                 window?.Close();

@@ -81,9 +81,7 @@
   <ItemGroup>
     <Compile Include="BLLService.cs" />
     <Compile Include="DTO\AppointmentDTO.cs" />
-    <Compile Include="DTO\GroupDTO.cs" />
     <Compile Include="DTO\LocationDTO.cs" />
-    <Compile Include="DTO\RoleDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="Interfaces\IBLLService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
