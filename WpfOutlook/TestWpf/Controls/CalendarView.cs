@@ -11,11 +11,9 @@ namespace TestWpf.Controls
         public static DependencyProperty BeginDateProperty = DependencyProperty.RegisterAttached("BeginDate", typeof(DateTime), typeof(ListViewItem));
         public static DependencyProperty EndDateProperty = DependencyProperty.RegisterAttached("EndDate", typeof(DateTime), typeof(ListViewItem));
 
-
         private ObservableCollection<CalendarViewPeriod> _periods;
         
         public BindingBase ItemBeginDateBinding { get; set; }
-
         public BindingBase ItemEndDateBinding { get; set; }
 
         public ObservableCollection<CalendarViewPeriod> Periods
@@ -35,10 +33,6 @@ namespace TestWpf.Controls
                 return _periods;
             }
         }
-
-        protected override object DefaultStyleKey => new ComponentResourceKey(GetType(), "DefaultStyleKey");
-
-        protected override object ItemContainerDefaultStyleKey => new ComponentResourceKey(GetType(), "ItemContainerDefaultStyleKey");
 
         public static DateTime GetBegin(DependencyObject item)
         {
@@ -73,5 +67,8 @@ namespace TestWpf.Controls
 
             return (((itemBegin <= period.BeginDate) && (itemEnd >= period.BeginDate)) || ((itemBegin <= period.EndDate) && (itemEnd >= period.BeginDate)));
         }
+
+        protected override object DefaultStyleKey => new ComponentResourceKey(GetType(), "DefaultStyleKey");
+        protected override object ItemContainerDefaultStyleKey => new ComponentResourceKey(GetType(), "ItemContainerDefaultStyleKey");
     }
 }

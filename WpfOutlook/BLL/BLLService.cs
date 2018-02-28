@@ -98,7 +98,6 @@ namespace BLL
             List<Appointment> collection;
             using (_appointments.BeginTransaction())
             {
-                //collection = Database.Appointments.Get(s => s.Users.Any(d => d.UserId == 92)).ToList();
                 collection = _appointments.Get().ToList();
             }
             foreach (var item in collection)
@@ -115,6 +114,21 @@ namespace BLL
             using (_appointments.BeginTransaction())
             {
                 collection = _appointments.Get().ToList();
+            }
+            foreach (var item in collection)
+            {
+                item.Location = _locations.FindById(item.LocationId);
+            }
+            var mappingCollection = GetFromAppToAppDtoMapper().Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(collection);
+            return mappingCollection;
+        }
+
+        public IEnumerable<AppointmentDTO> GetCalendarByUserId(int id)
+        {
+            List<Appointment> collection;
+            using (_appointments.BeginTransaction())
+            {
+                collection = _appointments.Get(x => x.Users.Any(s => s.UserId == id)).ToList();
             }
             foreach (var item in collection)
             {
@@ -149,21 +163,24 @@ namespace BLL
         public IEnumerable<LocationDTO> GetLocations()
         {
             var locationsMapper =
-                GetFromLocationToLocationDtoMapper().Map<IEnumerable<Location>, IEnumerable<LocationDTO>>(_locations
-                    .Get());
+                GetFromLocationToLocationDtoMapper().Map<IEnumerable<Location>, IEnumerable<LocationDTO>>(_locations.Get());
             return locationsMapper;
         }
 
         public IEnumerable<AppointmentDTO> GetAppsByLocation(int id)
         {
-            var config = new MapperConfiguration(cfg =>
+            List<Appointment> collection;
+            using (_appointments.BeginTransaction())
             {
-                cfg.CreateMap<AppointmentDTO, Appointment>()
-                    .ForMember(s => s.Location, opt => opt.MapFrom(loc => _locations.FindById(loc.LocationId)));
-            });
-            IMapper mapper = config.CreateMapper();
+                collection = _appointments.Get(x => x.LocationId == id).ToList();
+            }
+            foreach (var item in collection)
+            {
+                item.Location = _locations.FindById(item.LocationId);
+            }
 
-            return mapper.Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(_appointments.Get(x => x.LocationId == id));
+            var mappingCollection = GetFromAppToAppDtoMapper().Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(collection);
+            return mappingCollection;
         }
 
         public IEnumerable<UserDTO> GetUsers()

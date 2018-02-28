@@ -37,6 +37,12 @@ namespace TestWpf
                         var addCalendarWindow = new CalendarWindow();
                         var result = addCalendarWindow.ShowDialog();
                     }
+                    if (message.Type == WindowType.Sync && message.User != null)
+                    {
+                        var addSync = new SyncWindow();
+                        Messenger.Default.Send(new OpenWindowMessage() { Type = WindowType.None, User = message.User });
+                        var result = addSync.ShowDialog();
+                    }
                 });
         }
     }

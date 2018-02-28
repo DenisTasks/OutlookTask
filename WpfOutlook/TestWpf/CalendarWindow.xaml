@@ -32,13 +32,12 @@
                       IsSynchronizedWithCurrentItem="True"/>
 
             <Button Command="{Binding SyncCommand}" 
-                    Content="Refresh"/>
+                    Content="Sync with selected user"/>
         </DockPanel>
-        
         
         <ListView ItemsSource="{Binding Appointments}" Grid.Column="0" Grid.Row="1">
             <ListView.View>
-                <controls:CalendarView ItemBeginDateBinding="{Binding Path=BeginningDate}" ItemEndDateBinding="{Binding Path=EndingDate}">
+                <controls:CalendarView ItemBeginDateBinding="{Binding Path=BeginningDate}" ItemEndDateBinding="{Binding Path=EndingDate}" >
                 </controls:CalendarView>
             </ListView.View>
 
@@ -133,60 +132,6 @@
             </ListView.ItemContainerStyle>
         </ListView>
         
-        <ListView ItemsSource="{Binding AppointmentsSync}" Grid.Column="1" Grid.Row="1" Visibility="Visible">
-            <ListView.View>
-                <controls:CalendarView ItemBeginDateBinding="{Binding Path=BeginningDate}" ItemEndDateBinding="{Binding Path=EndingDate}">
-                </controls:CalendarView>
-            </ListView.View>
-
-            <ListView.ItemContainerStyle>
-                <Style TargetType="{x:Type ListViewItem}">
-                    <Style.Setters>
-                        <Setter Property="ToolTip">
-                            <Setter.Value>
-                                <StackPanel Background="Honeydew" 
-                                            Height="200" 
-                                            Width="200">
-                                    <TextBlock FontFamily="Aharoni" 
-                                               FontSize="24" 
-                                               FontWeight="Bold" 
-                                               Foreground="Black" 
-                                               TextWrapping="Wrap" 
-                                               VerticalAlignment="Top"
-                                               Height="100" 
-                                               HorizontalAlignment="Center" 
-                                               Width="143">
-                                        <Run FontFamily="Andalus" 
-                                             FontSize="16" 
-                                             FontWeight="Normal" 
-                                             Text="Busy"/>
-                                    </TextBlock>
-                                </StackPanel>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                    <Border BorderBrush="#5076A7" BorderThickness="1,1,1,1" CornerRadius="4,4,4,4">
-                                        <Border.Background>
-                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                <GradientStop Color="#FFFFFF" Offset="0.0" />
-                                                <GradientStop Color="#C0D3EA" Offset="1.0" />
-                                            </LinearGradientBrush>
-                                        </Border.Background>
-                                        <StackPanel TextElement.FontFamily="Segoe UI" TextElement.FontSize="11">
-                                            <TextBlock FontWeight="Bold" Padding="3,0,0,0" Text="Busy" TextWrapping="Wrap" />
-                                        </StackPanel>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style.Setters>
-                </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
-
-
     </Grid>
 </Window>
 

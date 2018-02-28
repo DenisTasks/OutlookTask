@@ -1,22 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using BLL.DTO;
 using BLL.Interfaces;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Messaging;
+using ViewModel.Helpers;
 
 namespace ViewModel.ViewModels
 {
     public class SyncWindowViewModel: ViewModelBase
     {
         private readonly IBLLService _service;
+        private ObservableCollection<AppointmentDTO> _appointments;
         private ObservableCollection<AppointmentDTO> _appointmentsOther;
 
-
+        public ObservableCollection<AppointmentDTO> Appointments
+        {
+            get => _appointments;
+            set
+            {
+                if (value != _appointments)
+                {
+                    _appointments = value;
+                    base.RaisePropertyChanged();
+                }
+            }
+        }
         public ObservableCollection<AppointmentDTO> AppointmentsSync
         {
             get => _appointmentsOther;
@@ -33,14 +44,22 @@ namespace ViewModel.ViewModels
         public SyncWindowViewModel(IBLLService service)
         {
             _service = service;
-            LoadData();
+
+            Messenger.Default.Register<OpenWindowMessage>(this, message =>
+            {
+                if (message.Type == WindowType.None && message.User != null)
+                {
+                    LoadData(message.User.UserId);
+                }
+            });
         }
 
-        private void LoadData()
+        private void LoadData(int id)
         {
             try
             {
-                AppointmentsSync = new ObservableCollection<AppointmentDTO>(_service.GetCalendar());
+                Appointments = new ObservableCollection<AppointmentDTO>(_service.GetCalendar());
+                AppointmentsSync = new ObservableCollection<AppointmentDTO>(_service.GetCalendarByUserId(id));
             }
             catch (Exception e)
             {

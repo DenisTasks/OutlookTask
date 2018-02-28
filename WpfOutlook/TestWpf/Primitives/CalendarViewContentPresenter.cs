@@ -76,7 +76,7 @@ namespace TestWpf.Primitives
             else
                 _visualChildren.Clear();
 
-            foreach (CalendarViewPeriod period in CalendarView.Periods)
+            foreach (var period in CalendarView.Periods)
                 _visualChildren.Add(new CalendarViewPeriodPresenter() { Period = period, CalendarView = CalendarView, ListView = ListView });
 
             _visualChildrenGenerated = true;

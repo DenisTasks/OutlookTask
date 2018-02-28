@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace TestWpf
 {
     /// <summary>
-    /// Interaction logic for SyncListControl.xaml
+    /// Interaction logic for SyncWindow.xaml
     /// </summary>
-    public partial class SyncListControl : UserControl
+    public partial class SyncWindow : Window
     {
-        public SyncListControl()
+        public SyncWindow()
         {
             InitializeComponent();
         }

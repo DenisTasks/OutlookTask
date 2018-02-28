@@ -8,5 +8,6 @@ namespace ViewModel.Helpers
         public string Argument { get; set; }
         public int SecondsToShow { get; set; }
         public AppointmentDTO Appointment { get; set; }
+        public UserDTO User { get; set; }
     }
 }
