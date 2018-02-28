@@ -73,6 +73,8 @@ namespace TestWpf.Primitives
                 _visualChildren.Clear();
 
             RangePanel panel = new RangePanel();
+
+            // PERIOD
             panel.SetBinding(RangePanel.MinimumHeightProperty, new Binding("BeginDate.Ticks") { Source = Period });
             panel.SetBinding(RangePanel.MaximumHeightProperty, new Binding("EndDate.Ticks") { Source = Period });
 

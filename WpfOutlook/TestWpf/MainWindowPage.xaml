@@ -8,21 +8,21 @@
       Background="LightCyan"
       DataContext="{Binding MainWindow,
                               Source={StaticResource Locator}}"
-      WindowHeight="500" WindowWidth="1100"
+      WindowHeight="500" WindowWidth="1200"
       
       Title="Outlook application">
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.05*"/>
-            <ColumnDefinition Width="0.16*"/>
-            <ColumnDefinition Width="0.16*"/>
-            <ColumnDefinition Width="0.16*"/>
+            <ColumnDefinition Width="0.03*"/>
+            <ColumnDefinition Width="0.14*"/>
+            <ColumnDefinition Width="0.14*"/>
+            <ColumnDefinition Width="0.14*"/>
             <ColumnDefinition Width="0.1*"/>
             <ColumnDefinition Width="0.05*"/>
             
             <ColumnDefinition Width="150"/>
-            <ColumnDefinition Width="0.12*"/>
+            <ColumnDefinition Width="0.10*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.08*"/>
@@ -49,7 +49,6 @@
             <Button Command="{Binding AllAppByLocationCommand}"
                     CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}">AllAppByLocation</Button>
             <Button Command="{Binding CalendarWindowCommand}">Open calendar</Button>
-            <Button Command="{Binding ToastCommand}">Toast</Button>
 
         </WrapPanel>
         

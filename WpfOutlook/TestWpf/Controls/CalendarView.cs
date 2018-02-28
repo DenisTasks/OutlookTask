@@ -8,9 +8,11 @@ namespace TestWpf.Controls
 {
     public class CalendarView : ViewBase
     {
+        DateTime _dt = DateTime.Now.StartOfWeek(DayOfWeek.Monday);
+
         public static DependencyProperty BeginDateProperty = DependencyProperty.RegisterAttached("BeginDate", typeof(DateTime), typeof(ListViewItem));
         public static DependencyProperty EndDateProperty = DependencyProperty.RegisterAttached("EndDate", typeof(DateTime), typeof(ListViewItem));
-
+        
         private ObservableCollection<CalendarViewPeriod> _periods;
         
         public BindingBase ItemBeginDateBinding { get; set; }
@@ -21,17 +23,19 @@ namespace TestWpf.Controls
             get
             {
                 if (_periods == null)
-                    _periods = new ObservableCollection<CalendarViewPeriod>
-                    {
-                        new CalendarViewPeriod() { BeginDate = DateTime.Parse("02/19/2018 12:00 AM"), EndDate = DateTime.Parse("02/19/2018 11:59:59 PM") },
-                        new CalendarViewPeriod() { BeginDate = DateTime.Parse("02/20/2018 12:00 AM"), EndDate = DateTime.Parse("02/20/2018 11:59:59 PM") },
-                        new CalendarViewPeriod() { BeginDate = DateTime.Parse("02/21/2018 12:00 AM"), EndDate = DateTime.Parse("02/21/2018 11:59:59 PM") },
-                        new CalendarViewPeriod() { BeginDate = DateTime.Parse("02/22/2018 12:00 AM"), EndDate = DateTime.Parse("02/22/2018 11:59:59 PM") },
-                        new CalendarViewPeriod() { BeginDate = DateTime.Parse("02/23/2018 12:00 AM"), EndDate = DateTime.Parse("02/23/2018 11:59:59 PM") },
-                        new CalendarViewPeriod() { BeginDate = DateTime.Parse("02/24/2018 12:00 AM"), EndDate = DateTime.Parse("02/24/2018 11:59:59 PM") }
-                };
+                    _periods = GetWeek();
                 return _periods;
             }
+        }
+
+        public ObservableCollection<CalendarViewPeriod> GetWeek()
+        {
+            var week = new ObservableCollection<CalendarViewPeriod>();
+            for (int i = 0; i < 7; i++)
+            {
+                week.Add(new CalendarViewPeriod { BeginDate = _dt.AddDays(i), EndDate = _dt.AddDays(i).AddHours(11).AddMinutes(59).AddSeconds(59) });
+            }
+            return week;
         }
 
         public static DateTime GetBegin(DependencyObject item)
@@ -70,5 +74,15 @@ namespace TestWpf.Controls
 
         protected override object DefaultStyleKey => new ComponentResourceKey(GetType(), "DefaultStyleKey");
         protected override object ItemContainerDefaultStyleKey => new ComponentResourceKey(GetType(), "ItemContainerDefaultStyleKey");
+    }
+
+    public static class DateTimeExtensions
+    {
+        public static DateTime StartOfWeek(this DateTime dt, DayOfWeek startOfWeek)
+        {
+            System.Globalization.CultureInfo ci = System.Threading.Thread.CurrentThread.CurrentCulture;
+            DayOfWeek fdow = ci.DateTimeFormat.FirstDayOfWeek;
+            return DateTime.Today.AddDays(-(DateTime.Today.DayOfWeek - fdow));
+        }
     }
 }

@@ -39,14 +39,13 @@ namespace ViewModel.ViewModels
         public RelayCommand GroupBySubjectCommand { get; }
         public RelayCommand<AppointmentDTO> FilterBySubjectCommand { get; }
         public RelayCommand CalendarWindowCommand { get; }
-        public RelayCommand ToastCommand { get; }
         #endregion
 
         public MainWindowViewModel(IBLLService service)
         {
             _service = service;
             LoadData();
-
+            #region Commands
             AddAppWindowCommand = new RelayCommand(AddAppointment);
             AboutAppointmentCommand = new RelayCommand<AppointmentDTO>(AboutAppointment);
             AllAppByLocationCommand = new RelayCommand<AppointmentDTO>(GetAllAppsByRoom);
@@ -55,8 +54,7 @@ namespace ViewModel.ViewModels
             GroupBySubjectCommand = new RelayCommand(GroupBySubject);
             FilterBySubjectCommand = new RelayCommand<AppointmentDTO>(FilterBySubject);
             CalendarWindowCommand = new RelayCommand(GetCalendar);
-            ToastCommand = new RelayCommand(ToastWindow);
-
+            #endregion
             Messenger.Default.Register<NotificationMessage>(this, message =>
             {
                 if (message.Notification == "Refresh")
@@ -66,10 +64,6 @@ namespace ViewModel.ViewModels
             });
         }
 
-        private void ToastWindow()
-        {
-            Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.Toast, Argument = "You have a new\r\nappointment! Check\r\nyour calendar, please!", SecondsToShow = 5 });
-        }
         private void AddAppointment()
         {
             Messenger.Default.Send( new OpenWindowMessage() { Type = WindowType.AddAppWindow });
@@ -90,6 +84,7 @@ namespace ViewModel.ViewModels
         {
             Appointments.Clear();
             Appointments = new ObservableCollection<AppointmentDTO>(_service.GetAppointments());
+            Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.Toast, Argument = "You added a new\r\nappointment! Check\r\nyour calendar, please!", SecondsToShow = 5 });
         }
         private void GetAllAppsByRoom(AppointmentDTO appointment)
         {
