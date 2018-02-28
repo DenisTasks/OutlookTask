@@ -7,7 +7,7 @@
         DataContext="{Binding AddGroupWindow, Source={StaticResource Locator}}"
         xmlns:local="clr-namespace:MVVM.ViewModels.CommonViewModels"
         mc:Ignorable="d"
-        Title="AddGroupWindow" Height="302.007" Width="364.214">
+        Title="AddGroupWindow" Height="664.748" Width="556.669">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -44,7 +44,7 @@
 
         <ListView Grid.Column="1"
                   Grid.Row="5"
-                  MaxHeight="200"
+                  MaxHeight="100"
                   Name="FromUserList"
                   ItemsSource="{Binding UserList}">
             <ListView.ItemTemplate>
@@ -67,7 +67,7 @@
 
         <ListView Grid.Column="3"
                   Grid.Row="5"
-                  MaxHeight="200"
+                  MaxHeight="100"
                   Name="ToUserList"
                   ItemsSource="{Binding SelectedUserList}">
             <ListView.ItemTemplate>
@@ -87,7 +87,7 @@
 
         <ListView Grid.Column="1"
                   Grid.Row="6"
-                  MaxHeight="200"
+                  MaxHeight="100"
                   Name="FromGroupList"
                   ItemsSource="{Binding GroupList}">
             <ListView.ItemTemplate>
@@ -107,7 +107,7 @@
 
         <ListView Grid.Column="3"
                   Grid.Row="6"
-                  MaxHeight="200"
+                  MaxHeight="100"
                   Name="ToGroupList"
                   ItemsSource="{Binding SelectedGroupList}">
             <ListView.ItemTemplate>
