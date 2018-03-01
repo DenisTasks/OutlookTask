@@ -11,12 +11,17 @@ namespace Model.Entities
     {
         [Key]
         public int GroupId { get; set; }
+        //[Key]
+        //public int RelatedId { get; set; }
         public string GroupName { get; set; }
-        ICollection<User> Moderators { get; set; }
+
+        public int? ParentId { get; set; }
+        public Group Parent { get; set; }
 
         public int CreatorId { get; set; }
         public User Creator { get; set; }
 
-        ICollection<User> Users { get; set; }
+        public virtual ICollection<Group> Groups { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

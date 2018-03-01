@@ -12,25 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ViewModel;
 
-namespace TestWpf
+namespace BLL
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly VM viewModel = new VM();
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = viewModel;
-        }
-
-        private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            this.viewModel.LoadData();
         }
     }
 }
