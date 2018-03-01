@@ -18,9 +18,15 @@ namespace TestWpf
 
             if (element != null && item != null && item is AppointmentDTO)
             {
-                if (element.Name == "TestListView")
+                AppointmentDTO taskitem = item as AppointmentDTO;
+
+                if (taskitem.Subject != null)
                 {
-                    return element.FindResource("OverrideStyleListViewItem") as Style;
+                    return Application.Current.Resources.FindName("OverrideStyleListViewItem") as Style;
+                }
+                else
+                {
+                    return Application.Current.Resources.FindName("OverrideStyleListViewItem") as Style;
                 }
             }
 

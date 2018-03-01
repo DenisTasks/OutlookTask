@@ -31,19 +31,8 @@
                 </Setter>
             </Style>
             
-            <!--<local:TemplatePriority x:Key="myTemplateSelector" />-->
             <local:CustomStyleSelector x:Key="myCustomStyleSelector"  />
             
-            <!--<DataTemplate x:Key="TestTemplate">
-                <DockPanel>
-                    <TextBlock Text="{Binding Subject}"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Stretch"/>
-                    <Button Command="{Binding DataContext.RemoveAppCommand, ElementName=AppointmentsList}"
-                            CommandParameter="{Binding}"
-                            DockPanel.Dock="Right">Delete</Button>
-                </DockPanel>
-            </DataTemplate>-->
         </ResourceDictionary>
     </Page.Resources>
     
@@ -152,10 +141,9 @@
 
         <ListView Grid.Column="7"
                   Grid.Row="1"
-                  Name="TestListView"
                   VerticalContentAlignment="Stretch"
                   ItemsSource="{Binding Appointments}"
-                  ItemContainerStyleSelector="{StaticResource myCustomStyleSelector}">
+                  ItemContainerStyle="{StaticResource OverrideStyleListViewItem}">
         </ListView>
 
         <local:ToastList Grid.Row="1" Grid.Column="6" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="150"/>
