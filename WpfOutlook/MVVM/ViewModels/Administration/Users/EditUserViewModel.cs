@@ -180,10 +180,7 @@ namespace MVVM.ViewModels.Administration.Users
                             }
                         }
                     }
-
-
-
-
+                    
                     //ICollection<GroupDTO> groupCollection = _administrationService.GetGroups();
                     //foreach (var item in _selectedGroupList)
                     //{

@@ -79,15 +79,6 @@
     <Compile Include="AdminWindow.xaml.cs">
       <DependentUpon>AdminWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EditGroupsWindow.xaml.cs">
-      <DependentUpon>EditGroupsWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="EditRolesWindow.xaml.cs">
-      <DependentUpon>EditRolesWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="EditUsersWindow.xaml.cs">
-      <DependentUpon>EditUsersWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Helpers\ViewModelLocator.cs" />
     <Compile Include="LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
@@ -99,7 +90,10 @@
       <DependentUpon>TestShell.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\Administration\AdministrationViewModel.cs" />
-    <Compile Include="ViewModels\Administration\EditRolesViewModel.cs" />
+    <Compile Include="ViewModels\Administration\Groups\EditGroupViewModel.cs" />
+    <Compile Include="ViewModels\Administration\Groups\EditGroupWindow.xaml.cs">
+      <DependentUpon>EditGroupWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\CommonViewModels\Groups\ShowAllGroupsPage.xaml.cs">
       <DependentUpon>ShowAllGroupsPage.xaml</DependentUpon>
     </Compile>
@@ -131,18 +125,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="EditGroupsWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="EditRolesWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="EditUsersWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -164,6 +146,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TestShell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewModels\Administration\Groups\EditGroupWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

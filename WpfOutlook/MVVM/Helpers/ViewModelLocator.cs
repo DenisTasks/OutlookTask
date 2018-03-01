@@ -3,6 +3,7 @@ using BLL.Services;
 using CommonServiceLocator;
 using GalaSoft.MvvmLight.Ioc;
 using MVVM.ViewModels.Administration;
+using MVVM.ViewModels.Administration.Groups;
 using MVVM.ViewModels.Administration.Users;
 using MVVM.ViewModels.Authenication;
 using MVVM.ViewModels.CommonViewModels.Groups;
@@ -39,6 +40,7 @@ namespace MVVM.Helpers
             SimpleIoc.Default.Register<EditUserViewModel>();
             SimpleIoc.Default.Register<ShowAllGroupsViewModel>();
             SimpleIoc.Default.Register<AddGroupViewModel>();
+            SimpleIoc.Default.Register<EditGroupViewModel>();
         }
         
 
@@ -97,6 +99,14 @@ namespace MVVM.Helpers
             get
             {
                 return ServiceLocator.Current.GetInstance<AddGroupViewModel>(Guid.NewGuid().ToString());
+            }
+        }
+
+        public EditGroupViewModel EditGroupWindow
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<EditGroupViewModel>(Guid.NewGuid().ToString());
             }
         }
 

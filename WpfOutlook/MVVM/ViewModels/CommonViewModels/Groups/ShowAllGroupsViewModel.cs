@@ -2,6 +2,8 @@
 using BLL.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Messaging;
+using MVVM.ViewModels.Administration.Groups;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -69,7 +71,11 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
         {
             if (group != null)
             {
-                
+                var editGroupWindow = new EditGroupWindow();
+                Messenger.Default.Send<GroupDTO, EditGroupViewModel>(group);
+                var result = editGroupWindow.ShowDialog();
+                LoadData();
+                Groups = _groups;
             }
         }
 

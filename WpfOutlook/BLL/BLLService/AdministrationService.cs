@@ -269,5 +269,25 @@ namespace BLL.Services
                 return false;
             else return true;
         }
+
+        public ICollection<GroupDTO> GetGroupGroups(int id)
+        {
+            //ICollection<GroupDTO> groups = new List<GroupDTO>();
+            //foreach(var item in GetDefaultMapper<Group, GroupDTO>().Map<IEnumerable<Group>, ICollection<GroupDTO>>(_groups.Get(g => g.ParentId == id)))
+            //{
+            //    groups.Add(item);
+            //}
+            //foreach(var item in GetDefaultMapper<Group, GroupDTO>().Map<IEnumerable<Group>, ICollection<GroupDTO>>(_groups.FindById(id).Groups))
+            //{
+            //    groups.Add(item);
+            //}
+            //return groups;
+            return GetDefaultMapper<Group, GroupDTO>().Map<IEnumerable<Group>, ICollection<GroupDTO>>(_groups.FindById(id).Groups);
+        }
+
+        public ICollection<UserDTO> GetGroupUsers(int id)
+        {
+            return GetDefaultMapper<User, UserDTO>().Map<IEnumerable<User>, ICollection<UserDTO>>(_groups.FindById(id).Users);
+        }
     }
 }
