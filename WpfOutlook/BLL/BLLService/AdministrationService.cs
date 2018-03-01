@@ -251,10 +251,10 @@ namespace BLL.Services
         {
             SqlParameter param = new SqlParameter("@groupId", id);
             var groups = _context.Database.SqlQuery<string>("GetGroupChilds @groupId", param).ToList();
-            var groupsCollection = _groups.Get(g=>g.GroupId == id).FirstOrDefault().Groups;
+            var groupsCollection = _groups.Get(g => g.GroupId == id).FirstOrDefault().Groups;
             if (groupsCollection.Any())
             {
-                foreach(var item in groupsCollection)
+                foreach (var item in groupsCollection)
                 {
                     groups.Add(item.GroupName);
                     groups.AddRange(GetGroupChildren(item.GroupId));
@@ -272,22 +272,27 @@ namespace BLL.Services
 
         public ICollection<GroupDTO> GetGroupGroups(int id)
         {
-            //ICollection<GroupDTO> groups = new List<GroupDTO>();
-            //foreach(var item in GetDefaultMapper<Group, GroupDTO>().Map<IEnumerable<Group>, ICollection<GroupDTO>>(_groups.Get(g => g.ParentId == id)))
-            //{
-            //    groups.Add(item);
-            //}
-            //foreach(var item in GetDefaultMapper<Group, GroupDTO>().Map<IEnumerable<Group>, ICollection<GroupDTO>>(_groups.FindById(id).Groups))
-            //{
-            //    groups.Add(item);
-            //}
-            //return groups;
             return GetDefaultMapper<Group, GroupDTO>().Map<IEnumerable<Group>, ICollection<GroupDTO>>(_groups.FindById(id).Groups);
         }
 
         public ICollection<UserDTO> GetGroupUsers(int id)
         {
             return GetDefaultMapper<User, UserDTO>().Map<IEnumerable<User>, ICollection<UserDTO>>(_groups.FindById(id).Users);
+        }
+
+        public void EditGroup(GroupDTO group, ICollection<GroupDTO> groups, ICollection<UserDTO> users)
+        {
+            if (group.GroupName != null)
+            {
+                Group groupToEdit = _groups.FindById(group.GroupId);
+                if (group.GroupName != null && CheckGroup(group.GroupName)) groupToEdit.GroupName = group.GroupName;
+                if (group.ParentId != groupToEdit.ParentId) groupToEdit.ParentId = group.ParentId;
+                if (users.Any()) groupToEdit.Users = ConvertUsersDTO(users);
+                if (!users.Any()) groupToEdit.Users = null;
+                if (groups.Any()) groupToEdit.Groups = ConvertGroupsDTO(groups);
+                if (!groups.Any()) groupToEdit.Groups = null;
+                _groups.Update(groupToEdit);
+            }
         }
     }
 }

@@ -11,6 +11,8 @@ namespace Model.Entities
     {
         [Key]
         public int GroupId { get; set; }
+        //[Key]
+        //public int RelatedId { get; set; }
         public string GroupName { get; set; }
 
         public int? ParentId { get; set; }

@@ -20,6 +20,7 @@ namespace BLL.Interfaces
         bool CheckGroup(string groupName);
         void DeactivateUser(int id);
         void CreateGroup(GroupDTO group, ICollection<GroupDTO> Groups, ICollection<UserDTO> users);
+        void EditGroup(GroupDTO group, ICollection<GroupDTO> Groups, ICollection<UserDTO> users);
         void DeleteGroup(GroupDTO group);
         void ShowLogs();
         ICollection<GroupDTO> GetGroupGroups(int id);
