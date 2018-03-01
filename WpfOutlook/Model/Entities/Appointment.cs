@@ -15,9 +15,12 @@ namespace Model.Entities
         public DateTime BeginningDate { get; set; }
         public DateTime EndingDate { get; set; }
 
-        ICollection<User> Users { get; set; }
+        public int OrganizerId { get; set; }
+        public User Organizer { get; set; }
 
         public int LocationId { get; set; }
         public Location Location { get; set; }
+        
+        public virtual ICollection<User> Users { get; set; }
     }
 }
