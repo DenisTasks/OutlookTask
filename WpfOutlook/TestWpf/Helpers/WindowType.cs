@@ -1,4 +1,4 @@
-﻿namespace ViewModel.Helpers
+﻿namespace TestWpf.Helpers
 {
     public enum WindowType
     {

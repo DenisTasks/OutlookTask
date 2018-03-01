@@ -1,13 +1,17 @@
 ﻿using Model.Entities;
+using System;
+using System.Collections.Generic;
 using System.Data.Entity;
-using SqlProviderServices = System.Data.Entity.SqlServer.SqlProviderServices;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Model
 {
     public class WPFOutlookContext : DbContext
     {
         public WPFOutlookContext()
-            : base("name=WPFOutlookContext")
+            :base("name=WPFOutlookContext")
         {
         }
 
