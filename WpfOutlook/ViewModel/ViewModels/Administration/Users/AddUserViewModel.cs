@@ -5,7 +5,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 using System.Collections.ObjectModel;
 using System.Windows;
 
-namespace MVVM.ViewModels.Administration.Users
+namespace ViewModel.ViewModels.Administration.Users
 {
     public class AddUserViewModel : ViewModelBase
     {

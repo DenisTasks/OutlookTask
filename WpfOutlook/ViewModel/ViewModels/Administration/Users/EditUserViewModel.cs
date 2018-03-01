@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace MVVM.ViewModels.Administration.Users
+namespace ViewModel.ViewModels.Administration.Users
 {
     public class EditUserViewModel : ViewModelBase
     {

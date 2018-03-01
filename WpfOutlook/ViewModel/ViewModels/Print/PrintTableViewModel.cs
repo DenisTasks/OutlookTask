@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace MVVM.ViewModel.Print
+namespace ViewModel.ViewModel.Print
 {
     public class PrintTable
     {

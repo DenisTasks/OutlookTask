@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace MVVM.ViewModels.CommonViewModels.Groups
+namespace ViewModel.ViewModels.CommonViewModels.Groups
 {
     public class AddGroupViewModel : ViewModelBase
     {

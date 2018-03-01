@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace MVVM.ViewModels.Administration.Groups
+namespace ViewModel.ViewModels.Administration.Groups
 {
     public class EditGroupViewModel : ViewModelBase
     {

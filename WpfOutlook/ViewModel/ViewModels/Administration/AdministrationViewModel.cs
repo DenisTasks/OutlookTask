@@ -4,7 +4,7 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using System.ComponentModel;
 
-namespace MVVM.ViewModels.Administration
+namespace ViewModel.ViewModels.Administration
 {
     public class AdministrationViewModel : ViewModelBase, INotifyPropertyChanged
     {

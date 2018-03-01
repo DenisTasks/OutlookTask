@@ -12,7 +12,7 @@ using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MVVM.ViewModels.CommonViewModels.Groups
+namespace ViewModel.ViewModels.CommonViewModels.Groups
 {
     [PrincipalPermission(SecurityAction.Demand, Role = "admin")]
     public class ShowAllGroupsViewModel : ViewModelBase
