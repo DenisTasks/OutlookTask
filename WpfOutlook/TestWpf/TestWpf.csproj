@@ -93,6 +93,9 @@
     <Compile Include="AboutAppWindow.xaml.cs">
       <DependentUpon>AboutAppWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AdminPage.xaml.cs">
+      <DependentUpon>AdminPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AllAppByLocation.xaml.cs">
       <DependentUpon>AllAppByLocation.xaml</DependentUpon>
     </Compile>
@@ -104,6 +107,9 @@
     </Compile>
     <Compile Include="Controls\CalendarView.cs" />
     <Compile Include="Controls\CalendarViewPeriod.cs" />
+    <Compile Include="LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Primitives\DaysOfWeekPresenter.cs" />
     <Compile Include="Primitives\DaysPresenter.cs" />
     <Compile Include="Controls\TimeScaleControl.cs" />
@@ -118,12 +124,19 @@
       <DependentUpon>SyncWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="TemplatePriority.cs" />
+    <Compile Include="TestShell.xaml.cs">
+      <DependentUpon>TestShell.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ToastList.xaml.cs">
       <DependentUpon>ToastList.xaml</DependentUpon>
     </Compile>
     <Page Include="AboutAppWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdminPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="AllAppByLocation.xaml">
       <SubType>Designer</SubType>
@@ -141,6 +154,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="LoginPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindowPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -148,6 +165,10 @@
     <Page Include="SyncWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TestShell.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
