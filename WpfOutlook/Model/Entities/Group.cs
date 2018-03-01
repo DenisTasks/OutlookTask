@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Model.Entities
 {
+
     public class Group
     {
         [Key]

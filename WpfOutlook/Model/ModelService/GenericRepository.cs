@@ -1,5 +1,4 @@
-﻿
-using Model.Interfaces;
+﻿using Model.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Model.ModelService
 {
-    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity: class
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
         private WPFOutlookContext _context;
         private DbSet<TEntity> _dbSet;
@@ -20,7 +19,19 @@ namespace Model.ModelService
             _context = context;
             _dbSet = _context.Set<TEntity>();
         }
+        public DbContextTransaction BeginTransaction()
+        {
+            return _context.Database.BeginTransaction();
+        }
+        public void Dispose()
+        {
+            _context.Dispose();
+        }
 
+        public void Save()
+        {
+            _context.SaveChanges();
+        }
         public IEnumerable<TEntity> Get()
         {
             return _dbSet.AsNoTracking().ToList();
@@ -39,15 +50,12 @@ namespace Model.ModelService
         public void Create(TEntity item)
         {
             _dbSet.Add(item);
-            _context.SaveChanges();
         }
 
         public void Update(TEntity item)
         {
-            if(_context.Entry(item).State == EntityState.Detached)
-                _dbSet.Attach(item);
+            _dbSet.Attach(item);
             _context.Entry(item).State = EntityState.Modified;
-            _context.SaveChanges();
         }
 
         public void Remove(TEntity item)
@@ -57,7 +65,32 @@ namespace Model.ModelService
                 _dbSet.Attach(item);
             }
             _dbSet.Remove(item);
-            _context.SaveChanges();
+        }
+
+        public void Remove(TEntity entity, Func<TEntity, int> getKey)
+        {
+            if (entity == null)
+            {
+                throw new ArgumentException("Cannot remove a null entity.");
+            }
+
+            var entry = _context.Entry<TEntity>(entity);
+
+            if (entry.State == EntityState.Detached)
+            {
+                var set = _context.Set<TEntity>();
+                TEntity attachedEntity = set.Find(getKey(entity));
+
+                if (attachedEntity != null)
+                {
+                    var attachedEntry = _context.Entry(attachedEntity);
+                    _dbSet.Remove(attachedEntry.Entity);
+                }
+                else
+                {
+                    _dbSet.Remove(entity);
+                }
+            }
         }
     }
 }
