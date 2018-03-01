@@ -1,13 +1,19 @@
 ﻿using BLL.BLLService;
 using BLL.Interfaces;
+using BLL.Services;
 using GalaSoft.MvvmLight;
 using Model;
 using Model.Interfaces;
 using Model.ModelService;
 using Ninject;
 using Ninject.Modules;
+using ViewModel.ViewModels.Administration;
+using ViewModel.ViewModels.Administration.Groups;
+using ViewModel.ViewModels.Administration.Users;
 using ViewModel.ViewModels.Appointments;
+using ViewModel.ViewModels.Authenication;
 using ViewModel.ViewModels.Calendar;
+using ViewModel.ViewModels.CommonViewModels.Groups;
 
 namespace ViewModel
 {
@@ -25,6 +31,8 @@ namespace ViewModel
             Bind<WPFOutlookContext>().ToSelf().WithConstructorArgument("connectionString", "WPFOutlookContext");
             Bind(typeof(IGenericRepository<>)).To(typeof(GenericRepository<>)).WithConstructorArgument("context", Kernel.Get<WPFOutlookContext>());
             Bind<IBLLServiceMain>().To<BLLServiceMain>();
+            Bind<IAuthenticationService>().To<AuthenticationService>();
+            Bind<IAdministrationService>().To<AdministrationService>();
         }
     }
 
@@ -39,6 +47,14 @@ namespace ViewModel
         public CalendarWindowViewModel CalendarWindow => _kernel.Get<CalendarWindowViewModel>();
         public ToastListViewModel ToastWindow => _kernel.Get<ToastListViewModel>();
         public SyncWindowViewModel SyncWindow => _kernel.Get<SyncWindowViewModel>();
+        public AuthenticationViewModel LoginPage => _kernel.Get<AuthenticationViewModel>();
+        public AdministrationViewModel AdminPage => _kernel.Get<AdministrationViewModel>();
+        public EditGroupViewModel EditGroupWindow => _kernel.Get<EditGroupViewModel>();
+        public ShowAllGroupsViewModel AllGroupsPage => _kernel.Get<ShowAllGroupsViewModel>();
+        public AddGroupViewModel AddGroupWindow => _kernel.Get<AddGroupViewModel>();
+        public AddUserViewModel AddUserWindow => _kernel.Get<AddUserViewModel>();
+        public EditUserViewModel EditUserWindow => _kernel.Get<EditUserViewModel>();
+        public ShowAllUsersViewModel AllUsersPage => _kernel.Get<ShowAllUsersViewModel>();
 
         public ViewModelLocator()
         {

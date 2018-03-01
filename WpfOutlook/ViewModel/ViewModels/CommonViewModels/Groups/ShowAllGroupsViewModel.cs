@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using MVVM.ViewModels.Administration.Groups;
+using MVVM.ViewModels.CommonViewModels.Groups;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,6 +12,7 @@ using System.Linq;
 using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
+using ViewModel.ViewModels.Administration.Groups;
 
 namespace ViewModel.ViewModels.CommonViewModels.Groups
 {

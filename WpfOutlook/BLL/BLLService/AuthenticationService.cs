@@ -16,10 +16,9 @@ namespace BLL.Services
         private WPFOutlookContext _context;
         private IGenericRepository<User> _users;
 
-        public AuthenticationService()
+        public AuthenticationService(IGenericRepository<User> users)
         {
-            _context = new WPFOutlookContext();
-            _users = new GenericRepository<User>(_context);
+            _users = users;
         }
 
         public UserDTO AuthenticateUser(string username, string password)

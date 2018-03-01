@@ -2,7 +2,6 @@
 using GalaSoft.MvvmLight.Messaging;
 using MVVM.ViewModels.Administration.Users;
 using MVVM.ViewModels.CommonViewModels.Groups;
-using MVVM.ViewModels.TestShell;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TestWpf;
 
 namespace MVVM
 {
