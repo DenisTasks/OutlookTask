@@ -79,7 +79,7 @@
     <Compile Include="ViewModels\AboutAppointmentWindowViewModel.cs" />
     <Compile Include="ViewModels\AddAppWindowViewModel.cs" />
     <Compile Include="ViewModels\Administration\AdministrationViewModel.cs" />
-    <Compile Include="ViewModels\Administration\TestShell\ShellViewModel.cs" />
+    <Compile Include="ViewModels\TestShell\ShellViewModel.cs" />
     <Compile Include="ViewModels\CommonViewModels\Groups\AddGroupViewModel.cs" />
     <Compile Include="ViewModels\CommonViewModels\Groups\AddGroupWindow.xaml.cs">
       <DependentUpon>AddGroupWindow.xaml</DependentUpon>

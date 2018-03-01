@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MVVM.ViewModels.Administration.Users
+namespace ViewModel.ViewModels.Administration.Users
 {
     public class ShowAllUsersViewModel: ViewModelBase
     {

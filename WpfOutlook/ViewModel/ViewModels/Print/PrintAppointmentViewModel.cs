@@ -1,6 +1,5 @@
 ﻿using BLL.EntitesDTO;
 using GalaSoft.MvvmLight.Command;
-using MVVM.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace MVVM.ViewModel.Print
+namespace ViewModel.ViewModel.Print
 {
     public class PrintAppointmentViewModel
     {

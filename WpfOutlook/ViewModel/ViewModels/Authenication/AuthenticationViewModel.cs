@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Controls;
 
-namespace MVVM.ViewModels.Authenication
+namespace ViewModel.ViewModels.Authenication
 {
     public class AuthenticationViewModel : ViewModelBase,  INotifyPropertyChanged
     {

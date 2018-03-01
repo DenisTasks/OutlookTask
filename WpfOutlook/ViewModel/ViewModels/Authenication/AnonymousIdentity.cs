@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MVVM.ViewModels.Authenication
+namespace ViewModel.ViewModels.Authenication
 {
     public class AnonymousIdentity : CustomIdentity
     {
