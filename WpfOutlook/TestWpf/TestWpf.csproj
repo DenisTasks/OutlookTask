@@ -90,11 +90,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AuthenticationViewModel.cs" />
-    <Compile Include="Helpers\OpenWindowMessage.cs" />
-    <Compile Include="Helpers\WindowType.cs" />
-    <Compile Include="PrintAppointment.xaml.cs">
-      <DependentUpon>PrintAppointment.xaml</DependentUpon>
     <Compile Include="AboutAppWindow.xaml.cs">
       <DependentUpon>AboutAppWindow.xaml</DependentUpon>
     </Compile>
@@ -126,17 +121,8 @@
     <Compile Include="ToastList.xaml.cs">
       <DependentUpon>ToastList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PrintTable.xaml.cs">
-      <DependentUpon>PrintTable.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ViewModel\MainWindowModel.cs" />
-    <Compile Include="ViewModel\ModalWindowViewModel.cs" />
-    <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Page Include="LoginWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="AboutAppWindow.xaml">
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AllAppByLocation.xaml">
@@ -163,28 +149,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\ExpressionDark.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ToastList.xaml">
-    <Compile Include="LoginWindow.cs" />
-    <Compile Include="LoginWindow.xaml.cs">
-      <DependentUpon>LoginWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="PrintAppointment.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PrintTable.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
