@@ -52,11 +52,25 @@
     <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.4.1.0, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.4.1\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SqlClient, Version=4.2.0.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SqlClient.4.4.2\lib\net461\System.Data.SqlClient.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvvmLightLibs.5.4.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -76,6 +90,36 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AboutAppWindow.xaml.cs">
+      <DependentUpon>AboutAppWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AllAppByLocation.xaml.cs">
+      <DependentUpon>AllAppByLocation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddAppWindow.xaml.cs">
+      <DependentUpon>AddAppWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CalendarWindow.xaml.cs">
+      <DependentUpon>CalendarWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CalendarView.cs" />
+    <Compile Include="Controls\CalendarViewPeriod.cs" />
+    <Compile Include="Primitives\DaysOfWeekPresenter.cs" />
+    <Compile Include="Primitives\DaysPresenter.cs" />
+    <Compile Include="Controls\TimeScaleControl.cs" />
+    <Compile Include="Controls\RangePanel.cs" />
+    <Compile Include="MainWindowPage.xaml.cs">
+      <DependentUpon>MainWindowPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Primitives\CalendarViewContentPresenter.cs" />
+    <Compile Include="Primitives\CalendarViewPeriodPresenter.cs" />
+    <Compile Include="CustomStyleSelector.cs" />
+    <Compile Include="SyncWindow.xaml.cs">
+      <DependentUpon>SyncWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TemplatePriority.cs" />
+    <Compile Include="ToastList.xaml.cs">
+      <DependentUpon>ToastList.xaml</DependentUpon>
     <Compile Include="AuthenticationViewModel.cs" />
     <Compile Include="Helpers\OpenWindowMessage.cs" />
     <Compile Include="Helpers\WindowType.cs" />
@@ -94,12 +138,40 @@
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AllAppByLocation.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="AddAppWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CalendarWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindowPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SyncWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ExpressionDark.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ToastList.xaml">
     <Compile Include="LoginWindow.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
@@ -135,6 +207,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -142,9 +215,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\BLL\BLL.csproj">
+      <Project>{c0caa49a-92ff-4116-bd63-295adb119dd5}</Project>
+      <Name>BLL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{c92373ea-87ac-443a-a307-207f5a7ff9cf}</Project>
       <Name>Model</Name>

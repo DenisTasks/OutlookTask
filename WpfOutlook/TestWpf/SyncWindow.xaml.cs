@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace TestWpf
 {
     /// <summary>
-    /// Interaction logic for PrintTable.xaml
+    /// Interaction logic for SyncWindow.xaml
     /// </summary>
-    public partial class PrintTable : Window
+    public partial class SyncWindow : Window
     {
-        public PrintTable()
+        public SyncWindow()
         {
             InitializeComponent();
         }
