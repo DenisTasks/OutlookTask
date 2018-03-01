@@ -82,7 +82,7 @@
     <Compile Include="EntitesDTO\UserDTO.cs" />
     <Compile Include="Interfaces\IAdministrationService.cs" />
     <Compile Include="Interfaces\IAuthenticationService.cs" />
-    <Compile Include="BLLServiceMain.cs" />
+    <Compile Include="BLLService\BLLServiceMain.cs" />
     <Compile Include="DTO\AppointmentDTO.cs" />
     <Compile Include="DTO\LocationDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />

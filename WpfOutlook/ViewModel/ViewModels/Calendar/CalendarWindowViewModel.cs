@@ -8,7 +8,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using ViewModel.Helpers;
 
-namespace ViewModel.ViewModels
+namespace ViewModel.ViewModels.Calendar
 {
     public class CalendarWindowViewModel : ViewModelBase
     {

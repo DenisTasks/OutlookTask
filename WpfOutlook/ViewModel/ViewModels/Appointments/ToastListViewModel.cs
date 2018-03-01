@@ -5,7 +5,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using ViewModel.Helpers;
 
-namespace ViewModel.ViewModels
+namespace ViewModel.ViewModels.Appointments
 {
     public class ToastListViewModel : ViewModelBase
     {

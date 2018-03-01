@@ -8,7 +8,7 @@ using BLL.Interfaces;
 using Model.Entities;
 using Model.Interfaces;
 
-namespace BLL
+namespace BLL.BLLService
 {
     public class BLLServiceMain : IBLLServiceMain
     {

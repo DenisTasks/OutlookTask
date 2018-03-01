@@ -76,8 +76,8 @@
     <Compile Include="Helpers\WindowType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModelLocator.cs" />
-    <Compile Include="ViewModels\AboutAppointmentWindowViewModel.cs" />
-    <Compile Include="ViewModels\AddAppWindowViewModel.cs" />
+    <Compile Include="ViewModels\Appointments\AboutAppointmentWindowViewModel.cs" />
+    <Compile Include="ViewModels\Appointments\AddAppWindowViewModel.cs" />
     <Compile Include="ViewModels\Administration\AdministrationViewModel.cs" />
     <Compile Include="ViewModels\TestShell\ShellViewModel.cs" />
     <Compile Include="ViewModels\CommonViewModels\Groups\AddGroupViewModel.cs" />
@@ -104,17 +104,17 @@
       <DependentUpon>ShowAllUsersPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\Administration\Users\ShowAllUsersViewModel.cs" />
-    <Compile Include="ViewModels\AllAppByLocationWindowViewModel.cs" />
+    <Compile Include="ViewModels\Appointments\AllAppByLocationWindowViewModel.cs" />
     <Compile Include="ViewModels\Authenication\AnonymousIdentity.cs" />
     <Compile Include="ViewModels\Authenication\AuthenticationViewModel.cs" />
     <Compile Include="ViewModels\Authenication\CustomIdentity.cs" />
     <Compile Include="ViewModels\Authenication\CustomPrincipal.cs" />
-    <Compile Include="ViewModels\CalendarWindowViewModel.cs" />
-    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\Calendar\CalendarWindowViewModel.cs" />
+    <Compile Include="ViewModels\Appointments\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\Print\PrintAppointmentViewModel.cs" />
     <Compile Include="ViewModels\Print\PrintTableViewModel.cs" />
-    <Compile Include="ViewModels\SyncWindowViewModel.cs" />
-    <Compile Include="ViewModels\ToastListViewModel.cs" />
+    <Compile Include="ViewModels\Calendar\SyncWindowViewModel.cs" />
+    <Compile Include="ViewModels\Appointments\ToastListViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -122,7 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BLL\BLL.csproj">
-      <Project>{c0caa49a-92ff-4116-bd63-295adb119dd5}</Project>
+      <Project>{8c6cbd53-9249-4a22-9dc8-a113ab33dc4b}</Project>
       <Name>BLL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
@@ -156,5 +156,6 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
