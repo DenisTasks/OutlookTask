@@ -6,12 +6,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestWpf"
         WindowStartupLocation="CenterScreen"
-        Background="LightBlue"
         mc:Ignorable="d"
         DataContext="{Binding AddAppWindow, 
                               Source={StaticResource Locator}}"
         Title="Add appointment" Height="Auto" Width="500" SizeToContent="WidthAndHeight">
-    <Grid ShowGridLines="True">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
@@ -50,8 +49,8 @@
                  Validation.ValidationAdornerSite="{Binding ElementName=CheckSubject}"/>
 
         <ComboBox Grid.Column="1" Grid.Row="2" 
-                  DisplayMemberPath="Room"
                   ItemsSource="{Binding LocationList}"
+                  DisplayMemberPath="Room"
                   SelectedItem="{Binding SelectedLocation}"/>
         
         <DatePicker Grid.Column="1" Grid.Row="3"

@@ -4,7 +4,7 @@ using Model.Entities;
 
 namespace BLL.Interfaces
 {
-    public interface IBLLService
+    public interface IBLLServiceMain
     {
         IEnumerable<AppointmentDTO> GetAppointments();
         IEnumerable<AppointmentDTO> GetCalendar();

@@ -13,7 +13,7 @@ namespace ViewModel.ViewModels
 {
     public class AddAppWindowViewModel : ViewModelBase
     {
-        private readonly IBLLService _service;
+        private readonly IBLLServiceMain _service;
 
         private ObservableCollection<UserDTO> _userList;
         private ObservableCollection<UserDTO> _selectedUserList;
@@ -117,7 +117,7 @@ namespace ViewModel.ViewModels
             }
         }
 
-        public AddAppWindowViewModel(IBLLService service)
+        public AddAppWindowViewModel(IBLLServiceMain service)
         {
             _service = service;
             AddUserToListCommand = new RelayCommand<UserDTO>(AddUsersToList);

@@ -12,7 +12,7 @@ namespace ViewModel.ViewModels
 {
     public class SyncWindowViewModel: ViewModelBase
     {
-        private readonly IBLLService _service;
+        private readonly IBLLServiceMain _service;
         private ObservableCollection<AppointmentDTO> _appointments;
         private ObservableCollection<AppointmentDTO> _appointmentsOther;
 
@@ -41,7 +41,7 @@ namespace ViewModel.ViewModels
             }
         }
 
-        public SyncWindowViewModel(IBLLService service)
+        public SyncWindowViewModel(IBLLServiceMain service)
         {
             _service = service;
 

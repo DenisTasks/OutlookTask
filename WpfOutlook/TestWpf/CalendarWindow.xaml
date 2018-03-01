@@ -7,11 +7,18 @@
         xmlns:controls="clr-namespace:TestWpf.Controls"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Background="LightCyan"
         DataContext="{Binding CalendarWindow,
                               Source={StaticResource Locator}}"
         Title="Calendar Window" Height="Auto" Width="Auto" SizeToContent="WidthAndHeight">
-
+    
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/Generic.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.08*" />
@@ -29,7 +36,6 @@
 
             <Button Command="{Binding SyncCommand}" 
                     Content="Sync with selected user"/>
-            
         </DockPanel>
         
         <ListView ItemsSource="{Binding Appointments}" 
@@ -37,10 +43,9 @@
             <ListView.View>
                 <controls:CalendarView 
                     ItemBeginDateBinding="{Binding Path=BeginningDate}" 
-                    ItemEndDateBinding="{Binding Path=EndingDate}" >
+                    ItemEndDateBinding="{Binding Path=EndingDate}">
                 </controls:CalendarView>
             </ListView.View>
-
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
                     <Style.Setters>

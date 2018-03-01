@@ -23,7 +23,7 @@ namespace ViewModel
         {
             Bind<WPFOutlookContext>().ToSelf().WithConstructorArgument("connectionString", "WPFOutlookContext");
             Bind(typeof(IGenericRepository<>)).To(typeof(GenericRepository<>)).WithConstructorArgument("context", Kernel.Get<WPFOutlookContext>());
-            Bind<IBLLService>().To<BLLService>();
+            Bind<IBLLServiceMain>().To<BLLServiceMain>();
         }
     }
 

@@ -113,9 +113,11 @@
     </Compile>
     <Compile Include="Primitives\CalendarViewContentPresenter.cs" />
     <Compile Include="Primitives\CalendarViewPeriodPresenter.cs" />
+    <Compile Include="CustomStyleSelector.cs" />
     <Compile Include="SyncWindow.xaml.cs">
       <DependentUpon>SyncWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TemplatePriority.cs" />
     <Compile Include="ToastList.xaml.cs">
       <DependentUpon>ToastList.xaml</DependentUpon>
     </Compile>
@@ -146,6 +148,10 @@
     <Page Include="SyncWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ExpressionDark.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>

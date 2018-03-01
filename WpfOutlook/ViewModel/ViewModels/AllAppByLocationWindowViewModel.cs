@@ -25,7 +25,7 @@ namespace ViewModel.ViewModels
             }
         }
 
-        public AllAppByLocationWindowViewModel(IBLLService service)
+        public AllAppByLocationWindowViewModel(IBLLServiceMain service)
         {
             Messenger.Default.Register<OpenWindowMessage>(this, message =>
             {

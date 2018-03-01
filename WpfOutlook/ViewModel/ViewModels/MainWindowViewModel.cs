@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Threading;
 using BLL.DTO;
 using BLL.Interfaces;
 using GalaSoft.MvvmLight;
@@ -14,9 +16,30 @@ namespace ViewModel.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private readonly IBLLService _service;
+        private readonly IBLLServiceMain _service;
         private ObservableCollection<AppointmentDTO> _appointments;
+        private ObservableCollection<FileInfo> _files;
+        private FileInfo _selectTheme;
 
+        public FileInfo SelectedTheme
+        {
+            get { return _selectTheme; }
+            set
+            {
+                _selectTheme = value;
+                base.RaisePropertyChanged();
+                ChangeTheme(_selectTheme);
+            }
+        }
+        public ObservableCollection<FileInfo> Files
+        {
+            get => _files;
+            set
+            {
+                _files = value;
+                base.RaisePropertyChanged();
+            }
+        }
         public ObservableCollection<AppointmentDTO> Appointments
         {
             get => _appointments;
@@ -41,7 +64,7 @@ namespace ViewModel.ViewModels
         public RelayCommand CalendarWindowCommand { get; }
         #endregion
 
-        public MainWindowViewModel(IBLLService service)
+        public MainWindowViewModel(IBLLServiceMain service)
         {
             _service = service;
             LoadData();
@@ -55,6 +78,19 @@ namespace ViewModel.ViewModels
             FilterBySubjectCommand = new RelayCommand<AppointmentDTO>(FilterBySubject);
             CalendarWindowCommand = new RelayCommand(GetCalendar);
             #endregion
+
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                var localthemes = new DirectoryInfo("Themes").GetFiles();
+                if (Files == null)
+                    Files = new ObservableCollection<FileInfo>();
+                foreach (var item in localthemes)
+                {
+                    Files.Add(item);
+                }
+                SelectedTheme = Files[1];
+            }));
+
             Messenger.Default.Register<NotificationMessage>(this, message =>
             {
                 if (message.Notification == "Refresh")
@@ -64,6 +100,11 @@ namespace ViewModel.ViewModels
             });
         }
 
+        private void ChangeTheme(FileInfo selectTheme)
+        {
+            Application.Current.Resources.Clear();
+            Application.Current.Resources.Source = new Uri(selectTheme.FullName, UriKind.Absolute);
+        }
         private void AddAppointment()
         {
             Messenger.Default.Send( new OpenWindowMessage() { Type = WindowType.AddAppWindow });

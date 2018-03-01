@@ -36,7 +36,7 @@ namespace ViewModel.ViewModels
             }
         }
 
-        public AboutAppointmentWindowViewModel(IBLLService service)
+        public AboutAppointmentWindowViewModel(IBLLServiceMain service)
         {
             Messenger.Default.Register<OpenWindowMessage>(this, message =>
             {

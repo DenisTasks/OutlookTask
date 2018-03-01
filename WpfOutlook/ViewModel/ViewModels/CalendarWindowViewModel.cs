@@ -12,7 +12,7 @@ namespace ViewModel.ViewModels
 {
     public class CalendarWindowViewModel : ViewModelBase
     {
-        private readonly IBLLService _service;
+        private readonly IBLLServiceMain _service;
         private ObservableCollection<AppointmentDTO> _appointments;
         private ObservableCollection<UserDTO> _users;
         private UserDTO _selectedSyncUser;
@@ -55,8 +55,7 @@ namespace ViewModel.ViewModels
             }
         }
         public RelayCommand SyncCommand { get; }
-
-        public CalendarWindowViewModel(IBLLService service)
+        public CalendarWindowViewModel(IBLLServiceMain service)
         {
             _service = service;
             LoadData();
@@ -67,16 +66,14 @@ namespace ViewModel.ViewModels
         {
             if (_selectedSyncUser != null)
             {
-                Messenger.Default.Send(new OpenWindowMessage{ Type = WindowType.Sync, User = new UserDTO(){UserId = _selectedSyncUser.UserId}});
+                Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.Sync, User = new UserDTO() { UserId = _selectedSyncUser.UserId } });
             }
         }
-
         private void LoadData()
         {
             try
             {
                 Appointments = new ObservableCollection<AppointmentDTO>(_service.GetCalendar());
-
                 Users = new ObservableCollection<UserDTO>(_service.GetUsers());
             }
             catch (Exception e)

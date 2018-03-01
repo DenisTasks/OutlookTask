@@ -7,43 +7,6 @@
              StartupUri="MainWindowPage.xaml" 
              mc:Ignorable="d">
     <Application.Resources>
-
-        <vm:ViewModelLocator x:Key="Locator" 
-                             d:IsDataSource="True" />
-
-        <Style x:Key="mainHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
-            <Setter Property="Background" Value="LightBlue"/>
-        </Style>
-
-        <DataTemplate x:Key="mainHeaderTemplate">
-            <DockPanel>
-                <TextBlock FontSize="16" Foreground="DarkBlue">
-                    <TextBlock.Text>
-                        <Binding/>
-                    </TextBlock.Text>
-                </TextBlock>
-            </DockPanel>
-        </DataTemplate>
-
-        <Style TargetType="Button">
-            <Setter Property="FontSize" Value="15"/>
-            <Setter Property="Margin" Value="3"/>
-            <Setter Property="Padding" Value="5"/>
-            <Setter Property="Background" Value="Azure"/>
-            <Setter Property="BorderThickness" Value="1.5" />
-            <Setter Property="BorderBrush" Value="DeepSkyBlue" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="HorizontalAlignment" Value="Stretch" />
-
-        </Style>
-
-        <Style TargetType="Button" x:Key="DeleteButton">
-            <Setter Property="FontSize" Value="10"/>
-            <Setter Property="Margin" Value="3"/>
-            <Setter Property="Padding" Value="3"/>
-            <Setter Property="Background" Value="AliceBlue"/>
-            <Setter Property="Foreground" Value="Red"/>
-        </Style>
-
+        <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" />
     </Application.Resources>
 </Application>

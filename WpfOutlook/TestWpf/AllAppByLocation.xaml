@@ -25,24 +25,12 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" 
-               Content="{Binding IsAvailible}"/>
+
         <ListView Name="AppointmentsList"
                   Grid.Row="1"
                   Grid.RowSpan="9"
                   SelectionMode="Single"
                   ItemsSource="{Binding Appointments}">
-            <ListView.GroupStyle>
-                <GroupStyle>
-                    <GroupStyle.HeaderTemplate>
-                        <DataTemplate>
-                            <Border BorderBrush="Coral" BorderThickness="2">
-                                <TextBlock Text="{Binding Path=Name}" FontWeight="Bold"/>
-                            </Border>
-                        </DataTemplate>
-                    </GroupStyle.HeaderTemplate>
-                </GroupStyle>
-            </ListView.GroupStyle>
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Id" DisplayMemberBinding="{Binding AppointmentId}"/>

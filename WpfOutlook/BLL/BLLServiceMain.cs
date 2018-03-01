@@ -10,7 +10,7 @@ using Model.Interfaces;
 
 namespace BLL
 {
-    public class BLLService : IBLLService
+    public class BLLServiceMain : IBLLServiceMain
     {
         private readonly IGenericRepository<Appointment> _appointments;
         private readonly IGenericRepository<User> _users;
@@ -86,7 +86,7 @@ namespace BLL
             return mapper;
         }
 
-        public BLLService(IGenericRepository<Appointment> appointments, IGenericRepository<User> users, IGenericRepository<Location> locations)
+        public BLLServiceMain(IGenericRepository<Appointment> appointments, IGenericRepository<User> users, IGenericRepository<Location> locations)
         {
             _appointments = appointments;
             _users = users;

@@ -62,12 +62,6 @@ namespace Model.ModelVIewElements
                 _dbSet.Attach(item);
             }
             _dbSet.Remove(item);
-
-            //if (_context.Entry(item).State == EntityState.Detached)
-            //{
-            //    _dbSet.Attach(item);
-            //}
-            //_dbSet.Remove(item);
         }
 
         public void Remove(TEntity entity, Func<TEntity, int> getKey)

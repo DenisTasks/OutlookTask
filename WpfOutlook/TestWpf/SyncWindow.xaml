@@ -7,7 +7,6 @@
         xmlns:controls="clr-namespace:TestWpf.Controls"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Background="LightCyan"
         DataContext="{Binding SyncWindow,
                               Source={StaticResource Locator}}"
         Title="Sync Window" Height="Auto" Width="Auto" SizeToContent="Width">

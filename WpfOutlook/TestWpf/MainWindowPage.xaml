@@ -5,13 +5,48 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TestWpf"
       mc:Ignorable="d"
-      Background="LightCyan"
       DataContext="{Binding MainWindow,
                               Source={StaticResource Locator}}"
-      WindowHeight="500" WindowWidth="1200"
-      
+      WindowHeight="600" WindowWidth="1200"  
       Title="Outlook application">
 
+    <Page.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="OverrideStyleListViewItem" TargetType="{x:Type ListViewItem}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                <DockPanel>
+                                    <TextBlock Text="{Binding Subject}"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Stretch"/>
+                                    <Button Command="{Binding DataContext.RemoveAppCommand, ElementName=AppointmentsList}"
+                                    CommandParameter="{Binding}"
+                                            HorizontalAlignment="Right"
+                                    DockPanel.Dock="Right">Delete</Button>
+                                </DockPanel>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            
+            <!--<local:TemplatePriority x:Key="myTemplateSelector" />-->
+            <local:CustomStyleSelector x:Key="myCustomStyleSelector"  />
+            
+            <!--<DataTemplate x:Key="TestTemplate">
+                <DockPanel>
+                    <TextBlock Text="{Binding Subject}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Stretch"/>
+                    <Button Command="{Binding DataContext.RemoveAppCommand, ElementName=AppointmentsList}"
+                            CommandParameter="{Binding}"
+                            DockPanel.Dock="Right">Delete</Button>
+                </DockPanel>
+            </DataTemplate>-->
+        </ResourceDictionary>
+    </Page.Resources>
+    
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.03*"/>
@@ -34,12 +69,11 @@
             <Grid Grid.Column="3" x:Name="HelperField4"/>
             <Grid Grid.Column="4" x:Name="HelperField5"/>
             <Grid Grid.Column="5" x:Name="HelperField6"/>
-        
+
         <WrapPanel Grid.Row="0"
                    Grid.Column="0"
                    Grid.ColumnSpan="8"
                    HorizontalAlignment="Stretch">
-
             <Button Command="{Binding AddAppWindowCommand}">New App</Button>
             <Button Command="{Binding FilterBySubjectCommand}"
                     CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}">Filter by</Button>
@@ -49,6 +83,8 @@
             <Button Command="{Binding AllAppByLocationCommand}"
                     CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}">AllAppByLocation</Button>
             <Button Command="{Binding CalendarWindowCommand}">Open calendar</Button>
+            <ComboBox ItemsSource="{Binding Files}"
+                      SelectedItem="{Binding SelectedTheme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
         </WrapPanel>
         
@@ -73,9 +109,7 @@
                 </GroupStyle>
             </ListView.GroupStyle>
             <ListView.View>
-                <GridView
-                    ColumnHeaderTemplate="{StaticResource mainHeaderTemplate}"
-                    ColumnHeaderContainerStyle="{StaticResource mainHeaderStyle}">
+                <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding AppointmentId}"
                                     Width="{Binding ElementName=HelperField1, Path=ActualWidth}">
                         <GridViewColumnHeader Content="Id"
@@ -114,36 +148,14 @@
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
-
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="FontSize" Value="14"/>
-                    <Setter Property="Foreground" Value="DarkBlue"/>
-                    <Setter Property="FontWeight" Value="Medium"/>
-                    <Setter Property="FontStyle" Value="Normal"/>
-                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                </Style>
-            </ListView.ItemContainerStyle>
         </ListView>
-        
+
         <ListView Grid.Column="7"
                   Grid.Row="1"
+                  Name="TestListView"
                   VerticalContentAlignment="Stretch"
-                  ItemsSource="{Binding Appointments}">
-
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <DockPanel>
-                        <TextBlock Text="{Binding Subject}"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Stretch"/>
-                        <Button Command="{Binding DataContext.RemoveAppCommand, ElementName=AppointmentsList}"
-                                CommandParameter="{Binding}"
-                                Style="{StaticResource DeleteButton}"
-                                DockPanel.Dock="Right">Delete</Button>
-                    </DockPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
+                  ItemsSource="{Binding Appointments}"
+                  ItemContainerStyleSelector="{StaticResource myCustomStyleSelector}">
         </ListView>
 
         <local:ToastList Grid.Row="1" Grid.Column="6" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="150"/>

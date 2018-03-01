@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestWpf"
         WindowStartupLocation="CenterScreen"
-        Background="LightBlue"
         mc:Ignorable="d"
         DataContext="{Binding AboutAppWindow, 
                               Source={StaticResource Locator}}"

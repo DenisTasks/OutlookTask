@@ -79,11 +79,11 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BLLService.cs" />
+    <Compile Include="BLLServiceMain.cs" />
     <Compile Include="DTO\AppointmentDTO.cs" />
     <Compile Include="DTO\LocationDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
-    <Compile Include="Interfaces\IBLLService.cs" />
+    <Compile Include="Interfaces\IBLLServiceMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
