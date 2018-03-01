@@ -1,12 +1,13 @@
-﻿using BLL;
+﻿using BLL.BLLService;
 using BLL.Interfaces;
 using GalaSoft.MvvmLight;
 using Model;
 using Model.Interfaces;
-using Model.ModelVIewElements;
+using Model.ModelService;
 using Ninject;
 using Ninject.Modules;
-using ViewModel.ViewModels;
+using ViewModel.ViewModels.Appointments;
+using ViewModel.ViewModels.Calendar;
 
 namespace ViewModel
 {

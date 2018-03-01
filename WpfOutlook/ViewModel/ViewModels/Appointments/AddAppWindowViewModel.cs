@@ -9,7 +9,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 
-namespace ViewModel.ViewModels
+namespace ViewModel.ViewModels.Appointments
 {
     public class AddAppWindowViewModel : ViewModelBase
     {

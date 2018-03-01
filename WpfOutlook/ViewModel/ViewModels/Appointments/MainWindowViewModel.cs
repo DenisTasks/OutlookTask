@@ -12,7 +12,7 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using ViewModel.Helpers;
 
-namespace ViewModel.ViewModels
+namespace ViewModel.ViewModels.Appointments
 {
     public class MainWindowViewModel : ViewModelBase
     {
