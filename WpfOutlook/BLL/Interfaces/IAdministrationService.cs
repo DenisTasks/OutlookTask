@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    public interface IAdministrationService: IDisposable
+    public interface IAdministrationService
     {
         void CreateUser(UserDTO user, ICollection<GroupDTO> groups, ICollection<RoleDTO> roles);
         void EditUser(UserDTO user, ICollection<GroupDTO> groups, ICollection<RoleDTO> roles);
@@ -23,8 +23,9 @@ namespace BLL.Interfaces
         void EditGroup(GroupDTO group, ICollection<GroupDTO> Groups, ICollection<UserDTO> users);
         void DeleteGroup(GroupDTO group);
         void ShowLogs();
-        ICollection<GroupDTO> GetGroupGroups(int id);
+        //ICollection<GroupDTO> GetGroupGroups(int id);
         ICollection<UserDTO> GetGroupUsers(int id);
+        ICollection<GroupDTO> GetGroupsWithNoAncestors();
         ICollection<RoleDTO> GetRoles();
         ICollection<GroupDTO> GetGroups();
         ICollection<UserDTO> GetUsers();

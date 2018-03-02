@@ -95,14 +95,16 @@ namespace BLL.Services
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<GroupDTO, Group>()
-                    .ForMember(d => d.Users, opt => opt.MapFrom(s => ConvertUsersDTO(users)))
-                    .ForMember(d => d.Groups, opt => opt.MapFrom(s => ConvertGroupsDTO(groups)));
-
+                    .ForMember(d => d.Users, opt => opt.MapFrom(s => ConvertUsersDTO(users)));
             });
             IMapper mapper = config.CreateMapper();
+            foreach(var item in ConvertGroupsDTO(groups))
+            {
+                item.ParentId = group.GroupId;
+            }
             _groups.Create(mapper.Map<GroupDTO, Group>(group));
+            _context.SaveChanges();
         }
-
 
         public void CreateUser(UserDTO user, ICollection<GroupDTO> groups, ICollection<RoleDTO> roles)
         {
@@ -250,7 +252,8 @@ namespace BLL.Services
         {
             SqlParameter param = new SqlParameter("@groupId", id);
             var groups = _context.Database.SqlQuery<string>("GetGroupChilds @groupId", param).ToList();
-            var groupsCollection = _groups.Get(g => g.GroupId == id).FirstOrDefault().Groups;
+            //for graph
+            /*var groupsCollection = _groups.Get(g => g.GroupId == id).FirstOrDefault().Groups;
             if (groupsCollection.Any())
             {
                 foreach (var item in groupsCollection)
@@ -258,7 +261,7 @@ namespace BLL.Services
                     groups.Add(item.GroupName);
                     groups.AddRange(GetGroupChildren(item.GroupId));
                 }
-            }
+            }*/
             return groups.Distinct().ToList();
         }
 
@@ -269,10 +272,10 @@ namespace BLL.Services
             else return true;
         }
 
-        public ICollection<GroupDTO> GetGroupGroups(int id)
-        {
-            return GetDefaultMapper<Group, GroupDTO>().Map<IEnumerable<Group>, ICollection<GroupDTO>>(_groups.FindById(id).Groups);
-        }
+        //public ICollection<GroupDTO> GetGroupGroups(int id)
+        //{
+        //    return GetDefaultMapper<Group, GroupDTO>().Map<IEnumerable<Group>, ICollection<GroupDTO>>(_groups.FindById(id).Groups);
+        //}
 
         public ICollection<UserDTO> GetGroupUsers(int id)
         {
@@ -288,10 +291,16 @@ namespace BLL.Services
                 if (group.ParentId != groupToEdit.ParentId) groupToEdit.ParentId = group.ParentId;
                 if (users.Any()) groupToEdit.Users = ConvertUsersDTO(users);
                 if (!users.Any()) groupToEdit.Users = null;
-                if (groups.Any()) groupToEdit.Groups = ConvertGroupsDTO(groups);
-                if (!groups.Any()) groupToEdit.Groups = null;
+                //if (groups.Any()) groupToEdit.Groups = ConvertGroupsDTO(groups);
+                //if (!groups.Any()) groupToEdit.Groups = null;
                 _groups.Update(groupToEdit);
+                _context.SaveChanges();
             }
+        }
+
+        public ICollection<GroupDTO> GetGroupsWithNoAncestors()
+        {
+            return GetDefaultMapper<Group, GroupDTO>().Map<IEnumerable<Group>, ICollection<GroupDTO>>(_groups.Get(g => g.ParentId == null));
         }
     }
 }

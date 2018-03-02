@@ -16,7 +16,9 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
     {
         private readonly IAdministrationService _administrationService;
 
-        private ICollection<GroupDTO> _selectedGroupChildren;
+        //private ICollection<GroupDTO> _selectedGroupChildren;
+        private ICollection<GroupDTO> _hiddenGroupAncestors;
+       
 
         private ObservableCollection<GroupDTO> _groupList;
         private ObservableCollection<GroupDTO> _selectedGroupList;
@@ -53,19 +55,28 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
             {
                 Group.ParentId = group.GroupId;
                 ICollection<string> groupNameList = _administrationService.GetGroupAncestors(group.GroupName);
-                ICollection<GroupDTO> filterGroupCollection = _administrationService.GetGroups();
-                foreach (var item in groupNameList)
+                foreach (var groupName in groupNameList)
                 {
-                    filterGroupCollection = filterGroupCollection.Where(r => r.GroupName != item).ToList();
+                    foreach(var item in GroupList.ToList() )
+                    {
+                        if (item.GroupName == groupName)
+                        {
+                            GroupList.Remove(item);
+                            _hiddenGroupAncestors.Add(item);
+                        }
+                    }
                 }
-                GroupList = new ObservableCollection<GroupDTO>(filterGroupCollection);
                 SelectedGroupList = new ObservableCollection<GroupDTO>();
             }
             else
             {
                 Group.ParentId = null;
                 SelectedGroupList = new ObservableCollection<GroupDTO>();
-                GroupList = new ObservableCollection<GroupDTO>(_administrationService.GetGroups());
+                foreach(var item in _hiddenGroupAncestors.ToList())
+                {
+                    GroupList.Add(item);
+                    _hiddenGroupAncestors.Remove(item);
+                }
             }
         }
 
@@ -77,13 +88,13 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
         {
             _administrationService = administrationService;
 
-            _selectedGroupChildren = new List<GroupDTO>();
+            _hiddenGroupAncestors = new List<GroupDTO>();
 
             _userList = new ObservableCollection<UserDTO>(_administrationService.GetUsers());
             _selectedUserList = new ObservableCollection<UserDTO>();
 
             _groupsForComboBox = _administrationService.GetGroups();
-            _groupList = new ObservableCollection<GroupDTO>(_groupsForComboBox);
+            _groupList = new ObservableCollection<GroupDTO>(_administrationService.GetGroupsWithNoAncestors());
             _selectedGroupList = new ObservableCollection<GroupDTO>();
             _groupsForComboBox.Add(new GroupDTO { GroupName = "Not" }); 
 
@@ -178,54 +189,58 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
 
         public void AddGroup(GroupDTO group)
         {
+            //for graph
+            //foreach(var childName in _administrationService.GetGroupChildren(group.GroupId))
+            //{
+            //    if (SelectedGroupList.Any(g => g.GroupName == childName))
+            //    {
+            //        var item = SelectedGroupList.FirstOrDefault(g => g.GroupName == childName);
+            //        SelectedGroupList.Remove(item);
+            //        _selectedGroupChildren.Add(item);
+            //    }
+            //    else
+            //    {
+            //        foreach (var item in GroupList.Where(g => g.GroupName == childName).ToList())
+            //        {
+            //            GroupList.Remove(item);
+            //            _selectedGroupChildren.Add(item);
+            //        }
+            //    }
+            //}
             SelectedGroupList.Add(group);
-            foreach(var childName in _administrationService.GetGroupChildren(group.GroupId))
-            {
-                if (SelectedGroupList.Any(g => g.GroupName == childName))
-                {
-                    var item = SelectedGroupList.FirstOrDefault(g => g.GroupName == childName);
-                    SelectedGroupList.Remove(item);
-                    _selectedGroupChildren.Add(item);
-                }
-                else
-                {
-                    foreach (var item in GroupList.Where(g => g.GroupName == childName).ToList())
-                    {
-                        GroupList.Remove(item);
-                        _selectedGroupChildren.Add(item);
-                    }
-                }
-            }
             GroupList.Remove(group);
             base.RaisePropertyChanged();
         }
 
         public void RemoveGroup(GroupDTO group)
         {
+            //for graph
+            //List<string> childrenInTheStoredList = new List<string>();
+            //ICollection<string> childrenToGroupList = _administrationService.GetGroupChildren(group.GroupId);
+            //foreach(var item in SelectedGroupList)
+            //{
+            //    childrenInTheStoredList.AddRange(_administrationService.GetGroupChildren(item.GroupId));
+            //}
+            //childrenInTheStoredList.Distinct();
+            //foreach (var item in childrenInTheStoredList)
+            //{
+            //    childrenToGroupList = childrenToGroupList.Where(ch => ch != item).ToList();
+            //}
+            //foreach(var item in childrenToGroupList)
+            //{
+            //    foreach(var tmp in _selectedGroupChildren.ToList())
+            //    {
+            //        if(item == tmp.GroupName)
+            //        {
+            //            _selectedGroupChildren.Remove(tmp);
+            //            GroupList.Add(tmp);
+            //        }
+            //    }
+            //}
+
             SelectedGroupList.Remove(group);
             GroupList.Add(group);
-            List<string> childrenInTheStoredList = new List<string>();
-            ICollection<string> childrenToGroupList = _administrationService.GetGroupChildren(group.GroupId);
-            foreach(var item in SelectedGroupList)
-            {
-                childrenInTheStoredList.AddRange(_administrationService.GetGroupChildren(item.GroupId));
-            }
-            childrenInTheStoredList.Distinct();
-            foreach (var item in childrenInTheStoredList)
-            {
-                childrenToGroupList = childrenToGroupList.Where(ch => ch != item).ToList();
-            }
-            foreach(var item in childrenToGroupList)
-            {
-                foreach(var tmp in _selectedGroupChildren.ToList())
-                {
-                    if(item == tmp.GroupName)
-                    {
-                        _selectedGroupChildren.Remove(tmp);
-                        GroupList.Add(tmp);
-                    }
-                }
-            }
+
             base.RaisePropertyChanged();
         }
 

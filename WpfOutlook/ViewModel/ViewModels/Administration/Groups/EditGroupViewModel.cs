@@ -137,7 +137,7 @@ namespace ViewModel.ViewModels.Administration.Groups
                         }
                     }
 
-                    SelectedGroupList = new ObservableCollection<GroupDTO>(_administrationService.GetGroupGroups(group.GroupId));
+                    //SelectedGroupList = new ObservableCollection<GroupDTO>(_administrationService.GetGroupGroups(group.GroupId));
                     GroupList = new ObservableCollection<GroupDTO>(_administrationService.GetGroups());
                     foreach(var childName in _administrationService.GetGroupChildren(group.GroupId))
                     {
