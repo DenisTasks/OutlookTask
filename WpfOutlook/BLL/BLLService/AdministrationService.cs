@@ -19,6 +19,7 @@ namespace BLL.Services
         private IGenericRepository<Group> _groups;
         private IGenericRepository<Role> _roles;
 
+        #region mappers
         private IMapper GetDefaultMapper<TEntityFrom, TEntityTo>() where TEntityFrom : class where TEntityTo : class
         {
             var config = new MapperConfiguration(cfg =>
@@ -81,7 +82,8 @@ namespace BLL.Services
             return users;
         }
 
-
+        #endregion
+        
         public AdministrationService(IGenericRepository<User> users, IGenericRepository<Role> roles, IGenericRepository<Group> groups, WPFOutlookContext context)
         {
             _context = context;
@@ -89,6 +91,8 @@ namespace BLL.Services
             _roles = roles;
             _groups = groups;
         }
+
+        #region GroupMethods
 
         public void CreateGroup(GroupDTO groupDTO, ICollection<GroupDTO> groups, ICollection<UserDTO> users)
         {
@@ -108,26 +112,13 @@ namespace BLL.Services
             _context.SaveChanges();
         }
 
-        public void CreateUser(UserDTO user, ICollection<GroupDTO> groups, ICollection<RoleDTO> roles)
-        {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<UserDTO, User>()
-                    .ForMember(d => d.Roles, opt => opt.MapFrom(s => ConvertRolesDTO(roles)))
-                    .ForMember(d => d.Groups, opt => opt.MapFrom(s => ConvertGroupsDTO(groups)));
-
-            });
-            IMapper mapper = config.CreateMapper();
-            _users.Create(mapper.Map<UserDTO, User>(user));
-        }
-
         public void DeleteGroup(GroupDTO groupDTO)
         {
             Group group = _groups.FindById(groupDTO.GroupId);
             ICollection<Group> childs = _groups.Get(g => g.ParentId == groupDTO.GroupId).ToList();
-            if(groupDTO.ParentId != null)
+            if (groupDTO.ParentId != null)
             {
-                foreach(var item in childs)
+                foreach (var item in childs)
                 {
                     Group child = _groups.FindById(item.GroupId);
                     child.ParentId = groupDTO.ParentId;
@@ -147,81 +138,6 @@ namespace BLL.Services
             _context.SaveChanges();
         }
 
-        public void EditUser(UserDTO user, ICollection<GroupDTO> groups, ICollection<RoleDTO> roles)
-        {
-            if (user.UserName != null && user.Password != null)
-            {
-                User userToEdit = _users.FindById(user.UserId);
-                if (user.Name != null) userToEdit.Name = user.Name;
-                if ((user.UserName != null || userToEdit.UserName == user.UserName) && CheckUser(user.UserName)) userToEdit.UserName = user.UserName;
-                if (user.Password != null) userToEdit.Password = user.Password;
-                if (user.IsActive != userToEdit.IsActive) userToEdit.IsActive = user.IsActive;
-                if (roles.Any()) userToEdit.Roles = ConvertRolesDTO(roles);
-                if (!roles.Any()) userToEdit.Roles = null;
-                if (groups.Any()) userToEdit.Groups = ConvertGroupsDTO(groups);
-                if (!groups.Any()) userToEdit.Groups = null;
-                _users.Update(userToEdit);
-            }
-        }
-
-        public ICollection<GroupDTO> GetGroups()
-        {
-            var mapper = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Group, GroupDTO>();
-            }).CreateMapper();
-            return mapper.Map<IEnumerable<Group>, ICollection<GroupDTO>>(_groups.Get());
-        }
-
-        public ICollection<RoleDTO> GetRoles()
-        {
-            var mapper = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Role, RoleDTO>();
-            }).CreateMapper();
-            return mapper.Map <IEnumerable<Role>,ICollection<RoleDTO>> (_roles.Get());
-        }
-
-        public void ShowLogs()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool CheckUser(string username)
-        {
-            if (username == null || _users.Get(u => u.UserName.ToLower().Equals(username.ToLower())).Any())
-                return false;
-            else return true;
-        }
-
-        public void Dispose()
-        {
-            _context.Dispose();
-        }
-
-        public void DeactivateUser(int id)
-        {
-            User user = _users.FindById(id);
-            if (user.IsActive == true)
-                user.IsActive = false;
-            else user.IsActive = true;
-            _context.SaveChanges();
-        }
-
-        public UserDTO GetUserById(int id)
-        {
-            return GetDefaultMapper<User, UserDTO>().Map<User, UserDTO>(_users.Get(u => u.UserId == id).FirstOrDefault());
-        }
-
-        public ICollection<UserDTO> GetUsers()
-        {
-            var mapper = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<User, UserDTO>();
-            }).CreateMapper();
-            return mapper.Map<IEnumerable<User>, ICollection<UserDTO>>(_users.Get());
-        }
-
         public ICollection<string> GetGroupAncestors(string groupName)
         {
             ICollection<string> ancstrorNameList = new List<string>();
@@ -234,21 +150,11 @@ namespace BLL.Services
 
                 if (group != null && group.ParentId != null)
                 {
-                    groupName = _groups.Get(g=>g.GroupId == group.ParentId).FirstOrDefault().GroupName;
+                    groupName = _groups.Get(g => g.GroupId == group.ParentId).FirstOrDefault().GroupName;
                 }
                 else { groupName = null; }
             }
             return ancstrorNameList;
-        }
-
-        public ICollection<RoleDTO> GetUserRoles(int id)
-        {
-            return GetDefaultMapper<Role, RoleDTO>().Map<IEnumerable<Role>,ICollection<RoleDTO>>(_users.FindById(id).Roles);
-        }
-
-        public ICollection<GroupDTO> GetUserGroups(int id)
-        {
-            return GetDefaultMapper<Group, GroupDTO>().Map<IEnumerable<Group>, ICollection<GroupDTO>>(_users.FindById(id).Groups);
         }
 
         public ICollection<string> GetGroupChildren(int id)
@@ -279,12 +185,7 @@ namespace BLL.Services
 
         public ICollection<GroupDTO> GetGroupFirstGeneration(int id)
         {
-            return GetDefaultMapper<Group, GroupDTO>().Map<IEnumerable<Group>, ICollection<GroupDTO>>(_groups.Get(g=>g.ParentId == id));
-        }
-
-        public ICollection<UserDTO> GetGroupUsers(int id)
-        {
-            return GetDefaultMapper<User, UserDTO>().Map<IEnumerable<User>, ICollection<UserDTO>>(_groups.FindById(id).Users);
+            return GetDefaultMapper<Group, GroupDTO>().Map<IEnumerable<Group>, ICollection<GroupDTO>>(_groups.Get(g => g.ParentId == id));
         }
 
         public void EditGroup(GroupDTO group, ICollection<GroupDTO> selectedGroups, ICollection<UserDTO> users)
@@ -296,12 +197,12 @@ namespace BLL.Services
                 if (group.ParentId != groupToEdit.ParentId) groupToEdit.ParentId = group.ParentId;
                 if (users.Any()) groupToEdit.Users = ConvertUsersDTO(users);
                 if (!users.Any()) groupToEdit.Users = null;
-                ICollection<Group> oldGroups = _groups.Get(g => g.ParentId == groupToEdit.GroupId).ToList(); 
+                ICollection<Group> oldGroups = _groups.Get(g => g.ParentId == groupToEdit.GroupId).ToList();
                 foreach (var item in oldGroups.ToList())
                 {
-                    foreach(var temp in selectedGroups.ToList())
+                    foreach (var temp in selectedGroups.ToList())
                     {
-                        if(item.GroupId == temp.GroupId)
+                        if (item.GroupId == temp.GroupId)
                         {
                             oldGroups.Remove(item);
                             selectedGroups.Remove(temp);
@@ -310,7 +211,7 @@ namespace BLL.Services
                 }
                 if (oldGroups.Any())
                 {
-                    foreach(var item in oldGroups)
+                    foreach (var item in oldGroups)
                     {
                         var temp = _groups.FindById(item.GroupId);
                         temp.ParentId = null;
@@ -318,7 +219,7 @@ namespace BLL.Services
                 }
                 if (selectedGroups.Any())
                 {
-                    foreach(var item in ConvertGroupsDTO(selectedGroups))
+                    foreach (var item in ConvertGroupsDTO(selectedGroups))
                     {
                         item.ParentId = groupToEdit.GroupId;
                     }
@@ -330,6 +231,112 @@ namespace BLL.Services
         public ICollection<GroupDTO> GetGroupsWithNoAncestors()
         {
             return GetDefaultMapper<Group, GroupDTO>().Map<IEnumerable<Group>, ICollection<GroupDTO>>(_groups.Get(g => g.ParentId == null));
+        }
+
+        public ICollection<UserDTO> GetGroupUsers(int id)
+        {
+            return GetDefaultMapper<User, UserDTO>().Map<IEnumerable<User>, ICollection<UserDTO>>(_groups.FindById(id).Users);
+        }
+
+        #endregion
+        
+        #region UserMethods
+
+        public void CreateUser(UserDTO user, ICollection<GroupDTO> groups, ICollection<RoleDTO> roles)
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<UserDTO, User>()
+                    .ForMember(d => d.Roles, opt => opt.MapFrom(s => ConvertRolesDTO(roles)))
+                    .ForMember(d => d.Groups, opt => opt.MapFrom(s => ConvertGroupsDTO(groups)));
+
+            });
+            IMapper mapper = config.CreateMapper();
+            _users.Create(mapper.Map<UserDTO, User>(user));
+            _context.SaveChanges();
+        }
+        
+        public void EditUser(UserDTO user, ICollection<GroupDTO> groups, ICollection<RoleDTO> roles)
+        {
+            if (user.UserName != null && user.Password != null)
+            {
+                User userToEdit = _users.FindById(user.UserId);
+                if (user.Name != null) userToEdit.Name = user.Name;
+                if ((user.UserName != null || userToEdit.UserName == user.UserName) && CheckUser(user.UserName)) userToEdit.UserName = user.UserName;
+                if (user.Password != null) userToEdit.Password = user.Password;
+                if (user.IsActive != userToEdit.IsActive) userToEdit.IsActive = user.IsActive;
+                if (roles.Any()) userToEdit.Roles = ConvertRolesDTO(roles);
+                if (!roles.Any()) userToEdit.Roles = null;
+                if (groups.Any()) userToEdit.Groups = ConvertGroupsDTO(groups);
+                if (!groups.Any()) userToEdit.Groups = null;
+                _users.Update(userToEdit);
+                _context.SaveChanges();
+            }
+        }
+        
+        public bool CheckUser(string username)
+        {
+            if (username == null || _users.Get(u => u.UserName.ToLower().Equals(username.ToLower())).Any())
+                return false;
+            else return true;
+        }
+
+        public void DeactivateUser(int id)
+        {
+            User user = _users.FindById(id);
+            if (user.IsActive == true)
+                user.IsActive = false;
+            else user.IsActive = true;
+            _context.SaveChanges();
+        }
+
+        public UserDTO GetUserById(int id)
+        {
+            return GetDefaultMapper<User, UserDTO>().Map<User, UserDTO>(_users.Get(u => u.UserId == id).FirstOrDefault());
+        }
+
+        public ICollection<RoleDTO> GetUserRoles(int id)
+        {
+            return GetDefaultMapper<Role, RoleDTO>().Map<IEnumerable<Role>,ICollection<RoleDTO>>(_users.FindById(id).Roles);
+        }
+
+        public ICollection<GroupDTO> GetUserGroups(int id)
+        {
+            return GetDefaultMapper<Group, GroupDTO>().Map<IEnumerable<Group>, ICollection<GroupDTO>>(_users.FindById(id).Groups);
+        }
+
+        #endregion
+        
+        public ICollection<UserDTO> GetUsers()
+        {
+            var mapper = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<User, UserDTO>();
+            }).CreateMapper();
+            return mapper.Map<IEnumerable<User>, ICollection<UserDTO>>(_users.Get());
+        }
+
+        public ICollection<GroupDTO> GetGroups()
+        {
+            var mapper = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Group, GroupDTO>();
+            }).CreateMapper();
+            return mapper.Map<IEnumerable<Group>, ICollection<GroupDTO>>(_groups.Get());
+        }
+
+        public ICollection<RoleDTO> GetRoles()
+        {
+            var mapper = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Role, RoleDTO>();
+            }).CreateMapper();
+            return mapper.Map<IEnumerable<Role>, ICollection<RoleDTO>>(_roles.Get());
+        }
+
+        public void ShowLogs()
+        {
+            throw new NotImplementedException();
         }
     }
 }

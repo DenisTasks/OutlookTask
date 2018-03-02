@@ -35,7 +35,6 @@ namespace ViewModel.ViewModels.Administration.Users
             _createUserCommand = new RelayCommand<Window>(CreateUser);
 
             User = new UserDTO();
-
         }
 
         public ObservableCollection<RoleDTO> RoleList

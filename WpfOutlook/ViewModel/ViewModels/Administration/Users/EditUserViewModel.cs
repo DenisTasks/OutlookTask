@@ -18,6 +18,7 @@ namespace ViewModel.ViewModels.Administration.Users
         private readonly IAdministrationService _administrationService;
 
         private UserDTO _user;
+        private string _oldUserName;
 
         private ObservableCollection<RoleDTO> _roleList;
         private ObservableCollection<RoleDTO> _selectedRoleList;
@@ -136,14 +137,29 @@ namespace ViewModel.ViewModels.Administration.Users
 
         public void EditUser(Window window)
         {
-            if (User.UserName != null)
+            if (_oldUserName == User.UserName)
             {
                 _administrationService.EditUser(User, SelectedGroupList, SelectedRoleList);
                 window.Close();
             }
             else
             {
-                MessageBox.Show("Fill empty fields!");
+                if (User.UserName != null)
+                {
+                    if (_administrationService.CheckUser(User.UserName))
+                    {
+                        _administrationService.EditUser(User, SelectedGroupList, SelectedRoleList);
+                        window.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("User with this name already exists");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Fill empty fields!");
+                }
             }
         }
 
@@ -155,6 +171,7 @@ namespace ViewModel.ViewModels.Administration.Users
                 if (user != null)
                 {
                     User = user;
+                    _oldUserName = user.UserName;
                     SelectedRoleList = new ObservableCollection<RoleDTO>(_administrationService.GetUserRoles(user.UserId));
                     RoleList = new ObservableCollection<RoleDTO>(_administrationService.GetRoles());
                     foreach (var item in SelectedRoleList)
