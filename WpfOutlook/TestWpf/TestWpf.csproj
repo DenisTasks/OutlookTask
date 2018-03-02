@@ -81,19 +81,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AboutAppWindow.xaml.cs">
+    <Compile Include="Appointments\AboutAppWindow.xaml.cs">
       <DependentUpon>AboutAppWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="AdminPage.xaml.cs">
       <DependentUpon>AdminPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AllAppByLocation.xaml.cs">
+    <Compile Include="Appointments\AllAppByLocation.xaml.cs">
       <DependentUpon>AllAppByLocation.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AddAppWindow.xaml.cs">
+    <Compile Include="Appointments\AddAppWindow.xaml.cs">
       <DependentUpon>AddAppWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CalendarWindow.xaml.cs">
+    <Compile Include="Calendar\CalendarWindow.xaml.cs">
       <DependentUpon>CalendarWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\CalendarView.cs" />
@@ -105,23 +105,23 @@
     <Compile Include="Primitives\DaysPresenter.cs" />
     <Compile Include="Controls\TimeScaleControl.cs" />
     <Compile Include="Controls\RangePanel.cs" />
-    <Compile Include="MainWindowPage.xaml.cs">
+    <Compile Include="Appointments\MainWindowPage.xaml.cs">
       <DependentUpon>MainWindowPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Primitives\CalendarViewContentPresenter.cs" />
     <Compile Include="Primitives\CalendarViewPeriodPresenter.cs" />
     <Compile Include="CustomStyleSelector.cs" />
-    <Compile Include="SyncWindow.xaml.cs">
+    <Compile Include="Calendar\SyncWindow.xaml.cs">
       <DependentUpon>SyncWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="TemplatePriority.cs" />
     <Compile Include="TestShell.xaml.cs">
       <DependentUpon>TestShell.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ToastList.xaml.cs">
+    <Compile Include="Controls\ToastList.xaml.cs">
       <DependentUpon>ToastList.xaml</DependentUpon>
     </Compile>
-    <Page Include="AboutAppWindow.xaml">
+    <Page Include="Appointments\AboutAppWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -129,7 +129,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="AllAppByLocation.xaml">
+    <Page Include="Appointments\AllAppByLocation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -137,11 +137,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="AddAppWindow.xaml">
+    <Page Include="Appointments\AddAppWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CalendarWindow.xaml">
+    <Page Include="Calendar\CalendarWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -149,11 +149,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MainWindowPage.xaml">
+    <Page Include="Appointments\MainWindowPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SyncWindow.xaml">
+    <Page Include="Calendar\SyncWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -165,7 +165,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ToastList.xaml">
+    <Page Include="Controls\ToastList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
