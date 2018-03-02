@@ -79,17 +79,17 @@ namespace ViewModel.ViewModels.Appointments
             CalendarWindowCommand = new RelayCommand(GetCalendar);
             #endregion
 
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            {
-                var localthemes = new DirectoryInfo("Themes").GetFiles();
-                if (Files == null)
-                    Files = new ObservableCollection<FileInfo>();
-                foreach (var item in localthemes)
-                {
-                    Files.Add(item);
-                }
-                SelectedTheme = Files[1];
-            }));
+            //Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            //{
+            //    var localthemes = new DirectoryInfo("Themes").GetFiles();
+            //    if (Files == null)
+            //        Files = new ObservableCollection<FileInfo>();
+            //    foreach (var item in localthemes)
+            //    {
+            //        Files.Add(item);
+            //    }
+            //    SelectedTheme = Files[1];
+            //}));
 
             Messenger.Default.Register<NotificationMessage>(this, message =>
             {
