@@ -71,7 +71,7 @@
                   Grid.Row="5"
                   MaxHeight="200"
                   Name="ToRoleList"
-                  ItemsSource="{Binding SelectedRoleList}">
+                  ItemsSource="{Binding User.Roles}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <DockPanel >
@@ -95,13 +95,14 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <DockPanel>
+                        <TextBlock Text="{Binding GroupName}"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Left"/>
                         <Button Command="{Binding DataContext.AddGroupCommand, ElementName=ToGroupList}"
                                 CommandParameter="{Binding}"
                                 DockPanel.Dock="Right"
                                 Padding="2"
                                 Margin="2">add</Button>
-                        <TextBlock Text="{Binding Name}"
-                                   VerticalAlignment="Center"/>
                     </DockPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -113,7 +114,7 @@
                   Grid.Row="6"
                   MaxHeight="200"
                   Name="ToGroupList"
-                  ItemsSource="{Binding SelectedGroupList}">
+                  ItemsSource="{Binding User.Groups}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <DockPanel  HorizontalAlignment="Right">

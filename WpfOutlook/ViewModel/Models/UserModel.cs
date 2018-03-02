@@ -20,6 +20,13 @@ namespace ViewModel.Models
         private ICollection<RoleDTO> _roles;
         private ICollection<AppointmentDTO> _appointments;
 
+        public UserModel()
+        {
+            _groups = new List<GroupDTO>();
+            _roles = new List<RoleDTO>();
+            _appointments = new List<AppointmentDTO>();
+        }
+
         public bool IsActive
         {
             get => _isActive;
