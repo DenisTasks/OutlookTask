@@ -1,6 +1,7 @@
 ﻿using BLL.EntitesDTO;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -16,15 +17,15 @@ namespace ViewModel.Models
         private string _userName;
         private string _password;
 
-        private ICollection<GroupDTO> _groups;
-        private ICollection<RoleDTO> _roles;
-        private ICollection<AppointmentDTO> _appointments;
+        private ObservableCollection<GroupDTO> _groups;
+        private ObservableCollection<RoleDTO> _roles;
+        private ObservableCollection<AppointmentDTO> _appointments;
 
         public UserModel()
         {
-            _groups = new List<GroupDTO>();
-            _roles = new List<RoleDTO>();
-            _appointments = new List<AppointmentDTO>();
+            _groups = new ObservableCollection<GroupDTO>();
+            _roles = new ObservableCollection<RoleDTO>();
+            _appointments = new ObservableCollection<AppointmentDTO>();
         }
 
         public bool IsActive
@@ -73,7 +74,7 @@ namespace ViewModel.Models
             }
         }
 
-        public ICollection<GroupDTO> Groups
+        public ObservableCollection<GroupDTO> Groups
         {
             get => _groups;
             set
@@ -83,7 +84,7 @@ namespace ViewModel.Models
             }
         }
 
-        public ICollection<RoleDTO> Roles
+        public ObservableCollection<RoleDTO> Roles
         {
             get => _roles;
             set
@@ -93,7 +94,7 @@ namespace ViewModel.Models
             }
         }
 
-        public ICollection<AppointmentDTO> Appointments
+        public ObservableCollection<AppointmentDTO> Appointments
         {
             get => _appointments;
             set

@@ -100,8 +100,8 @@ namespace ViewModel.ViewModels.Administration.Users
                     .ForMember(d => d.UserName, opt => opt.MapFrom(s => s.UserName))
                     .ForMember(d => d.IsActive, opt => opt.MapFrom(s => s.IsActive))
                     .ForMember(d => d.Password, opt => opt.MapFrom(s => s.Password))
-                    .ForMember(d => d.Groups, opt => opt.MapFrom(s => _administrationService.GetUserGroups(s.UserId)))
-                    .ForMember(d => d.Roles, opt => opt.MapFrom(s => _administrationService.GetUserRoles(s.UserId)));
+                    .ForMember(d => d.Groups, opt => opt.MapFrom(s =>new  ObservableCollection<GroupDTO>(_administrationService.GetUserGroups(s.UserId))))
+                    .ForMember(d => d.Roles, opt => opt.MapFrom(s => new ObservableCollection<RoleDTO>(_administrationService.GetUserRoles(s.UserId))));
 
             }).CreateMapper();
             _users = new ObservableCollection<UserModel>(mapper.Map<IEnumerable<UserDTO>,ICollection<UserModel>>(_administrationService.GetUsers()));

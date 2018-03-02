@@ -1,4 +1,5 @@
-﻿using BLL.EntitesDTO;
+﻿using AutoMapper;
+using BLL.EntitesDTO;
 using BLL.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using ViewModel.Models;
 
 namespace ViewModel.ViewModels.Administration.Users
 {
@@ -17,16 +19,14 @@ namespace ViewModel.ViewModels.Administration.Users
     {
         private readonly IAdministrationService _administrationService;
 
-        private UserDTO _user;
+        private UserModel _user;
         private string _oldUserName;
 
         private ObservableCollection<RoleDTO> _roleList;
-        private ObservableCollection<RoleDTO> _selectedRoleList;
 
         private ObservableCollection<GroupDTO> _groupList;
-        private ObservableCollection<GroupDTO> _selectedGroupList;
 
-        public UserDTO User
+        public UserModel User
         {
             get => _user;
             set
@@ -46,32 +46,6 @@ namespace ViewModel.ViewModels.Administration.Users
                 if (value != null)
                 {
                     _roleList = value;
-                    base.RaisePropertyChanged();
-                }
-            }
-        }
-
-        public ObservableCollection<RoleDTO> SelectedRoleList
-        {
-            get => _selectedRoleList;
-            set
-            {
-                if (value != null)
-                {
-                    _selectedRoleList = value;
-                    base.RaisePropertyChanged();
-                }
-            }
-        }
-
-        public ObservableCollection<GroupDTO> SelectedGroupList
-        {
-            get => _selectedGroupList;
-            set
-            {
-                if (value != null)
-                {
-                    _selectedGroupList = value;
                     base.RaisePropertyChanged();
                 }
             }
@@ -98,7 +72,7 @@ namespace ViewModel.ViewModels.Administration.Users
 
         public void AddRole(RoleDTO role)
         {
-            SelectedRoleList.Add(role);
+            User.Roles.Add(role);
             RoleList.Remove(role);
             base.RaisePropertyChanged();
         }
@@ -106,7 +80,7 @@ namespace ViewModel.ViewModels.Administration.Users
         public void RemoveRole(RoleDTO role)
         {
             RoleList.Add(role);
-            SelectedRoleList.Remove(role);
+            User.Roles.Remove(role);
             base.RaisePropertyChanged();
         }
 
@@ -119,7 +93,7 @@ namespace ViewModel.ViewModels.Administration.Users
 
         public void AddGroup(GroupDTO group)
         {
-            SelectedGroupList.Add(group);
+            User.Groups.Add(group);
             GroupList.Remove(group);
             base.RaisePropertyChanged();
         }
@@ -127,7 +101,7 @@ namespace ViewModel.ViewModels.Administration.Users
         public void RemoveGroup(GroupDTO group)
         {
             GroupList.Add(group);
-            SelectedGroupList.Remove(group);
+            User.Groups.Remove(group);
             base.RaisePropertyChanged();
         }
 
@@ -139,7 +113,7 @@ namespace ViewModel.ViewModels.Administration.Users
         {
             if (_oldUserName == User.UserName)
             {
-                _administrationService.EditUser(User, SelectedGroupList, SelectedRoleList);
+                _administrationService.EditUser(GetMapper().Map<UserModel, UserDTO>(User), User.Groups, User.Roles);
                 window.Close();
             }
             else
@@ -148,7 +122,7 @@ namespace ViewModel.ViewModels.Administration.Users
                 {
                     if (_administrationService.CheckUser(User.UserName))
                     {
-                        _administrationService.EditUser(User, SelectedGroupList, SelectedRoleList);
+                        _administrationService.EditUser(GetMapper().Map<UserModel, UserDTO>(User), User.Groups, User.Roles);
                         window.Close();
                     }
                     else
@@ -166,15 +140,14 @@ namespace ViewModel.ViewModels.Administration.Users
 
         public EditUserViewModel(IAdministrationService administrationService)
         {
-            Messenger.Default.Register<UserDTO>(this, user =>
+            Messenger.Default.Register<UserModel>(this, user =>
             {
                 if (user != null)
                 {
                     User = user;
                     _oldUserName = user.UserName;
-                    SelectedRoleList = new ObservableCollection<RoleDTO>(_administrationService.GetUserRoles(user.UserId));
                     RoleList = new ObservableCollection<RoleDTO>(_administrationService.GetRoles());
-                    foreach (var item in SelectedRoleList)
+                    foreach (var item in User.Roles)
                     {
                         foreach(var temp in RoleList.ToList())
                         {
@@ -184,10 +157,9 @@ namespace ViewModel.ViewModels.Administration.Users
                             }
                         }
                     }
-
-                    SelectedGroupList = new ObservableCollection<GroupDTO>(_administrationService.GetUserGroups(User.UserId));
+                    
                     GroupList = new ObservableCollection<GroupDTO>(_administrationService.GetGroups());
-                    foreach (var item in SelectedGroupList)
+                    foreach (var item in User.Groups)
                     {
                         foreach (var temp in GroupList.ToList())
                         {
@@ -215,7 +187,21 @@ namespace ViewModel.ViewModels.Administration.Users
             _removeGroupCommand = new RelayCommand<GroupDTO>(RemoveGroup);
             _editUserCommand = new RelayCommand<Window>(EditUser);
         }
-        
+
+        private IMapper GetMapper()
+        {
+            var mapper = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<UserModel, UserDTO>()
+                    .ForMember(d => d.UserId, opt => opt.MapFrom(s => s.UserId))
+                    .ForMember(d => d.Name, opt => opt.MapFrom(s => s.Name))
+                    .ForMember(d => d.UserName, opt => opt.MapFrom(s => s.UserName))
+                    .ForMember(d => d.IsActive, opt => opt.MapFrom(s => s.IsActive))
+                    .ForMember(d => d.Password, opt => opt.MapFrom(s => s.Password));
+
+            }).CreateMapper();
+            return mapper;
+        }
     }
 }
 
