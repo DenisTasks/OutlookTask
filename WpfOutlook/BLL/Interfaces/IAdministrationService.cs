@@ -23,7 +23,7 @@ namespace BLL.Interfaces
         void EditGroup(GroupDTO group, ICollection<GroupDTO> Groups, ICollection<UserDTO> users);
         void DeleteGroup(GroupDTO group);
         void ShowLogs();
-        //ICollection<GroupDTO> GetGroupGroups(int id);
+        ICollection<GroupDTO> GetGroupFirstGeneration(int id);
         ICollection<UserDTO> GetGroupUsers(int id);
         ICollection<GroupDTO> GetGroupsWithNoAncestors();
         ICollection<RoleDTO> GetRoles();

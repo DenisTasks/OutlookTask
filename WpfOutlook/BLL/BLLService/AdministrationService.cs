@@ -277,26 +277,52 @@ namespace BLL.Services
             else return true;
         }
 
-        //public ICollection<GroupDTO> GetGroupGroups(int id)
-        //{
-        //    return GetDefaultMapper<Group, GroupDTO>().Map<IEnumerable<Group>, ICollection<GroupDTO>>(_groups.FindById(id).Groups);
-        //}
+        public ICollection<GroupDTO> GetGroupFirstGeneration(int id)
+        {
+            return GetDefaultMapper<Group, GroupDTO>().Map<IEnumerable<Group>, ICollection<GroupDTO>>(_groups.Get(g=>g.ParentId == id));
+        }
 
         public ICollection<UserDTO> GetGroupUsers(int id)
         {
             return GetDefaultMapper<User, UserDTO>().Map<IEnumerable<User>, ICollection<UserDTO>>(_groups.FindById(id).Users);
         }
 
-        public void EditGroup(GroupDTO group, ICollection<GroupDTO> groups, ICollection<UserDTO> users)
+        public void EditGroup(GroupDTO group, ICollection<GroupDTO> selectedGroups, ICollection<UserDTO> users)
         {
             if (group.GroupName != null)
             {
                 Group groupToEdit = _groups.FindById(group.GroupId);
-                if (group.GroupName != null && CheckGroup(group.GroupName)) groupToEdit.GroupName = group.GroupName;
+                if (group.GroupName != null && group.GroupName != groupToEdit.GroupName) groupToEdit.GroupName = group.GroupName;
                 if (group.ParentId != groupToEdit.ParentId) groupToEdit.ParentId = group.ParentId;
                 if (users.Any()) groupToEdit.Users = ConvertUsersDTO(users);
                 if (!users.Any()) groupToEdit.Users = null;
-                _groups.Update(groupToEdit);
+                ICollection<Group> oldGroups = _groups.Get(g => g.ParentId == groupToEdit.GroupId).ToList(); 
+                foreach (var item in oldGroups.ToList())
+                {
+                    foreach(var temp in selectedGroups.ToList())
+                    {
+                        if(item.GroupId == temp.GroupId)
+                        {
+                            oldGroups.Remove(item);
+                            selectedGroups.Remove(temp);
+                        }
+                    }
+                }
+                if (oldGroups.Any())
+                {
+                    foreach(var item in oldGroups)
+                    {
+                        var temp = _groups.FindById(item.GroupId);
+                        temp.ParentId = null;
+                    }
+                }
+                if (selectedGroups.Any())
+                {
+                    foreach(var item in ConvertGroupsDTO(selectedGroups))
+                    {
+                        item.ParentId = groupToEdit.GroupId;
+                    }
+                }
                 _context.SaveChanges();
             }
         }

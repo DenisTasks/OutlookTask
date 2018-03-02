@@ -18,6 +18,8 @@ namespace ViewModel.ViewModels.Administration.Groups
         private readonly IAdministrationService _administrationService;
 
         private bool _editor;
+        private string _oldName;
+        private ICollection<GroupDTO> _hiddenGroupAncestors;
 
         private ICollection<GroupDTO> _selectedGroupChildren;
 
@@ -59,19 +61,28 @@ namespace ViewModel.ViewModels.Administration.Groups
                 {
                     Group.ParentId = group.GroupId;
                     ICollection<string> groupNameList = _administrationService.GetGroupAncestors(group.GroupName);
-                    ICollection<GroupDTO> filterGroupCollection = _administrationService.GetGroups();
-                    foreach (var item in groupNameList)
+                    foreach (var groupName in groupNameList)
                     {
-                        filterGroupCollection = filterGroupCollection.Where(r => r.GroupName != item).ToList();
+                        foreach (var item in GroupList.ToList())
+                        {
+                            if (item.GroupName == groupName)
+                            {
+                                GroupList.Remove(item);
+                                _hiddenGroupAncestors.Add(item);
+                            }
+                        }
                     }
-                    GroupList = new ObservableCollection<GroupDTO>(filterGroupCollection);
                     SelectedGroupList = new ObservableCollection<GroupDTO>();
                 }
                 else
                 {
                     Group.ParentId = null;
                     SelectedGroupList = new ObservableCollection<GroupDTO>();
-                    GroupList = new ObservableCollection<GroupDTO>(_administrationService.GetGroups());
+                    foreach (var item in _hiddenGroupAncestors.ToList())
+                    {
+                        GroupList.Add(item);
+                        _hiddenGroupAncestors.Remove(item);
+                    }
                 }
             }
             else
@@ -80,7 +91,6 @@ namespace ViewModel.ViewModels.Administration.Groups
                 if (Group.ParentId != null)
                 {
                     ICollection<string> groupNameList = _administrationService.GetGroupAncestors(Group.GroupName);
-                    ICollection<GroupDTO> filterGroupCollection = _administrationService.GetGroups();
                     foreach (var ancestor in groupNameList)
                     {
                         foreach (var item in GroupList.ToList())
@@ -117,13 +127,8 @@ namespace ViewModel.ViewModels.Administration.Groups
                 if (group != null)
                 {
                     Group = group;
-
-                    //_groupsForComboBox = _administrationService.GetGroups();
-                    //_groupsForComboBox.Add(new GroupDTO
-                    //{
-                    //    GroupName = "Not"
-                    //});
-        
+                    _oldName = group.GroupName;
+                
                     SelectedUserList = new ObservableCollection<UserDTO>(_administrationService.GetGroupUsers(group.GroupId));
                     UserList = new ObservableCollection<UserDTO>(_administrationService.GetUsers());
                     foreach (var item in SelectedUserList)
@@ -137,40 +142,41 @@ namespace ViewModel.ViewModels.Administration.Groups
                         }
                     }
 
-                    //SelectedGroupList = new ObservableCollection<GroupDTO>(_administrationService.GetGroupGroups(group.GroupId));
-                    GroupList = new ObservableCollection<GroupDTO>(_administrationService.GetGroups());
-                    foreach(var childName in _administrationService.GetGroupChildren(group.GroupId))
-                    {
-                        if (SelectedGroupList.Any(g => g.GroupName == childName))
-                        {
-                            var item = SelectedGroupList.FirstOrDefault(g => g.GroupName == childName);
-                            GroupList.Remove(item);
-                            _selectedGroupChildren.Add(item);
-                        }
-                        else
-                        {
-                            foreach (var item in GroupList.Where(g => g.GroupName == childName).ToList())
-                            {
-                                GroupList.Remove(item);
-                                _selectedGroupChildren.Add(item);
-                            }
-                        }
-                    }
+                    SelectedGroupList = new ObservableCollection<GroupDTO>(_administrationService.GetGroupFirstGeneration(Group.GroupId));
+                    GroupList = new ObservableCollection<GroupDTO>(_administrationService.GetGroupsWithNoAncestors());
+
                     _groupsForComboBox.Remove(_groupsForComboBox.FirstOrDefault(g => g.GroupId == Group.GroupId));
                     GroupNameForFilter = _groupsForComboBox.FirstOrDefault(g => g.GroupId == group.ParentId);
                     Messenger.Default.Unregister<GroupDTO>(this);
+
+                    //for graph
+                    //GroupList = new ObservableCollection<GroupDTO>(_administrationService.GetGroups());
+                    //foreach(var childName in _administrationService.GetGroupChildren(group.GroupId))
+                    //{
+                    //    if (SelectedGroupList.Any(g => g.GroupName == childName))
+                    //    {
+                    //        var item = SelectedGroupList.FirstOrDefault(g => g.GroupName == childName);
+                    //        GroupList.Remove(item);
+                    //        _selectedGroupChildren.Add(item);
+                    //    }
+                    //    else
+                    //    {
+                    //        foreach (var item in GroupList.Where(g => g.GroupName == childName).ToList())
+                    //        {
+                    //            GroupList.Remove(item);
+                    //            _selectedGroupChildren.Add(item);
+                    //        }
+                    //    }
+                    //}
                 }
             });
 
             _administrationService = administrationService;
             _editor = false;
-            _selectedGroupChildren = new List<GroupDTO>();
+            _hiddenGroupAncestors = new List<GroupDTO>();
 
             _groupsForComboBox = _administrationService.GetGroups();
             _groupsForComboBox.Add(new GroupDTO { GroupName = "Not" });
-
-            //_groupsForComboBox = _administrationService.GetGroups();
-            //_groupsForComboBox.Add(new GroupDTO { GroupName = "Not" });
 
             _addUserCommand = new RelayCommand<UserDTO>(AddUser);
             _removeUserCommand = new RelayCommand<UserDTO>(RemoveUser);
@@ -262,23 +268,6 @@ namespace ViewModel.ViewModels.Administration.Groups
         public void AddGroup(GroupDTO group)
         {
             SelectedGroupList.Add(group);
-            foreach (var childName in _administrationService.GetGroupChildren(group.GroupId))
-            {
-                if (SelectedGroupList.Any(g => g.GroupName == childName))
-                {
-                    var item = SelectedGroupList.FirstOrDefault(g => g.GroupName == childName);
-                    SelectedGroupList.Remove(item);
-                    _selectedGroupChildren.Add(item);
-                }
-                else
-                {
-                    foreach (var item in GroupList.Where(g => g.GroupName == childName).ToList())
-                    {
-                        GroupList.Remove(item);
-                        _selectedGroupChildren.Add(item);
-                    }
-                }
-            }
             GroupList.Remove(group);
             base.RaisePropertyChanged();
         }
@@ -286,29 +275,7 @@ namespace ViewModel.ViewModels.Administration.Groups
         public void RemoveGroup(GroupDTO group)
         {
             SelectedGroupList.Remove(group);
-            GroupList.Add(group);
-            List<string> childrenInTheStoredList = new List<string>();
-            ICollection<string> childrenToGroupList = _administrationService.GetGroupChildren(group.GroupId);
-            foreach (var item in SelectedGroupList)
-            {
-                childrenInTheStoredList.AddRange(_administrationService.GetGroupChildren(item.GroupId));
-            }
-            childrenInTheStoredList.Distinct();
-            foreach (var item in childrenInTheStoredList)
-            {
-                childrenToGroupList = childrenToGroupList.Where(ch => ch != item).ToList();
-            }
-            foreach (var item in childrenToGroupList)
-            {
-                foreach (var tmp in _selectedGroupChildren.ToList())
-                {
-                    if (item == tmp.GroupName)
-                    {
-                        _selectedGroupChildren.Remove(tmp);
-                        GroupList.Add(tmp);
-                    }
-                }
-            }
+            GroupList.Add(group); 
             base.RaisePropertyChanged();
         }
 
@@ -318,14 +285,26 @@ namespace ViewModel.ViewModels.Administration.Groups
 
         public void CreateGroup(Window window)
         {
-            if (Group.GroupName != null && _administrationService.CheckGroup(Group.GroupName))
+            if (Group.GroupName == _oldName)
             {
                 _administrationService.EditGroup(Group, SelectedGroupList, SelectedUserList);
                 window.Close();
             }
             else
-            {
-                MessageBox.Show("Fill empty fields!");
+            { 
+                if (Group.GroupName != null)
+                {
+                   if( _administrationService.CheckGroup(Group.GroupName))
+                    {
+                        _administrationService.EditGroup(Group, SelectedGroupList, SelectedUserList);
+                        window.Close();
+                    }
+                    else { MessageBox.Show("This name already exists"); }
+                }
+                else
+                {
+                    MessageBox.Show("Fill empty fields!");
+                }
             }
         }
     }

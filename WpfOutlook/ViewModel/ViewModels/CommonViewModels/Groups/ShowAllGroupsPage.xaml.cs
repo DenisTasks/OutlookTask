@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,6 +19,7 @@ namespace MVVM.ViewModels.CommonViewModels.Groups
     /// <summary>
     /// Interaction logic for ShowAllGroupsPage.xaml
     /// </summary>
+    [PrincipalPermission(SecurityAction.Demand, Role = "admin")]
     public partial class ShowAllGroupsPage : Page
     {
         public ShowAllGroupsPage()
