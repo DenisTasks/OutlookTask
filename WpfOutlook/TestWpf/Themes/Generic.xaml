@@ -188,14 +188,4 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-    <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type controls:CalendarView}, ResourceId=ItemContainerDefaultStyleKey}" TargetType="{x:Type ListViewItem}">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListViewItem}">
-                    <TextBlock Text="{Binding}" />
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
 </ResourceDictionary>

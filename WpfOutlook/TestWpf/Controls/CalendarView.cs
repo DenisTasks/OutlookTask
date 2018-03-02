@@ -73,7 +73,6 @@ namespace TestWpf.Controls
         }
 
         protected override object DefaultStyleKey => new ComponentResourceKey(GetType(), "DefaultStyleKey");
-        protected override object ItemContainerDefaultStyleKey => new ComponentResourceKey(GetType(), "ItemContainerDefaultStyleKey");
     }
 
     public static class DateTimeExtensions
