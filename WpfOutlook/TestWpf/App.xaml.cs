@@ -3,10 +3,7 @@ using System.Windows;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
-using TestWpf.Helpers;
-using TestWpf.ViewModel;
-using ViewModel.Authentication;
-using ViewModel.Interfaces;
+using ViewModel.ViewModels.Authenication;
 
 namespace TestWpf
 {

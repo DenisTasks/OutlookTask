@@ -5,6 +5,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
+using MVVM.ViewModels.Administration.Users;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -89,10 +90,7 @@ namespace ViewModel.ViewModels.Administration.Users
 
         private void LoadData()
         {
-            using (var bll = new BLLService())
-            {
-                _users = new ObservableCollection<UserDTO>(bll.GetUsers());
-            }
+            _users = new ObservableCollection<UserDTO>(_administrationService.GetUsers());
         }
 
         //public event PropertyChangedEventHandler PropertyChanged;

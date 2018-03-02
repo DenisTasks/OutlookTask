@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ViewModel.ViewModels.Authenication
 {
-    class CustomPrincipal : IPrincipal
+    public class CustomPrincipal : IPrincipal
     {
         private CustomIdentity _identity;
 

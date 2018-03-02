@@ -40,7 +40,6 @@ namespace BLL.Services
                     if (_groups.FindById(item.GroupId) != null)
                     {
                         groups.Add(_groups.FindById(item.GroupId));
-                        //_context.Entry(_groups.FindById(item.GroupId)).State = System.Data.Entity.EntityState.Detached;
                     }
                 }
             }
@@ -83,12 +82,12 @@ namespace BLL.Services
         }
 
 
-        public AdministrationService()
+        public AdministrationService(IGenericRepository<User> users, IGenericRepository<Role> roles, IGenericRepository<Group> groups, WPFOutlookContext context)
         {
-            _context = new WPFOutlookContext();
-            _users = new GenericRepository<User>(_context);
-            _roles = new GenericRepository<Role>(_context);
-            _groups = new GenericRepository<Group>(_context);
+            _context = context;
+            _users = users;
+            _roles = roles;
+            _groups = groups;
         }
 
         public void CreateGroup(GroupDTO group, ICollection<GroupDTO> groups, ICollection<UserDTO> users)
