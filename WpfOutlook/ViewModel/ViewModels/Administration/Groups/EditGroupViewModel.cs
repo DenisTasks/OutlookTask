@@ -1,4 +1,5 @@
-﻿using BLL.EntitesDTO;
+﻿using AutoMapper;
+using BLL.EntitesDTO;
 using BLL.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using ViewModel.Models;
 
 namespace ViewModel.ViewModels.Administration.Groups
 {
@@ -20,15 +22,9 @@ namespace ViewModel.ViewModels.Administration.Groups
         private bool _editor;
         private string _oldName;
         private ICollection<GroupDTO> _hiddenGroupAncestors;
-
-        private ICollection<GroupDTO> _selectedGroupChildren;
-
+        private ICollection<GroupDTO> _groupsWithNoAncestors;
         private ObservableCollection<GroupDTO> _groupList;
-        private ObservableCollection<GroupDTO> _selectedGroupList;
-
         private ObservableCollection<UserDTO> _userList;
-        private ObservableCollection<UserDTO> _selectedUserList;
-
         private ICollection<GroupDTO> _groupsForComboBox;
 
         public ICollection<GroupDTO> GroupsForComboBox
@@ -72,16 +68,22 @@ namespace ViewModel.ViewModels.Administration.Groups
                             }
                         }
                     }
-                    SelectedGroupList = new ObservableCollection<GroupDTO>();
+                    Group.Groups = new ObservableCollection<GroupDTO>();
                 }
                 else
                 {
                     Group.ParentId = null;
-                    SelectedGroupList = new ObservableCollection<GroupDTO>();
                     foreach (var item in _hiddenGroupAncestors.ToList())
                     {
-                        GroupList.Add(item);
                         _hiddenGroupAncestors.Remove(item);
+                        foreach(var temp in _groupsWithNoAncestors.ToList())
+                        {
+                            if(temp.GroupId == temp.GroupId)
+                            {
+                                _groupsWithNoAncestors.Remove(temp);
+                                GroupList.Add(item);
+                            }
+                        }
                     }
                 }
             }
@@ -98,6 +100,7 @@ namespace ViewModel.ViewModels.Administration.Groups
                             if (item.GroupName == ancestor)
                             {
                                 GroupList.Remove(item);
+                                _hiddenGroupAncestors.Add(item);
                             }
                         }
                     }
@@ -106,9 +109,9 @@ namespace ViewModel.ViewModels.Administration.Groups
             }
         }
 
-        private GroupDTO _group;
+        private GroupModel _group;
 
-        public GroupDTO Group
+        public GroupModel Group
         {
             get => _group;
             set
@@ -122,16 +125,15 @@ namespace ViewModel.ViewModels.Administration.Groups
 
         public EditGroupViewModel(IAdministrationService administrationService)
         {
-            Messenger.Default.Register<GroupDTO>(this, group =>
+            Messenger.Default.Register<GroupModel>(this, group =>
             {
                 if (group != null)
                 {
                     Group = group;
                     _oldName = group.GroupName;
                 
-                    SelectedUserList = new ObservableCollection<UserDTO>(_administrationService.GetGroupUsers(group.GroupId));
                     UserList = new ObservableCollection<UserDTO>(_administrationService.GetUsers());
-                    foreach (var item in SelectedUserList)
+                    foreach (var item in Group.Users)
                     {
                         foreach (var temp in UserList.ToList())
                         {
@@ -141,9 +143,8 @@ namespace ViewModel.ViewModels.Administration.Groups
                             }
                         }
                     }
-
-                    SelectedGroupList = new ObservableCollection<GroupDTO>(_administrationService.GetGroupFirstGeneration(Group.GroupId));
-                    GroupList = new ObservableCollection<GroupDTO>(_administrationService.GetGroupsWithNoAncestors());
+                    
+                    GroupList = new ObservableCollection<GroupDTO>(_groupsWithNoAncestors);
 
                     _groupsForComboBox.Remove(_groupsForComboBox.FirstOrDefault(g => g.GroupId == Group.GroupId));
                     GroupNameForFilter = _groupsForComboBox.FirstOrDefault(g => g.GroupId == group.ParentId);
@@ -174,6 +175,7 @@ namespace ViewModel.ViewModels.Administration.Groups
             _administrationService = administrationService;
             _editor = false;
             _hiddenGroupAncestors = new List<GroupDTO>();
+            _groupsWithNoAncestors = _administrationService.GetGroupsWithNoAncestors();
 
             _groupsForComboBox = _administrationService.GetGroups();
             _groupsForComboBox.Add(new GroupDTO { GroupName = "Not" });
@@ -197,32 +199,7 @@ namespace ViewModel.ViewModels.Administration.Groups
                 }
             }
         }
-
-        public ObservableCollection<UserDTO> SelectedUserList
-        {
-            get => _selectedUserList;
-            set
-            {
-                if (value != _selectedUserList)
-                {
-                    _selectedUserList = value;
-                    base.RaisePropertyChanged();
-                }
-            }
-        }
-
-        public ObservableCollection<GroupDTO> SelectedGroupList
-        {
-            get => _selectedGroupList;
-            set
-            {
-                if (value != _selectedGroupList)
-                {
-                    _selectedGroupList = value;
-                    base.RaisePropertyChanged();
-                }
-            }
-        }
+        
 
         public ObservableCollection<GroupDTO> GroupList
         {
@@ -245,7 +222,7 @@ namespace ViewModel.ViewModels.Administration.Groups
 
         public void AddUser(UserDTO user)
         {
-            SelectedUserList.Add(user);
+            Group.Users.Add(user);
 
             UserList.Remove(user);
             base.RaisePropertyChanged();
@@ -254,7 +231,7 @@ namespace ViewModel.ViewModels.Administration.Groups
         public void RemoveUser(UserDTO user)
         {
             UserList.Add(user);
-            SelectedUserList.Remove(user);
+            Group.Users.Remove(user);
             base.RaisePropertyChanged();
         }
 
@@ -267,14 +244,14 @@ namespace ViewModel.ViewModels.Administration.Groups
 
         public void AddGroup(GroupDTO group)
         {
-            SelectedGroupList.Add(group);
+            Group.Groups.Add(group);
             GroupList.Remove(group);
             base.RaisePropertyChanged();
         }
 
         public void RemoveGroup(GroupDTO group)
         {
-            SelectedGroupList.Remove(group);
+            Group.Groups.Remove(group);
             GroupList.Add(group); 
             base.RaisePropertyChanged();
         }
@@ -287,7 +264,7 @@ namespace ViewModel.ViewModels.Administration.Groups
         {
             if (Group.GroupName == _oldName)
             {
-                _administrationService.EditGroup(Group, SelectedGroupList, SelectedUserList);
+                _administrationService.EditGroup(GetMapper().Map<GroupModel, GroupDTO>(Group), Group.Groups, Group.Users);
                 window.Close();
             }
             else
@@ -296,7 +273,7 @@ namespace ViewModel.ViewModels.Administration.Groups
                 {
                    if( _administrationService.CheckGroup(Group.GroupName))
                     {
-                        _administrationService.EditGroup(Group, SelectedGroupList, SelectedUserList);
+                        _administrationService.EditGroup(GetMapper().Map<GroupModel,GroupDTO>(Group), Group.Groups, Group.Users);
                         window.Close();
                     }
                     else { MessageBox.Show("This name already exists"); }
@@ -306,6 +283,20 @@ namespace ViewModel.ViewModels.Administration.Groups
                     MessageBox.Show("Fill empty fields!");
                 }
             }
+        }
+
+        private IMapper GetMapper()
+        {
+            var mapper = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<GroupModel, GroupDTO>()
+                    .ForMember(d => d.GroupId, opt => opt.MapFrom(s => s.GroupId))
+                    .ForMember(d => d.GroupName, opt => opt.MapFrom(s => s.GroupName))
+                    .ForMember(d => d.ParentId, opt => opt.MapFrom(s => s.ParentId))
+                    .ForMember(d => d.CreatorId, opt => opt.MapFrom(s => s.CreatorId));
+
+            }).CreateMapper();
+            return mapper;
         }
     }
 }

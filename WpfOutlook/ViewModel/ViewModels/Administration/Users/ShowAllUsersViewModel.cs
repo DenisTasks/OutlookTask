@@ -65,9 +65,9 @@ namespace ViewModel.ViewModels.Administration.Users
             {
                 user.IsActive = true;
             }
-            Users.Add(user);
-            Users.Remove(Users.Last());
-            Users = new ObservableCollection<UserModel>(Users.OrderBy(s => s.UserId));
+            //Users.Add(user);
+            //Users.Remove(Users.Last());
+            //Users = new ObservableCollection<UserModel>(Users.OrderBy(s => s.UserId));
         }
 
         private void AddUser()
@@ -85,8 +85,8 @@ namespace ViewModel.ViewModels.Administration.Users
                 var editUserWindow = new EditUserWindow();
                 Messenger.Default.Send<UserModel, EditUserViewModel>(user);
                 var result = editUserWindow.ShowDialog();
-                LoadData();
-                Users = _users;
+                //LoadData();
+                //Users = _users;
             }
         }
 

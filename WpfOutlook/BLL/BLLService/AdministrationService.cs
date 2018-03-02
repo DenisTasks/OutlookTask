@@ -112,17 +112,16 @@ namespace BLL.Services
             _context.SaveChanges();
         }
 
-        public void DeleteGroup(GroupDTO groupDTO)
+        public void DeleteGroup(int id)
         {
-            Group group = _groups.FindById(groupDTO.GroupId);
-            ICollection<Group> childs = _groups.Get(g => g.ParentId == groupDTO.GroupId).ToList();
-            if (groupDTO.ParentId != null)
+            Group group = _groups.FindById(id);
+            ICollection<Group> childs = _groups.Get(g => g.ParentId == group.GroupId).ToList();
+            if (group.ParentId != null)
             {
                 foreach (var item in childs)
                 {
                     Group child = _groups.FindById(item.GroupId);
-                    child.ParentId = groupDTO.ParentId;
-                    _groups.Update(child);
+                    child.ParentId = group.ParentId;
                 }
             }
             else
@@ -236,6 +235,25 @@ namespace BLL.Services
         public ICollection<UserDTO> GetGroupUsers(int id)
         {
             return GetDefaultMapper<User, UserDTO>().Map<IEnumerable<User>, ICollection<UserDTO>>(_groups.FindById(id).Users);
+        }
+
+        public GroupDTO GetGroupById(int? id)
+        {
+            if(id != null)
+            {
+                return null;
+            }
+            else return GetDefaultMapper<Group, GroupDTO>().Map<Group,GroupDTO>(_groups.FindById((int)id));
+        }
+        
+        public string GetGroupName(int? id)
+        {
+            if (id == null)
+            {
+                return string.Empty;
+            }
+            else return _groups.FindById((int)id).GroupName;
+
         }
 
         #endregion

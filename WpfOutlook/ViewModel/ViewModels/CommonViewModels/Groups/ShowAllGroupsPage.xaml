@@ -40,8 +40,8 @@
                         <GridViewColumn Header="Id" DisplayMemberBinding="{Binding GroupId}" Width="40"/>
                         <GridViewColumn Header="Name" DisplayMemberBinding="{Binding GroupName}" Width="100"/>
                         <GridViewColumn Header="UsersCount" DisplayMemberBinding="{Binding Users.Count}" Width="100"/>
-                        <GridViewColumn Header="ChildsCount" DisplayMemberBinding="{Binding Childs.Count}" Width="70"/>
-                        <GridViewColumn Header="Creator" DisplayMemberBinding="{Binding CreatorId}" Width="70"/>
+                        <GridViewColumn Header="Creator" DisplayMemberBinding="{Binding CreatorName}" Width="70"/>
+                        <GridViewColumn Header="ParentGroup" DisplayMemberBinding="{Binding ParentName}" Width="70"/>
                         <GridViewColumn Header="ParentGroup" DisplayMemberBinding="{Binding ParentId}" Width="70"/>
                     </GridView>
                 </ListView.View>

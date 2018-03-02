@@ -1,6 +1,7 @@
 ﻿using BLL.EntitesDTO;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -14,8 +15,26 @@ namespace ViewModel.Models
         private string _groupName;
         private string _parentName;
         private string _creatorName;
+        private int? _parentId;
+        private int _creatorId;
 
-        private ICollection<UserDTO> _users;
+        private ObservableCollection<GroupDTO> _groups;
+        private ObservableCollection<UserDTO> _users;
+
+        public GroupModel()
+        {
+            _users = new ObservableCollection<UserDTO>();
+        }
+
+        public int? ParentId
+        {
+            get => _parentId;
+            set
+            {
+                _parentId = value;
+                NotifyPropertyChanged("ParentId");
+            }
+        }
 
         public string GroupName
         {
@@ -47,6 +66,39 @@ namespace ViewModel.Models
             {
                 _creatorName = value;
                 NotifyPropertyChanged("CreatorName");
+            }
+        }
+
+        public int CreatorId
+        {
+            get => _creatorId;
+            set
+            {
+                _creatorId = value;
+                NotifyPropertyChanged("CreatorId"); 
+            }
+        }
+
+        public ObservableCollection<UserDTO> Users
+        {
+            get => _users;
+            set
+            {
+                if (value != null)
+                {
+                    _users = value;
+                    NotifyPropertyChanged("Users");
+                }
+            }
+        }
+
+        public ObservableCollection<GroupDTO> Groups
+        {
+            get => _groups;
+            set
+            {
+                _groups = value;
+                NotifyPropertyChanged("Groups");
             }
         }
 
