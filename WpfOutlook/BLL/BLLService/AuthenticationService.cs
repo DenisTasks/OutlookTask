@@ -30,8 +30,7 @@ namespace BLL.Services
             UserDTO user =mapper.Map<User, UserDTO>(_users.Get(u => u.UserName.Equals(username) && u.Password.Equals(password)).FirstOrDefault());
             if (user != null)
                 return user;
-            else throw new UnauthorizedAccessException("Wrong credentials.");
-            
+            else throw new UnauthorizedAccessException("Wrong credentials.");  
         }
         
         public string[] GetRoles(int userId)

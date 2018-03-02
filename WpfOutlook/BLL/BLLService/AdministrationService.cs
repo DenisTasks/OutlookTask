@@ -90,7 +90,7 @@ namespace BLL.Services
             _groups = groups;
         }
 
-        public void CreateGroup(GroupDTO group, ICollection<GroupDTO> groups, ICollection<UserDTO> users)
+        public void CreateGroup(GroupDTO groupDTO, ICollection<GroupDTO> groups, ICollection<UserDTO> users)
         {
             var config = new MapperConfiguration(cfg =>
             {
@@ -98,11 +98,13 @@ namespace BLL.Services
                     .ForMember(d => d.Users, opt => opt.MapFrom(s => ConvertUsersDTO(users)));
             });
             IMapper mapper = config.CreateMapper();
-            foreach(var item in ConvertGroupsDTO(groups))
+            Group group = mapper.Map<GroupDTO, Group>(groupDTO);
+            _groups.Create(group);
+            _context.SaveChanges();
+            foreach (var item in ConvertGroupsDTO(groups))
             {
                 item.ParentId = group.GroupId;
             }
-            _groups.Create(mapper.Map<GroupDTO, Group>(group));
             _context.SaveChanges();
         }
 
@@ -142,6 +144,7 @@ namespace BLL.Services
                 }
             }
             _groups.Remove(group);
+            _context.SaveChanges();
         }
 
         public void EditUser(UserDTO user, ICollection<GroupDTO> groups, ICollection<RoleDTO> roles)
@@ -252,6 +255,7 @@ namespace BLL.Services
         {
             SqlParameter param = new SqlParameter("@groupId", id);
             var groups = _context.Database.SqlQuery<string>("GetGroupChilds @groupId", param).ToList();
+
             //for graph
             /*var groupsCollection = _groups.Get(g => g.GroupId == id).FirstOrDefault().Groups;
             if (groupsCollection.Any())
@@ -262,6 +266,7 @@ namespace BLL.Services
                     groups.AddRange(GetGroupChildren(item.GroupId));
                 }
             }*/
+
             return groups.Distinct().ToList();
         }
 
@@ -291,8 +296,6 @@ namespace BLL.Services
                 if (group.ParentId != groupToEdit.ParentId) groupToEdit.ParentId = group.ParentId;
                 if (users.Any()) groupToEdit.Users = ConvertUsersDTO(users);
                 if (!users.Any()) groupToEdit.Users = null;
-                //if (groups.Any()) groupToEdit.Groups = ConvertGroupsDTO(groups);
-                //if (!groups.Any()) groupToEdit.Groups = null;
                 _groups.Update(groupToEdit);
                 _context.SaveChanges();
             }
