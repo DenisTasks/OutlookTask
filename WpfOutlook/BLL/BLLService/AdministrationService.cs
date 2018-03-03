@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using BLL.EntitesDTO;
 using BLL.Interfaces;
+using Microsoft.SqlServer.Server;
 using Model;
 using Model.Entities;
 using Model.Interfaces;
 using Model.ModelService;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 
@@ -156,11 +158,10 @@ namespace BLL.Services
             return ancstrorNameList;
         }
 
-        public ICollection<string> GetGroupChildren(int id)
+        public ICollection<int> GetGroupChildren(int id)
         {
             SqlParameter param = new SqlParameter("@groupId", id);
-            var groups = _context.Database.SqlQuery<string>("GetGroupChilds @groupId", param).ToList();
-
+            var groups = _context.Database.SqlQuery<int>("GetGroupChilds @groupId", param).ToList();
             //for graph
             /*var groupsCollection = _groups.Get(g => g.GroupId == id).FirstOrDefault().Groups;
             if (groupsCollection.Any())
@@ -187,15 +188,100 @@ namespace BLL.Services
             return GetDefaultMapper<Group, GroupDTO>().Map<IEnumerable<Group>, ICollection<GroupDTO>>(_groups.Get(g => g.ParentId == id));
         }
 
-        public void EditGroup(GroupDTO group, ICollection<GroupDTO> selectedGroups, ICollection<UserDTO> users)
+        private void DeleteUsersFromBranch(ICollection<User> users, int id)
+        {
+            SqlParameter param1 = new SqlParameter("@groupId", id);
+            //    var tableSchema = new List<SqlMetaData>(1)
+            //    {
+            //      new SqlMetaData("Id", SqlDbType.UniqueIdentifier)
+            //    }.ToArray();
+            //    var tableRow = new SqlDataRecord(tableSchema);
+            //    tableRow.SetGuid(0, Guid.NewGuid());
+            //    var table = new List<SqlDataRecord>(1)
+            //    {
+            //      tableRow
+            //    };
+            //    for(int i=0; i< users.Count; i++)
+            //    {
+            //        tableRow.SetInt32(i, users.ElementAt(i));
+            //    }
+
+            var dataTable = new DataTable();
+            //dataTable.TableName = "[dbo].[UserList]";
+            dataTable.Columns.Add("UserId", typeof(int));
+            foreach(var item in users.Select(u => u.UserId))
+            {
+                dataTable.Rows.Add(item);
+            }
+            SqlParameter param2 = new SqlParameter("@List", SqlDbType.Structured);
+            param2.ParameterName = dataTable.TableName;
+            param2.SqlValue = dataTable;
+            var prams = new List<SqlParameter>()
+            {
+                param1,
+                param2
+            };
+            _context.Database.SqlQuery<string>("DeleteUsersFromGroupChilds @groupId,@List", prams.ToArray());
+        }
+
+        private ICollection<User> GetGroupUsersFromBranches(int id)
+        {
+            List<User> users = new List<User>();
+            foreach (var item in GetGroupChildren(id))
+            {
+                users.AddRange(_groups.FindById(item).Users);
+            }
+            users.AddRange(_groups.FindById(id).Users);
+            return users.GroupBy(u => u.UserId).Select(g => g.First()).ToList();
+        }
+
+        public void EditGroup(GroupDTO group, ICollection<GroupDTO> selectedGroups, ICollection<UserDTO> selectedUsers)
         {
             if (group.GroupName != null)
             {
                 Group groupToEdit = _groups.FindById(group.GroupId);
                 if (group.GroupName != null && group.GroupName != groupToEdit.GroupName) groupToEdit.GroupName = group.GroupName;
                 if (group.ParentId != groupToEdit.ParentId) groupToEdit.ParentId = group.ParentId;
-                if (users.Any()) groupToEdit.Users = ConvertUsersDTO(users);
-                if (!users.Any()) groupToEdit.Users = null;
+                ICollection<User> usersFromBranches = GetGroupUsersFromBranches(groupToEdit.GroupId);
+                if (selectedUsers.Any())
+                {
+                    foreach (var oldUser in groupToEdit.Users.ToList())
+                    {
+                        foreach (var user in selectedUsers.ToList())
+                        {
+                            if (user.UserId == oldUser.UserId)
+                            {
+                                selectedUsers.Remove(user);
+                            }
+                        }
+                    }
+                    foreach (var oldUser in usersFromBranches.ToList())
+                    {
+                        foreach (var user in selectedUsers.ToList())
+                        {
+                            if (user.UserId == oldUser.UserId)
+                            {
+                                usersFromBranches.Remove(oldUser);
+                                selectedUsers.Remove(user);
+                            }
+                        }
+                    }
+                    DeleteUsersFromBranch(usersFromBranches, groupToEdit.GroupId);
+                    if (selectedUsers.Any())
+                    {
+                        foreach (var item in selectedUsers.ToList())
+                        {
+                            groupToEdit.Users.Add(_users.FindById(item.UserId));
+                        }
+                    }
+                } else
+                {
+                    foreach(var item in groupToEdit.Users.ToList())
+                    {
+                        groupToEdit.Users.Remove(_users.FindById(item.UserId));
+                    }
+                    DeleteUsersFromBranch(usersFromBranches, groupToEdit.GroupId);
+                }
                 ICollection<Group> oldGroups = _groups.Get(g => g.ParentId == groupToEdit.GroupId).ToList();
                 foreach (var item in oldGroups.ToList())
                 {
@@ -234,7 +320,8 @@ namespace BLL.Services
 
         public ICollection<UserDTO> GetGroupUsers(int id)
         {
-            return GetDefaultMapper<User, UserDTO>().Map<IEnumerable<User>, ICollection<UserDTO>>(_groups.FindById(id).Users);
+            ICollection<UserDTO> users = GetDefaultMapper<User, UserDTO>().Map<IEnumerable<User>, ICollection<UserDTO>>(GetGroupUsersFromBranches(id));
+            return users;
         }
 
         public GroupDTO GetGroupById(int? id)

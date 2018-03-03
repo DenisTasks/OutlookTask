@@ -148,7 +148,7 @@ namespace ViewModel.ViewModels.Administration.Groups
 
                     _groupsForComboBox.Remove(_groupsForComboBox.FirstOrDefault(g => g.GroupId == Group.GroupId));
                     GroupNameForFilter = _groupsForComboBox.FirstOrDefault(g => g.GroupId == group.ParentId);
-                    Messenger.Default.Unregister<GroupDTO>(this);
+                    Messenger.Default.Unregister<GroupModel>(this);
 
                     //for graph
                     //GroupList = new ObservableCollection<GroupDTO>(_administrationService.GetGroups());

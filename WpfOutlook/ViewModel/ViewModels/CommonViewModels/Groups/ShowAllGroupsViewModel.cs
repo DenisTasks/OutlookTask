@@ -58,10 +58,11 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
 
         private void DeleteGroup(GroupModel group)
         {
-            _administrationService.DeleteGroup(group.GroupId);
-            //LoadData();
-            //Groups = _groups;
-
+            if (group != null)
+            {
+                _administrationService.DeleteGroup(group.GroupId);
+                Groups.Remove(group);
+            }
         }
 
         private void AddGroup()
@@ -69,7 +70,6 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
             var addGroupWindow = new AddGroupWindow();
             var result = addGroupWindow.ShowDialog();
             LoadData();
-            Groups = _groups;
         }
 
         private void EditGroup(GroupModel group)
@@ -79,8 +79,7 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
                 var editGroupWindow = new EditGroupWindow();
                 Messenger.Default.Send<GroupModel, EditGroupViewModel>(group);
                 var result = editGroupWindow.ShowDialog();
-                //LoadData();
-                //Groups = _groups;
+                LoadData();
             }
         }
 
@@ -98,7 +97,7 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
                     .ForMember(d => d.Groups, opt => opt.MapFrom(s => _administrationService.GetGroupFirstGeneration(s.GroupId)))
                     .ForMember(d => d.Users, opt => opt.MapFrom(s => new ObservableCollection<UserDTO>(_administrationService.GetGroupUsers(s.GroupId))));
             }).CreateMapper();
-            _groups = new ObservableCollection<GroupModel>(mapper.Map<IEnumerable<GroupDTO>,ICollection<GroupModel>>(_administrationService.GetGroups()));
+            Groups = new ObservableCollection<GroupModel>(mapper.Map<IEnumerable<GroupDTO>,ICollection<GroupModel>>(_administrationService.GetGroups()));
         }
 
     }

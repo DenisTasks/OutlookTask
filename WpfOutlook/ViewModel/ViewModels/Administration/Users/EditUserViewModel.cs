@@ -176,7 +176,7 @@ namespace ViewModel.ViewModels.Administration.Users
                     //    groupCollection = groupCollection.Where(g => g.GroupName != item.GroupName).ToList();
                     //}
                     //GroupList = new ObservableCollection<GroupDTO>(groupCollection);
-                    Messenger.Default.Unregister<UserDTO>(this);
+                    Messenger.Default.Unregister<UserModel>(this);
                 }
             });
             _administrationService = administrationService;
