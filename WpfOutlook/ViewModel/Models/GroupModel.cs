@@ -24,6 +24,7 @@ namespace ViewModel.Models
         public GroupModel()
         {
             _users = new ObservableCollection<UserDTO>();
+            _groups = new ObservableCollection<GroupDTO>();
         }
 
         public int? ParentId

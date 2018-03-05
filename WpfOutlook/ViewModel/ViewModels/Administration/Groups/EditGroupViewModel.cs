@@ -72,13 +72,14 @@ namespace ViewModel.ViewModels.Administration.Groups
                 }
                 else
                 {
+                    _groupsWithNoAncestors= _groupsWithNoAncestors.GroupBy(g => g.GroupId).Select(x => x.First()).ToList();
                     Group.ParentId = null;
                     foreach (var item in _hiddenGroupAncestors.ToList())
                     {
                         _hiddenGroupAncestors.Remove(item);
                         foreach(var temp in _groupsWithNoAncestors.ToList())
                         {
-                            if(temp.GroupId == temp.GroupId)
+                            if(temp.GroupId == item.GroupId)
                             {
                                 _groupsWithNoAncestors.Remove(temp);
                                 GroupList.Add(item);
@@ -223,7 +224,6 @@ namespace ViewModel.ViewModels.Administration.Groups
         public void AddUser(UserDTO user)
         {
             Group.Users.Add(user);
-
             UserList.Remove(user);
             base.RaisePropertyChanged();
         }

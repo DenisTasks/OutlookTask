@@ -191,37 +191,17 @@ namespace BLL.Services
         private void DeleteUsersFromBranch(ICollection<User> users, int id)
         {
             SqlParameter param1 = new SqlParameter("@groupId", id);
-            //    var tableSchema = new List<SqlMetaData>(1)
-            //    {
-            //      new SqlMetaData("Id", SqlDbType.UniqueIdentifier)
-            //    }.ToArray();
-            //    var tableRow = new SqlDataRecord(tableSchema);
-            //    tableRow.SetGuid(0, Guid.NewGuid());
-            //    var table = new List<SqlDataRecord>(1)
-            //    {
-            //      tableRow
-            //    };
-            //    for(int i=0; i< users.Count; i++)
-            //    {
-            //        tableRow.SetInt32(i, users.ElementAt(i));
-            //    }
-
             var dataTable = new DataTable();
-            //dataTable.TableName = "[dbo].[UserList]";
             dataTable.Columns.Add("UserId", typeof(int));
-            foreach(var item in users.Select(u => u.UserId))
+            foreach (var item in users.Select(u => u.UserId))
             {
                 dataTable.Rows.Add(item);
+                _context.Entry(_users.FindById(item)).State = System.Data.Entity.EntityState.Detached;
             }
             SqlParameter param2 = new SqlParameter("@List", SqlDbType.Structured);
-            param2.ParameterName = dataTable.TableName;
-            param2.SqlValue = dataTable;
-            var prams = new List<SqlParameter>()
-            {
-                param1,
-                param2
-            };
-            _context.Database.SqlQuery<string>("DeleteUsersFromGroupChilds @groupId,@List", prams.ToArray());
+            param2.Value = dataTable;
+            param2.TypeName = "dbo.UserList";
+            var res= _context.Database.ExecuteSqlCommand("DeleteUsersFromGroupChilds @groupId,@List", param1, param2);
         }
 
         private ICollection<User> GetGroupUsersFromBranches(int id)
@@ -245,16 +225,7 @@ namespace BLL.Services
                 ICollection<User> usersFromBranches = GetGroupUsersFromBranches(groupToEdit.GroupId);
                 if (selectedUsers.Any())
                 {
-                    foreach (var oldUser in groupToEdit.Users.ToList())
-                    {
-                        foreach (var user in selectedUsers.ToList())
-                        {
-                            if (user.UserId == oldUser.UserId)
-                            {
-                                selectedUsers.Remove(user);
-                            }
-                        }
-                    }
+                    groupToEdit.Users = groupToEdit.Users.Intersect(ConvertUsersDTO(selectedUsers)).ToList();
                     foreach (var oldUser in usersFromBranches.ToList())
                     {
                         foreach (var user in selectedUsers.ToList())
@@ -266,7 +237,10 @@ namespace BLL.Services
                             }
                         }
                     }
-                    DeleteUsersFromBranch(usersFromBranches, groupToEdit.GroupId);
+                    if (usersFromBranches.Any())
+                    {
+                        DeleteUsersFromBranch(usersFromBranches, groupToEdit.GroupId);
+                    }
                     if (selectedUsers.Any())
                     {
                         foreach (var item in selectedUsers.ToList())
