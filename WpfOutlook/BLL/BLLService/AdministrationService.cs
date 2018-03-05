@@ -196,7 +196,6 @@ namespace BLL.Services
             foreach (var item in users.Select(u => u.UserId))
             {
                 dataTable.Rows.Add(item);
-                _context.Entry(_users.FindById(item)).State = System.Data.Entity.EntityState.Detached;
             }
             SqlParameter param2 = new SqlParameter("@List", SqlDbType.Structured);
             param2.Value = dataTable;
@@ -254,7 +253,8 @@ namespace BLL.Services
                     {
                         groupToEdit.Users.Remove(_users.FindById(item.UserId));
                     }
-                    DeleteUsersFromBranch(usersFromBranches, groupToEdit.GroupId);
+                    if(usersFromBranches.Any())
+                        DeleteUsersFromBranch(usersFromBranches, groupToEdit.GroupId);
                 }
                 ICollection<Group> oldGroups = _groups.Get(g => g.ParentId == groupToEdit.GroupId).ToList();
                 foreach (var item in oldGroups.ToList())
@@ -284,6 +284,10 @@ namespace BLL.Services
                     }
                 }
                 _context.SaveChanges();
+                foreach(var id in usersFromBranches.Select(u => u.UserId))
+                {
+                    _context.Entry(_users.FindById(id)).State = System.Data.Entity.EntityState.Detached;
+                }
             }
         }
 
