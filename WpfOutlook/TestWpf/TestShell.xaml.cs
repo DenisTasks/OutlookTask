@@ -38,6 +38,7 @@ namespace MVVM
             {
                 _mainFrame.Navigate(new AdminPage());
                 //_mainFrame.Navigate(new MainWindowPage());
+                
 
             }
             if (obj.Notification.Equals("ShowAllUsersPage"))

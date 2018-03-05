@@ -47,6 +47,10 @@ namespace TestWpf.Administration.Users
                 }
             });
         }
-        
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.GoBack();
+        }
     }
 }

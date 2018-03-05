@@ -76,6 +76,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\Navigator.cs" />
     <Compile Include="Helpers\OpenWindowMessage.cs" />
     <Compile Include="Helpers\WindowType.cs" />
     <Compile Include="Models\GroupModel.cs" />

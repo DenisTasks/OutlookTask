@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TestWpf.Administration.Groups;
+using TestWpf.Administration.Users;
 
 namespace TestWpf.Pages
 {
@@ -25,6 +27,21 @@ namespace TestWpf.Pages
         public AdminPage()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click_ToLogs(object sender, RoutedEventArgs e)
+        {
+            //this.NavigationService.Navigate()
+        }
+
+        private void Button_Click_ToUsers(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new ShowAllUsersPage());
+        }
+
+        private void Button_Click_ToGroups(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new ShowAllGroupsPage());
         }
     }
 }
