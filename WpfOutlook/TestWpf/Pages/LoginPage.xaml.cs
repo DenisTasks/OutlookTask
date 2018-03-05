@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -11,17 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MVVM.ViewModels.CommonViewModels.Groups
+namespace TestWpf.Pages
 {
     /// <summary>
-    /// Interaction logic for AddGroupWindow.xaml
+    /// Interaction logic for Page1.xaml
     /// </summary>
-    [PrincipalPermission(SecurityAction.Demand, Role = "admin")]
-    public partial class AddGroupWindow : Window
+    public partial class LoginPage : Page
     {
-        public AddGroupWindow()
+        public LoginPage()
         {
             InitializeComponent();
         }

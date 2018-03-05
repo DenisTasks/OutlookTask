@@ -6,7 +6,6 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
-using MVVM.ViewModels.Administration.Users;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -65,15 +64,11 @@ namespace ViewModel.ViewModels.Administration.Users
             {
                 user.IsActive = true;
             }
-            //Users.Add(user);
-            //Users.Remove(Users.Last());
-            //Users = new ObservableCollection<UserModel>(Users.OrderBy(s => s.UserId));
         }
 
         private void AddUser()
         {
-            var addUserWindow = new AddUserWindow();
-            var result = addUserWindow.ShowDialog();
+            Messenger.Default.Send<NotificationMessage>(new NotificationMessage("AddUserWindow"));
             LoadData();
             Users = _users;
         }
@@ -82,9 +77,7 @@ namespace ViewModel.ViewModels.Administration.Users
         {
             if (user != null)
             {
-                var editUserWindow = new EditUserWindow();
-                Messenger.Default.Send<UserModel, EditUserViewModel>(user);
-                var result = editUserWindow.ShowDialog();
+                Messenger.Default.Send<UserModel>(user);
                 //LoadData();
                 //Users = _users;
             }

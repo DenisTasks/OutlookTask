@@ -13,15 +13,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace MVVM.ViewModels.Administration.Users
+namespace TestWpf.Administration.Users
 {
     /// <summary>
-    /// Interaction logic for AddUserWindow.xaml
+    /// Interaction logic for EditUserWindow.xaml
     /// </summary>
     [PrincipalPermission(SecurityAction.Demand, Role = "admin")]
-    public partial class AddUserWindow : Window
+    public partial class EditUserWindow : Window
     {
-        public AddUserWindow()
+        public EditUserWindow()
         {
             InitializeComponent();
         }

@@ -1,8 +1,10 @@
 ﻿using System.Windows.Controls;
 using GalaSoft.MvvmLight.Messaging;
+using TestWpf.Appointments;
+using TestWpf.Calendar;
 using ViewModel.Helpers;
 
-namespace TestWpf
+namespace TestWpf.Pages
 {
     public partial class MainWindowPage : Page
     {

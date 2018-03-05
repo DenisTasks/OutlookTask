@@ -11,21 +11,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MVVM.ViewModels.Administration.Users
+namespace TestWpf.Administration.Users
 {
     /// <summary>
-    /// Interaction logic for ShowAllUsersPage.xaml
+    /// Interaction logic for AddUserWindow.xaml
     /// </summary>
     [PrincipalPermission(SecurityAction.Demand, Role = "admin")]
-    public partial class ShowAllUsersPage : Page
+    public partial class AddUserWindow : Window
     {
-        public ShowAllUsersPage()
+        public AddUserWindow()
         {
             InitializeComponent();
         }
-        
     }
 }

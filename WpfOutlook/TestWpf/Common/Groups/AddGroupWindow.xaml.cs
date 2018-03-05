@@ -13,15 +13,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace MVVM.ViewModels.Administration.Groups
+namespace TestWpf.Common.Groups
 {
     /// <summary>
-    /// Interaction logic for EditGroupWindow.xaml
+    /// Interaction logic for AddGroupWindow.xaml
     /// </summary>
     [PrincipalPermission(SecurityAction.Demand, Role = "admin")]
-    public partial class EditGroupWindow : Window
+    public partial class AddGroupWindow : Window
     {
-        public EditGroupWindow()
+        public AddGroupWindow()
         {
             InitializeComponent();
         }

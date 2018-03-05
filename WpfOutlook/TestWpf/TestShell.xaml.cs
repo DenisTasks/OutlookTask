@@ -1,7 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
-using MVVM.ViewModels.Administration.Users;
-using MVVM.ViewModels.CommonViewModels.Groups;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TestWpf;
+using TestWpf.Administration.Groups;
+using TestWpf.Administration.Users;
+using TestWpf.Pages;
 
 namespace MVVM
 {

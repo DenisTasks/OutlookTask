@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace TestWpf
+namespace TestWpf.Calendar
 {
     /// <summary>
     /// Interaction logic for SyncWindow.xaml

@@ -87,28 +87,10 @@
     <Compile Include="ViewModels\Administration\AdministrationViewModel.cs" />
     <Compile Include="ViewModels\TestShell\ShellViewModel.cs" />
     <Compile Include="ViewModels\CommonViewModels\Groups\AddGroupViewModel.cs" />
-    <Compile Include="ViewModels\CommonViewModels\Groups\AddGroupWindow.xaml.cs">
-      <DependentUpon>AddGroupWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ViewModels\CommonViewModels\Groups\ShowAllGroupsPage.xaml.cs">
-      <DependentUpon>ShowAllGroupsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ViewModels\CommonViewModels\Groups\ShowAllGroupsViewModel.cs" />
+    <Compile Include="ViewModels\Administration\Groups\ShowAllGroupsViewModel.cs" />
     <Compile Include="ViewModels\Administration\Groups\EditGroupViewModel.cs" />
-    <Compile Include="ViewModels\Administration\Groups\EditGroupWindow.xaml.cs">
-      <DependentUpon>EditGroupWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ViewModels\Administration\Users\AddUserViewModel.cs" />
-    <Compile Include="ViewModels\Administration\Users\AddUserWindow.xaml.cs">
-      <DependentUpon>AddUserWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ViewModels\Administration\Users\EditUserViewModel.cs" />
-    <Compile Include="ViewModels\Administration\Users\EditUserWindow.xaml.cs">
-      <DependentUpon>EditUserWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ViewModels\Administration\Users\ShowAllUsersPage.xaml.cs">
-      <DependentUpon>ShowAllUsersPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ViewModels\Administration\Users\ShowAllUsersViewModel.cs" />
     <Compile Include="ViewModels\Appointments\AllAppByLocationWindowViewModel.cs" />
     <Compile Include="ViewModels\Authenication\AnonymousIdentity.cs" />
@@ -135,32 +117,6 @@
       <Project>{c92373ea-87ac-443a-a307-207f5a7ff9cf}</Project>
       <Name>Model</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="ViewModels\CommonViewModels\Groups\AddGroupWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ViewModels\CommonViewModels\Groups\ShowAllGroupsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ViewModels\Administration\Groups\EditGroupWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ViewModels\Administration\Users\AddUserWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ViewModels\Administration\Users\EditUserWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ViewModels\Administration\Users\ShowAllUsersPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

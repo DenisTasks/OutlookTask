@@ -5,8 +5,6 @@ using BLL.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
-using MVVM.ViewModels.Administration.Groups;
-using MVVM.ViewModels.CommonViewModels.Groups;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -67,8 +65,7 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
 
         private void AddGroup()
         {
-            var addGroupWindow = new AddGroupWindow();
-            var result = addGroupWindow.ShowDialog();
+            Messenger.Default.Send(new NotificationMessage("AddGrupWindow"));
             LoadData();
         }
 
@@ -76,9 +73,7 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
         {
             if (group != null)
             {
-                var editGroupWindow = new EditGroupWindow();
-                Messenger.Default.Send<GroupModel, EditGroupViewModel>(group);
-                var result = editGroupWindow.ShowDialog();
+                Messenger.Default.Send<GroupModel>(group);
                 LoadData();
             }
         }
