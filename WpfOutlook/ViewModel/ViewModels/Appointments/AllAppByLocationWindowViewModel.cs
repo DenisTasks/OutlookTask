@@ -5,14 +5,15 @@ using BLL.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using ViewModel.Helpers;
+using ViewModel.Models;
 
 namespace ViewModel.ViewModels.Appointments
 {
     public class AllAppByLocationWindowViewModel : ViewModelBase
     {
-        private ObservableCollection<AppointmentDTO> _appointments;
+        private ObservableCollection<AppointmentModel> _appointments;
 
-        public ObservableCollection<AppointmentDTO> Appointments
+        public ObservableCollection<AppointmentModel> Appointments
         {
             get => _appointments;
             private set
@@ -31,7 +32,7 @@ namespace ViewModel.ViewModels.Appointments
             {
                 if (message.Type == WindowType.LoadLocations && message.Argument != null)
                 {
-                    Appointments = new ObservableCollection<AppointmentDTO>(service.GetAppsByLocation(Int32.Parse(message.Argument)));
+                    Appointments = new ObservableCollection<AppointmentModel>(service.GetAppsByLocation(Int32.Parse(message.Argument)));
                 }
             });
         }

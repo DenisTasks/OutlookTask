@@ -1,14 +1,15 @@
-﻿using BLL.DTO;
+﻿using BLL.EntitesDTO;
 using BLL.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using ViewModel.Helpers;
+using ViewModel.Models;
 
 namespace ViewModel.ViewModels.Appointments
 {
     public class AboutAppointmentWindowViewModel : ViewModelBase
     {
-        private AppointmentDTO _appointment;
+        private AppointmentModel _appointment;
         private LocationDTO _location;
         public LocationDTO Location
         {
@@ -23,7 +24,7 @@ namespace ViewModel.ViewModels.Appointments
             }
         }
 
-        public AppointmentDTO Appointment
+        public AppointmentModel Appointment
         {
             get => _appointment;
             private set

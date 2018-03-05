@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using BLL.DTO;
+using BLL.EntitesDTO;
 using BLL.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
+using ViewModel.Models;
 
 namespace ViewModel.ViewModels.Appointments
 {
@@ -53,7 +54,7 @@ namespace ViewModel.ViewModels.Appointments
                 }
             }
         }
-        public AppointmentDTO Appointment { get; set; }
+        public AppointmentModel Appointment { get; set; }
 
         // combo boxes
         public List<DateTime> BeginningTime { get; }
@@ -128,7 +129,7 @@ namespace ViewModel.ViewModels.Appointments
             SelectedUserList = new ObservableCollection<UserDTO>();
             LocationList = _service.GetLocations().ToList();
             
-            Appointment = new AppointmentDTO();
+            Appointment = new AppointmentModel();
 
             BeginningTime = LoadTimeRange();
             EndingTime = LoadTimeRange();

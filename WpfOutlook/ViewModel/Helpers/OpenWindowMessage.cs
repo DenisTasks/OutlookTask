@@ -1,4 +1,5 @@
 ﻿using BLL.DTO;
+using ViewModel.Models;
 
 namespace ViewModel.Helpers
 {
@@ -7,7 +8,7 @@ namespace ViewModel.Helpers
         public WindowType Type { get; set; }
         public string Argument { get; set; }
         public int SecondsToShow { get; set; }
-        public AppointmentDTO Appointment { get; set; }
+        public AppointmentModel Appointment { get; set; }
         public UserDTO User { get; set; }
     }
 }

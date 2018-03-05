@@ -132,6 +132,9 @@
     <Compile Include="Calendar\SyncWindow.xaml.cs">
       <DependentUpon>SyncWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Print\PrintAppointmentTablePage.xaml.cs">
+      <DependentUpon>PrintAppointmentTablePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TemplatePriority.cs" />
     <Compile Include="TestShell.xaml.cs">
       <DependentUpon>TestShell.xaml</DependentUpon>
@@ -196,6 +199,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Calendar\SyncWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Print\PrintAppointmentTablePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

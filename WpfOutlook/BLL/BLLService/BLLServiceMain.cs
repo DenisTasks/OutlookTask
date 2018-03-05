@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using AutoMapper;
-using BLL.DTO;
+using BLL.EntitesDTO;
 using BLL.Interfaces;
 using Model.Entities;
 using Model.Interfaces;
@@ -31,8 +31,7 @@ namespace BLL.BLLService
             {
                 cfg.CreateMap<Appointment, AppointmentDTO>()
                 .ForMember("Room", opt => opt.MapFrom(s => s.Location.Room))
-                .ForSourceMember(d => d.Location, opt => opt.Ignore())
-                .ForMember(d => d.Users, opt => opt.MapFrom(s => GetDefaultMapper<User, UserDTO>().Map<IEnumerable<User>, IEnumerable<UserDTO>>(s.Users)));
+                .ForSourceMember(d => d.Location, opt => opt.Ignore());
             });
             IMapper mapper = config.CreateMapper();
 
@@ -71,20 +70,20 @@ namespace BLL.BLLService
 
         //    return mapper;
         //}
-        private IMapper GetFromLocationToLocationDtoMapper()
-        {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Location, LocationDTO>()
-                    .ForMember(d => d.Appointments,
-                        opt => opt.MapFrom(s =>
-                            GetFromAppToAppDtoMapper()
-                                .Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(s.Appointments)));
-            });
-            IMapper mapper = config.CreateMapper();
+        //private IMapper GetFromLocationToLocationDtoMapper()
+        //{
+        //    var config = new MapperConfiguration(cfg =>
+        //    {
+        //        cfg.CreateMap<Location, LocationDTO>()
+        //            .ForMember(d => d.Appointments,
+        //                opt => opt.MapFrom(s =>
+        //                    GetFromAppToAppDtoMapper()
+        //                        .Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(s.Appointments)));
+        //    });
+        //    IMapper mapper = config.CreateMapper();
 
-            return mapper;
-        }
+        //    return mapper;
+        //}
 
         public BLLServiceMain(IGenericRepository<Appointment> appointments, IGenericRepository<User> users, IGenericRepository<Location> locations)
         {
@@ -156,14 +155,14 @@ namespace BLL.BLLService
             {
                 location = _locations.FindById(id);
             }
-            var mappingItem = GetFromLocationToLocationDtoMapper().Map<Location, LocationDTO>(location);
+            var mappingItem = GetDefaultMapper<Location, LocationDTO>().Map<Location, LocationDTO>(location);
             return mappingItem;
         }
 
         public IEnumerable<LocationDTO> GetLocations()
         {
             var locationsMapper =
-                GetFromLocationToLocationDtoMapper().Map<IEnumerable<Location>, IEnumerable<LocationDTO>>(_locations.Get());
+                GetDefaultMapper<Location, LocationDTO>().Map<IEnumerable<Location>, IEnumerable<LocationDTO>>(_locations.Get());
             return locationsMapper;
         }
 
@@ -188,9 +187,14 @@ namespace BLL.BLLService
             return GetDefaultMapper<User, UserDTO>().Map<IEnumerable<User>, IEnumerable<UserDTO>>(_users.Get());
         }
 
+        public ICollection<UserDTO> GetAppointmentUsers(int id)
+        {
+            return GetDefaultMapper<User, UserDTO>().Map<IEnumerable<User>, ICollection<UserDTO>>(_appointments.FindById(id).Users.ToList());
+        }
+
         public void AddAppointment(AppointmentDTO appointment)
         {
-            var appointmentItem = GetFromAppDtoToAppMapper(appointment.Users).Map<AppointmentDTO, Appointment>(appointment);
+            var appointmentItem = GetDefaultMapper<AppointmentDTO, Appointment>().Map<AppointmentDTO, Appointment>(appointment);
 
             using (var transaction = _appointments.BeginTransaction())
             {
@@ -290,15 +294,15 @@ namespace BLL.BLLService
             }
         }
 
-        public void RemoveAppointment(AppointmentDTO appointment)
+        public void RemoveAppointment(int id)
         {
-            var appointmentItem = GetFromAppDtoToAppMapper(appointment.Users).Map<AppointmentDTO, Appointment>(appointment);
+            //var appointmentItem = GetDefaultMapper<AppointmentDTO, Appointment>().Map<AppointmentDTO, Appointment>(appointment);
 
             using (var transaction = _appointments.BeginTransaction())
             {
                 try
                 {
-                    _appointments.Remove(appointmentItem, key => key.AppointmentId);
+                    _appointments.Remove(_appointments.FindById(id));
                     _appointments.Save();
                     transaction.Commit();
                 }
