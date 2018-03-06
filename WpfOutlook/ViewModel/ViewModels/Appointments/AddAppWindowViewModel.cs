@@ -241,15 +241,32 @@ namespace ViewModel.ViewModels.Appointments
                 Appointment.Room = _service.GetLocationById(Appointment.LocationId).Room;
 
                 string id = _service.GetAppointments().LastOrDefault().AppointmentId.ToString();
-                IJobDetail job = JobBuilder.Create<NotifyCreater>()
-                    .WithIdentity(id , "OutlookGroup")
-                    .Build();
-                job.JobDataMap.Put("myApp", Appointment);
+                IJobDetail job;
+                ITrigger trigger;
+                if (Appointment.BeginningDate < DateTime.Now)
+                {
+                    job = JobBuilder.Create<MissedNotifyCreater>()
+                        .WithIdentity(id, "OutlookGroup")
+                        .Build();
+                    job.JobDataMap.Put("myApp", new List<AppointmentModel>{Appointment});
 
-                ITrigger trigger = TriggerBuilder.Create()
-                    .WithIdentity(id, "OutlookGroup")
-                    .StartAt(Appointment.BeginningDate.AddMinutes(-15))
-                    .Build();
+                    trigger = TriggerBuilder.Create()
+                        .WithIdentity(id, "OutlookGroup")
+                        .StartNow()
+                        .Build();
+                }
+                else
+                {
+                    job = JobBuilder.Create<NotifyCreater>()
+                        .WithIdentity(id, "OutlookGroup")
+                        .Build();
+                    job.JobDataMap.Put("myApp", Appointment);
+
+                    trigger = TriggerBuilder.Create()
+                        .WithIdentity(id, "OutlookGroup")
+                        .StartAt(Appointment.BeginningDate.AddMinutes(-15))
+                        .Build();
+                }
 
                 NotifyScheduler.WpfScheduler.ScheduleJob(job, trigger);
 
