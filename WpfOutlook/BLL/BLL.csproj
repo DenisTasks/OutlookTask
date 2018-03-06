@@ -81,6 +81,7 @@
     <Compile Include="EntitesDTO\AppointmentDTO.cs" />
     <Compile Include="EntitesDTO\GroupDTO.cs" />
     <Compile Include="EntitesDTO\LocationDTO.cs" />
+    <Compile Include="EntitesDTO\LogDTO.cs" />
     <Compile Include="EntitesDTO\RoleDTO.cs" />
     <Compile Include="EntitesDTO\UserDTO.cs" />
     <Compile Include="Interfaces\IAdministrationService.cs" />

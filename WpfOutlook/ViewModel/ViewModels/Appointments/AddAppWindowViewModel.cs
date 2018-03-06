@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using AutoMapper;
 using BLL.EntitesDTO;
@@ -12,6 +13,7 @@ using GalaSoft.MvvmLight.Messaging;
 using Quartz;
 using ViewModel.Jobs;
 using ViewModel.Models;
+using ViewModel.ViewModels.Authenication;
 
 namespace ViewModel.ViewModels.Appointments
 {
@@ -237,7 +239,8 @@ namespace ViewModel.ViewModels.Appointments
                     cfg.CreateMap<AppointmentModel, AppointmentDTO>().ForMember(s => s.LocationId,
                         opt => opt.MapFrom(loc => loc.LocationId));
                 }).CreateMapper();
-                _service.AddAppointment(mapper.Map<AppointmentModel,AppointmentDTO>(Appointment), _selectedUserList);
+                CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
+                _service.AddAppointment(mapper.Map<AppointmentModel,AppointmentDTO>(Appointment), _selectedUserList, customPrincipal.Identity.UserId );
                 Appointment.Room = _service.GetLocationById(Appointment.LocationId).Room;
 
                 string id = _service.GetAppointments().LastOrDefault().AppointmentId.ToString();

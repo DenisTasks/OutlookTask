@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using AutoMapper;
 using BLL.EntitesDTO;
@@ -15,6 +16,7 @@ namespace BLL.BLLService
         private readonly IGenericRepository<Appointment> _appointments;
         private readonly IGenericRepository<User> _users;
         private readonly IGenericRepository<Location> _locations;
+        private readonly IGenericRepository<Log> _logs;
 
         private IMapper GetDefaultMapper<TEntityFrom, TEntityTo>() where TEntityFrom : class  where  TEntityTo : class 
         {
@@ -99,11 +101,12 @@ namespace BLL.BLLService
         //    return mapper;
         //}
 
-        public BLLServiceMain(IGenericRepository<Appointment> appointments, IGenericRepository<User> users, IGenericRepository<Location> locations)
+        public BLLServiceMain(IGenericRepository<Appointment> appointments, IGenericRepository<User> users, IGenericRepository<Location> locations, IGenericRepository<Log> logs)
         {
             _appointments = appointments;
             _users = users;
             _locations = locations;
+            _logs = logs;
         }
 
         public IEnumerable<AppointmentDTO> GetAppointments()
@@ -206,15 +209,16 @@ namespace BLL.BLLService
             return GetDefaultMapper<User, UserDTO>().Map<IEnumerable<User>, ICollection<UserDTO>>(_appointments.FindById(id).Users.ToList());
         }
 
-        public void AddAppointment(AppointmentDTO appointment, ICollection<UserDTO> usersDTO)
+        public void AddAppointment(AppointmentDTO appointment, ICollection<UserDTO> usersDTO , int id)
         {
             var mapper = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<AppointmentDTO, Appointment>()
+                    .ForMember(d=> d.OrganizerId , opt => opt.MapFrom(s=> id))
+                    .ForMember(d=> d.Organizer, opt=> opt.MapFrom(s=> _users.FindById(id)))
                     .ForMember(s => s.Location, opt => opt.MapFrom(loc => _locations.FindById(loc.LocationId)))
                     .ForMember(d => d.Users, opt => opt.MapFrom(s => ConvertUsers(usersDTO)));
             }).CreateMapper();
-
             var appointmentItem = mapper.Map<AppointmentDTO, Appointment>(appointment);
 
             using (var transaction = _appointments.BeginTransaction())
@@ -222,6 +226,14 @@ namespace BLL.BLLService
                 try
                 {
                     _appointments.Create(appointmentItem);
+                    _logs.Create(new Log
+                    {
+                        AppointmentName = appointment.Subject,
+                        ActionAuthorId = id,
+                        CreatorId = id,
+                        Action = "Add",
+                        EventTime = DateTime.Now
+                    });
                     _appointments.Save();
                     transaction.Commit();
                 }
@@ -315,7 +327,7 @@ namespace BLL.BLLService
             }
         }
 
-        public void RemoveAppointment(int id)
+        public void RemoveAppointment(int id, int userId)
         {
             //var appointmentItem = GetDefaultMapper<AppointmentDTO, Appointment>().Map<AppointmentDTO, Appointment>(appointment);
 
@@ -323,7 +335,16 @@ namespace BLL.BLLService
             {
                 try
                 {
-                    _appointments.Remove(_appointments.FindById(id));
+                    var appointment = _appointments.FindById(id);
+                    _logs.Create(new Log
+                    {
+                        AppointmentName =appointment.Subject,
+                        ActionAuthorId = userId,
+                        CreatorId = appointment.OrganizerId,
+                        Action = "Remove",
+                        EventTime = DateTime.Now
+                    });
+                    _appointments.Remove(appointment);
                     _appointments.Save();
                     transaction.Commit();
                 }

@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TestWpf.Administration;
 using TestWpf.Administration.Groups;
 using TestWpf.Administration.Users;
 
@@ -31,7 +32,7 @@ namespace TestWpf.Pages
 
         private void Button_Click_ToLogs(object sender, RoutedEventArgs e)
         {
-            //this.NavigationService.Navigate()
+            this.NavigationService.Navigate(new ShowAllLogsPage());
         }
 
         private void Button_Click_ToUsers(object sender, RoutedEventArgs e)

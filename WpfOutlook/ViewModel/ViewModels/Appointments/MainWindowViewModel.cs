@@ -248,6 +248,9 @@ namespace ViewModel.ViewModels.Appointments
             {
                 try
                 {
+                    CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
+                    _service.RemoveAppointment(appointment.AppointmentId, customPrincipal.Identity.UserId);
+
                     var myJob = NotifyScheduler.WpfScheduler.GetJobKeys(GroupMatcher<JobKey>.AnyGroup())
                         .Where(x => x.Name == appointment.AppointmentId.ToString()).ToList();
                     if (myJob.Count > 0)

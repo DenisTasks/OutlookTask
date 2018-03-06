@@ -87,6 +87,9 @@
     <Compile Include="Administration\Groups\ShowAllGroupsPage.xaml.cs">
       <DependentUpon>ShowAllGroupsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Administration\ShowAllLogsPage.xaml.cs">
+      <DependentUpon>ShowAllLogsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Administration\Users\AddUserWindow.xaml.cs">
       <DependentUpon>AddUserWindow.xaml</DependentUpon>
     </Compile>
@@ -144,6 +147,10 @@
     <Page Include="Administration\Groups\ShowAllGroupsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Administration\ShowAllLogsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Administration\Users\AddUserWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

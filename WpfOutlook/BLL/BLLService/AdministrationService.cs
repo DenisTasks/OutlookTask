@@ -17,6 +17,7 @@ namespace BLL.Services
     public class AdministrationService : IAdministrationService
     {
         private WPFOutlookContext _context;
+        private IGenericRepository<Log> _logs;
         private IGenericRepository<User> _users;
         private IGenericRepository<Group> _groups;
         private IGenericRepository<Role> _roles;
@@ -86,8 +87,9 @@ namespace BLL.Services
 
         #endregion
         
-        public AdministrationService(IGenericRepository<User> users, IGenericRepository<Role> roles, IGenericRepository<Group> groups, WPFOutlookContext context)
+        public AdministrationService(IGenericRepository<User> users, IGenericRepository<Role> roles, IGenericRepository<Group> groups, IGenericRepository<Log> logs, WPFOutlookContext context)
         {
+            _logs = logs;
             _context = context;
             _users = users;
             _roles = roles;
@@ -420,6 +422,11 @@ namespace BLL.Services
         public void ShowLogs()
         {
             throw new NotImplementedException();
+        }
+
+        public ICollection<LogDTO> GetLogs()
+        {
+            return GetDefaultMapper<Log, LogDTO>().Map<IEnumerable<Log>, ICollection<LogDTO>>(_logs.Get());
         }
     }
 }
