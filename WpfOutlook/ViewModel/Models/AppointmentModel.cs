@@ -1,10 +1,11 @@
-﻿using System;
+﻿using BLL.EntitesDTO;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace BLL.DTO
+namespace ViewModel.Models
 {
-    public class AppointmentDTO : IDataErrorInfo, INotifyPropertyChanged
+    public class AppointmentModel : IDataErrorInfo, INotifyPropertyChanged
     {
         private string _subject;
         private int _locationId;
@@ -60,7 +61,7 @@ namespace BLL.DTO
             }
         }
 
-        public AppointmentDTO()
+        public AppointmentModel()
         {
             
         }

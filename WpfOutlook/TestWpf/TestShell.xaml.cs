@@ -36,8 +36,9 @@ namespace MVVM
         {
             if (obj.Notification.Equals("LoginSuccess"))
             {
-                _mainFrame.Navigate(new AdminPage());
-                //_mainFrame.Navigate(new MainWindowPage());
+                //_mainFrame.Navigate(new AdminPage());
+                _mainFrame.Navigate(new MainWindowPage());
+                
 
             }
             if (obj.Notification.Equals("ShowAllUsersPage"))

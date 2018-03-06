@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using BLL.DTO;
+using ViewModel.Models;
 
 namespace TestWpf
 {
@@ -16,7 +17,7 @@ namespace TestWpf
         {
             FrameworkElement element = container as FrameworkElement;
 
-            if (element != null && item != null && item is AppointmentDTO)
+            if (element != null && item != null && item is AppointmentModel)
             {
                 if (element.Name == "TestListView")
                 {

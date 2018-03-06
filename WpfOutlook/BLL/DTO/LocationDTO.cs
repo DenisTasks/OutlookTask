@@ -11,7 +11,7 @@ namespace BLL.DTO
         public int LocationId { get; set; }
         public string Room { get; set; }
 
-        public ICollection<AppointmentDTO> Appointments { get; set; }
+        //public ICollection<AppointmentModel> Appointments { get; set; }
 
         public LocationDTO()
         {

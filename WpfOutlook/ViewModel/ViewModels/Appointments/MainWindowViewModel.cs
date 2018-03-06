@@ -1,23 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Threading;
-using BLL.DTO;
+using AutoMapper;
+using BLL.EntitesDTO;
 using BLL.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using ViewModel.Helpers;
+using ViewModel.Models;
 
 namespace ViewModel.ViewModels.Appointments
 {
     public class MainWindowViewModel : ViewModelBase
     {
         private readonly IBLLServiceMain _service;
-        private ObservableCollection<AppointmentDTO> _appointments;
+        private ObservableCollection<AppointmentModel> _appointments;
         private ObservableCollection<FileInfo> _files;
         private FileInfo _selectTheme;
 
@@ -40,7 +43,7 @@ namespace ViewModel.ViewModels.Appointments
                 base.RaisePropertyChanged();
             }
         }
-        public ObservableCollection<AppointmentDTO> Appointments
+        public ObservableCollection<AppointmentModel> Appointments
         {
             get => _appointments;
             set
@@ -53,14 +56,31 @@ namespace ViewModel.ViewModels.Appointments
             }
         }
 
+        private IMapper GetMapper()
+        {
+            var mapper = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<AppointmentDTO, AppointmentModel>()
+                    .ForMember(d => d.AppointmentId, opt => opt.MapFrom(s => s.AppointmentId))
+                    .ForMember(d => d.Subject, opt => opt.MapFrom(s => s.Subject))
+                    .ForMember(d => d.BeginningDate, opt => opt.MapFrom(s => s.BeginningDate))
+                    .ForMember(d => d.EndingDate, opt => opt.MapFrom(s => s.EndingDate))
+                    .ForMember(d => d.LocationId, opt => opt.MapFrom(s => s.LocationId))
+                    .ForMember(d => d.Room, opt => opt.MapFrom(s => _service.GetLocationById(s.LocationId).Room))
+                    .ForMember(d => d.Users, opt => opt.MapFrom(s => new ObservableCollection<UserDTO>(_service.GetAppointmentUsers(s.AppointmentId))));
+
+            }).CreateMapper();
+            return mapper;
+        }
+
         #region Commands
-        public RelayCommand<AppointmentDTO> AboutAppointmentCommand { get; }
-        public RelayCommand<AppointmentDTO> AllAppByLocationCommand { get; }
+        public RelayCommand<AppointmentModel> AboutAppointmentCommand { get; }
+        public RelayCommand<AppointmentModel> AllAppByLocationCommand { get; }
         public RelayCommand AddAppWindowCommand { get; }
-        public RelayCommand<AppointmentDTO> RemoveAppCommand { get; }
+        public RelayCommand<AppointmentModel> RemoveAppCommand { get; }
         public RelayCommand<object> SortCommand { get; }
         public RelayCommand GroupBySubjectCommand { get; }
-        public RelayCommand<AppointmentDTO> FilterBySubjectCommand { get; }
+        public RelayCommand<AppointmentModel> FilterBySubjectCommand { get; }
         public RelayCommand CalendarWindowCommand { get; }
         #endregion
 
@@ -70,12 +90,12 @@ namespace ViewModel.ViewModels.Appointments
             LoadData();
             #region Commands
             AddAppWindowCommand = new RelayCommand(AddAppointment);
-            AboutAppointmentCommand = new RelayCommand<AppointmentDTO>(AboutAppointment);
-            AllAppByLocationCommand = new RelayCommand<AppointmentDTO>(GetAllAppsByRoom);
-            RemoveAppCommand = new RelayCommand<AppointmentDTO>(RemoveAppointment);
+            AboutAppointmentCommand = new RelayCommand<AppointmentModel>(AboutAppointment);
+            AllAppByLocationCommand = new RelayCommand<AppointmentModel>(GetAllAppsByRoom);
+            RemoveAppCommand = new RelayCommand<AppointmentModel>(RemoveAppointment);
             SortCommand = new RelayCommand<object>(SortBy);
             GroupBySubjectCommand = new RelayCommand(GroupBySubject);
-            FilterBySubjectCommand = new RelayCommand<AppointmentDTO>(FilterBySubject);
+            FilterBySubjectCommand = new RelayCommand<AppointmentModel>(FilterBySubject);
             CalendarWindowCommand = new RelayCommand(GetCalendar);
             #endregion
 
@@ -109,7 +129,7 @@ namespace ViewModel.ViewModels.Appointments
         {
             Messenger.Default.Send( new OpenWindowMessage() { Type = WindowType.AddAppWindow });
         }
-        private void AboutAppointment(AppointmentDTO appointment)
+        private void AboutAppointment(AppointmentModel appointment)
         {
             if (appointment != null)
             {
@@ -124,10 +144,11 @@ namespace ViewModel.ViewModels.Appointments
         private void RefreshingAppointments()
         {
             Appointments.Clear();
-            Appointments = new ObservableCollection<AppointmentDTO>(_service.GetAppointments());
+            
+            Appointments = new ObservableCollection<AppointmentModel>(GetMapper().Map<IEnumerable<AppointmentDTO>, ICollection<AppointmentModel>>(_service.GetAppointments()));
             Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.Toast, Argument = "You added a new\r\nappointment! Check\r\nyour calendar, please!", SecondsToShow = 5 });
         }
-        private void GetAllAppsByRoom(AppointmentDTO appointment)
+        private void GetAllAppsByRoom(AppointmentModel appointment)
         {
             if (appointment != null)
             {
@@ -176,29 +197,29 @@ namespace ViewModel.ViewModels.Appointments
         {
             try
             {
-                Appointments = new ObservableCollection<AppointmentDTO>(_service.GetAppointments());
+                Appointments = new ObservableCollection<AppointmentModel>(GetMapper().Map<IEnumerable<AppointmentDTO>, ICollection<AppointmentModel>>(_service.GetAppointments()));
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.ToString());
             }
         }
-        private void FilterBySubject(AppointmentDTO appointment)
+        private void FilterBySubject(AppointmentModel appointment)
         {
             if (appointment != null)
             {
                 ICollectionView view = CollectionViewSource.GetDefaultView(Appointments);
                 view.GroupDescriptions.Clear();
-                view.Filter = s => ((s as AppointmentDTO)?.Subject) == appointment.Subject;
+                view.Filter = s => ((s as AppointmentModel)?.Subject) == appointment.Subject;
             }
         }
-        private void RemoveAppointment(AppointmentDTO appointment)
+        private void RemoveAppointment(AppointmentModel appointment)
         {
             if (appointment != null)
             {
                 try
                 {
-                    _service.RemoveAppointment(appointment);
+                    _service.RemoveAppointment(appointment.AppointmentId);
                     Appointments.Remove(appointment);
                     base.RaisePropertyChanged();
                 }

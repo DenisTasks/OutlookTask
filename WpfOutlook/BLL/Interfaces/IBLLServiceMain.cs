@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using BLL.DTO;
+using BLL.EntitesDTO;
 using Model.Entities;
 
 namespace BLL.Interfaces
@@ -12,10 +12,11 @@ namespace BLL.Interfaces
         IEnumerable<UserDTO> GetUsers();
         IEnumerable<AppointmentDTO> GetAppsByLocation(int id);
         IEnumerable<AppointmentDTO> GetCalendarByUserId(int id);
+        ICollection<UserDTO> GetAppointmentUsers(int id);
         AppointmentDTO GetAppointmentById(int id);
         LocationDTO GetLocationById(int id);
-        void AddAppointment(AppointmentDTO appointment);
-        void RemoveAppointment(AppointmentDTO appointment);
+        void AddAppointment(AppointmentDTO appointment, ICollection<UserDTO> usersDTO);
+        void RemoveAppointment(int id);
         void AddLocation(LocationDTO location);
         void AddUser(UserDTO user);
         void AddUser(User user);
