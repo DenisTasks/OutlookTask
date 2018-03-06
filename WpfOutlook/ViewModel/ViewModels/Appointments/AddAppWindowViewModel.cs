@@ -243,13 +243,14 @@ namespace ViewModel.ViewModels.Appointments
                 _service.AddAppointment(mapper.Map<AppointmentModel,AppointmentDTO>(Appointment), _selectedUserList, customPrincipal.Identity.UserId );
                 Appointment.Room = _service.GetLocationById(Appointment.LocationId).Room;
 
+                string id = _service.GetAppointments().LastOrDefault().AppointmentId.ToString();
                 IJobDetail job = JobBuilder.Create<NotifyCreater>()
-                    .WithIdentity(_service.GetAppointments().LastOrDefault().AppointmentId.ToString(), "OutlookGroup")
+                    .WithIdentity(id , "OutlookGroup")
                     .Build();
                 job.JobDataMap.Put("myApp", Appointment);
 
                 ITrigger trigger = TriggerBuilder.Create()
-                    .WithIdentity(_service.GetAppointments().LastOrDefault().AppointmentId.ToString(), "OutlookGroup")
+                    .WithIdentity(id, "OutlookGroup")
                     .StartAt(Appointment.BeginningDate.AddMinutes(-15))
                     .Build();
 

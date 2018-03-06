@@ -160,6 +160,10 @@ namespace ViewModel.Models
             {
                 return "Subject can not be empty!";
             }
+            if (Subject.Length > 50)
+            {
+                return "Subject must be less than 50 characters";
+            }
             return null;
         }
         #endregion

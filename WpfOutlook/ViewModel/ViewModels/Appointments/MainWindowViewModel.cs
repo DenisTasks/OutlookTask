@@ -109,7 +109,8 @@ namespace ViewModel.ViewModels.Appointments
 
             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
-                var localthemes = new DirectoryInfo("Themes").GetFiles();
+                var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "Resources");
+                var localthemes = new DirectoryInfo(path).GetFiles();
                 if (Files == null)
                     Files = new ObservableCollection<FileInfo>();
                 foreach (var item in localthemes)

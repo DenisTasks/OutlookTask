@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using BLL.EntitesDTO;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Impl.Matchers;
