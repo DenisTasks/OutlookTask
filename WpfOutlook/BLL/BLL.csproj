@@ -78,7 +78,6 @@
     </Compile>
     <Compile Include="BLLService\AdministrationService.cs" />
     <Compile Include="BLLService\AuthenticationService.cs" />
-    <Compile Include="BLLService\PrintService.cs" />
     <Compile Include="EntitesDTO\AppointmentDTO.cs" />
     <Compile Include="EntitesDTO\GroupDTO.cs" />
     <Compile Include="EntitesDTO\LocationDTO.cs" />
@@ -88,7 +87,6 @@
     <Compile Include="Interfaces\IAuthenticationService.cs" />
     <Compile Include="BLLService\BLLServiceMain.cs" />
     <Compile Include="Interfaces\IBLLServiceMain.cs" />
-    <Compile Include="Interfaces\IPrintService.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

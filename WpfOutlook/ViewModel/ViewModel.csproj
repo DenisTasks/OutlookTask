@@ -109,7 +109,6 @@
     <Compile Include="ViewModels\Appointments\AboutAppointmentWindowViewModel.cs" />
     <Compile Include="ViewModels\Appointments\AddAppWindowViewModel.cs" />
     <Compile Include="ViewModels\Administration\AdministrationViewModel.cs" />
-    <Compile Include="ViewModels\Print\PrintAppointmentTableViewModel.cs" />
     <Compile Include="ViewModels\TestShell\ShellViewModel.cs" />
     <Compile Include="ViewModels\CommonViewModels\Groups\AddGroupViewModel.cs" />
     <Compile Include="ViewModels\Administration\Groups\ShowAllGroupsViewModel.cs" />
