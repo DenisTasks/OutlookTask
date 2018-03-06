@@ -83,6 +83,7 @@
             <Button Command="{Binding AllAppByLocationCommand}"
                     CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}">AllAppByLocation</Button>
             <Button Command="{Binding CalendarWindowCommand}">Open calendar</Button>
+            <Button Command="{Binding PrintTable}" CommandParameter="{Binding ElementName=AppointmentsList}">Print table</Button>
             <ComboBox ItemsSource="{Binding Files}"
                       SelectedItem="{Binding SelectedTheme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 

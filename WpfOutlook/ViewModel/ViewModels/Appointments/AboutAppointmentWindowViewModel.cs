@@ -1,7 +1,9 @@
 ﻿using BLL.EntitesDTO;
 using BLL.Interfaces;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
+using System.Windows;
 using ViewModel.Helpers;
 using ViewModel.Models;
 
@@ -11,6 +13,15 @@ namespace ViewModel.ViewModels.Appointments
     {
         private AppointmentModel _appointment;
         private LocationDTO _location;
+        private RelayCommand<Window> _printAppointmentCommand;
+
+       
+
+        public RelayCommand<Window> PrintAppointmentCommand
+        {
+            get => _printAppointmentCommand;
+        }
+
         public LocationDTO Location
         {
             get => _location;
@@ -22,6 +33,12 @@ namespace ViewModel.ViewModels.Appointments
                     base.RaisePropertyChanged();
                 }
             }
+        }
+
+        private void PrintAppointment(Window window)
+        {
+            PrintHelper.PrintAppointment(_appointment);
+            window.Close();
         }
 
         public AppointmentModel Appointment
@@ -45,8 +62,10 @@ namespace ViewModel.ViewModels.Appointments
                 {
                     Appointment = message.Appointment;
                     Location = service.GetLocationById(message.Appointment.LocationId);
+                    Messenger.Default.Unregister<OpenWindowMessage>(this);
                 }
             });
+            _printAppointmentCommand = new RelayCommand<Window>(PrintAppointment);
         }
     }
 

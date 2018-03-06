@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Threading;
 using AutoMapper;
@@ -82,6 +83,8 @@ namespace ViewModel.ViewModels.Appointments
         public RelayCommand GroupBySubjectCommand { get; }
         public RelayCommand<AppointmentModel> FilterBySubjectCommand { get; }
         public RelayCommand CalendarWindowCommand { get; }
+        public RelayCommand<object> PrintTable { get; }
+        
         #endregion
 
         public MainWindowViewModel(IBLLServiceMain service)
@@ -97,6 +100,7 @@ namespace ViewModel.ViewModels.Appointments
             GroupBySubjectCommand = new RelayCommand(GroupBySubject);
             FilterBySubjectCommand = new RelayCommand<AppointmentModel>(FilterBySubject);
             CalendarWindowCommand = new RelayCommand(GetCalendar);
+            PrintTable = new RelayCommand<object>(PrintListView);
             #endregion
 
             //Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
@@ -118,6 +122,11 @@ namespace ViewModel.ViewModels.Appointments
                     RefreshingAppointments();
                 }
             });
+        }
+
+        private void PrintListView(object parameter)
+        {
+            PrintHelper.PrintViewList(parameter as ListView);
         }
 
         private void ChangeTheme(FileInfo selectTheme)
