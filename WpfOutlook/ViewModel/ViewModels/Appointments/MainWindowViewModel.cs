@@ -259,8 +259,7 @@ namespace ViewModel.ViewModels.Appointments
                         var triggerKey = triggerKeyList[0].Key;
                         NotifyScheduler.WpfScheduler.UnscheduleJob(NotifyScheduler.WpfScheduler.GetTrigger(triggerKey).Key);
                     }
-
-                    _service.RemoveAppointment(appointment.AppointmentId);
+                    
                     Appointments.Remove(appointment);
 
                     base.RaisePropertyChanged();
