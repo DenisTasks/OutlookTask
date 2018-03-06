@@ -56,6 +56,7 @@ namespace ViewModel
         public AddUserViewModel AddUserWindow => _kernel.Get<AddUserViewModel>();
         public EditUserViewModel EditUserWindow => _kernel.Get<EditUserViewModel>();
         public ShowAllUsersViewModel AllUsersPage => _kernel.Get<ShowAllUsersViewModel>();
+        public ShowAllLogsViewModel AllLogsPage => _kernel.Get<ShowAllLogsViewModel>();
 
         public ViewModelLocator()
         {

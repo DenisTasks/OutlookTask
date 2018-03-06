@@ -1,0 +1,63 @@
+﻿<Page x:Class="TestWpf.Administration.ShowAllLogsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      DataContext="{Binding AllLogsPage, Source={StaticResource Locator}}"
+      xmlns:local="clr-namespace:TestWpf.Administration"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="480"
+      Title="ShowAllLogsPage">
+
+    <Grid>
+        <Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <ListView Name="UserList"
+                  Grid.ColumnSpan="3"
+                  Grid.Row="0"
+                  MaxHeight="480"
+                  SelectionMode="Single"
+                  ItemsSource="{Binding Logs}" Margin="0,-1,0,1" >
+                    <ListView.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="Coral" BorderThickness="2">
+                                        <TextBlock Text="{Binding Path=Name}" FontWeight="Bold"/>
+                                    </Border>
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                        </GroupStyle>
+                    </ListView.GroupStyle>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Id" DisplayMemberBinding="{Binding LogId}" Width="40"/>
+                            <GridViewColumn Header="Action" DisplayMemberBinding="{Binding Action}" Width="100"/>
+                            <GridViewColumn Header="AppointmentName" DisplayMemberBinding="{Binding AppointmentName}" Width="100"/>
+                            <GridViewColumn Header="CreatorId" DisplayMemberBinding="{Binding CreatorId}" Width="100"/>
+                            <GridViewColumn Header="ActiomAuthorId" DisplayMemberBinding="{Binding ActionAuthorId}" Width="70"/>
+                            <GridViewColumn Header="EventTime" DisplayMemberBinding="{Binding EventTime}" Width="70"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+                <Button Grid.Column="2"
+                Grid.Row="3"
+                VerticalAlignment="Center"
+                Margin="10, 0"
+                Padding="10, 0" Click="Button_Click">back</Button>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

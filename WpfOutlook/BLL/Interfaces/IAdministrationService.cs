@@ -18,6 +18,7 @@ namespace BLL.Interfaces
         string GetGroupName(int? id);
         ICollection<string> GetGroupAncestors(string groupName);
         ICollection<int> GetGroupChildren(int id);
+        ICollection<LogDTO> GetLogs();
         bool CheckUser(string username);
         bool CheckGroup(string groupName);
         void DeactivateUser(int id);
