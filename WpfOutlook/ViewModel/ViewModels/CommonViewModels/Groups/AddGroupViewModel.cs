@@ -18,13 +18,10 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
     {
         private readonly IAdministrationService _administrationService;
 
-        //private ICollection<GroupDTO> _selectedGroupChildren;
         private ICollection<GroupDTO> _hiddenGroupAncestors;
         private ICollection<GroupDTO> _groupsWithNoAncestors;
        
-
         private ObservableCollection<GroupDTO> _groupList;
-
         private ObservableCollection<UserDTO> _userList;
 
         private ICollection<GroupDTO> _groupsForComboBox;
@@ -80,8 +77,6 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
                 GroupList = new ObservableCollection<GroupDTO>(_groupsWithNoAncestors);
             }
         }
-
-        
 
         public GroupModel Group { get; set; }
 

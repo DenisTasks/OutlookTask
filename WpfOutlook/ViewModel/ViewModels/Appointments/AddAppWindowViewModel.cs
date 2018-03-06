@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using AutoMapper;
 using BLL.EntitesDTO;
 using BLL.Interfaces;
 using GalaSoft.MvvmLight;
@@ -179,7 +180,12 @@ namespace ViewModel.ViewModels.Appointments
 
             if (Appointment.IsValid && _isAvailible == 0)
             {
-                _service.AddAppointment(Appointment);
+                var mapper = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<AppointmentModel, AppointmentDTO>()
+                        .ForMember(s => s.LocationId, opt => opt.MapFrom(loc => loc.LocationId));
+                }).CreateMapper();
+                _service.AddAppointment( mapper.Map<AppointmentModel,AppointmentDTO>(Appointment), _selectedUserList);
                 Messenger.Default.Send<NotificationMessage, MainWindowViewModel>(new NotificationMessage("Refresh"));
                 window?.Close();
             }

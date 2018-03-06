@@ -30,13 +30,27 @@ namespace BLL.BLLService
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Appointment, AppointmentDTO>()
-                .ForMember("Room", opt => opt.MapFrom(s => s.Location.Room))
                 .ForSourceMember(d => d.Location, opt => opt.Ignore());
             });
             IMapper mapper = config.CreateMapper();
 
             return mapper;
         }
+
+        private ICollection<User> ConvertUsers(ICollection<UserDTO> usersDTO)
+        {
+            ICollection<User> users = new List<User>();
+            var convert = GetDefaultMapper<UserDTO, User>().Map<IEnumerable<UserDTO>, IEnumerable<User>>(usersDTO);
+            foreach (var item in convert)
+            {
+                if (_users.FindById(item.UserId) != null)
+                {
+                    users.Add(_users.FindById(item.UserId));
+                }
+            }
+            return users;
+        }
+
         private IMapper GetFromAppDtoToAppMapper(ICollection<UserDTO> usersDTO)
         {
             ICollection<User> users = new List<User>();
@@ -192,9 +206,16 @@ namespace BLL.BLLService
             return GetDefaultMapper<User, UserDTO>().Map<IEnumerable<User>, ICollection<UserDTO>>(_appointments.FindById(id).Users.ToList());
         }
 
-        public void AddAppointment(AppointmentDTO appointment)
+        public void AddAppointment(AppointmentDTO appointment, ICollection<UserDTO> usersDTO)
         {
-            var appointmentItem = GetDefaultMapper<AppointmentDTO, Appointment>().Map<AppointmentDTO, Appointment>(appointment);
+            var mapper = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<AppointmentDTO, Appointment>()
+                    .ForMember(s => s.Location, opt => opt.MapFrom(loc => _locations.FindById(loc.LocationId)))
+                    .ForMember(d => d.Users, opt => opt.MapFrom(s => ConvertUsers(usersDTO)));
+            }).CreateMapper();
+
+            var appointmentItem = mapper.Map<AppointmentDTO, Appointment>(appointment);
 
             using (var transaction = _appointments.BeginTransaction())
             {

@@ -1,4 +1,4 @@
-﻿using BLL.DTO;
+﻿using BLL.EntitesDTO;
 using ViewModel.Models;
 
 namespace ViewModel.Helpers
