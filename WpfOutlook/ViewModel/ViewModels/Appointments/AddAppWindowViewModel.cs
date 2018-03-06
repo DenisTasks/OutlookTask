@@ -9,6 +9,8 @@ using BLL.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
+using Quartz;
+using ViewModel.Jobs;
 using ViewModel.Models;
 
 namespace ViewModel.ViewModels.Appointments
@@ -19,12 +21,14 @@ namespace ViewModel.ViewModels.Appointments
 
         private ObservableCollection<UserDTO> _userList;
         private ObservableCollection<UserDTO> _selectedUserList;
+        private ObservableCollection<AppointmentModel> _templateApps;
 
         private DateTime _selectedBeginningTime;
         private DateTime _selectedEndingTime;
         private DateTime _startDate = DateTime.Today;
         private DateTime _endingDate = DateTime.Today;
         private LocationDTO _selectedLocation = new LocationDTO(){LocationId = 0};
+        private AppointmentModel _selectedTemplateItem;
         private int _isAvailible;
 
         public RelayCommand<Window> CreateAppCommand { get; }
@@ -55,6 +59,19 @@ namespace ViewModel.ViewModels.Appointments
                 }
             }
         }
+        public ObservableCollection<AppointmentModel> TemplateApps
+        {
+            get => _templateApps;
+            private set
+            {
+                if (value != _templateApps)
+                {
+                    _templateApps = value;
+                    base.RaisePropertyChanged();
+                }
+            }
+        }
+
         public AppointmentModel Appointment { get; set; }
 
         // combo boxes
@@ -63,6 +80,23 @@ namespace ViewModel.ViewModels.Appointments
         public List<LocationDTO> LocationList { get; }
 
         // selected
+        public AppointmentModel SelectedTemplateItem
+        {
+            get => _selectedTemplateItem;
+            set
+            {
+                _selectedTemplateItem = value;
+                Appointment.Subject = value.Subject;
+                SelectedLocation = LocationList.First(x => x.LocationId == value.LocationId);
+                StartBeginningDate = value.BeginningDate;
+                EndBeginningDate = value.EndingDate;
+                SelectedBeginningTime = BeginningTime.First(x =>
+                    x.Hour == value.BeginningDate.Hour && x.Minute == value.BeginningDate.Minute);
+                SelectedEndingTime = BeginningTime.First(x =>
+                    x.Hour == value.EndingDate.Hour && x.Minute == value.EndingDate.Minute);
+                base.RaisePropertyChanged();
+            }
+        }
         public LocationDTO SelectedLocation
         {
             get => _selectedLocation;
@@ -119,6 +153,23 @@ namespace ViewModel.ViewModels.Appointments
             }
         }
 
+        private IMapper GetMapper()
+        {
+            var mapper = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<AppointmentDTO, AppointmentModel>()
+                    .ForMember(d => d.AppointmentId, opt => opt.MapFrom(s => s.AppointmentId))
+                    .ForMember(d => d.Subject, opt => opt.MapFrom(s => s.Subject))
+                    .ForMember(d => d.BeginningDate, opt => opt.MapFrom(s => s.BeginningDate))
+                    .ForMember(d => d.EndingDate, opt => opt.MapFrom(s => s.EndingDate))
+                    .ForMember(d => d.LocationId, opt => opt.MapFrom(s => s.LocationId))
+                    .ForMember(d => d.Room, opt => opt.MapFrom(s => _service.GetLocationById(s.LocationId).Room))
+                    .ForMember(d => d.Users, opt => opt.MapFrom(s => new ObservableCollection<UserDTO>(_service.GetAppointmentUsers(s.AppointmentId))));
+
+            }).CreateMapper();
+            return mapper;
+        }
+
         public AddAppWindowViewModel(IBLLServiceMain service)
         {
             _service = service;
@@ -129,7 +180,8 @@ namespace ViewModel.ViewModels.Appointments
             UserList = new ObservableCollection<UserDTO>(_service.GetUsers());
             SelectedUserList = new ObservableCollection<UserDTO>();
             LocationList = _service.GetLocations().ToList();
-            
+            TemplateApps = new ObservableCollection<AppointmentModel>(GetMapper().Map<IEnumerable<AppointmentDTO>, ICollection<AppointmentModel>>(_service.GetAppointments()));
+
             Appointment = new AppointmentModel();
 
             BeginningTime = LoadTimeRange();
@@ -182,11 +234,26 @@ namespace ViewModel.ViewModels.Appointments
             {
                 var mapper = new MapperConfiguration(cfg =>
                 {
-                    cfg.CreateMap<AppointmentModel, AppointmentDTO>()
-                        .ForMember(s => s.LocationId, opt => opt.MapFrom(loc => loc.LocationId));
+                    cfg.CreateMap<AppointmentModel, AppointmentDTO>().ForMember(s => s.LocationId,
+                        opt => opt.MapFrom(loc => loc.LocationId));
                 }).CreateMapper();
-                _service.AddAppointment( mapper.Map<AppointmentModel,AppointmentDTO>(Appointment), _selectedUserList);
+                _service.AddAppointment(mapper.Map<AppointmentModel,AppointmentDTO>(Appointment), _selectedUserList);
+
                 Messenger.Default.Send<NotificationMessage, MainWindowViewModel>(new NotificationMessage("Refresh"));
+
+                Appointment.Room = _service.GetLocationById(Appointment.LocationId).Room;
+                IJobDetail job = JobBuilder.Create<NotifyCreater>()
+                    .WithIdentity(Guid.NewGuid().ToString(), "OutlookGroup")
+                    .Build();
+                job.JobDataMap.Put("myApp", Appointment);
+
+                ITrigger trigger = TriggerBuilder.Create()
+                    .WithIdentity(Guid.NewGuid().ToString(), "OutlookGroup")
+                    .StartAt(Appointment.BeginningDate.AddMinutes(-15))
+                    .Build();
+
+                NotifyScheduler.WpfScheduler.ScheduleJob(job, trigger);
+
                 window?.Close();
             }
             else

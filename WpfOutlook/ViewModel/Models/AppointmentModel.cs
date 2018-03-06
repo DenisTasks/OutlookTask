@@ -5,6 +5,7 @@ using System.ComponentModel;
 
 namespace ViewModel.Models
 {
+    [Serializable]
     public class AppointmentModel : IDataErrorInfo, INotifyPropertyChanged
     {
         private string _subject;
@@ -164,6 +165,7 @@ namespace ViewModel.Models
         #endregion
 
         #region INotifyPropertyChanged
+        [field:NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged(String propertyName)
         {

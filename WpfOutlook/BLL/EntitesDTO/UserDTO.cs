@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace BLL.EntitesDTO
 {
+    [Serializable]
     public class UserDTO 
     {
         public int UserId { get; set; }

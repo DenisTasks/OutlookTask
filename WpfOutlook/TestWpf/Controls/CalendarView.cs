@@ -33,7 +33,7 @@ namespace TestWpf.Controls
             var week = new ObservableCollection<CalendarViewPeriod>();
             for (int i = 0; i < 7; i++)
             {
-                week.Add(new CalendarViewPeriod { BeginDate = _dt.AddDays(i), EndDate = _dt.AddDays(i).AddHours(11).AddMinutes(59).AddSeconds(59) });
+                week.Add(new CalendarViewPeriod { BeginDate = _dt.AddDays(i), EndDate = _dt.AddDays(i).AddHours(23).AddMinutes(59).AddSeconds(59) });
             }
             return week;
         }

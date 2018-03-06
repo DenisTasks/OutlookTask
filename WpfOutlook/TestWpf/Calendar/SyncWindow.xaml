@@ -10,7 +10,7 @@
         DataContext="{Binding SyncWindow,
                               Source={StaticResource Locator}}"
         Title="Sync Window" Height="Auto" Width="Auto" SizeToContent="Width">
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -20,9 +20,12 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <ListView ItemsSource="{Binding Appointments}" Grid.Column="0">
+        <ListView ItemsSource="{Binding Appointments}" 
+                  Grid.Column="0"
+                  Style="{DynamicResource DefaultCalendarStyleKey}">
             <ListView.View>
-                <controls:CalendarView ItemBeginDateBinding="{Binding Path=BeginningDate}" ItemEndDateBinding="{Binding Path=EndingDate}" >
+                <controls:CalendarView ItemBeginDateBinding="{Binding Path=BeginningDate}" 
+                                       ItemEndDateBinding="{Binding Path=EndingDate}" >
                 </controls:CalendarView>
             </ListView.View>
 
@@ -117,9 +120,12 @@
             </ListView.ItemContainerStyle>
         </ListView>
 
-        <ListView ItemsSource="{Binding AppointmentsSync}" Grid.Column="1">
+        <ListView ItemsSource="{Binding AppointmentsSync}" 
+                  Grid.Column="1"
+                  Style="{DynamicResource DefaultCalendarStyleKey}">
             <ListView.View>
-                <controls:CalendarView ItemBeginDateBinding="{Binding Path=BeginningDate}" ItemEndDateBinding="{Binding Path=EndingDate}">
+                <controls:CalendarView ItemBeginDateBinding="{Binding Path=BeginningDate}" 
+                                       ItemEndDateBinding="{Binding Path=EndingDate}">
                 </controls:CalendarView>
             </ListView.View>
 
@@ -160,6 +166,8 @@
                                         </Border.Background>
                                         <StackPanel TextElement.FontFamily="Segoe UI" TextElement.FontSize="11">
                                             <TextBlock FontWeight="Bold" Padding="3,0,0,0" Text="Busy" TextWrapping="Wrap" />
+                                            <TextBlock Padding="3,0,0,0" Text="{Binding Path=BeginningDate, StringFormat=Start: {0:HH:mm}}" TextWrapping="Wrap" />
+                                            <TextBlock Padding="3,0,0,0" Text="{Binding Path=EndingDate, StringFormat=Finish: {0:HH:mm}}" TextWrapping="Wrap"/>
                                         </StackPanel>
                                     </Border>
                                 </ControlTemplate>
@@ -169,7 +177,5 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
-
-
     </Grid>
 </Window>

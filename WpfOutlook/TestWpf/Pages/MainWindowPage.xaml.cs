@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Messaging;
 using TestWpf.Appointments;
 using TestWpf.Calendar;
 using ViewModel.Helpers;
+using ViewModel.Jobs;
 
 namespace TestWpf.Pages
 {
@@ -11,6 +12,7 @@ namespace TestWpf.Pages
         public MainWindowPage()
         {
             InitializeComponent();
+            NotifyScheduler.Start();
             Messenger.Default.Register<OpenWindowMessage>(
                 this,
                 message => {

@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TestWpf
+namespace TestWpf.Controls
 {
     /// <summary>
     /// Interaction logic for ToastList.xaml

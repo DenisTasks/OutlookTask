@@ -30,7 +30,8 @@
                   Grid.Row="1"
                   Grid.RowSpan="9"
                   SelectionMode="Single"
-                  ItemsSource="{Binding Appointments}">
+                  ItemsSource="{Binding Appointments}"
+                  ItemContainerStyle="{DynamicResource BaseStyle}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Id" DisplayMemberBinding="{Binding AppointmentId}"/>
@@ -43,4 +44,5 @@
             </ListView.View>
         </ListView>
     </Grid>
+
 </Window>

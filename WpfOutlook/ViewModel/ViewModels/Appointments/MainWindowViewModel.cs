@@ -99,17 +99,17 @@ namespace ViewModel.ViewModels.Appointments
             CalendarWindowCommand = new RelayCommand(GetCalendar);
             #endregion
 
-            //Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            //{
-            //    var localthemes = new DirectoryInfo("Themes").GetFiles();
-            //    if (Files == null)
-            //        Files = new ObservableCollection<FileInfo>();
-            //    foreach (var item in localthemes)
-            //    {
-            //        Files.Add(item);
-            //    }
-            //    SelectedTheme = Files[1];
-            //}));
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                var localthemes = new DirectoryInfo("Themes").GetFiles();
+                if (Files == null)
+                    Files = new ObservableCollection<FileInfo>();
+                foreach (var item in localthemes)
+                {
+                    Files.Add(item);
+                }
+                SelectedTheme = Files[1];
+            }));
 
             Messenger.Default.Register<NotificationMessage>(this, message =>
             {
@@ -144,7 +144,6 @@ namespace ViewModel.ViewModels.Appointments
         private void RefreshingAppointments()
         {
             Appointments.Clear();
-            
             Appointments = new ObservableCollection<AppointmentModel>(GetMapper().Map<IEnumerable<AppointmentDTO>, ICollection<AppointmentModel>>(_service.GetAppointments()));
             Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.Toast, Argument = "You added a new\r\nappointment! Check\r\nyour calendar, please!", SecondsToShow = 5 });
         }

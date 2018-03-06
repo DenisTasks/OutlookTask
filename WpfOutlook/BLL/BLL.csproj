@@ -87,8 +87,6 @@
     <Compile Include="Interfaces\IAdministrationService.cs" />
     <Compile Include="Interfaces\IAuthenticationService.cs" />
     <Compile Include="BLLService\BLLServiceMain.cs" />
-    <Compile Include="DTO\LocationDTO.cs" />
-    <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="Interfaces\IBLLServiceMain.cs" />
     <Compile Include="Interfaces\IPrintService.cs" />
     <Compile Include="MainWindow.xaml.cs">
