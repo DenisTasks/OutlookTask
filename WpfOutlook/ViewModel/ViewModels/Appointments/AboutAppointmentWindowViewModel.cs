@@ -7,7 +7,8 @@ using System.Windows;
 using ViewModel.Helpers;
 using ViewModel.Models;
 
-namespace ViewModel.ViewModels.Appointments
+
+namespace ViewModel.ViewModels
 {
     public class AboutAppointmentWindowViewModel : ViewModelBase
     {

@@ -128,11 +128,13 @@
     </Compile>
     <Compile Include="Primitives\CalendarViewContentPresenter.cs" />
     <Compile Include="Primitives\CalendarViewPeriodPresenter.cs" />
-    <Compile Include="CustomStyleSelector.cs" />
     <Compile Include="Calendar\SyncWindow.xaml.cs">
       <DependentUpon>SyncWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="TemplatePriority.cs" />
+    <Compile Include="Print\PrintAppointmentTablePage.xaml.cs">
+      <DependentUpon>PrintAppointmentTablePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TestShell.xaml.cs">
       <DependentUpon>TestShell.xaml</DependentUpon>
     </Compile>

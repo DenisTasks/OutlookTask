@@ -9,18 +9,15 @@
         mc:Ignorable="d"
         DataContext="{Binding AboutAppWindow, 
                               Source={StaticResource Locator}}"
-        Title="AboutAppWindow" Height="500" Width="300">
+        Title="AboutAppWindow" Height="500" Width="500">
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -37,13 +34,17 @@
         <Label Grid.Column="0" Grid.Row="6" Content="Users"/>
 
         <Label Grid.Column="1" Grid.Row="1" 
-                 Content="{Binding Appointment.Subject}"/>
+               Content="{Binding Appointment.Subject}"
+               HorizontalContentAlignment="Center"/>
         <Label Grid.Column="1" Grid.Row="2" 
-               Content="{Binding Location.Room}"/>
+               Content="{Binding Location.Room}"
+               HorizontalContentAlignment="Center"/>
         <Label Grid.Column="1" Grid.Row="3" 
-               Content="{Binding Appointment.BeginningDate}"/>
+               Content="{Binding Appointment.BeginningDate}"
+               HorizontalContentAlignment="Center"/>
         <Label Grid.Column="1" Grid.Row="4" 
-               Content="{Binding Appointment.EndingDate}"/>
+               Content="{Binding Appointment.EndingDate}"
+               HorizontalContentAlignment="Center"/>
 
         <ListView Grid.Column="1"
                   Grid.Row="6"

@@ -10,15 +10,7 @@
         DataContext="{Binding CalendarWindow,
                               Source={StaticResource Locator}}"
         Title="Calendar Window" Height="Auto" Width="Auto" SizeToContent="WidthAndHeight">
-    
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Themes/Generic.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.08*" />
@@ -37,9 +29,10 @@
             <Button Command="{Binding SyncCommand}" 
                     Content="Sync with selected user"/>
         </DockPanel>
-        
+
         <ListView ItemsSource="{Binding Appointments}" 
-                  Grid.Row="1">
+                  Grid.Row="1"
+                  Style="{DynamicResource DefaultCalendarStyleKey}">
             <ListView.View>
                 <controls:CalendarView 
                     ItemBeginDateBinding="{Binding Path=BeginningDate}" 
@@ -67,7 +60,7 @@
                                              FontSize="16" 
                                              FontWeight="Normal" 
                                              Text="{Binding Subject, StringFormat= Subject: {0}}"/>
-                                        </TextBlock>
+                                    </TextBlock>
                                     <TextBlock TextWrapping="Wrap" 
                                                Foreground="#FFF9F4F4" 
                                                TextAlignment="Center" 
@@ -136,7 +129,6 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
-        
     </Grid>
 </Window>
 

@@ -1,5 +1,4 @@
 ﻿using System.Windows.Input;
-using BLL.DTO;
 using BLL.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;

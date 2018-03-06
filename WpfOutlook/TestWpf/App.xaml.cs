@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Windows;
-using GalaSoft.MvvmLight.Ioc;
-using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
+using ViewModel.Jobs;
 using ViewModel.ViewModels.Authenication;
 
 namespace TestWpf
@@ -25,6 +24,11 @@ namespace TestWpf
         static App()
         {
             DispatcherHelper.Initialize();
+        }
+
+        private void App_OnExit(object sender, ExitEventArgs e)
+        {
+            NotifyScheduler.Shutdown();
         }
     }
 }

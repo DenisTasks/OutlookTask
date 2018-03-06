@@ -9,7 +9,8 @@
         mc:Ignorable="d"
         DataContext="{Binding AddAppWindow, 
                               Source={StaticResource Locator}}"
-        Title="Add appointment" Height="Auto" Width="500" SizeToContent="WidthAndHeight">
+        Title="Add appointment" Height="1000" Width="1000" SizeToContent="WidthAndHeight">
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -29,12 +30,13 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
+
         <Label Grid.Column="0" Grid.Row="1" Content="Subject"/>
         <Label Grid.Column="0" Grid.Row="2" Content="Location"/>
         <Label Grid.Column="0" Grid.Row="3" Content="Start Time"/>
         <Label Grid.Column="0" Grid.Row="4" Content="End Time"/>
         <Label Grid.Column="0" Grid.Row="6" Content="Users"/>
+        <Label Grid.Column="0" Grid.Row="8" Content="Templates"/>
 
         <Label Grid.Column="2" 
                Grid.Row="1" 
@@ -42,17 +44,19 @@
                FontWeight="Bold"
                Foreground="Red"
                Content="{Binding ElementName=SubjectTextBox, Path=(Validation.Errors).CurrentItem.ErrorContent}"/>
+
         <TextBox Grid.Column="1" 
                  Grid.Row="1" 
                  Name="SubjectTextBox"
-                 Text="{Binding Appointment.Subject, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
+                 Text="{Binding Appointment.Subject, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                  Validation.ValidationAdornerSite="{Binding ElementName=CheckSubject}"/>
 
-        <ComboBox Grid.Column="1" Grid.Row="2" 
+        <ComboBox Grid.Column="1" 
+                  Grid.Row="2" 
                   ItemsSource="{Binding LocationList}"
                   DisplayMemberPath="Room"
                   SelectedItem="{Binding SelectedLocation}"/>
-        
+
         <DatePicker Grid.Column="1" Grid.Row="3"
                     SelectedDate="{Binding StartBeginningDate}"/>
 
@@ -61,10 +65,10 @@
                   SelectedItem="{Binding SelectedBeginningTime, Mode=TwoWay}"
                   ItemStringFormat="{}{0:h:mm tt}"
                   IsSynchronizedWithCurrentItem="True"/>
-        
+
         <DatePicker Grid.Column="1" Grid.Row="4"
                     SelectedDate="{Binding EndBeginningDate}" />
-        
+
         <ComboBox Grid.Column="3" Grid.Row="4"
                   ItemsSource="{Binding EndingTime}"
                   SelectedItem="{Binding SelectedEndingTime, Mode=TwoWay}"
@@ -73,45 +77,58 @@
 
         <ListView Grid.Column="1"
                   Grid.Row="6"
-                  MaxHeight="200"
                   Name="FromUserList"
-                  ItemsSource="{Binding UserList}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <DockPanel>
-                        <Button Command="{Binding DataContext.AddUserToListCommand, ElementName=ToUserList}"
-                                CommandParameter="{Binding}"
-                                DockPanel.Dock="Right"
-                                Padding="2"
-                                Margin="2">+</Button>
-                        <TextBlock Text="{Binding Name}"
-                                   VerticalAlignment="Center"/>
-                    </DockPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                  ItemsSource="{Binding UserList}"
+                  ItemContainerStyle="{DynamicResource AddAppWindowAddStyle}" />
 
         <ListView Grid.Column="3"
                   Grid.Row="6"
-                  MaxHeight="200"
                   Name="ToUserList"
-                  ItemsSource="{Binding SelectedUserList}">
-            <ListView.ItemTemplate>
+                  ItemsSource="{Binding SelectedUserList}"
+                  ItemContainerStyle="{DynamicResource AddAppWindowRemoveStyle}" />
+
+        <ComboBox Grid.Column="1"
+                  Grid.Row="8"
+                  ItemsSource="{Binding TemplateApps}"
+                  SelectedItem="{Binding SelectedTemplateItem}">
+            <ComboBox.ItemTemplate>
                 <DataTemplate>
-                    <DockPanel >
-                        <Button Command="{Binding DataContext.RemoveUserFromListCommand, ElementName=FromUserList}"
-                                CommandParameter="{Binding}"
-                                DockPanel.Dock="Right"
-                                Padding="2"
-                                Margin="2">X</Button>
-                        <TextBlock Text="{Binding Name}"
-                                   VerticalAlignment="Center"/>
-                    </DockPanel>
+                    <StackPanel>
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{} Beginning Date: {0}">
+                                    <Binding Path="BeginningDate" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{} Ending Date: {0}">
+                                    <Binding Path="EndingDate" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{} Location: {0}">
+                                    <Binding Path="Room" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{} Subject: {0}">
+                                    <Binding Path="Subject" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </StackPanel>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        
-        <Button Grid.Column="3" Grid.Row="9" 
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <Button Grid.Column="3" 
+                Grid.Row="9" 
                 Command="{Binding CreateAppCommand}" 
                 CommandParameter="{Binding ElementName=AddNewAppWindow}"
                 Content="Add appointment"/>
