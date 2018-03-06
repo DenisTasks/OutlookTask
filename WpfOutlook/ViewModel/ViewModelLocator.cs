@@ -28,8 +28,8 @@ namespace ViewModel
     {
         public override void Load()
         {
-            Bind<WPFOutlookContext>().ToSelf().WithConstructorArgument("connectionString", "WPFOutlookContext");
-            Bind(typeof(IGenericRepository<>)).To(typeof(GenericRepository<>)).WithConstructorArgument("context", Kernel.Get<WPFOutlookContext>());
+            Bind<WPFOutlookContext>().ToSelf().InSingletonScope().WithConstructorArgument("connectionString", "WPFOutlookContext");
+            Bind(typeof(IGenericRepository<>)).To(typeof(GenericRepository<>)).InSingletonScope();
             Bind<IBLLServiceMain>().To<BLLServiceMain>();
             Bind<IAuthenticationService>().To<AuthenticationService>();
             Bind<IAdministrationService>().To<AdministrationService>();

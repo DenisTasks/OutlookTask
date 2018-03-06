@@ -22,7 +22,6 @@ namespace Model.Entities
         public int CreatorId { get; set; }
         public User Creator { get; set; }
 
-        public virtual ICollection<Group> Groups { get; set; }
         public virtual ICollection<User> Users { get; set; }
     }
 }

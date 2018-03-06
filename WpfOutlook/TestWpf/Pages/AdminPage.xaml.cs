@@ -14,18 +14,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MVVM.ViewModels.Administration.Users
+namespace TestWpf.Pages
 {
     /// <summary>
-    /// Interaction logic for ShowAllUsersPage.xaml
+    /// Interaction logic for Page2.xaml
     /// </summary>
     [PrincipalPermission(SecurityAction.Demand, Role = "admin")]
-    public partial class ShowAllUsersPage : Page
+    public partial class AdminPage : Page
     {
-        public ShowAllUsersPage()
+        public AdminPage()
         {
             InitializeComponent();
         }
-        
     }
 }

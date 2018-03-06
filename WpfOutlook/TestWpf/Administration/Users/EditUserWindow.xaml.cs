@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -10,17 +11,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MVVM.ViewModels.CommonViewModels.Groups
+namespace TestWpf.Administration.Users
 {
     /// <summary>
-    /// Interaction logic for ShowAllGroupsPage.xaml
+    /// Interaction logic for EditUserWindow.xaml
     /// </summary>
-    public partial class ShowAllGroupsPage : Page
+    [PrincipalPermission(SecurityAction.Demand, Role = "admin")]
+    public partial class EditUserWindow : Window
     {
-        public ShowAllGroupsPage()
+        public EditUserWindow()
         {
             InitializeComponent();
         }

@@ -13,7 +13,6 @@ namespace BLL.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private WPFOutlookContext _context;
         private IGenericRepository<User> _users;
 
         public AuthenticationService(IGenericRepository<User> users)
@@ -31,15 +30,9 @@ namespace BLL.Services
             UserDTO user =mapper.Map<User, UserDTO>(_users.Get(u => u.UserName.Equals(username) && u.Password.Equals(password)).FirstOrDefault());
             if (user != null)
                 return user;
-            else throw new UnauthorizedAccessException("Wrong credentials.");
-            
+            else throw new UnauthorizedAccessException("Wrong credentials.");  
         }
-
-        public void Dispose()
-        {
-            _context.Dispose();
-        }
-
+        
         public string[] GetRoles(int userId)
         {
             return _users.FindById(userId).Roles.Select(r => r.Name).ToArray();

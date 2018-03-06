@@ -81,10 +81,28 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Administration\Groups\EditGroupWindow.xaml.cs">
+      <DependentUpon>EditGroupWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Administration\Groups\ShowAllGroupsPage.xaml.cs">
+      <DependentUpon>ShowAllGroupsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Administration\Users\AddUserWindow.xaml.cs">
+      <DependentUpon>AddUserWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Administration\Users\EditUserWindow.xaml.cs">
+      <DependentUpon>EditUserWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Administration\Users\ShowAllUsersPage.xaml.cs">
+      <DependentUpon>ShowAllUsersPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Appointments\AboutAppWindow.xaml.cs">
       <DependentUpon>AboutAppWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AdminPage.xaml.cs">
+    <Compile Include="Common\Groups\AddGroupWindow.xaml.cs">
+      <DependentUpon>AddGroupWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\AdminPage.xaml.cs">
       <DependentUpon>AdminPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Appointments\AllAppByLocation.xaml.cs">
@@ -98,14 +116,14 @@
     </Compile>
     <Compile Include="Controls\CalendarView.cs" />
     <Compile Include="Controls\CalendarViewPeriod.cs" />
-    <Compile Include="LoginPage.xaml.cs">
+    <Compile Include="Pages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Primitives\DaysOfWeekPresenter.cs" />
     <Compile Include="Primitives\DaysPresenter.cs" />
     <Compile Include="Controls\TimeScaleControl.cs" />
     <Compile Include="Controls\RangePanel.cs" />
-    <Compile Include="Appointments\MainWindowPage.xaml.cs">
+    <Compile Include="Pages\MainWindowPage.xaml.cs">
       <DependentUpon>MainWindowPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Primitives\CalendarViewContentPresenter.cs" />
@@ -121,11 +139,35 @@
     <Compile Include="Controls\ToastList.xaml.cs">
       <DependentUpon>ToastList.xaml</DependentUpon>
     </Compile>
+    <Page Include="Administration\Groups\EditGroupWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Administration\Groups\ShowAllGroupsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Administration\Users\AddUserWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Administration\Users\EditUserWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Administration\Users\ShowAllUsersPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Appointments\AboutAppWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AdminPage.xaml">
+    <Page Include="Common\Groups\AddGroupWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\AdminPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -145,11 +187,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LoginPage.xaml">
+    <Page Include="Pages\LoginPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Appointments\MainWindowPage.xaml">
+    <Page Include="Pages\MainWindowPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -188,7 +230,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

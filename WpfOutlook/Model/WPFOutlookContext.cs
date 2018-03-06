@@ -42,15 +42,15 @@ namespace Model
                     cs.ToTable("UserAppointments");
                 });
 
-            modelBuilder.Entity<Group>()
-                .HasMany<Group>(s => s.Groups)
-                .WithMany()
-                .Map(cs =>
-                {
-                    cs.MapLeftKey("GroupId");
-                    cs.MapRightKey("RelatedId");
-                    cs.ToTable("GroupGroups");
-                });
+            //modelBuilder.Entity<Group>()
+            //    .HasMany<Group>(s => s.Groups)
+            //    .WithMany()
+            //    .Map(cs =>
+            //    {
+            //        cs.MapLeftKey("GroupId");
+            //        cs.MapRightKey("RelatedId");
+            //        cs.ToTable("GroupGroups");
+            //    });
 
 
             //modelBuilder.Entity<Group>()

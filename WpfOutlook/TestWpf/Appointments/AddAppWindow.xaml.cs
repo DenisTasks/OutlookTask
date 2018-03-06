@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace TestWpf
+namespace TestWpf.Appointments
 {
     /// <summary>
     /// Interaction logic for ModalWindow.xaml

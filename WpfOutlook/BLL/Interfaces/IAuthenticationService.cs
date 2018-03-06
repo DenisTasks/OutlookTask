@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    public interface IAuthenticationService : IDisposable
+    public interface IAuthenticationService
     {
         UserDTO AuthenticateUser(string username, string password);
         string[] GetRoles(int userId);
