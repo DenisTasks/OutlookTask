@@ -238,21 +238,21 @@ namespace ViewModel.ViewModels.Appointments
                         opt => opt.MapFrom(loc => loc.LocationId));
                 }).CreateMapper();
                 _service.AddAppointment(mapper.Map<AppointmentModel,AppointmentDTO>(Appointment), _selectedUserList);
-
-                Messenger.Default.Send<NotificationMessage, MainWindowViewModel>(new NotificationMessage("Refresh"));
-
                 Appointment.Room = _service.GetLocationById(Appointment.LocationId).Room;
+
                 IJobDetail job = JobBuilder.Create<NotifyCreater>()
-                    .WithIdentity(Guid.NewGuid().ToString(), "OutlookGroup")
+                    .WithIdentity(_service.GetAppointments().LastOrDefault().AppointmentId.ToString(), "OutlookGroup")
                     .Build();
                 job.JobDataMap.Put("myApp", Appointment);
 
                 ITrigger trigger = TriggerBuilder.Create()
-                    .WithIdentity(Guid.NewGuid().ToString(), "OutlookGroup")
+                    .WithIdentity(_service.GetAppointments().LastOrDefault().AppointmentId.ToString(), "OutlookGroup")
                     .StartAt(Appointment.BeginningDate.AddMinutes(-15))
                     .Build();
 
                 NotifyScheduler.WpfScheduler.ScheduleJob(job, trigger);
+
+                Messenger.Default.Send<NotificationMessage, MainWindowViewModel>(new NotificationMessage("Refresh"));
 
                 window?.Close();
             }

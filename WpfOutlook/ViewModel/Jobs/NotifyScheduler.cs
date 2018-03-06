@@ -12,7 +12,6 @@ namespace ViewModel.Jobs
     public static class NotifyScheduler
     {
         public static IScheduler WpfScheduler;
-
         public static void Shutdown()
         {
             WpfScheduler.Shutdown();
@@ -72,32 +71,7 @@ namespace ViewModel.Jobs
                 WpfScheduler.ScheduleJob(missedJob, missedTrigger);
             }
 
-            //ITrigger trigger777 = TriggerBuilder.Create()
-            //    .WithIdentity("myTrigger777", "myGroup")
-            //    .StartAt(DateTime.Now.AddSeconds(300))
-            //    .Build();
-
-            //IJobDetail job777 = JobBuilder.Create<NotifyCreater>()
-            //    .WithIdentity("myJob777", "myGroup")
-            //    .Build();
-            //job777.JobDataMap.Put("myApp", new AppointmentDTO() { Subject = "MySubject 777", BeginningDate = DateTime.Now.AddSeconds(20), EndingDate = DateTime.Now.AddHours(2) });
-
-            //WpfScheduler.ScheduleJob(job777, trigger777);
-
-            //ITrigger trigger666 = TriggerBuilder.Create()
-            //    .WithIdentity("myTrigger666", "myGroup")
-            //    .StartAt(DateTime.Now.AddSeconds(300))
-            //    .Build();
-
-            //IJobDetail job666 = JobBuilder.Create<NotifyCreater>()
-            //    .WithIdentity("myJob666", "myGroup")
-            //    .Build();
-            //job666.JobDataMap.Put("myApp", new AppointmentDTO() { Subject = "MySubject 666", BeginningDate = DateTime.Now.AddSeconds(20), EndingDate = DateTime.Now.AddHours(2) });
-
-            //WpfScheduler.ScheduleJob(job666, trigger666);
-
             WpfScheduler.Start();
         }
     }
-
 }
