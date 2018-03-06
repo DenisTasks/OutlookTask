@@ -239,10 +239,16 @@ namespace ViewModel.ViewModels.Appointments
 
                     var myJob = NotifyScheduler.WpfScheduler.GetJobKeys(GroupMatcher<JobKey>.AnyGroup())
                         .Where(x => x.Name == appointment.AppointmentId.ToString()).ToList();
-                    var triggerKeyList = NotifyScheduler.WpfScheduler.GetTriggersOfJob(myJob[0]);
-                    var triggerKey = triggerKeyList[0].Key;
-                    NotifyScheduler.WpfScheduler.UnscheduleJob(NotifyScheduler.WpfScheduler.GetTrigger(triggerKey).Key);
+                    if (myJob.Count > 0)
+                    {
+                        var triggerKeyList = NotifyScheduler.WpfScheduler.GetTriggersOfJob(myJob[0]);
+                        var triggerKey = triggerKeyList[0].Key;
+                        NotifyScheduler.WpfScheduler.UnscheduleJob(NotifyScheduler.WpfScheduler.GetTrigger(triggerKey).Key);
+                    }
+
+                    _service.RemoveAppointment(appointment.AppointmentId);
                     Appointments.Remove(appointment);
+
                     base.RaisePropertyChanged();
                 }
                 catch (Exception e)

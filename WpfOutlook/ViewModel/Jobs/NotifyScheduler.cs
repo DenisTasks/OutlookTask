@@ -13,7 +13,7 @@ namespace ViewModel.Jobs
         public static IScheduler WpfScheduler;
         public static void Shutdown()
         {
-            WpfScheduler.Shutdown();
+            WpfScheduler?.Shutdown();
         }
         public static void Start()
         {
