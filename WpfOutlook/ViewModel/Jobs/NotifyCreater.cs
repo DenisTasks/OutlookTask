@@ -12,7 +12,7 @@ namespace ViewModel.Jobs
         public void Execute(IJobExecutionContext context)
         {
             var dataMap = context.MergedJobDataMap;
-            var instance = (AppointmentModel)dataMap["myApp"];
+            var instance = (AppointmentModel) dataMap["myApp"];
 
             MessageBox.Show($"{instance.Subject} from {instance.BeginningDate} to {instance.EndingDate} at {instance.Room}");
         }
@@ -23,7 +23,7 @@ namespace ViewModel.Jobs
         public void Execute(IJobExecutionContext context)
         {
             var dataMap = context.MergedJobDataMap;
-            var instance = (List<AppointmentModel>)dataMap["myApp"];
+            var instance = (List<AppointmentModel>) dataMap["myApp"];
             string missedApps = String.Empty;
             for (int i = 0; i < instance.Count; i++)
             {
