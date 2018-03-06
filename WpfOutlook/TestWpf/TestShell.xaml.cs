@@ -36,7 +36,18 @@ namespace MVVM
         {
             if (obj.Notification.Equals("LoginSuccess"))
             {
-                _mainFrame.Navigate(new AdminPage());
+                try
+                {
+                    _mainFrame.Navigate(new AdminPage());
+                }
+                catch (System.Security.SecurityException e)
+                {
+                    MessageBox.Show("You have no rights to acces this menu");
+                }
+                catch (Exception e)
+                {
+
+                }
                 //_mainFrame.Navigate(new MainWindowPage());
             }
         }
