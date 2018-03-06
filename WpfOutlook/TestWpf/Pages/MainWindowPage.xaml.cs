@@ -60,11 +60,11 @@ namespace TestWpf.Pages
             }
             catch (System.Security.SecurityException ex)
             {
-                MessageBox.Show("You have no rights to acces this menu" + ex);
+                MessageBox.Show("You have no rights to acces this menu" );
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                //MessageBox.Show(ex.ToString());
             }
         }
 
