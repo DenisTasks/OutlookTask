@@ -123,8 +123,6 @@
     <Compile Include="ViewModels\Authenication\CustomPrincipal.cs" />
     <Compile Include="ViewModels\Calendar\CalendarWindowViewModel.cs" />
     <Compile Include="ViewModels\Appointments\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\Print\PrintAppointmentViewModel.cs" />
-    <Compile Include="ViewModels\Print\PrintTableViewModel.cs" />
     <Compile Include="ViewModels\Calendar\SyncWindowViewModel.cs" />
     <Compile Include="ViewModels\Appointments\ToastListViewModel.cs" />
   </ItemGroup>

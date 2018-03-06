@@ -69,6 +69,10 @@
     <Compile Include="Migrations\201803061344393_LogCreation.Designer.cs">
       <DependentUpon>201803061344393_LogCreation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803061407542_AlerLog.cs" />
+    <Compile Include="Migrations\201803061407542_AlerLog.Designer.cs">
+      <DependentUpon>201803061407542_AlerLog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelService\GenericRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -87,6 +91,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803061344393_LogCreation.resx">
       <DependentUpon>201803061344393_LogCreation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803061407542_AlerLog.resx">
+      <DependentUpon>201803061407542_AlerLog.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

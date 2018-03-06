@@ -13,6 +13,10 @@ namespace Model.Entities
         public int LogId { get; set; }
 
         public string Action { get; set; }
+        public string AppointmentName { get; set; }
+
+        public int ActionAuthorId { get; set; }
+        public User ActionAuthor { get; set; }
 
         public int CreatorId { get; set; }
         public User Creator { get; set; }

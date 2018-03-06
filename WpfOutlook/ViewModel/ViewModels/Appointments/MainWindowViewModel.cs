@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,6 +20,7 @@ using Quartz.Impl.Matchers;
 using ViewModel.Helpers;
 using ViewModel.Jobs;
 using ViewModel.Models;
+using ViewModel.ViewModels.Authenication;
 
 namespace ViewModel.ViewModels.Appointments
 {
@@ -232,15 +234,15 @@ namespace ViewModel.ViewModels.Appointments
             {
                 try
                 {
-                    _service.RemoveAppointment(appointment.AppointmentId);
-                    Appointments.Remove(appointment);
+                    CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
+                    _service.RemoveAppointment(appointment.AppointmentId, customPrincipal.Identity.UserId);
 
                     var myJob = NotifyScheduler.WpfScheduler.GetJobKeys(GroupMatcher<JobKey>.AnyGroup())
                         .Where(x => x.Name == appointment.AppointmentId.ToString()).ToList();
                     var triggerKeyList = NotifyScheduler.WpfScheduler.GetTriggersOfJob(myJob[0]);
                     var triggerKey = triggerKeyList[0].Key;
                     NotifyScheduler.WpfScheduler.UnscheduleJob(NotifyScheduler.WpfScheduler.GetTrigger(triggerKey).Key);
-
+                    Appointments.Remove(appointment);
                     base.RaisePropertyChanged();
                 }
                 catch (Exception e)
