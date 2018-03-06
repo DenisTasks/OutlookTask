@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
 using GalaSoft.MvvmLight.Messaging;
 using TestWpf.Appointments;
 using TestWpf.Calendar;
@@ -48,6 +50,27 @@ namespace TestWpf.Pages
                         var result = addSync.ShowDialog();
                     }
                 });
+        }
+
+        private void ButtonBase_Click_ToAdmin(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                this.NavigationService.Navigate(new AdminPage());
+            }
+            catch (System.Security.SecurityException ex)
+            {
+                MessageBox.Show("You have no rights to acces this menu" + ex);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void ButtonBase_Click_ToLoginPage(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.GoBack();
         }
     }
 }

@@ -44,5 +44,10 @@ namespace TestWpf.Pages
         {
             this.NavigationService.Navigate(new ShowAllGroupsPage());
         }
+
+        private void Button_Click_GoBack(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.GoBack();
+        }
     }
 }

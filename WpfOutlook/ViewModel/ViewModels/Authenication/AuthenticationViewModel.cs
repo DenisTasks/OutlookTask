@@ -15,7 +15,6 @@ namespace ViewModel.ViewModels.Authenication
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly RelayCommand<object> _loginCommand;
-        private readonly RelayCommand _logoutCommand;
         private string _username;
         private string _status;
 
@@ -23,13 +22,9 @@ namespace ViewModel.ViewModels.Authenication
         {
             _authenticationService = authenticationService;
             _loginCommand = new RelayCommand<object>(Login, CanLogin);
-            _logoutCommand = new RelayCommand(Logout, CanLogout);
         }
 
         public RelayCommand<object> LoginCommand { get { return _loginCommand; } }
-
-        public RelayCommand LogoutCommand { get { return _logoutCommand; } }
-
 
         public string Username
         {
@@ -57,7 +52,6 @@ namespace ViewModel.ViewModels.Authenication
             }
         }
 
-
         private void Login(object parameter)
         {
             PasswordBox passwordBox = parameter as PasswordBox;
@@ -70,12 +64,9 @@ namespace ViewModel.ViewModels.Authenication
                     throw new ArgumentException("The application's default thread principal must be set to a CustomPrincipal object on startup.");
                 customPrincipal.Identity = new CustomIdentity(user.UserId, user.UserName, user.Name, _authenticationService.GetRoles(user.UserId));
 
-
                 _loginCommand.RaiseCanExecuteChanged();
-                _logoutCommand.RaiseCanExecuteChanged();
                 NotifyPropertyChanged("IsAuthenticated");
                 NotifyPropertyChanged("AuthenticatedUser");
-
             }
             catch (UnauthorizedAccessException)
             {
@@ -98,27 +89,6 @@ namespace ViewModel.ViewModels.Authenication
         {
             get { return Thread.CurrentPrincipal.Identity.IsAuthenticated; }
         }
-
-        private void Logout()
-        {
-            CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
-            if (customPrincipal != null)
-            {
-                customPrincipal.Identity = new AnonymousIdentity();
-                NotifyPropertyChanged("AuthenticatedUser");
-                NotifyPropertyChanged("IsAuthenticated");
-                _loginCommand.RaiseCanExecuteChanged();
-                _logoutCommand.RaiseCanExecuteChanged();
-                Status = string.Empty;
-            }
-        }
-
-
-        private bool CanLogout()
-        {
-            return IsAuthenticated;
-        }
-
 
         public event PropertyChangedEventHandler PropertyChanged;
 
