@@ -53,6 +53,7 @@
     <Compile Include="Entities\Appointment.cs" />
     <Compile Include="Entities\Group.cs" />
     <Compile Include="Entities\Location.cs" />
+    <Compile Include="Entities\Log.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Interfaces\IGenericRepository.cs" />
@@ -63,6 +64,10 @@
     <Compile Include="Migrations\201803020933233_AddGroupMigration.cs" />
     <Compile Include="Migrations\201803020933233_AddGroupMigration.Designer.cs">
       <DependentUpon>201803020933233_AddGroupMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803061344393_LogCreation.cs" />
+    <Compile Include="Migrations\201803061344393_LogCreation.Designer.cs">
+      <DependentUpon>201803061344393_LogCreation.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelService\GenericRepository.cs" />
@@ -79,6 +84,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803020933233_AddGroupMigration.resx">
       <DependentUpon>201803020933233_AddGroupMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803061344393_LogCreation.resx">
+      <DependentUpon>201803061344393_LogCreation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

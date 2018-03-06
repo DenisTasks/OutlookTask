@@ -9,7 +9,7 @@ namespace ViewModel.ViewModels.Authenication
     public class AnonymousIdentity : CustomIdentity
     {
         public AnonymousIdentity()
-            : base(string.Empty, string.Empty, new string[] { })
+            : base(0, string.Empty, string.Empty, new string[] { })
         { }
     }
 }

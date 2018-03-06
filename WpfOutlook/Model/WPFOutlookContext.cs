@@ -16,6 +16,7 @@ namespace Model
         public DbSet<User> Users { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Log> Logs { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

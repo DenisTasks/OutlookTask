@@ -9,14 +9,16 @@ namespace ViewModel.ViewModels.Authenication
 {
     public class CustomIdentity : IIdentity
     {
-        public CustomIdentity(string name, string username, string[] roles)
+        public CustomIdentity(int userId,string name, string username, string[] roles)
         {
+            UserId = userId;
             Name = name;
             Username = username;
             Roles = roles;
         }
 
         public string Name { get; private set; }
+        public int UserId { get; private set; }
         public string Username { get; private set; }
         public string[] Roles { get; private set; }
 

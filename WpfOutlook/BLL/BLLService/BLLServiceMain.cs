@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using AutoMapper;
 using BLL.EntitesDTO;
@@ -206,7 +207,7 @@ namespace BLL.BLLService
             return GetDefaultMapper<User, UserDTO>().Map<IEnumerable<User>, ICollection<UserDTO>>(_appointments.FindById(id).Users.ToList());
         }
 
-        public void AddAppointment(AppointmentDTO appointment, ICollection<UserDTO> usersDTO)
+        public void AddAppointment(AppointmentDTO appointment, ICollection<UserDTO> usersDTO , int id)
         {
             var mapper = new MapperConfiguration(cfg =>
             {
@@ -214,7 +215,6 @@ namespace BLL.BLLService
                     .ForMember(s => s.Location, opt => opt.MapFrom(loc => _locations.FindById(loc.LocationId)))
                     .ForMember(d => d.Users, opt => opt.MapFrom(s => ConvertUsers(usersDTO)));
             }).CreateMapper();
-
             var appointmentItem = mapper.Map<AppointmentDTO, Appointment>(appointment);
 
             using (var transaction = _appointments.BeginTransaction())

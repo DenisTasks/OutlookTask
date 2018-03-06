@@ -36,7 +36,7 @@ namespace ViewModel.Jobs
             properties["quartz.scheduler.dbFailureRetryInterval"] = "60000";
             properties["quartz.jobStore.dataSource"] = "default";
             properties["quartz.dataSource.default.provider"] = "SqlServer-20";
-            properties["quartz.dataSource.default.connectionString"] = "Server=EPBYGROW0335\\DB;Database=Quartz;Trusted_Connection=True;";
+            properties["quartz.dataSource.default.connectionString"] = "Server=EPBYGROW0342\\MYSSQLSERVER;Database=Quartz;Trusted_Connection=True;";
 
             ISchedulerFactory sf = new StdSchedulerFactory(properties);
             WpfScheduler = sf.GetScheduler();
