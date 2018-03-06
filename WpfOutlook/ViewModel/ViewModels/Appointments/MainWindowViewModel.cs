@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,6 +20,7 @@ using Quartz.Impl.Matchers;
 using ViewModel.Helpers;
 using ViewModel.Jobs;
 using ViewModel.Models;
+using ViewModel.ViewModels.Authenication;
 
 namespace ViewModel.ViewModels.Appointments
 {
@@ -88,6 +90,7 @@ namespace ViewModel.ViewModels.Appointments
         public RelayCommand<AppointmentModel> FilterBySubjectCommand { get; }
         public RelayCommand CalendarWindowCommand { get; }
         public RelayCommand<object> PrintTable { get; }
+        public RelayCommand LogoutCommand { get; }
         
         #endregion
 
@@ -105,6 +108,7 @@ namespace ViewModel.ViewModels.Appointments
             FilterBySubjectCommand = new RelayCommand<AppointmentModel>(FilterBySubject);
             CalendarWindowCommand = new RelayCommand(GetCalendar);
             PrintTable = new RelayCommand<object>(PrintListView);
+            LogoutCommand = new RelayCommand(Logout, CanLogout);
             #endregion
 
             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
@@ -129,11 +133,23 @@ namespace ViewModel.ViewModels.Appointments
             });
         }
 
+        public bool IsAuthenticated => Thread.CurrentPrincipal.Identity.IsAuthenticated;
+        private void Logout()
+        {
+            CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
+            if (customPrincipal != null)
+            {
+                customPrincipal.Identity = new AnonymousIdentity();
+            }
+        }
+        private bool CanLogout()
+        {
+            return IsAuthenticated;
+        }
         private void PrintListView(object parameter)
         {
             PrintHelper.PrintViewList(parameter as ListView);
         }
-
         private void ChangeTheme(FileInfo selectTheme)
         {
             Application.Current.Resources.Clear();
