@@ -12,7 +12,6 @@ namespace ViewModel.ViewModels.Calendar
 {
     public class CalendarWindowViewModel : ViewModelBase
     {
-
         private int _startDay;
         public int StartDay
         {
@@ -97,13 +96,11 @@ namespace ViewModel.ViewModels.Calendar
 
         private void PreviousWeek()
         {
-            
+            Messenger.Default.Send(new NotificationMessage("Previous"));
         }
 
         private void NextWeek()
         {
-            StartDay = 2;
-            FinishDay = 5;
             Messenger.Default.Send(new NotificationMessage("Next"));
         }
 

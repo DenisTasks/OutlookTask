@@ -122,11 +122,39 @@
     <Compile Include="ViewModels\Appointments\ToastListViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\BLL.WPFDBDataSetTableAdapters.AppointmentsTableAdapter.datasource" />
+    <None Include="Properties\DataSources\BLL.WPFDBDataSetTableAdapters.GetGroupChildsTableAdapter.datasource" />
+    <None Include="Properties\DataSources\BLL.WPFDBDataSetTableAdapters.GetUsersFromGroupChildsTableAdapter.datasource" />
+    <None Include="Properties\DataSources\BLL.WPFDBDataSetTableAdapters.GroupsTableAdapter.datasource" />
+    <None Include="Properties\DataSources\BLL.WPFDBDataSetTableAdapters.LocationsTableAdapter.datasource" />
+    <None Include="Properties\DataSources\BLL.WPFDBDataSetTableAdapters.LogsTableAdapter.datasource" />
+    <None Include="Properties\DataSources\BLL.WPFDBDataSetTableAdapters.QRTZ_BLOB_TRIGGERSTableAdapter.datasource" />
+    <None Include="Properties\DataSources\BLL.WPFDBDataSetTableAdapters.QRTZ_CALENDARSTableAdapter.datasource" />
+    <None Include="Properties\DataSources\BLL.WPFDBDataSetTableAdapters.QRTZ_CRON_TRIGGERSTableAdapter.datasource" />
+    <None Include="Properties\DataSources\BLL.WPFDBDataSetTableAdapters.QRTZ_FIRED_TRIGGERSTableAdapter.datasource" />
+    <None Include="Properties\DataSources\BLL.WPFDBDataSetTableAdapters.QRTZ_JOB_DETAILSTableAdapter.datasource" />
+    <None Include="Properties\DataSources\BLL.WPFDBDataSetTableAdapters.QRTZ_LOCKSTableAdapter.datasource" />
+    <None Include="Properties\DataSources\BLL.WPFDBDataSetTableAdapters.QRTZ_PAUSED_TRIGGER_GRPSTableAdapter.datasource" />
+    <None Include="Properties\DataSources\BLL.WPFDBDataSetTableAdapters.QRTZ_SCHEDULER_STATETableAdapter.datasource" />
+    <None Include="Properties\DataSources\BLL.WPFDBDataSetTableAdapters.QRTZ_SIMPLE_TRIGGERSTableAdapter.datasource" />
+    <None Include="Properties\DataSources\BLL.WPFDBDataSetTableAdapters.QRTZ_SIMPROP_TRIGGERSTableAdapter.datasource" />
+    <None Include="Properties\DataSources\BLL.WPFDBDataSetTableAdapters.QRTZ_TRIGGERSTableAdapter.datasource" />
+    <None Include="Properties\DataSources\BLL.WPFDBDataSetTableAdapters.QueriesTableAdapter.datasource" />
+    <None Include="Properties\DataSources\BLL.WPFDBDataSetTableAdapters.RolesTableAdapter.datasource" />
+    <None Include="Properties\DataSources\BLL.WPFDBDataSetTableAdapters.RoleUsersTableAdapter.datasource" />
+    <None Include="Properties\DataSources\BLL.WPFDBDataSetTableAdapters.TableAdapterManager+UpdateOrderOption.datasource" />
+    <None Include="Properties\DataSources\BLL.WPFDBDataSetTableAdapters.TableAdapterManager.datasource" />
+    <None Include="Properties\DataSources\BLL.WPFDBDataSetTableAdapters.UserAppointmentsTableAdapter.datasource" />
+    <None Include="Properties\DataSources\BLL.WPFDBDataSetTableAdapters.UserGroupsTableAdapter.datasource" />
+    <None Include="Properties\DataSources\BLL.WPFDBDataSetTableAdapters.UsersTableAdapter.datasource" />
+    <None Include="Properties\DataSources\BLL.WPFDBDataSetTableAdapters.__MigrationHistoryTableAdapter.datasource" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BLL\BLL.csproj">

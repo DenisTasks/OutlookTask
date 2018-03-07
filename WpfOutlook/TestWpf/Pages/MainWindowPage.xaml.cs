@@ -20,12 +20,12 @@ namespace TestWpf.Pages
             Messenger.Default.Register<OpenWindowMessage>(
                 this,
                 message => {
-                    if (message.Type == WindowType.AddAppWindow)
+                    if (message.Type == WindowType.AddAppWindow && message.Argument == "AddAppWindow")
                     {
                         var addAppWindow = new AddAppWindow();
                         var result = addAppWindow.ShowDialog();
                     }
-                    if (message.Type == WindowType.AddAboutAppointmentWindow)
+                    if (message.Type == WindowType.AddAboutAppointmentWindow && message.Argument == "Load this appointment")
                     {
                         var addAboutWindow = new AboutAppWindow();
                         // send initialize information after create, but before show window!
@@ -51,11 +51,11 @@ namespace TestWpf.Pages
                         Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.None, User = message.User });
                         var result = addSync.ShowDialog();
                     }
-                    if (message.Type == WindowType.CalendarFrame)
-                    {
-                        var calendarFrameWindow = new CalendarFrame();
-                        var result = calendarFrameWindow.ShowDialog();
-                    }
+                    //if (message.Type == WindowType.CalendarFrame)
+                    //{
+                    //    var calendarFrameWindow = new CalendarFrame();
+                    //    var result = calendarFrameWindow.ShowDialog();
+                    //}
                 });
         }
 
