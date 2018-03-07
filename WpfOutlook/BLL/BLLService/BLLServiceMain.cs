@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Windows;
 using AutoMapper;
 using BLL.EntitesDTO;
@@ -38,7 +37,6 @@ namespace BLL.BLLService
 
             return mapper;
         }
-
         private ICollection<User> ConvertUsers(ICollection<UserDTO> usersDTO)
         {
             ICollection<User> users = new List<User>();
@@ -52,7 +50,6 @@ namespace BLL.BLLService
             }
             return users;
         }
-
         private IMapper GetFromAppDtoToAppMapper(ICollection<UserDTO> usersDTO)
         {
             ICollection<User> users = new List<User>();
@@ -75,31 +72,6 @@ namespace BLL.BLLService
 
             return mapper;
         }
-        //private IMapper GetFromLocToLocDtoIgnoreMapper()
-        //{
-        //    var config = new MapperConfiguration(cfg =>
-        //    {
-        //        cfg.CreateMap<Location, LocationDTO>()
-        //            .ForMember(d => d.Appointments,opt => opt.Ignore());
-        //    });
-        //    IMapper mapper = config.CreateMapper();
-
-        //    return mapper;
-        //}
-        //private IMapper GetFromLocationToLocationDtoMapper()
-        //{
-        //    var config = new MapperConfiguration(cfg =>
-        //    {
-        //        cfg.CreateMap<Location, LocationDTO>()
-        //            .ForMember(d => d.Appointments,
-        //                opt => opt.MapFrom(s =>
-        //                    GetFromAppToAppDtoMapper()
-        //                        .Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(s.Appointments)));
-        //    });
-        //    IMapper mapper = config.CreateMapper();
-
-        //    return mapper;
-        //}
 
         public BLLServiceMain(IGenericRepository<Appointment> appointments, IGenericRepository<User> users, IGenericRepository<Location> locations, IGenericRepository<Log> logs)
         {
@@ -115,6 +87,21 @@ namespace BLL.BLLService
             using (_appointments.BeginTransaction())
             {
                 collection = _appointments.Get().ToList();
+            }
+            foreach (var item in collection)
+            {
+                item.Location = _locations.FindById(item.LocationId);
+            }
+            var mappingCollection = GetFromAppToAppDtoMapper().Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(collection);
+            return mappingCollection;
+        }
+
+        public IEnumerable<AppointmentDTO> GetAppointmentsByUserId(int id)
+        {
+            List<Appointment> collection;
+            using (_appointments.BeginTransaction())
+            {
+                collection = _appointments.Get(x => x.Users.Any(s => s.UserId == id)).ToList();
             }
             foreach (var item in collection)
             {
@@ -226,14 +213,14 @@ namespace BLL.BLLService
                 try
                 {
                     _appointments.Create(appointmentItem);
-                    _logs.Create(new Log
-                    {
-                        AppointmentName = appointment.Subject,
-                        ActionAuthorId = id,
-                        CreatorId = id,
-                        Action = "Add",
-                        EventTime = DateTime.Now
-                    });
+                    //_logs.Create(new Log
+                    //{
+                    //    AppointmentName = appointment.Subject,
+                    //    ActionAuthorId = id,
+                    //    CreatorId = id,
+                    //    Action = "Add",
+                    //    EventTime = DateTime.Now
+                    //});
                     _appointments.Save();
                     transaction.Commit();
                 }
@@ -241,88 +228,6 @@ namespace BLL.BLLService
                 {
                     transaction.Rollback();
                     MessageBox.Show(e + " from BLL service!");
-                }
-            }
-        }
-
-        public void AddLocation(LocationDTO location)
-        {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<LocationDTO, Location>();
-            });
-            IMapper mapper = config.CreateMapper();
-
-            var locationItem = mapper.Map<LocationDTO, Location>(location);
-
-            using (var transaction = _locations.BeginTransaction())
-            {
-                try
-                {
-                    _locations.Create(locationItem);
-                    _locations.Save();
-                    transaction.Commit();
-                }
-                catch (Exception e)
-                {
-                    transaction.Rollback();
-                    MessageBox.Show(e.ToString());
-                }
-            }
-        }
-
-        public void AddLocation(Location location)
-        {
-            using (var transaction = _locations.BeginTransaction())
-            {
-                try
-                {
-                    _locations.Create(location);
-                    _locations.Save();
-                    transaction.Commit();
-                }
-                catch (Exception e)
-                {
-                    transaction.Rollback();
-                    MessageBox.Show(e.ToString());
-                }
-            }
-        }
-
-        public void AddUser(UserDTO user)
-        {
-            var userItem = GetDefaultMapper<UserDTO, User>().Map<UserDTO, User>(user);
-
-            using (var transaction = _users.BeginTransaction())
-            {
-                try
-                {
-                    _users.Create(userItem);
-                    _users.Save();
-                    transaction.Commit();
-                }
-                catch (Exception e)
-                {
-                    transaction.Rollback();
-                    MessageBox.Show(e.ToString());
-                }
-            }
-        }
-
-        public void AddUser(User user)
-        {
-            using (var transaction = _users.BeginTransaction())
-            {
-                try
-                {
-                    _users.Create(user);
-                    _users.Save();
-                    transaction.Commit();
-                }
-                catch (Exception e)
-                {
-                    transaction.Rollback();
-                    MessageBox.Show(e.ToString());
                 }
             }
         }
@@ -336,14 +241,14 @@ namespace BLL.BLLService
                 try
                 {
                     var appointment = _appointments.FindById(id);
-                    _logs.Create(new Log
-                    {
-                        AppointmentName =appointment.Subject,
-                        ActionAuthorId = userId,
-                        CreatorId = appointment.OrganizerId,
-                        Action = "Remove",
-                        EventTime = DateTime.Now
-                    });
+                    //_logs.Create(new Log
+                    //{
+                    //    AppointmentName =appointment.Subject,
+                    //    ActionAuthorId = userId,
+                    //    CreatorId = appointment.OrganizerId,
+                    //    Action = "Remove",
+                    //    EventTime = DateTime.Now
+                    //});
                     _appointments.Remove(appointment);
                     _appointments.Save();
                     transaction.Commit();

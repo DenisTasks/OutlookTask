@@ -172,6 +172,7 @@ namespace ViewModel.ViewModels.Appointments
             return mapper;
         }
 
+        private int Id { get; set; }
         public AddAppWindowViewModel(IBLLServiceMain service)
         {
             _service = service;
@@ -182,7 +183,10 @@ namespace ViewModel.ViewModels.Appointments
             UserList = new ObservableCollection<UserDTO>(_service.GetUsers());
             SelectedUserList = new ObservableCollection<UserDTO>();
             LocationList = _service.GetLocations().ToList();
-            TemplateApps = new ObservableCollection<AppointmentModel>(GetMapper().Map<IEnumerable<AppointmentDTO>, ICollection<AppointmentModel>>(_service.GetAppointments()));
+
+            CustomPrincipal cp = Thread.CurrentPrincipal as CustomPrincipal;
+            if (cp != null) Id = cp.Identity.UserId;
+            TemplateApps = new ObservableCollection<AppointmentModel>(GetMapper().Map<IEnumerable<AppointmentDTO>, ICollection<AppointmentModel>>(_service.GetAppointmentsByUserId(Id)));
 
             Appointment = new AppointmentModel();
 
@@ -239,11 +243,10 @@ namespace ViewModel.ViewModels.Appointments
                     cfg.CreateMap<AppointmentModel, AppointmentDTO>().ForMember(s => s.LocationId,
                         opt => opt.MapFrom(loc => loc.LocationId));
                 }).CreateMapper();
-                CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
-                _service.AddAppointment(mapper.Map<AppointmentModel,AppointmentDTO>(Appointment), _selectedUserList, customPrincipal.Identity.UserId );
+                _service.AddAppointment(mapper.Map<AppointmentModel,AppointmentDTO>(Appointment), _selectedUserList, Id);
                 Appointment.Room = _service.GetLocationById(Appointment.LocationId).Room;
 
-                string id = _service.GetAppointments().LastOrDefault().AppointmentId.ToString();
+                string id = _service.GetAppointments().LastOrDefault()?.AppointmentId.ToString();
                 IJobDetail job;
                 ITrigger trigger;
                 if (Appointment.BeginningDate < DateTime.Now)

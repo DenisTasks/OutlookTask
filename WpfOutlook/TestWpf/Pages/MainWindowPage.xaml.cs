@@ -6,6 +6,7 @@ using TestWpf.Appointments;
 using TestWpf.Calendar;
 using ViewModel.Helpers;
 using ViewModel.Jobs;
+using ViewModel.ViewModels.Appointments;
 
 namespace TestWpf.Pages
 {

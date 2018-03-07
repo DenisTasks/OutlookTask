@@ -8,6 +8,20 @@ namespace TestWpf.Controls
 {
     public class CalendarView : ViewBase
     {
+        public static readonly DependencyProperty TextInControlProperty = DependencyProperty.Register("TextInControl", typeof(int), typeof(CalendarView));
+        public int TextInControl
+        {
+            get => (int)GetValue(TextInControlProperty);
+            set => SetValue(TextInControlProperty, value);
+        }
+
+        public static readonly DependencyProperty TextInControl2Property = DependencyProperty.Register("TextInControl2", typeof(int), typeof(CalendarView));
+        public int TextInControl2
+        {
+            get => (int)GetValue(TextInControl2Property);
+            set => SetValue(TextInControl2Property, value);
+        }
+
         DateTime _dt = DateTime.Now.StartOfWeek(DayOfWeek.Monday);
 
         public static DependencyProperty BeginDateProperty = DependencyProperty.RegisterAttached("BeginDate", typeof(DateTime), typeof(ListViewItem));
@@ -31,7 +45,7 @@ namespace TestWpf.Controls
         public ObservableCollection<CalendarViewPeriod> GetWeek()
         {
             var week = new ObservableCollection<CalendarViewPeriod>();
-            for (int i = 0; i < 7; i++)
+            for (int i = TextInControl; i < TextInControl2; i++)
             {
                 week.Add(new CalendarViewPeriod { BeginDate = _dt.AddDays(i), EndDate = _dt.AddDays(i).AddHours(23).AddMinutes(59).AddSeconds(59) });
             }

@@ -12,6 +12,13 @@ namespace ViewModel.ViewModels.Calendar
 {
     public class CalendarWindowViewModel : ViewModelBase
     {
+
+        private int _text;
+        public int Text => _text;
+
+        private int _text2;
+        public int Text2 => _text2;
+
         private readonly IBLLServiceMain _service;
         private ObservableCollection<AppointmentDTO> _appointments;
         private ObservableCollection<UserDTO> _users;
@@ -73,6 +80,8 @@ namespace ViewModel.ViewModels.Calendar
         {
             try
             {
+                _text = 0;
+                _text2 = 7;
                 Appointments = new ObservableCollection<AppointmentDTO>(_service.GetCalendar());
                 Users = new ObservableCollection<UserDTO>(_service.GetUsers());
             }

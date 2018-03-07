@@ -32,9 +32,11 @@
 
         <ListView ItemsSource="{Binding Appointments}" 
                   Grid.Row="1"
-                  Style="{DynamicResource DefaultCalendarStyleKey}">
+                  Style="{DynamicResource DefaultStyleKey}">
             <ListView.View>
-                <controls:CalendarView 
+                <controls:CalendarView
+                    TextInControl="{Binding Text}"
+                    TextInControl2="{Binding Text2}"
                     ItemBeginDateBinding="{Binding Path=BeginningDate}" 
                     ItemEndDateBinding="{Binding Path=EndingDate}">
                 </controls:CalendarView>

@@ -2680,17 +2680,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
     <Style TargetType="{x:Type ListView}">
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
         <Setter Property="BorderBrush" Value="{StaticResource ListBorder}" />
@@ -2722,6 +2711,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
     <Style x:Key="ListViewItemFocusVisual">
         <Setter Property="Control.Template">
             <Setter.Value>
@@ -2732,7 +2722,7 @@
         </Setter>
     </Style>
 
-   <Style x:Key="BaseStyle" TargetType="{x:Type ListViewItem}">
+    <Style x:Key="BaseStyle" TargetType="{x:Type ListViewItem}">
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
         <Setter Property="FocusVisualStyle" Value="{StaticResource ListViewItemFocusVisual}" />
         <Setter Property="Background" Value="Transparent" />
@@ -2852,7 +2842,6 @@
         </Style.Triggers>
     </Style>
 
-
     <Style x:Key="MainWindowRemoveStyle" TargetType="{x:Type ListViewItem}">
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
         <Setter Property="FocusVisualStyle" Value="{StaticResource ListViewItemFocusVisual}" />
@@ -2930,7 +2919,6 @@
         </Style.Triggers>
     </Style>
 
-
     <Style x:Key="AddAppWindowAddStyle" TargetType="{x:Type ListViewItem}">
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
         <Setter Property="FocusVisualStyle" Value="{StaticResource ListViewItemFocusVisual}" />
@@ -3006,8 +2994,6 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-
-
 
     <Style x:Key="AddAppWindowRemoveStyle" TargetType="{x:Type ListViewItem}">
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
@@ -3085,11 +3071,6 @@
         </Style.Triggers>
     </Style>
 
-
-
-
-
-
     <Style x:Key="AboutAppWindowStyle" TargetType="{x:Type ListViewItem}">
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
         <Setter Property="FocusVisualStyle" Value="{StaticResource ListViewItemFocusVisual}" />
@@ -3160,10 +3141,6 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-
-
-
-
 
 
 

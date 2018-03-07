@@ -228,6 +228,7 @@
         <GradientStop Color="#EEE" Offset="0.9"/>
         <GradientStop Color="#FFF" Offset="1.0"/>
     </LinearGradientBrush>
+    
     <LinearGradientBrush x:Key="PressedBorderBrush" EndPoint="0,1" StartPoint="0,0">
         <GradientStop Color="#444" Offset="0.0"/>
         <GradientStop Color="#888" Offset="1.0"/>
@@ -3121,7 +3122,7 @@ RecognizesAccessKey="True"/>
 
                     <DockPanel>
                         <TextBlock Text="{Binding Subject}"
-					Foreground="Red"
+					               Foreground="Red"
                                         VerticalAlignment="Center"
                                         HorizontalAlignment="Stretch"/>
                         <Button Command="{Binding DataContext.RemoveAppCommand, ElementName=AppointmentsList}"
