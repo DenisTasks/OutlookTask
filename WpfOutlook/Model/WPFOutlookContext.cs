@@ -1,14 +1,34 @@
 ﻿using Model.Entities;
+using System.Collections.Generic;
 using System.Data.Entity;
 using SqlProviderServices = System.Data.Entity.SqlServer.SqlProviderServices;
 
 namespace Model
 {
+    public class WPFOutlookInitializer : CreateDatabaseIfNotExists<WPFOutlookContext>
+    {
+        protected override void Seed(WPFOutlookContext context)
+        {
+            base.Seed(context);
+            User user = new User
+            {
+                UserId = 1,
+                Name = "admin",
+                UserName = "admin",
+                Password = "admin"
+            };
+            context.Users.Add(user);
+            context.Roles.Add(new Role { RoleId = 1, Name = "admin", Users = new List<User> { user } });
+            context.Roles.Add(new Role { RoleId = 2, Name = "user" , Users = new List<User> { user } });
+        }
+    }
+
     public class WPFOutlookContext : DbContext
     {
         public WPFOutlookContext()
             : base("name=WPFOutlookContext")
         {
+            Database.SetInitializer<WPFOutlookContext>(new CreateDatabaseIfNotExists<WPFOutlookContext>());
         }
 
         public DbSet<Appointment> Appointments { get; set; }
