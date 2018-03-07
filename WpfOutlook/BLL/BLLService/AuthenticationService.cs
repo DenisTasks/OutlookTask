@@ -28,7 +28,7 @@ namespace BLL.Services
             });
             IMapper mapper = config.CreateMapper();
             UserDTO user =mapper.Map<User, UserDTO>(_users.Get(u => u.UserName.Equals(username) && u.Password.Equals(password)).FirstOrDefault());
-            if (user != null)
+            if (user != null && user.IsActive)
                 return user;
             else throw new UnauthorizedAccessException("Wrong credentials.");  
         }

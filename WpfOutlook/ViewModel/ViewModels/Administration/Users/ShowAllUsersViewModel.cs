@@ -56,7 +56,7 @@ namespace ViewModel.ViewModels.Administration.Users
 
         private void DeactivateUser(UserModel user)
         {
-            if (user.Roles.Any(r => r.Name.Equals("admin")) && _administrationService.GetNumberOfAdmins() == 1)
+            if (user.Roles.Any(r => r.Name.Equals("admin")) && _administrationService.GetNumberOfAdmins() == 1 && user.IsActive)
             {
                 MessageBox.Show("You need to have one or more admin usres in the system");
             }

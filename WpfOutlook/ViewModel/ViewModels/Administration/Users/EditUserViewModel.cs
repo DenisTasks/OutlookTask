@@ -79,7 +79,7 @@ namespace ViewModel.ViewModels.Administration.Users
 
         public void RemoveRole(RoleDTO role)
         {
-            if (role.Name.Equals("admin") && _administrationService.GetNumberOfAdmins() == 1)
+            if (role.Name.Equals("admin") && _administrationService.GetNumberOfAdmins() == 1 && User.IsActive)
             {
                 MessageBox.Show("You need to have one or more admin usres in the system");
             }
