@@ -161,7 +161,7 @@ namespace ViewModel.ViewModels.Appointments
         }
         private void AddAppointment()
         {
-            Messenger.Default.Send( new OpenWindowMessage { Type = WindowType.AddAppWindow, Argument = "AddAppWindow"});
+            Messenger.Default.Send( new OpenWindowMessage { Type = WindowType.AddAppWindow });
         }
         private void CalendarFrame()
         {
@@ -241,17 +241,6 @@ namespace ViewModel.ViewModels.Appointments
                 MessageBox.Show(e.ToString());
             }
         }
-        //private void LoadData()
-        //{
-        //    try
-        //    {
-        //        Appointments = new ObservableCollection<AppointmentModel>(GetMapper().Map<IEnumerable<AppointmentDTO>, ICollection<AppointmentModel>>(_service.GetAppointments()));
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        MessageBox.Show(e.ToString());
-        //    }
-        //}
         private void FilterBySubject(AppointmentModel appointment)
         {
             if (appointment != null)

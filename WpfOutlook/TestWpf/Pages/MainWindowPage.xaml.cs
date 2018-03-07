@@ -20,7 +20,7 @@ namespace TestWpf.Pages
             Messenger.Default.Register<OpenWindowMessage>(
                 this,
                 message => {
-                    if (message.Type == WindowType.AddAppWindow && message.Argument == "AddAppWindow")
+                    if (message.Type == WindowType.AddAppWindow)
                     {
                         var addAppWindow = new AddAppWindow();
                         var result = addAppWindow.ShowDialog();
@@ -77,6 +77,7 @@ namespace TestWpf.Pages
 
         private void ButtonBase_Click_ToLoginPage(object sender, RoutedEventArgs e)
         {
+            Messenger.Default.Unregister<OpenWindowMessage>(this);
             CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
             customPrincipal.Identity = new AnonymousIdentity();
             Messenger.Default.Send<NotificationMessage, AuthenticationViewModel>(new NotificationMessage("LogOut"));
