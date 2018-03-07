@@ -8,22 +8,10 @@ namespace TestWpf.Controls
 {
     public class CalendarView : ViewBase
     {
-        public static readonly DependencyProperty TextInControlProperty = DependencyProperty.Register("TextInControl", typeof(int), typeof(CalendarView));
-        public int TextInControl
-        {
-            get => (int)GetValue(TextInControlProperty);
-            set => SetValue(TextInControlProperty, value);
-        }
-
-        public static readonly DependencyProperty TextInControl2Property = DependencyProperty.Register("TextInControl2", typeof(int), typeof(CalendarView));
-        public int TextInControl2
-        {
-            get => (int)GetValue(TextInControl2Property);
-            set => SetValue(TextInControl2Property, value);
-        }
-
         DateTime _dt = DateTime.Now.StartOfWeek(DayOfWeek.Monday);
 
+        public static readonly DependencyProperty StartDayProperty = DependencyProperty.Register("StartDay", typeof(int), typeof(CalendarView));
+        public static readonly DependencyProperty FinishDayProperty = DependencyProperty.Register("FinishDay", typeof(int), typeof(CalendarView));
         public static DependencyProperty BeginDateProperty = DependencyProperty.RegisterAttached("BeginDate", typeof(DateTime), typeof(ListViewItem));
         public static DependencyProperty EndDateProperty = DependencyProperty.RegisterAttached("EndDate", typeof(DateTime), typeof(ListViewItem));
         
@@ -45,11 +33,23 @@ namespace TestWpf.Controls
         public ObservableCollection<CalendarViewPeriod> GetWeek()
         {
             var week = new ObservableCollection<CalendarViewPeriod>();
-            for (int i = TextInControl; i < TextInControl2; i++)
+            for (int i = StartDay; i < FinishDay; i++)
             {
                 week.Add(new CalendarViewPeriod { BeginDate = _dt.AddDays(i), EndDate = _dt.AddDays(i).AddHours(23).AddMinutes(59).AddSeconds(59) });
             }
             return week;
+        }
+
+        public int StartDay
+        {
+            get => (int)GetValue(StartDayProperty);
+            set => SetValue(StartDayProperty, value);
+        }
+
+        public int FinishDay
+        {
+            get => (int)GetValue(FinishDayProperty);
+            set => SetValue(FinishDayProperty, value);
         }
 
         public static DateTime GetBegin(DependencyObject item)

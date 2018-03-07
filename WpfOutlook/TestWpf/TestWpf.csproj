@@ -102,6 +102,12 @@
     <Compile Include="Appointments\AboutAppWindow.xaml.cs">
       <DependentUpon>AboutAppWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Calendar\CalendarFrame.xaml.cs">
+      <DependentUpon>CalendarFrame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Calendar\CalendarPage.xaml.cs">
+      <DependentUpon>CalendarPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Common\Groups\AddGroupWindow.xaml.cs">
       <DependentUpon>AddGroupWindow.xaml</DependentUpon>
     </Compile>
@@ -165,6 +171,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Appointments\AboutAppWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Calendar\CalendarFrame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Calendar\CalendarPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

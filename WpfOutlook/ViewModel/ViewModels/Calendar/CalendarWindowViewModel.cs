@@ -13,11 +13,33 @@ namespace ViewModel.ViewModels.Calendar
     public class CalendarWindowViewModel : ViewModelBase
     {
 
-        private int _text;
-        public int Text => _text;
+        private int _startDay;
+        public int StartDay
+        {
+            get => _startDay;
+            set
+            {
+                if (value != _startDay)
+                {
+                    _startDay = value;
+                    base.RaisePropertyChanged();
+                }
+            }
+        }
 
-        private int _text2;
-        public int Text2 => _text2;
+        private int _finishDay;
+        public int FinishDay
+        {
+            get => _finishDay;
+            set
+            {
+                if (value != _finishDay)
+                {
+                    _finishDay = value;
+                    base.RaisePropertyChanged();
+                }
+            }
+        }
 
         private readonly IBLLServiceMain _service;
         private ObservableCollection<AppointmentDTO> _appointments;
@@ -62,11 +84,27 @@ namespace ViewModel.ViewModels.Calendar
             }
         }
         public RelayCommand SyncCommand { get; }
+        public RelayCommand NextWeekCommand { get; }
+        public RelayCommand PreviousWeekCommand { get; }
         public CalendarWindowViewModel(IBLLServiceMain service)
         {
             _service = service;
             LoadData();
             SyncCommand = new RelayCommand(SyncWithUser);
+            NextWeekCommand = new RelayCommand(NextWeek);
+            PreviousWeekCommand = new RelayCommand(PreviousWeek);
+        }
+
+        private void PreviousWeek()
+        {
+            
+        }
+
+        private void NextWeek()
+        {
+            StartDay = 2;
+            FinishDay = 5;
+            Messenger.Default.Send(new NotificationMessage("Next"));
         }
 
         private void SyncWithUser()
@@ -80,8 +118,8 @@ namespace ViewModel.ViewModels.Calendar
         {
             try
             {
-                _text = 0;
-                _text2 = 7;
+                _startDay = 0;
+                _finishDay = 7;
                 Appointments = new ObservableCollection<AppointmentDTO>(_service.GetCalendar());
                 Users = new ObservableCollection<UserDTO>(_service.GetUsers());
             }

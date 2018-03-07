@@ -32,6 +32,7 @@ namespace ViewModel.ViewModels.Appointments
         private LocationDTO _selectedLocation = new LocationDTO(){LocationId = 0};
         private AppointmentModel _selectedTemplateItem;
         private int _isAvailible;
+        private int Id { get; }
 
         public RelayCommand<Window> CreateAppCommand { get; }
         public RelayCommand<UserDTO> AddUserToListCommand { get; }
@@ -172,7 +173,6 @@ namespace ViewModel.ViewModels.Appointments
             return mapper;
         }
 
-        private int Id { get; set; }
         public AddAppWindowViewModel(IBLLServiceMain service)
         {
             _service = service;

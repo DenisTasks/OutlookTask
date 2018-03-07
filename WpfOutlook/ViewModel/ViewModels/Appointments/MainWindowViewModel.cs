@@ -30,6 +30,7 @@ namespace ViewModel.ViewModels.Appointments
         private ObservableCollection<AppointmentModel> _appointments;
         private ObservableCollection<FileInfo> _files;
         private FileInfo _selectTheme;
+        private int Id { get; }
 
         public FileInfo SelectedTheme
         {
@@ -91,9 +92,9 @@ namespace ViewModel.ViewModels.Appointments
         public RelayCommand CalendarWindowCommand { get; }
         public RelayCommand<object> PrintTable { get; }
         public RelayCommand LogoutCommand { get; }
-        
+        public RelayCommand CalendarFrameCommand { get; }
         #endregion
-        private int Id { get; set; }
+
         public MainWindowViewModel(IBLLServiceMain service)
         {
             CustomPrincipal cp = Thread.CurrentPrincipal as CustomPrincipal;
@@ -111,6 +112,7 @@ namespace ViewModel.ViewModels.Appointments
             CalendarWindowCommand = new RelayCommand(GetCalendar);
             PrintTable = new RelayCommand<object>(PrintListView);
             LogoutCommand = new RelayCommand(Logout, CanLogout);
+            CalendarFrameCommand = new RelayCommand(CalendarFrame);
             #endregion
 
             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
@@ -160,6 +162,10 @@ namespace ViewModel.ViewModels.Appointments
         private void AddAppointment()
         {
             Messenger.Default.Send( new OpenWindowMessage { Type = WindowType.AddAppWindow });
+        }
+        private void CalendarFrame()
+        {
+            Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.CalendarFrame });
         }
         private void AboutAppointment(AppointmentModel appointment)
         {

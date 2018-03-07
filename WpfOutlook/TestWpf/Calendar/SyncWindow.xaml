@@ -24,8 +24,11 @@
                   Grid.Column="0"
                   Style="{DynamicResource DefaultStyleKey}">
             <ListView.View>
-                <controls:CalendarView ItemBeginDateBinding="{Binding Path=BeginningDate}" 
-                                       ItemEndDateBinding="{Binding Path=EndingDate}" >
+                <controls:CalendarView 
+                    StartDay="{Binding MyStartDay}"
+                    FinishDay="{Binding MyFinishDay}"
+                    ItemBeginDateBinding="{Binding Path=BeginningDate}"        
+                    ItemEndDateBinding="{Binding Path=EndingDate}" >
                 </controls:CalendarView>
             </ListView.View>
 
@@ -124,8 +127,11 @@
                   Grid.Column="1"
                   Style="{DynamicResource DefaultStyleKey}">
             <ListView.View>
-                <controls:CalendarView ItemBeginDateBinding="{Binding Path=BeginningDate}" 
-                                       ItemEndDateBinding="{Binding Path=EndingDate}">
+                <controls:CalendarView 
+                    StartDay="{Binding SyncStartDay}"
+                    FinishDay="{Binding SyncFinishDay}"
+                    ItemBeginDateBinding="{Binding Path=BeginningDate}"              
+                    ItemEndDateBinding="{Binding Path=EndingDate}">
                 </controls:CalendarView>
             </ListView.View>
 
