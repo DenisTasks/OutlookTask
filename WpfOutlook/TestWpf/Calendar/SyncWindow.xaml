@@ -22,10 +22,13 @@
 
         <ListView ItemsSource="{Binding Appointments}" 
                   Grid.Column="0"
-                  Style="{DynamicResource DefaultCalendarStyleKey}">
+                  Style="{DynamicResource DefaultStyleKey}">
             <ListView.View>
-                <controls:CalendarView ItemBeginDateBinding="{Binding Path=BeginningDate}" 
-                                       ItemEndDateBinding="{Binding Path=EndingDate}" >
+                <controls:CalendarView 
+                    StartDay="{Binding MyStartDay}"
+                    FinishDay="{Binding MyFinishDay}"
+                    ItemBeginDateBinding="{Binding Path=BeginningDate}"        
+                    ItemEndDateBinding="{Binding Path=EndingDate}" >
                 </controls:CalendarView>
             </ListView.View>
 
@@ -122,10 +125,13 @@
 
         <ListView ItemsSource="{Binding AppointmentsSync}" 
                   Grid.Column="1"
-                  Style="{DynamicResource DefaultCalendarStyleKey}">
+                  Style="{DynamicResource DefaultStyleKey}">
             <ListView.View>
-                <controls:CalendarView ItemBeginDateBinding="{Binding Path=BeginningDate}" 
-                                       ItemEndDateBinding="{Binding Path=EndingDate}">
+                <controls:CalendarView 
+                    StartDay="{Binding SyncStartDay}"
+                    FinishDay="{Binding SyncFinishDay}"
+                    ItemBeginDateBinding="{Binding Path=BeginningDate}"              
+                    ItemEndDateBinding="{Binding Path=EndingDate}">
                 </controls:CalendarView>
             </ListView.View>
 
@@ -150,6 +156,34 @@
                                              FontSize="16" 
                                              FontWeight="Normal" 
                                              Text="Busy"/>
+                                    </TextBlock>
+                                    <TextBlock TextWrapping="Wrap" 
+                                               Foreground="#FFF9F4F4" 
+                                               TextAlignment="Center" 
+                                               Background="{x:Null}" 
+                                               HorizontalAlignment="Center" 
+                                               VerticalAlignment="Top" 
+                                               Width="181" 
+                                               Height="33">
+                                        <Run FontFamily="Verdana" 
+                                             FontSize="11" 
+                                             FontWeight="Normal" 
+                                             Foreground="#FF151514" 
+                                             Text="{Binding BeginningDate, StringFormat=Start: {0:HH:mm}}"/>
+                                    </TextBlock>
+                                    <TextBlock TextWrapping="Wrap" 
+                                               Foreground="#FFF9F4F4" 
+                                               TextAlignment="Center" 
+                                               Background="{x:Null}" 
+                                               HorizontalAlignment="Center" 
+                                               VerticalAlignment="Top" 
+                                               Width="181" 
+                                               Height="33">
+                                        <Run FontFamily="Verdana" 
+                                             FontSize="11" 
+                                             FontWeight="Normal" 
+                                             Foreground="#FF151514" 
+                                             Text="{Binding EndingDate, StringFormat=Finish: {0:HH:mm}}"/>
                                     </TextBlock>
                                 </StackPanel>
                             </Setter.Value>

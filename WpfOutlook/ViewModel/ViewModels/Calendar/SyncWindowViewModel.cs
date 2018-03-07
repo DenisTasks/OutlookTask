@@ -11,6 +11,11 @@ namespace ViewModel.ViewModels.Calendar
 {
     public class SyncWindowViewModel: ViewModelBase
     {
+        public int MyStartDay { get; set; }
+        public int MyFinishDay { get; set; }
+        public int SyncStartDay { get; set; }
+        public int SyncFinishDay { get; set; }
+
         private readonly IBLLServiceMain _service;
         private ObservableCollection<AppointmentDTO> _appointments;
         private ObservableCollection<AppointmentDTO> _appointmentsOther;
@@ -42,6 +47,10 @@ namespace ViewModel.ViewModels.Calendar
 
         public SyncWindowViewModel(IBLLServiceMain service)
         {
+            MyStartDay = 0;
+            MyFinishDay = 7;
+            SyncStartDay = 0;
+            SyncFinishDay = 7;
             _service = service;
 
             Messenger.Default.Register<OpenWindowMessage>(this, message =>

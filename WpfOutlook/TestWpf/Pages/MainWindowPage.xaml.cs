@@ -30,14 +30,14 @@ namespace TestWpf.Pages
                         var addAboutWindow = new AboutAppWindow();
                         // send initialize information after create, but before show window!
                         // send this message => initialize new check at this cycle
-                        Messenger.Default.Send(new OpenWindowMessage() {Type = WindowType.None, Argument = message.Argument, Appointment = message.Appointment });
+                        Messenger.Default.Send(new OpenWindowMessage {Type = WindowType.None, Argument = message.Argument, Appointment = message.Appointment });
                         var result = addAboutWindow.ShowDialog();
                     }
                     if (message.Type == WindowType.AddAllAppByLocationWindow)
                     {
                         var addAllAppWindow = new AllAppByLocation();
                         // send initialize information after create, but before show window!
-                        Messenger.Default.Send(new OpenWindowMessage() { Type = WindowType.LoadLocations, Argument = message.Argument });
+                        Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.LoadLocations, Argument = message.Argument });
                         var result = addAllAppWindow.ShowDialog();
                     }
                     if (message.Type == WindowType.Calendar)
@@ -48,8 +48,13 @@ namespace TestWpf.Pages
                     if (message.Type == WindowType.Sync && message.User != null)
                     {
                         var addSync = new SyncWindow();
-                        Messenger.Default.Send(new OpenWindowMessage() { Type = WindowType.None, User = message.User });
+                        Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.None, User = message.User });
                         var result = addSync.ShowDialog();
+                    }
+                    if (message.Type == WindowType.CalendarFrame)
+                    {
+                        var calendarFrameWindow = new CalendarFrame();
+                        var result = calendarFrameWindow.ShowDialog();
                     }
                 });
         }

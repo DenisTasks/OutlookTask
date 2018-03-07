@@ -68,6 +68,7 @@ namespace ViewModel.ViewModels.Authenication
             {
                 UserDTO user = _authenticationService.AuthenticateUser(Username, clearTextPassword);
                 CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
+                customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
                 if (customPrincipal == null)
                     throw new ArgumentException("The application's default thread principal must be set to a CustomPrincipal object on startup.");
                 customPrincipal.Identity = new CustomIdentity(user.UserId, user.UserName, user.Name, _authenticationService.GetRoles(user.UserId));

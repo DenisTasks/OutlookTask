@@ -10,10 +10,6 @@ namespace TestWpf.Appointments
         public AddAppWindow()
         {
             InitializeComponent();
-            Closing += (s, e) =>
-            {
-                DialogResult = true;
-            };
         }
     }
 }

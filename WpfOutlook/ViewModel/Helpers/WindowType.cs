@@ -9,6 +9,7 @@
         Calendar,
         Toast,
         Sync,
+        CalendarFrame,
         None,
         Refresh
     }
