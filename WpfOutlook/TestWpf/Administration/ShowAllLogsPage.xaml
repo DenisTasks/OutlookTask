@@ -6,7 +6,7 @@
       DataContext="{Binding AllLogsPage, Source={StaticResource Locator}}"
       xmlns:local="clr-namespace:TestWpf.Administration"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="480"
+      d:DesignHeight="600" d:DesignWidth="1200"
       Title="ShowAllLogsPage">
 
     <Grid>
@@ -43,11 +43,11 @@
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Id" DisplayMemberBinding="{Binding LogId}" Width="40"/>
-                            <GridViewColumn Header="Action" DisplayMemberBinding="{Binding Action}" Width="100"/>
-                            <GridViewColumn Header="AppointmentName" DisplayMemberBinding="{Binding AppointmentName}" Width="100"/>
-                            <GridViewColumn Header="CreatorId" DisplayMemberBinding="{Binding CreatorId}" Width="100"/>
-                            <GridViewColumn Header="ActiomAuthorId" DisplayMemberBinding="{Binding ActionAuthorId}" Width="70"/>
-                            <GridViewColumn Header="EventTime" DisplayMemberBinding="{Binding EventTime}" Width="70"/>
+                            <GridViewColumn Header="Action" DisplayMemberBinding="{Binding Action}" Width="200"/>
+                            <GridViewColumn Header="AppointmentName" DisplayMemberBinding="{Binding AppointmentName}" Width="330"/>
+                            <GridViewColumn Header="CreatorId" DisplayMemberBinding="{Binding CreatorId}" Width="150"/>
+                            <GridViewColumn Header="ActiomAuthorId" DisplayMemberBinding="{Binding ActionAuthorId}" Width="150"/>
+                            <GridViewColumn Header="EventTime" DisplayMemberBinding="{Binding EventTime}" Width="280"/>
                         </GridView>
                     </ListView.View>
                 </ListView>

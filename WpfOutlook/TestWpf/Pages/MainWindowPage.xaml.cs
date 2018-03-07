@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using GalaSoft.MvvmLight.Messaging;
@@ -6,6 +7,7 @@ using TestWpf.Appointments;
 using TestWpf.Calendar;
 using ViewModel.Helpers;
 using ViewModel.Jobs;
+using ViewModel.ViewModels.Authenication;
 
 namespace TestWpf.Pages
 {
@@ -63,11 +65,11 @@ namespace TestWpf.Pages
             {
                 this.NavigationService.Navigate(new AdminPage());
             }
-            catch (System.Security.SecurityException ex)
+            catch (System.Security.SecurityException)
             {
                 MessageBox.Show("You have no rights to acces this menu" );
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //MessageBox.Show(ex.ToString());
             }
@@ -75,6 +77,9 @@ namespace TestWpf.Pages
 
         private void ButtonBase_Click_ToLoginPage(object sender, RoutedEventArgs e)
         {
+            CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
+            customPrincipal.Identity = new AnonymousIdentity();
+            Messenger.Default.Send<NotificationMessage, AuthenticationViewModel>(new NotificationMessage("LogOut"));
             this.NavigationService.GoBack();
         }
     }

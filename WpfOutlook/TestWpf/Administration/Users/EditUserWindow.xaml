@@ -132,6 +132,6 @@
         <Button Grid.Column="3" Grid.Row="9" 
                 Command="{Binding EditUserCommand}" 
                 CommandParameter="{Binding ElementName=EditOldUserWindow}"
-                Content="Add user" />
+                Content="Edit user" />
     </Grid>
 </Window>
