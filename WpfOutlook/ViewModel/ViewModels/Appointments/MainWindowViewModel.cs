@@ -264,9 +264,9 @@ namespace ViewModel.ViewModels.Appointments
 
                     base.RaisePropertyChanged();
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(e.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
         }

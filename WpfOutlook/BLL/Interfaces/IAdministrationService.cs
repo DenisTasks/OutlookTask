@@ -13,6 +13,7 @@ namespace BLL.Interfaces
         void EditUser(UserDTO user, ICollection<GroupDTO> groups, ICollection<RoleDTO> roles);
         ICollection<RoleDTO> GetUserRoles(int id);
         ICollection<GroupDTO> GetUserGroups(int id);
+        int GetNumberOfAdmins();
         UserDTO GetUserById(int id);
         GroupDTO GetGroupById(int? id);
         string GetGroupName(int? id);

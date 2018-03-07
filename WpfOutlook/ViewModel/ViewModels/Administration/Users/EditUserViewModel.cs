@@ -79,9 +79,16 @@ namespace ViewModel.ViewModels.Administration.Users
 
         public void RemoveRole(RoleDTO role)
         {
-            RoleList.Add(role);
-            User.Roles.Remove(role);
-            base.RaisePropertyChanged();
+            if (role.Name.Equals("admin") && _administrationService.GetNumberOfAdmins() == 1)
+            {
+                MessageBox.Show("You need to have one or more admin usres in the system");
+            }
+            else
+            {
+                RoleList.Add(role);
+                User.Roles.Remove(role);
+                base.RaisePropertyChanged();
+            }
         }
 
 
