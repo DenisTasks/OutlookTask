@@ -1,0 +1,3 @@
+﻿CREATE TYPE [dbo].[UserListIds] AS TABLE (
+    [Id] UNIQUEIDENTIFIER NOT NULL);
+
