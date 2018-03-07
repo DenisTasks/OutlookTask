@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:TestWpf.Administration.Users"
       DataContext="{Binding AllUsersPage, Source={StaticResource Locator}}"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="485"
+      d:DesignHeight="600" d:DesignWidth="1200"
       Title="ShowAllUsersPage">
 
     <Grid>
@@ -41,12 +41,12 @@
                 </ListView.GroupStyle>
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Id" DisplayMemberBinding="{Binding UserId}" Width="40"/>
-                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="100"/>
-                        <GridViewColumn Header="UserName" DisplayMemberBinding="{Binding UserName}" Width="100"/>
+                        <GridViewColumn Header="Id" DisplayMemberBinding="{Binding UserId}" Width="70"/>
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="300"/>
+                        <GridViewColumn Header="UserName" DisplayMemberBinding="{Binding UserName}" Width="300"/>
                         <GridViewColumn Header="Activity" DisplayMemberBinding="{Binding IsActive}" Width="100"/>
-                        <GridViewColumn Header="RolesCount" DisplayMemberBinding="{Binding Roles.Count}" Width="70"/>
-                        <GridViewColumn Header="GroupCount" DisplayMemberBinding="{Binding Groups.Count}" Width="70"/>
+                        <GridViewColumn Header="Roles Count" DisplayMemberBinding="{Binding Roles.Count}" Width="150"/>
+                        <GridViewColumn Header="Group Count" DisplayMemberBinding="{Binding Groups.Count}" Width="150"/>
                     </GridView>
                 </ListView.View>
             </ListView>

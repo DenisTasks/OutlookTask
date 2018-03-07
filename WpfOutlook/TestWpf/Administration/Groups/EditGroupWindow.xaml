@@ -128,6 +128,6 @@
         <Button Grid.Column="3" Grid.Row="9" 
                 Command="{Binding CreateGroupCommand}" 
                 CommandParameter="{Binding ElementName=EditOldGroupWindow}"
-                Content="Add group" />
+                Content="Edit group" />
     </Grid>
 </Window>

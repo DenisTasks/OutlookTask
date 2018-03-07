@@ -4,8 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       DataContext="{Binding AllGroupsPage, Source={StaticResource Locator}}"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      mc:Ignorable="d" d:DesignWidth="486.622"
-      Title="ShowAllGroupsPage" Height="350.895">
+      mc:Ignorable="d" d:DesignWidth="1200"
+      Title="ShowAllGroupsPage" Height="600">
 
     <Grid>
         <Grid>
@@ -23,7 +23,7 @@
             <ListView Name="GroupList"
                   Grid.ColumnSpan="3"
                   Grid.Row="0"
-                  MaxHeight="300"
+                  MaxHeight="480"
                   SelectionMode="Single"
                   ItemsSource="{Binding Groups}" Margin="0,-1,0,1" >
                 <ListView.GroupStyle>
@@ -39,12 +39,12 @@
                 </ListView.GroupStyle>
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Id" DisplayMemberBinding="{Binding GroupId}" Width="40"/>
-                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding GroupName}" Width="100"/>
+                        <GridViewColumn Header="Id" DisplayMemberBinding="{Binding GroupId}" Width="70"/>
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding GroupName}" Width="330"/>
                         <GridViewColumn Header="UsersCount" DisplayMemberBinding="{Binding Users.Count}" Width="100"/>
-                        <GridViewColumn Header="Creator" DisplayMemberBinding="{Binding CreatorName}" Width="70"/>
-                        <GridViewColumn Header="ParentGroup" DisplayMemberBinding="{Binding ParentName}" Width="70"/>
-                        <GridViewColumn Header="ParentGroup" DisplayMemberBinding="{Binding ParentId}" Width="70"/>
+                        <GridViewColumn Header="Creator" DisplayMemberBinding="{Binding CreatorName}" Width="280"/>
+                        <GridViewColumn Header="ParentGroup" DisplayMemberBinding="{Binding ParentName}" Width="180"/>
+                        <GridViewColumn Header="ParentGroupId" DisplayMemberBinding="{Binding ParentId}" Width="180"/>
                     </GridView>
                 </ListView.View>
             </ListView>

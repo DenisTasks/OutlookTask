@@ -60,11 +60,11 @@ namespace TestWpf.Pages
             {
                 this.NavigationService.Navigate(new AdminPage());
             }
-            catch (System.Security.SecurityException ex)
+            catch (System.Security.SecurityException)
             {
                 MessageBox.Show("You have no rights to acces this menu" );
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //MessageBox.Show(ex.ToString());
             }
