@@ -93,4 +93,7 @@
     <Build Include="dbo\User Defined Types\UserList.sql" />
     <Build Include="dbo\User Defined Types\UsersIds.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="WPFBD.publish.xml" />
+  </ItemGroup>
 </Project>

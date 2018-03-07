@@ -74,6 +74,8 @@ namespace ViewModel.ViewModels.Authenication
                 customPrincipal.Identity = new CustomIdentity(user.UserId, user.UserName, user.Name, _authenticationService.GetRoles(user.UserId));
 
                 _loginCommand.RaiseCanExecuteChanged();
+                Status = String.Empty;
+                NotifyPropertyChanged("Status");
                 NotifyPropertyChanged("IsAuthenticated");
                 NotifyPropertyChanged("AuthenticatedUser");
             }
