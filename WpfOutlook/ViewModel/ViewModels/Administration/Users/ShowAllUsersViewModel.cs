@@ -13,6 +13,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using ViewModel.Models;
 
 namespace ViewModel.ViewModels.Administration.Users
@@ -55,14 +56,21 @@ namespace ViewModel.ViewModels.Administration.Users
 
         private void DeactivateUser(UserModel user)
         {
-            _administrationService.DeactivateUser(user.UserId);
-            if (user.IsActive == true)
+            if (user.Roles.Any(r => r.Name.Equals("admin")) && _administrationService.GetNumberOfAdmins() == 1)
             {
-                user.IsActive = false;
+                MessageBox.Show("You need to have one or more admin usres in the system");
             }
             else
             {
-                user.IsActive = true;
+                _administrationService.DeactivateUser(user.UserId);
+                if (user.IsActive == true)
+                {
+                    user.IsActive = false;
+                }
+                else
+                {
+                    user.IsActive = true;
+                }
             }
         }
 

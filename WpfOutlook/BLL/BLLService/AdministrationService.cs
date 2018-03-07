@@ -428,5 +428,10 @@ namespace BLL.Services
         {
             return GetDefaultMapper<Log, LogDTO>().Map<IEnumerable<Log>, ICollection<LogDTO>>(_logs.Get());
         }
+
+        public int GetNumberOfAdmins()
+        {
+            return _users.Get(u => u.IsActive && (u.Roles.Where(r => r.Name == "admin")).Any()).Count();
+        }
     }
 }
