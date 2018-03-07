@@ -32,6 +32,12 @@ namespace TestWpf.Calendar
         {
             if (obj.Notification.Equals("Next"))
             {
+                CalendarPage x = new CalendarPage();
+
+                mainCalendarFrame.Navigate(x);
+            }
+            if (obj.Notification.Equals("Previous"))
+            {
                 mainCalendarFrame.Navigate(new CalendarPage());
             }
         }

@@ -161,7 +161,7 @@ namespace ViewModel.ViewModels.Appointments
         }
         private void AddAppointment()
         {
-            Messenger.Default.Send( new OpenWindowMessage { Type = WindowType.AddAppWindow });
+            Messenger.Default.Send( new OpenWindowMessage { Type = WindowType.AddAppWindow, Argument = "AddAppWindow"});
         }
         private void CalendarFrame()
         {
