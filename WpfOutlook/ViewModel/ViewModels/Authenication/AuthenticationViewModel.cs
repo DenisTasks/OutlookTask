@@ -20,6 +20,14 @@ namespace ViewModel.ViewModels.Authenication
 
         public AuthenticationViewModel(IAuthenticationService authenticationService)
         {
+            Messenger.Default.Register<NotificationMessage>(this, e =>
+            {
+                if (e.Notification.Equals("LogOut"))
+                {
+                    NotifyPropertyChanged("IsAuthenticated");
+                    NotifyPropertyChanged("AuthenticatedUser");
+                }
+            });
             _authenticationService = authenticationService;
             _loginCommand = new RelayCommand<object>(Login, CanLogin);
         }
