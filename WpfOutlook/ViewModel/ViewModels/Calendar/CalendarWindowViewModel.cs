@@ -12,34 +12,6 @@ namespace ViewModel.ViewModels.Calendar
 {
     public class CalendarWindowViewModel : ViewModelBase
     {
-        private int _startDay;
-        public int StartDay
-        {
-            get => _startDay;
-            set
-            {
-                if (value != _startDay)
-                {
-                    _startDay = value;
-                    base.RaisePropertyChanged();
-                }
-            }
-        }
-
-        private int _finishDay;
-        public int FinishDay
-        {
-            get => _finishDay;
-            set
-            {
-                if (value != _finishDay)
-                {
-                    _finishDay = value;
-                    base.RaisePropertyChanged();
-                }
-            }
-        }
-
         private readonly IBLLServiceMain _service;
         private ObservableCollection<AppointmentDTO> _appointments;
         private ObservableCollection<UserDTO> _users;
@@ -69,7 +41,6 @@ namespace ViewModel.ViewModels.Calendar
                 }
             }
         }
-
         public UserDTO SelectedSyncUser
         {
             get => _selectedSyncUser;
@@ -82,26 +53,14 @@ namespace ViewModel.ViewModels.Calendar
                 }
             }
         }
+
         public RelayCommand SyncCommand { get; }
-        public RelayCommand NextWeekCommand { get; }
-        public RelayCommand PreviousWeekCommand { get; }
+
         public CalendarWindowViewModel(IBLLServiceMain service)
         {
             _service = service;
             LoadData();
             SyncCommand = new RelayCommand(SyncWithUser);
-            NextWeekCommand = new RelayCommand(NextWeek);
-            PreviousWeekCommand = new RelayCommand(PreviousWeek);
-        }
-
-        private void PreviousWeek()
-        {
-            Messenger.Default.Send(new NotificationMessage("Previous"));
-        }
-
-        private void NextWeek()
-        {
-            Messenger.Default.Send(new NotificationMessage("Next"));
         }
 
         private void SyncWithUser()
@@ -115,8 +74,6 @@ namespace ViewModel.ViewModels.Calendar
         {
             try
             {
-                _startDay = 0;
-                _finishDay = 7;
                 Appointments = new ObservableCollection<AppointmentDTO>(_service.GetCalendar());
                 Users = new ObservableCollection<UserDTO>(_service.GetUsers());
             }
@@ -125,6 +82,5 @@ namespace ViewModel.ViewModels.Calendar
                 MessageBox.Show(e.ToString());
             }
         }
-
     }
 }

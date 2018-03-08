@@ -40,22 +40,17 @@ namespace TestWpf.Pages
                         Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.LoadLocations, Argument = message.Argument });
                         var result = addAllAppWindow.ShowDialog();
                     }
-                    if (message.Type == WindowType.Calendar)
-                    {
-                        var addCalendarWindow = new CalendarWindow();
-                        var result = addCalendarWindow.ShowDialog();
-                    }
                     if (message.Type == WindowType.Sync && message.User != null)
                     {
                         var addSync = new SyncWindow();
                         Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.None, User = message.User });
                         var result = addSync.ShowDialog();
                     }
-                    //if (message.Type == WindowType.CalendarFrame)
-                    //{
-                    //    var calendarFrameWindow = new CalendarFrame();
-                    //    var result = calendarFrameWindow.ShowDialog();
-                    //}
+                    if (message.Type == WindowType.CalendarFrame)
+                    {
+                        var calendarFrameWindow = new CalendarFrame();
+                        var result = calendarFrameWindow.ShowDialog();
+                    }
                 });
         }
 

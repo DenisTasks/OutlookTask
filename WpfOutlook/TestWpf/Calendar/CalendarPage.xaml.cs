@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TestWpf.Controls;
 
 namespace TestWpf.Calendar
 {
@@ -20,9 +21,32 @@ namespace TestWpf.Calendar
     /// </summary>
     public partial class CalendarPage : Page
     {
+        private int _start;
         public CalendarPage()
         {
             InitializeComponent();
+        }
+
+        public void NavigationService_LoadCompleted(object sender, NavigationEventArgs e)
+        {
+            _start = Convert.ToInt32(e.ExtraData);
+            CalendarListView.View.SetValue(CalendarView.StartDayProperty, _start);
+            CalendarListView.View.SetValue(CalendarView.FinishDayProperty, _start + 7);
+            this.NavigationService.LoadCompleted -= NavigationService_LoadCompleted;
+        }
+
+        private void ButtonBase_OnNextWeekClick(object sender, RoutedEventArgs e)
+        {
+            CalendarPage calendar = new CalendarPage();
+            this.NavigationService.LoadCompleted += calendar.NavigationService_LoadCompleted;
+            this.NavigationService.Navigate(calendar, _start + 7);
+        }
+
+        private void ButtonBase_OnPreviousWeekClick(object sender, RoutedEventArgs e)
+        {
+            CalendarPage calendar = new CalendarPage();
+            this.NavigationService.LoadCompleted += calendar.NavigationService_LoadCompleted;
+            this.NavigationService.Navigate(calendar, _start - 7);
         }
     }
 }

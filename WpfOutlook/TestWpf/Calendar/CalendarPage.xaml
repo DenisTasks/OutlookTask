@@ -26,21 +26,20 @@
                       SelectedItem="{Binding SelectedSyncUser, Mode=TwoWay}"
                       IsSynchronizedWithCurrentItem="True"/>
 
-            <Button Command="{Binding PreviousWeekCommand}" 
+            <Button Click="ButtonBase_OnPreviousWeekClick"
                     Content="Previous Week"/>
             <Button Command="{Binding SyncCommand}" 
                     Content="Sync with selected user"/>
-            <Button Command="{Binding NextWeekCommand}" 
+            <Button Click="ButtonBase_OnNextWeekClick"
                     Content="Next Week"/>
         </DockPanel>
 
-        <ListView ItemsSource="{Binding Appointments}" 
+        <ListView Name="CalendarListView"
+                  ItemsSource="{Binding Appointments}" 
                   Grid.Row="1"
                   Style="{DynamicResource DefaultStyleKey}">
             <ListView.View>
                 <controls:CalendarView
-                    StartDay="{Binding StartDay}"
-                    FinishDay="{Binding FinishDay}"
                     ItemBeginDateBinding="{Binding Path=BeginningDate}" 
                     ItemEndDateBinding="{Binding Path=EndingDate}">
                 </controls:CalendarView>
