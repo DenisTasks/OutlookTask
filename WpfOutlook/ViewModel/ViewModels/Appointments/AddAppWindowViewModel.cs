@@ -192,6 +192,41 @@ namespace ViewModel.ViewModels.Appointments
 
             BeginningTime = LoadTimeRange();
             EndingTime = LoadTimeRange();
+
+            SelectedBeginningTime = BeginningTime.Find(x => x == GetDateTimeNow());
+            SelectedEndingTime = SelectedBeginningTime;
+        }
+
+        public int GetLocationsCount()
+        {
+            return LocationList.Count;
+        }
+
+        public int GetUsersCount()
+        {
+            return UserList.Count;
+        }
+
+        public DateTime GetDateTimeNow()
+        {
+            var dateTimeNow = DateTime.Now.Ticks;
+            var checkTime = new DateTime();
+            foreach (var item in BeginningTime)
+            {
+                if (dateTimeNow > item.Ticks)
+                {
+                    int nextTime = BeginningTime.IndexOf(item) + 1;
+                    if (nextTime <= BeginningTime.Count)
+                    {
+                        checkTime = BeginningTime.ElementAt(nextTime);
+                    }
+                    else
+                    {
+                        checkTime = BeginningTime[0];
+                    }
+                }
+            }
+            return checkTime;
         }
 
         private List<DateTime> LoadTimeRange()
@@ -306,5 +341,4 @@ namespace ViewModel.ViewModels.Appointments
             }
         }
     }
-
 }

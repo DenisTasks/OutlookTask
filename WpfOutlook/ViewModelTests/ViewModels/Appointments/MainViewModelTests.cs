@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using ViewModel.ViewModels;
 
-namespace ViewModelTests
+namespace ViewModelTests.ViewModels.Appointments
 {
     [TestClass]
     public class MainViewModelTests
