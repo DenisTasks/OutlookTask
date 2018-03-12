@@ -79,6 +79,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ViewModels\Administration\Groups\EditGroupViewModelTests.cs" />
     <Compile Include="ViewModels\Administration\Users\AddUserViewModelTests.cs" />
     <Compile Include="ViewModels\Administration\Users\EditUserViewModelTests.cs" />
     <Compile Include="ViewModels\Appointments\MainViewModelTests.cs" />
@@ -104,9 +105,7 @@
       <Name>ViewModel</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\Administration\Groups\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
