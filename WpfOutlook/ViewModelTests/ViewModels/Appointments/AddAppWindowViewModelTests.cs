@@ -81,9 +81,13 @@ namespace ViewModelTests.ViewModels.Appointments
         [TestMethod]
         public void SelectedDateTimeNow()
         {
+            //Arrange
             var mock = new Mock<IBLLServiceMain>();
+
+            //Act
             AddAppWindowViewModel vm = new AddAppWindowViewModel(mock.Object);
 
+            //Assert
             Assert.AreEqual(vm.SelectedBeginningTime, vm.GetDateTimeNow());
         }
     }
