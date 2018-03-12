@@ -76,9 +76,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainViewModelTests.cs" />
+    <Compile Include="ViewModels\Appointments\MainViewModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AboutAppointmentViewModelTests.cs" />
+    <Compile Include="ViewModels\Appointments\AboutAppointmentViewModelTests.cs" />
+    <Compile Include="ViewModels\Appointments\AddAppWindowViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

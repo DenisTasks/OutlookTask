@@ -24,22 +24,10 @@ namespace TestWpf.Calendar
         public CalendarFrame()
         {
             InitializeComponent();
-            mainCalendarFrame.Navigate(new CalendarPage());
-            Messenger.Default.Register<NotificationMessage>(this, NotificationMessageReceived);
-        }
-
-        public void NotificationMessageReceived(NotificationMessage obj)
-        {
-            if (obj.Notification.Equals("Next"))
-            {
-                CalendarPage x = new CalendarPage();
-
-                mainCalendarFrame.Navigate(x);
-            }
-            if (obj.Notification.Equals("Previous"))
-            {
-                mainCalendarFrame.Navigate(new CalendarPage());
-            }
+            int start = 0;
+            CalendarPage calendar = new CalendarPage();
+            mainCalendarFrame.NavigationService.LoadCompleted += calendar.NavigationService_LoadCompleted;
+            mainCalendarFrame.NavigationService.Navigate(calendar, start);
         }
     }
 }

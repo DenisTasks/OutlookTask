@@ -6,7 +6,6 @@
         AddAboutAppointmentWindow,
         AddAllAppByLocationWindow,
         LoadLocations,
-        Calendar,
         Toast,
         Sync,
         CalendarFrame,

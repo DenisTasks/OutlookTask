@@ -20,7 +20,7 @@ namespace TestWpf.Pages
             Messenger.Default.Register<OpenWindowMessage>(
                 this,
                 message => {
-                    if (message.Type == WindowType.AddAppWindow && message.Argument == "AddAppWindow")
+                    if (message.Type == WindowType.AddAppWindow)
                     {
                         var addAppWindow = new AddAppWindow();
                         var result = addAppWindow.ShowDialog();
@@ -40,22 +40,17 @@ namespace TestWpf.Pages
                         Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.LoadLocations, Argument = message.Argument });
                         var result = addAllAppWindow.ShowDialog();
                     }
-                    if (message.Type == WindowType.Calendar)
-                    {
-                        var addCalendarWindow = new CalendarWindow();
-                        var result = addCalendarWindow.ShowDialog();
-                    }
                     if (message.Type == WindowType.Sync && message.User != null)
                     {
                         var addSync = new SyncWindow();
                         Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.None, User = message.User });
                         var result = addSync.ShowDialog();
                     }
-                    //if (message.Type == WindowType.CalendarFrame)
-                    //{
-                    //    var calendarFrameWindow = new CalendarFrame();
-                    //    var result = calendarFrameWindow.ShowDialog();
-                    //}
+                    if (message.Type == WindowType.CalendarFrame)
+                    {
+                        var calendarFrameWindow = new CalendarFrame();
+                        var result = calendarFrameWindow.ShowDialog();
+                    }
                 });
         }
 
@@ -77,6 +72,7 @@ namespace TestWpf.Pages
 
         private void ButtonBase_Click_ToLoginPage(object sender, RoutedEventArgs e)
         {
+            Messenger.Default.Unregister<OpenWindowMessage>(this);
             CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
             customPrincipal.Identity = new AnonymousIdentity();
             Messenger.Default.Send<NotificationMessage, AuthenticationViewModel>(new NotificationMessage("LogOut"));

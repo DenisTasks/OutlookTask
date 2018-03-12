@@ -45,11 +45,10 @@
                     CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}">About</Button>
             <Button Command="{Binding AllAppByLocationCommand}"
                     CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}">AllAppByLocation</Button>
-            <Button Command="{Binding CalendarWindowCommand}">Open calendar</Button>
             <Button Command="{Binding PrintTable}" CommandParameter="{Binding ElementName=AppointmentsList}">Print table</Button>
             <Button Click="ButtonBase_Click_ToAdmin">To Admin Page</Button>
             <Button Command="{Binding LogoutCommand}" Click="ButtonBase_Click_ToLoginPage">Logout</Button>
-            <!--<Button Command="{Binding CalendarFrameCommand}">Calendar Frame</Button>-->
+            <Button Command="{Binding CalendarFrameCommand}">Calendar Window</Button>
             <ComboBox ItemsSource="{Binding Files}"
                       SelectedItem="{Binding SelectedTheme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 

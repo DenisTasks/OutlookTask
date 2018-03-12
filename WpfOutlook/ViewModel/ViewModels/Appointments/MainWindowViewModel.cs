@@ -89,7 +89,6 @@ namespace ViewModel.ViewModels.Appointments
         public RelayCommand<object> SortCommand { get; }
         public RelayCommand GroupBySubjectCommand { get; }
         public RelayCommand<AppointmentModel> FilterBySubjectCommand { get; }
-        public RelayCommand CalendarWindowCommand { get; }
         public RelayCommand<object> PrintTable { get; }
         public RelayCommand LogoutCommand { get; }
         public RelayCommand CalendarFrameCommand { get; }
@@ -109,7 +108,6 @@ namespace ViewModel.ViewModels.Appointments
             SortCommand = new RelayCommand<object>(SortBy);
             GroupBySubjectCommand = new RelayCommand(GroupBySubject);
             FilterBySubjectCommand = new RelayCommand<AppointmentModel>(FilterBySubject);
-            CalendarWindowCommand = new RelayCommand(GetCalendar);
             PrintTable = new RelayCommand<object>(PrintListView);
             LogoutCommand = new RelayCommand(Logout, CanLogout);
             CalendarFrameCommand = new RelayCommand(CalendarFrame);
@@ -161,7 +159,7 @@ namespace ViewModel.ViewModels.Appointments
         }
         private void AddAppointment()
         {
-            Messenger.Default.Send( new OpenWindowMessage { Type = WindowType.AddAppWindow, Argument = "AddAppWindow"});
+            Messenger.Default.Send( new OpenWindowMessage { Type = WindowType.AddAppWindow });
         }
         private void CalendarFrame()
         {
@@ -174,10 +172,6 @@ namespace ViewModel.ViewModels.Appointments
                 Messenger.Default.Send(new OpenWindowMessage()
                 { Type = WindowType.AddAboutAppointmentWindow, Appointment = appointment, Argument = "Load this appointment" });
             }
-        }
-        private void GetCalendar()
-        {
-            Messenger.Default.Send(new OpenWindowMessage() { Type = WindowType.Calendar });
         }
         private void RefreshingAppointments()
         {
@@ -241,17 +235,6 @@ namespace ViewModel.ViewModels.Appointments
                 MessageBox.Show(e.ToString());
             }
         }
-        //private void LoadData()
-        //{
-        //    try
-        //    {
-        //        Appointments = new ObservableCollection<AppointmentModel>(GetMapper().Map<IEnumerable<AppointmentDTO>, ICollection<AppointmentModel>>(_service.GetAppointments()));
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        MessageBox.Show(e.ToString());
-        //    }
-        //}
         private void FilterBySubject(AppointmentModel appointment)
         {
             if (appointment != null)
