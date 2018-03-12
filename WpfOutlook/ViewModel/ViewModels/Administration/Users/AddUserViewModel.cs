@@ -4,6 +4,7 @@ using BLL.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using ViewModel.Models;
 
@@ -134,5 +135,6 @@ namespace ViewModel.ViewModels.Administration.Users
                 MessageBox.Show("Fill empty fields!");
             }
         }
+
     }
 }

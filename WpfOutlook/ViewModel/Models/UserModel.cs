@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ViewModel.Models
 {
-    public class UserModel : INotifyPropertyChanged
+    public class UserModel : INotifyPropertyChanged, IDataErrorInfo
     {
         public int UserId { get; set; }
         private bool _isActive;
@@ -114,5 +114,28 @@ namespace ViewModel.Models
             }
         }
         #endregion
+
+        public string Error { get => null; }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                if (columnName == "UserName")
+                {
+                    // Validate property and return a string if there is an error
+                    if (string.IsNullOrEmpty(UserName))
+                        return "UserName is Required";
+                }
+                if (columnName == "Password")
+                {
+                    if (string.IsNullOrEmpty(Password))
+                        return "Password is Required";
+                }
+
+                // If there's no error, null gets returned
+                return null;
+            }
+        }
     }
 }
