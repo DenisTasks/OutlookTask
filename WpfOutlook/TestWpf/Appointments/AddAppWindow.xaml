@@ -43,11 +43,12 @@
                Name="CheckSubject"
                FontWeight="Bold"
                Foreground="Red"
-               Content="{Binding ElementName=SubjectTextBox, Path=(Validation.Errors).CurrentItem.ErrorContent}"/>
+               Content="{Binding ElementName=SubjectTextBox, Path=(Validation.Errors)[0].ErrorContent}"/>
 
         <TextBox Grid.Column="1" 
-                 Grid.Row="1" 
+                 Grid.Row="1"
                  Name="SubjectTextBox"
+                 ToolTip="{Binding ElementName=SubjectTextBox, Path=(Validation.Errors)[0].ErrorContent}"
                  Text="{Binding Appointment.Subject, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                  Validation.ValidationAdornerSite="{Binding ElementName=CheckSubject}"/>
 
