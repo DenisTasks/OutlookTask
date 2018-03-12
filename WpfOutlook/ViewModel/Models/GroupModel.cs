@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ViewModel.Models
 {
-    public class GroupModel : INotifyPropertyChanged
+    public class GroupModel : INotifyPropertyChanged, IDataErrorInfo
     {
         public int GroupId { get; set; }
         private string _groupName;
@@ -114,5 +114,24 @@ namespace ViewModel.Models
             }
         }
         #endregion
+
+
+        public string Error { get => null; }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                if (columnName == "GroupName")
+                {
+                    // Validate property and return a string if there is an error
+                    if (string.IsNullOrEmpty(GroupName))
+                        return "GroupName is Required";
+                }
+
+                // If there's no error, null gets returned
+                return null;
+            }
+        }
     }
 }

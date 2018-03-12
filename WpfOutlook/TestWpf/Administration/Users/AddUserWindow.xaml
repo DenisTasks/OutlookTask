@@ -7,7 +7,18 @@
         DataContext="{Binding AddUserWindow, Source={StaticResource Locator}}"
         xmlns:local="clr-namespace:TestWpf.Administration.Users"
         mc:Ignorable="d"
-        Title="" Height="410.308" Width="431.903">
+        Title="" Height="600" Width="800">
+    <Window.Resources>
+        <Style TargetType="{x:Type FrameworkElement}" x:Key="ValidatingControl">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip" Value="{Binding 
+                Path=(Validation.Errors)[0].ErrorContent, 
+                RelativeSource={x:Static RelativeSource.Self}}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -38,15 +49,17 @@
         <TextBox Grid.Column="1" Grid.Row="1" 
                  Text="{Binding User.Name}"/>
         <TextBox Grid.Column="1" Grid.Row="2" 
-                 Text="{Binding User.UserName}"/>
+                 Text="{Binding User.UserName,  ValidatesOnDataErrors=True}" 
+                 Validation.ValidationAdornerSite="{Binding ElementName=ValidatingControl}"/>
         <TextBox Grid.Column="1" Grid.Row="3" 
-                 Text="{Binding User.Password}"/>
+                 Text="{Binding User.Password,  ValidatesOnDataErrors=True}"
+                 Validation.ValidationAdornerSite="{Binding ElementName=ValidatingControl}"/>
         <CheckBox Grid.Column="1" Grid.Row="4" 
                  IsChecked="{Binding User.IsActive}" />
 
         <ListView Grid.Column="1"
                   Grid.Row="5"
-                  MaxHeight="200"
+                  MaxHeight="250"
                   Name="FromRoleList"
                   ItemsSource="{Binding RoleList}">
             <ListView.ItemTemplate>
@@ -69,7 +82,7 @@
         
         <ListView Grid.Column="3"
                   Grid.Row="5"
-                  MaxHeight="200"
+                  MaxHeight="250"
                   Name="ToRoleList"
                   ItemsSource="{Binding User.Roles}">
             <ListView.ItemTemplate>
@@ -89,7 +102,7 @@
         
         <ListView Grid.Column="1"
                   Grid.Row="6"
-                  MaxHeight="200"
+                  MaxHeight="250"
                   Name="FromGroupList"
                   ItemsSource="{Binding GroupList}">
             <ListView.ItemTemplate>
@@ -112,7 +125,7 @@
 
         <ListView Grid.Column="3"
                   Grid.Row="6"
-                  MaxHeight="200"
+                  MaxHeight="250"
                   Name="ToGroupList"
                   ItemsSource="{Binding User.Groups}">
             <ListView.ItemTemplate>

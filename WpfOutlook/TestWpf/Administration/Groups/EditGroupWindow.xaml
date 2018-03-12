@@ -7,7 +7,18 @@
         DataContext="{Binding EditGroupWindow, Source={StaticResource Locator}}"
         xmlns:local="clr-namespace:TestWpf.Administration.Groups"
         mc:Ignorable="d"
-        Title="EditGroupWindow" Height="494.118" Width="397.386">
+        Title="EditGroupWindow" Height="600" Width="800">
+    <Window.Resources>
+        <Style TargetType="{x:Type FrameworkElement}" x:Key="ValidatingControl">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip" Value="{Binding 
+                Path=(Validation.Errors)[0].ErrorContent, 
+                RelativeSource={x:Static RelativeSource.Self}}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -36,7 +47,7 @@
         <Label Grid.Column="0" Grid.Row="6" Content="Groups"/>
 
         <TextBox Grid.Column="1" Grid.Row="1" 
-                 Text="{Binding Group.GroupName}"/>
+                 Text="{Binding Group.GroupName, ValidatesOnDataErrors=True}"/>
         <TextBox Grid.Column="1" Grid.Row="2" 
                  Text="{Binding Group.CreatorId}"/>
         <ComboBox Grid.Column="1" Grid.Row="3"
@@ -44,7 +55,7 @@
 
         <ListView Grid.Column="1"
                   Grid.Row="5"
-                  MaxHeight="100"
+                  MaxHeight="250"
                   Name="FromUserList"
                   ItemsSource="{Binding UserList}">
             <ListView.ItemTemplate>
@@ -67,7 +78,7 @@
 
         <ListView Grid.Column="3"
                   Grid.Row="5"
-                  MaxHeight="100"
+                  MaxHeight="250"
                   Name="ToUserList"
                   ItemsSource="{Binding Group.Users}">
             <ListView.ItemTemplate>
@@ -87,7 +98,7 @@
 
         <ListView Grid.Column="1"
                   Grid.Row="6"
-                  MaxHeight="100"
+                  MaxHeight="250"
                   Name="FromGroupList"
                   ItemsSource="{Binding GroupList}">
             <ListView.ItemTemplate>
@@ -107,7 +118,7 @@
 
         <ListView Grid.Column="3"
                   Grid.Row="6"
-                  MaxHeight="100"
+                  MaxHeight="250"
                   Name="ToGroupList"
                   ItemsSource="{Binding Group.Groups}">
             <ListView.ItemTemplate>
