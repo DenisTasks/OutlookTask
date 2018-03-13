@@ -68,6 +68,12 @@ namespace ViewModel.ViewModels.Administration.Groups
                             }
                         }
                     }
+                    foreach (var item in _hiddenGroupAncestors.Select(g => g.GroupName).Except(groupNameList).ToList())
+                    {
+                        var temp = _hiddenGroupAncestors.FirstOrDefault(x => x.GroupName == item);
+                        _hiddenGroupAncestors.Remove(temp);
+                        GroupList.Add(temp);
+                    }
                     Group.Groups = new ObservableCollection<GroupDTO>();
                 }
                 else
