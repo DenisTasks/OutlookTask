@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MVVM"
         mc:Ignorable="d"
-        Title="TestShell" Height="600" Width="1200">
+        WindowStartupLocation="CenterScreen"
+        Title="TestShell" Height="500" Width="800">
 
     <DockPanel>
         <Frame x:Name="_mainFrame"  NavigationUIVisibility="Hidden" Panel.ZIndex="1" />

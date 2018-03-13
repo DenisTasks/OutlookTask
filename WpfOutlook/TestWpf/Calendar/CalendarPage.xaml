@@ -13,18 +13,20 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.03*" />
+            <RowDefinition Height="25" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <DockPanel Grid.Column="0" 
-                   Grid.Row="0">
+        <StackPanel Grid.Column="0" 
+                    Grid.Row="0"
+                    Orientation="Horizontal">
             <ComboBox ItemsSource="{Binding Users}"
                       VerticalAlignment="Center"
                       VerticalContentAlignment="Center"
                       DisplayMemberPath ="Name"
                       SelectedItem="{Binding SelectedSyncUser, Mode=TwoWay}"
-                      IsSynchronizedWithCurrentItem="True"/>
+                      IsSynchronizedWithCurrentItem="True"
+                      HorizontalContentAlignment="Right"/>
 
             <Button Click="ButtonBase_OnPreviousWeekClick"
                     Content="Previous Week"/>
@@ -32,7 +34,7 @@
                     Content="Sync with selected user"/>
             <Button Click="ButtonBase_OnNextWeekClick"
                     Content="Next Week"/>
-        </DockPanel>
+        </StackPanel>
 
         <ListView Name="CalendarListView"
                   ItemsSource="{Binding Appointments}" 
