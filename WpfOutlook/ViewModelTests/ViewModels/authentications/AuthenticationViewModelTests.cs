@@ -18,7 +18,7 @@ namespace ViewModelTests.ViewModels.authentications
     public class AuthenticationViewModelTests
     {
         [TestCase]
-        public void WrongCreditsTest()
+        public void NotAuthenticatedUserTest()
         {
             var mock = new Mock<IAuthenticationService>();
             CustomPrincipal customPrincipal = new CustomPrincipal();
@@ -29,7 +29,7 @@ namespace ViewModelTests.ViewModels.authentications
         }
 
         [TestCase]
-        public void AuthenticateUserTest()
+        public void AuthenticatedUserTest()
         {
             var mock = new Mock<IAuthenticationService>();
             CustomPrincipal customPrincipal = new CustomPrincipal();
