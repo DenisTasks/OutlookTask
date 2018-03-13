@@ -10,19 +10,19 @@ namespace ViewModel.Models
     public class LogModel : INotifyPropertyChanged
     {
         public int LogId { get; set; }
-        private string _actionName { get; set; }
+        private string _action { get; set; }
         private string _appointmentName { get; set; }
         private string _actionAuthorName { get; set; }
         private string _creatorName { get; set; }
         private DateTime _eventTime { get; set; }
 
-        public string ActionName
+        public string Action
         {
-            get => _actionName;
+            get => _action;
             set
             {
-                _actionName = value;
-                NotifyPropertyChanged("ActionName");
+                _action = value;
+                NotifyPropertyChanged("Action");
             }
         }
 
