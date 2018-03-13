@@ -8,15 +8,18 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using ViewModel.Models;
+using ViewModel.ViewModels.Authenication;
 
 namespace ViewModel.ViewModels.CommonViewModels.Groups
 {
     public class AddGroupViewModel : ViewModelBase
     {
         private readonly IAdministrationService _administrationService;
+        private readonly CustomPrincipal _customPrincipal;
 
         private ICollection<GroupDTO> _hiddenGroupAncestors;
         private ICollection<GroupDTO> _groupsWithNoAncestors;
@@ -99,7 +102,11 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
             _removeGroupCommand = new RelayCommand<GroupDTO>(RemoveGroup);
             _createGroupCommand = new RelayCommand<Window>(CreateGroup);
 
+            _customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
+
             Group = new GroupModel();
+
+            AddUser(UserList.FirstOrDefault(u => u.UserId == _customPrincipal.Identity.UserId));
         }
 
         public ObservableCollection<UserDTO> UserList
@@ -137,7 +144,6 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
         public void AddUser(UserDTO user)
         {
             Group.Users.Add(user);
-
             UserList.Remove(user);
             base.RaisePropertyChanged();
         }
@@ -158,24 +164,6 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
 
         public void AddGroup(GroupDTO group)
         {
-            //for graph
-            //foreach(var childName in _administrationService.GetGroupChildren(group.GroupId))
-            //{
-            //    if (SelectedGroupList.Any(g => g.GroupName == childName))
-            //    {
-            //        var item = SelectedGroupList.FirstOrDefault(g => g.GroupName == childName);
-            //        SelectedGroupList.Remove(item);
-            //        _selectedGroupChildren.Add(item);
-            //    }
-            //    else
-            //    {
-            //        foreach (var item in GroupList.Where(g => g.GroupName == childName).ToList())
-            //        {
-            //            GroupList.Remove(item);
-            //            _selectedGroupChildren.Add(item);
-            //        }
-            //    }
-            //}
             Group.Groups.Add(group);
             GroupList.Remove(group);
             base.RaisePropertyChanged();
@@ -183,33 +171,8 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
 
         public void RemoveGroup(GroupDTO group)
         {
-            //for graph
-            //List<string> childrenInTheStoredList = new List<string>();
-            //ICollection<string> childrenToGroupList = _administrationService.GetGroupChildren(group.GroupId);
-            //foreach(var item in SelectedGroupList)
-            //{
-            //    childrenInTheStoredList.AddRange(_administrationService.GetGroupChildren(item.GroupId));
-            //}
-            //childrenInTheStoredList.Distinct();
-            //foreach (var item in childrenInTheStoredList)
-            //{
-            //    childrenToGroupList = childrenToGroupList.Where(ch => ch != item).ToList();
-            //}
-            //foreach(var item in childrenToGroupList)
-            //{
-            //    foreach(var tmp in _selectedGroupChildren.ToList())
-            //    {
-            //        if(item == tmp.GroupName)
-            //        {
-            //            _selectedGroupChildren.Remove(tmp);
-            //            GroupList.Add(tmp);
-            //        }
-            //    }
-            //}
-
             Group.Groups.Remove(group);
             GroupList.Add(group);
-
             base.RaisePropertyChanged();
         }
 
@@ -232,7 +195,7 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
                             .ForMember(d => d.CreatorId, opt => opt.MapFrom(s => s.CreatorId));
 
                     }).CreateMapper();
-                    _administrationService.CreateGroup(mapper.Map<GroupModel, GroupDTO>(Group), Group.Groups, Group.Users);
+                    _administrationService.CreateGroup(mapper.Map<GroupModel, GroupDTO>(Group), Group.Groups, Group.Users, _customPrincipal.Identity.UserId);
                     window.Close();
                 }
                 else

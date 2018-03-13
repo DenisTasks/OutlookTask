@@ -97,6 +97,7 @@
     <Compile Include="Jobs\NotifyScheduler.cs" />
     <Compile Include="Models\AppointmentModel.cs" />
     <Compile Include="Models\GroupModel.cs" />
+    <Compile Include="Models\LogModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModelLocator.cs" />

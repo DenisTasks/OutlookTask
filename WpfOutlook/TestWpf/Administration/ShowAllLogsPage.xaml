@@ -45,8 +45,8 @@
                             <GridViewColumn Header="Id" DisplayMemberBinding="{Binding LogId}" Width="40"/>
                             <GridViewColumn Header="Action" DisplayMemberBinding="{Binding Action}" Width="200"/>
                             <GridViewColumn Header="AppointmentName" DisplayMemberBinding="{Binding AppointmentName}" Width="330"/>
-                            <GridViewColumn Header="CreatorId" DisplayMemberBinding="{Binding CreatorId}" Width="150"/>
-                            <GridViewColumn Header="ActiomAuthorId" DisplayMemberBinding="{Binding ActionAuthorId}" Width="150"/>
+                            <GridViewColumn Header="CreatorId" DisplayMemberBinding="{Binding CreatorName}" Width="150"/>
+                            <GridViewColumn Header="ActiomAuthorId" DisplayMemberBinding="{Binding ActionAuthorName}" Width="150"/>
                             <GridViewColumn Header="EventTime" DisplayMemberBinding="{Binding EventTime}" Width="280"/>
                         </GridView>
                     </ListView.View>

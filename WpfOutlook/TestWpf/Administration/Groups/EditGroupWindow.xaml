@@ -47,22 +47,18 @@
         </Grid.RowDefinitions>
 
         <Label Grid.Column="0" Grid.Row="1" Content="Group Name"/>
-        <Label Grid.Column="0" Grid.Row="2" Content="Creator Name"/>
-        <Label Grid.Column="0" Grid.Row="3" Content="Parent Group"/>
-        <Label Grid.Column="0" Grid.Row="4" Content="Child Groups"/>
-        <Label Grid.Column="0" Grid.Row="5" Content="Users"/>
-        <Label Grid.Column="0" Grid.Row="6" Content="Groups"/>
+        <Label Grid.Column="0" Grid.Row="2" Content="Parent Group"/>
+        <Label Grid.Column="0" Grid.Row="3" Content="Users"/>
+        <Label Grid.Column="0" Grid.Row="4" Content="Groups"/>
 
         <TextBox Grid.Column="1" Grid.Row="1" 
                  Text="{Binding Group.GroupName, ValidatesOnDataErrors=True,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-        <TextBox Grid.Column="1" Grid.Row="2" 
-                 Text="{Binding Group.CreatorId}"/>
-        <ComboBox Grid.Column="1" Grid.Row="3"
+        <ComboBox Grid.Column="1" Grid.Row="2"
                   ItemsSource="{Binding GroupsForComboBox}" DisplayMemberPath="GroupName" SelectedValue="{Binding GroupNameForFilter}"/>
 
         <ListView Grid.Column="1"
-                  Grid.Row="5"
-                  MaxHeight="250"
+                  Grid.Row="3"
+                  MaxHeight="300"
                   Name="FromUserList"
                   ItemsSource="{Binding UserList}">
             <ListView.ItemTemplate>
@@ -84,8 +80,8 @@
         </ListView>
 
         <ListView Grid.Column="3"
-                  Grid.Row="5"
-                  MaxHeight="250"
+                  Grid.Row="3"
+                  MaxHeight="300"
                   Name="ToUserList"
                   ItemsSource="{Binding Group.Users}">
             <ListView.ItemTemplate>
@@ -104,8 +100,8 @@
         </ListView>
 
         <ListView Grid.Column="1"
-                  Grid.Row="6"
-                  MaxHeight="250"
+                  Grid.Row="4"
+                  MaxHeight="300"
                   Name="FromGroupList"
                   ItemsSource="{Binding GroupList}">
             <ListView.ItemTemplate>
@@ -124,8 +120,8 @@
         </ListView>
 
         <ListView Grid.Column="3"
-                  Grid.Row="6"
-                  MaxHeight="250"
+                  Grid.Row="4"
+                  MaxHeight="300"
                   Name="ToGroupList"
                   ItemsSource="{Binding Group.Groups}">
             <ListView.ItemTemplate>

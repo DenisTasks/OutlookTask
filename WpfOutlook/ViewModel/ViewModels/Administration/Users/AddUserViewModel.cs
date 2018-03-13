@@ -109,7 +109,7 @@ namespace ViewModel.ViewModels.Administration.Users
 
         public void CreateUser(Window window)
         {
-            if (User.UserName != null)
+            if (User.UserName != null && User.Password != null)
             {
                 if (_administrationService.CheckUser(User.UserName))
                 {
