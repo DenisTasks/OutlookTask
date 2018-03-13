@@ -7,24 +7,23 @@
       mc:Ignorable="d"
       DataContext="{Binding MainWindow,
                               Source={StaticResource Locator}}"
-      WindowHeight="600" WindowWidth="1200"  
+      WindowHeight="500" WindowWidth="800"  
       Title="Outlook application">
 
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid ShowGridLines="False">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.03*"/>
-            <ColumnDefinition Width="0.14*"/>
-            <ColumnDefinition Width="0.14*"/>
-            <ColumnDefinition Width="0.14*"/>
-            <ColumnDefinition Width="0.1*"/>
+            <ColumnDefinition Width="0.04*"/>
+            <ColumnDefinition Width="0.20*"/>
+            <ColumnDefinition Width="0.15*"/>
+            <ColumnDefinition Width="0.15*"/>
+            <ColumnDefinition Width="0.11*"/>
             <ColumnDefinition Width="0.05*"/>
 
-            <ColumnDefinition Width="150"/>
-            <ColumnDefinition Width="0.10*"/>
+            <ColumnDefinition Width="0.15*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.05*"/>
-            <RowDefinition Height="0.9*"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid Grid.Column="0" x:Name="HelperField1"/>
         <Grid Grid.Column="1" x:Name="HelperField2"/>
@@ -33,32 +32,43 @@
         <Grid Grid.Column="4" x:Name="HelperField5"/>
         <Grid Grid.Column="5" x:Name="HelperField6"/>
 
-        <WrapPanel Grid.Row="0"
-                   Grid.Column="0"
-                   Grid.ColumnSpan="8"
-                   HorizontalAlignment="Stretch">
+        <StackPanel Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="7"
+                    Orientation="Horizontal"
+                    Margin="2">
+            
             <Button Command="{Binding AddAppWindowCommand}">New App</Button>
+            
             <Button Command="{Binding FilterBySubjectCommand}"
                     CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}">Filter by</Button>
+            
             <Button Command="{Binding GroupBySubjectCommand}">Group by</Button>
+            
             <Button Command="{Binding AboutAppointmentCommand}"
                     CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}">About</Button>
+            
             <Button Command="{Binding AllAppByLocationCommand}"
                     CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}">AllAppByLocation</Button>
+            
             <Button Command="{Binding PrintTable}" CommandParameter="{Binding ElementName=AppointmentsList}">Print table</Button>
+            
             <Button Click="ButtonBase_Click_ToAdmin">To Admin Page</Button>
+            
             <Button Command="{Binding LogoutCommand}" Click="ButtonBase_Click_ToLoginPage">Logout</Button>
+            
             <Button Command="{Binding CalendarFrameCommand}">Calendar Window</Button>
+            
             <ComboBox ItemsSource="{Binding Files}"
                       SelectedItem="{Binding SelectedTheme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        </WrapPanel>
+            
+        </StackPanel>
 
         <ListView Name="AppointmentsList"
                   Grid.Row="1"
+                  Grid.Column="0"
                   Grid.ColumnSpan="6"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                  VerticalContentAlignment="Stretch"
-                  HorizontalContentAlignment="Stretch"
                   SelectionMode="Single"
                   ItemsSource="{Binding Appointments}"
                   ItemContainerStyle="{DynamicResource BaseStyle}">
@@ -117,13 +127,15 @@
             </ListView.View>
         </ListView>
 
-        <ListView Grid.Column="7"
+        <ListView Grid.Column="6"
                   Grid.Row="1"
                   VerticalContentAlignment="Stretch"
                   ItemsSource="{Binding Appointments}"
                   ItemContainerStyle="{DynamicResource MainWindowRemoveStyle}">
         </ListView>
 
-        <local:ToastList Grid.Row="1" Grid.Column="6" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="150"/>
+        <local:ToastList Grid.Row="1" 
+                         Grid.Column="3" 
+                         VerticalAlignment="Top" />
     </Grid>
 </Page>
