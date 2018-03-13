@@ -50,28 +50,6 @@ namespace BLL.BLLService
             }
             return users;
         }
-        private IMapper GetFromAppDtoToAppMapper(ICollection<UserDTO> usersDTO)
-        {
-            ICollection<User> users = new List<User>();
-            var convert = GetDefaultMapper<UserDTO, User>().Map<IEnumerable<UserDTO>, IEnumerable<User>>(usersDTO);
-            foreach (var item in convert)
-            {
-                if (_users.FindById(item.UserId) != null)
-                {
-                    users.Add(_users.FindById(item.UserId));
-                }
-            }
-
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<AppointmentDTO, Appointment>()
-                    .ForMember(s => s.Location, opt => opt.MapFrom(loc => _locations.FindById(loc.LocationId)))
-                    .ForMember(d => d.Users, opt => opt.MapFrom(s => users));
-            });
-            IMapper mapper = config.CreateMapper();
-
-            return mapper;
-        }
 
         public BLLServiceMain(IGenericRepository<Appointment> appointments, IGenericRepository<User> users, IGenericRepository<Location> locations, IGenericRepository<Log> logs)
         {
@@ -213,14 +191,14 @@ namespace BLL.BLLService
                 try
                 {
                     _appointments.Create(appointmentItem);
-                    //_logs.Create(new Log
-                    //{
-                    //    AppointmentName = appointment.Subject,
-                    //    ActionAuthorId = id,
-                    //    CreatorId = id,
-                    //    Action = "Add",
-                    //    EventTime = DateTime.Now
-                    //});
+                    _logs.Create(new Log
+                    {
+                        AppointmentName = appointment.Subject,
+                        ActionAuthorId = id,
+                        CreatorId = id,
+                        Action = "Add",
+                        EventTime = DateTime.Now
+                    });
                     _appointments.Save();
                     transaction.Commit();
                 }
@@ -234,21 +212,19 @@ namespace BLL.BLLService
 
         public void RemoveAppointment(int id, int userId)
         {
-            //var appointmentItem = GetDefaultMapper<AppointmentDTO, Appointment>().Map<AppointmentDTO, Appointment>(appointment);
-
             using (var transaction = _appointments.BeginTransaction())
             {
                 try
                 {
                     var appointment = _appointments.FindById(id);
-                    //_logs.Create(new Log
-                    //{
-                    //    AppointmentName =appointment.Subject,
-                    //    ActionAuthorId = userId,
-                    //    CreatorId = appointment.OrganizerId,
-                    //    Action = "Remove",
-                    //    EventTime = DateTime.Now
-                    //});
+                    _logs.Create(new Log
+                    {
+                        AppointmentName = appointment.Subject,
+                        ActionAuthorId = userId,
+                        CreatorId = appointment.OrganizerId,
+                        Action = "Remove",
+                        EventTime = DateTime.Now
+                    });
                     _appointments.Remove(appointment);
                     _appointments.Save();
                     transaction.Commit();
