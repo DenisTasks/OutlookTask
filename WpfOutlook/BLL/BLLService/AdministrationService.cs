@@ -166,17 +166,6 @@ namespace BLL.Services
         {
             SqlParameter param = new SqlParameter("@groupId", id);
             var groups = _context.Database.SqlQuery<int>("GetGroupChilds @groupId", param).ToList();
-            //for graph
-            /*var groupsCollection = _groups.Get(g => g.GroupId == id).FirstOrDefault().Groups;
-            if (groupsCollection.Any())
-            {
-                foreach (var item in groupsCollection)
-                {
-                    groups.Add(item.GroupName);
-                    groups.AddRange(GetGroupChildren(item.GroupId));
-                }
-            }*/
-
             return groups.Distinct().ToList();
         }
 

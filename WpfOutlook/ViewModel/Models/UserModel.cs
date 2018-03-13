@@ -123,7 +123,6 @@ namespace ViewModel.Models
             {
                 if (columnName == "UserName")
                 {
-                    // Validate property and return a string if there is an error
                     if (string.IsNullOrEmpty(UserName))
                         return "UserName is Required";
                 }
@@ -133,7 +132,6 @@ namespace ViewModel.Models
                         return "Password is Required";
                 }
 
-                // If there's no error, null gets returned
                 return null;
             }
         }
