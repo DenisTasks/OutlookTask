@@ -164,24 +164,6 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
 
         public void AddGroup(GroupDTO group)
         {
-            //for graph
-            //foreach(var childName in _administrationService.GetGroupChildren(group.GroupId))
-            //{
-            //    if (SelectedGroupList.Any(g => g.GroupName == childName))
-            //    {
-            //        var item = SelectedGroupList.FirstOrDefault(g => g.GroupName == childName);
-            //        SelectedGroupList.Remove(item);
-            //        _selectedGroupChildren.Add(item);
-            //    }
-            //    else
-            //    {
-            //        foreach (var item in GroupList.Where(g => g.GroupName == childName).ToList())
-            //        {
-            //            GroupList.Remove(item);
-            //            _selectedGroupChildren.Add(item);
-            //        }
-            //    }
-            //}
             Group.Groups.Add(group);
             GroupList.Remove(group);
             base.RaisePropertyChanged();
@@ -189,33 +171,8 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
 
         public void RemoveGroup(GroupDTO group)
         {
-            //for graph
-            //List<string> childrenInTheStoredList = new List<string>();
-            //ICollection<string> childrenToGroupList = _administrationService.GetGroupChildren(group.GroupId);
-            //foreach(var item in SelectedGroupList)
-            //{
-            //    childrenInTheStoredList.AddRange(_administrationService.GetGroupChildren(item.GroupId));
-            //}
-            //childrenInTheStoredList.Distinct();
-            //foreach (var item in childrenInTheStoredList)
-            //{
-            //    childrenToGroupList = childrenToGroupList.Where(ch => ch != item).ToList();
-            //}
-            //foreach(var item in childrenToGroupList)
-            //{
-            //    foreach(var tmp in _selectedGroupChildren.ToList())
-            //    {
-            //        if(item == tmp.GroupName)
-            //        {
-            //            _selectedGroupChildren.Remove(tmp);
-            //            GroupList.Add(tmp);
-            //        }
-            //    }
-            //}
-
             Group.Groups.Remove(group);
             GroupList.Add(group);
-
             base.RaisePropertyChanged();
         }
 

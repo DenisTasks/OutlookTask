@@ -150,26 +150,6 @@ namespace ViewModel.ViewModels.Administration.Groups
                     _groupsForComboBox.Remove(_groupsForComboBox.FirstOrDefault(g => g.GroupId == Group.GroupId));
                     GroupNameForFilter = _groupsForComboBox.FirstOrDefault(g => g.GroupId == group.ParentId);
                     Messenger.Default.Unregister<GroupModel>(this);
-
-                    //for graph
-                    //GroupList = new ObservableCollection<GroupDTO>(_administrationService.GetGroups());
-                    //foreach(var childName in _administrationService.GetGroupChildren(group.GroupId))
-                    //{
-                    //    if (SelectedGroupList.Any(g => g.GroupName == childName))
-                    //    {
-                    //        var item = SelectedGroupList.FirstOrDefault(g => g.GroupName == childName);
-                    //        GroupList.Remove(item);
-                    //        _selectedGroupChildren.Add(item);
-                    //    }
-                    //    else
-                    //    {
-                    //        foreach (var item in GroupList.Where(g => g.GroupName == childName).ToList())
-                    //        {
-                    //            GroupList.Remove(item);
-                    //            _selectedGroupChildren.Add(item);
-                    //        }
-                    //    }
-                    //}
                 }
             });
 

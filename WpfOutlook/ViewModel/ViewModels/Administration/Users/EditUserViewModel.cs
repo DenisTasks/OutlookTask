@@ -118,14 +118,14 @@ namespace ViewModel.ViewModels.Administration.Users
 
         public void EditUser(Window window)
         {
-            if (_oldUserName == User.UserName)
+            if (_oldUserName == User.UserName && User.Password !=null)
             {
                 _administrationService.EditUser(GetMapper().Map<UserModel, UserDTO>(User), User.Groups, User.Roles);
                 window.Close();
             }
             else
             {
-                if (User.UserName != null)
+                if (User.UserName != null && User.Password!=null)
                 {
                     if (_administrationService.CheckUser(User.UserName))
                     {
@@ -176,13 +176,6 @@ namespace ViewModel.ViewModels.Administration.Users
                             }
                         }
                     }
-                    
-                    //ICollection<GroupDTO> groupCollection = _administrationService.GetGroups();
-                    //foreach (var item in _selectedGroupList)
-                    //{
-                    //    groupCollection = groupCollection.Where(g => g.GroupName != item.GroupName).ToList();
-                    //}
-                    //GroupList = new ObservableCollection<GroupDTO>(groupCollection);
                     Messenger.Default.Unregister<UserModel>(this);
                 }
             });
