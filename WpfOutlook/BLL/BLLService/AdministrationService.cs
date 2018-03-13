@@ -98,11 +98,13 @@ namespace BLL.Services
 
         #region GroupMethods
 
-        public void CreateGroup(GroupDTO groupDTO, ICollection<GroupDTO> groups, ICollection<UserDTO> users)
+        public void CreateGroup(GroupDTO groupDTO, ICollection<GroupDTO> groups, ICollection<UserDTO> users, int id)
         {
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<GroupDTO, Group>()
+                    .ForMember(d=> d.CreatorId, opt => opt.MapFrom(s=> id))
+                    .ForMember(d => d.Creator, opt => opt.MapFrom(s => _users.FindById(id)))
                     .ForMember(d => d.Users, opt => opt.MapFrom(s => ConvertUsersDTO(users)));
             });
             IMapper mapper = config.CreateMapper();

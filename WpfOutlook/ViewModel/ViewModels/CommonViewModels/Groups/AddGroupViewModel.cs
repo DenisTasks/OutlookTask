@@ -8,15 +8,18 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using ViewModel.Models;
+using ViewModel.ViewModels.Authenication;
 
 namespace ViewModel.ViewModels.CommonViewModels.Groups
 {
     public class AddGroupViewModel : ViewModelBase
     {
         private readonly IAdministrationService _administrationService;
+        private readonly CustomPrincipal _customPrincipal;
 
         private ICollection<GroupDTO> _hiddenGroupAncestors;
         private ICollection<GroupDTO> _groupsWithNoAncestors;
@@ -99,7 +102,11 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
             _removeGroupCommand = new RelayCommand<GroupDTO>(RemoveGroup);
             _createGroupCommand = new RelayCommand<Window>(CreateGroup);
 
+            _customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
+
             Group = new GroupModel();
+
+            AddUser(UserList.FirstOrDefault(u => u.UserId == _customPrincipal.Identity.UserId));
         }
 
         public ObservableCollection<UserDTO> UserList
@@ -137,7 +144,6 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
         public void AddUser(UserDTO user)
         {
             Group.Users.Add(user);
-
             UserList.Remove(user);
             base.RaisePropertyChanged();
         }
@@ -232,7 +238,7 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
                             .ForMember(d => d.CreatorId, opt => opt.MapFrom(s => s.CreatorId));
 
                     }).CreateMapper();
-                    _administrationService.CreateGroup(mapper.Map<GroupModel, GroupDTO>(Group), Group.Groups, Group.Users);
+                    _administrationService.CreateGroup(mapper.Map<GroupModel, GroupDTO>(Group), Group.Groups, Group.Users, _customPrincipal.Identity.UserId);
                     window.Close();
                 }
                 else

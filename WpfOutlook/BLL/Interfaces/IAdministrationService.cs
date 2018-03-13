@@ -23,7 +23,7 @@ namespace BLL.Interfaces
         bool CheckUser(string username);
         bool CheckGroup(string groupName);
         void DeactivateUser(int id);
-        void CreateGroup(GroupDTO group, ICollection<GroupDTO> Groups, ICollection<UserDTO> users);
+        void CreateGroup(GroupDTO group, ICollection<GroupDTO> Groups, ICollection<UserDTO> users, int id);
         void EditGroup(GroupDTO group, ICollection<GroupDTO> Groups, ICollection<UserDTO> users);
         void DeleteGroup(int id);
         void ShowLogs();
