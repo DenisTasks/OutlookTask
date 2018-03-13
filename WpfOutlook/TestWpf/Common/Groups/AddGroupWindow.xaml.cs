@@ -18,7 +18,6 @@ namespace TestWpf.Common.Groups
     /// <summary>
     /// Interaction logic for AddGroupWindow.xaml
     /// </summary>
-    [PrincipalPermission(SecurityAction.Demand, Role = "admin")]
     public partial class AddGroupWindow : Window
     {
         public AddGroupWindow()

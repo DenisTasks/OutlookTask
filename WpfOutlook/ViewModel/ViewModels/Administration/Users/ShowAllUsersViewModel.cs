@@ -86,8 +86,6 @@ namespace ViewModel.ViewModels.Administration.Users
             if (user != null)
             {
                 Messenger.Default.Send<UserModel>(user);
-                //LoadData();
-                //Users = _users;
             }
         }
 
@@ -107,13 +105,5 @@ namespace ViewModel.ViewModels.Administration.Users
             }).CreateMapper();
             _users = new ObservableCollection<UserModel>(mapper.Map<IEnumerable<UserDTO>,ICollection<UserModel>>(_administrationService.GetUsers()));
         }
-
-        //public event PropertyChangedEventHandler PropertyChanged;
-
-        //private void NotifyPropertyChanged(string propertyName)
-        //{
-        //    if (PropertyChanged != null)
-        //        PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        //}
     }
 }

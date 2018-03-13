@@ -92,6 +92,7 @@ namespace ViewModel.ViewModels.Appointments
         public RelayCommand<object> PrintTable { get; }
         public RelayCommand LogoutCommand { get; }
         public RelayCommand CalendarFrameCommand { get; }
+        public RelayCommand CreateGroupCommand { get; }
         #endregion
 
         public MainWindowViewModel(IBLLServiceMain service)
@@ -111,6 +112,7 @@ namespace ViewModel.ViewModels.Appointments
             PrintTable = new RelayCommand<object>(PrintListView);
             LogoutCommand = new RelayCommand(Logout, CanLogout);
             CalendarFrameCommand = new RelayCommand(CalendarFrame);
+            CreateGroupCommand = new RelayCommand(CreateGroup);
             #endregion
 
             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
@@ -133,6 +135,12 @@ namespace ViewModel.ViewModels.Appointments
                     RefreshingAppointments();
                 }
             });
+        }
+
+
+        private void CreateGroup()
+        {
+            Messenger.Default.Send<NotificationMessage>(new NotificationMessage("CreateGroup"));
         }
 
         private bool IsAuthenticated => Thread.CurrentPrincipal.Identity.IsAuthenticated;
