@@ -14,9 +14,9 @@
             <ColumnDefinition Width="37*"/>
             <ColumnDefinition Width="493*"/>
         </Grid.ColumnDefinitions>
-        <Button Content="Show all groups" Grid.Column="1" HorizontalAlignment="Left" Margin="10,53,0,0" VerticalAlignment="Top" Width="108" Height="24"  Click="Button_Click_ToGroups"/>
-        <Button Content="Show logs" Grid.Column="1" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top" Width="108" Height="24"  Click="Button_Click_ToLogs"/>
-        <Button Content="Show all users" Grid.Column="1" HorizontalAlignment="Left" Margin="10,158,0,0" VerticalAlignment="Top" Width="108" Height="24"  Click="Button_Click_ToUsers"/>
-        <Button Content="Back" Grid.Column="1" HorizontalAlignment="Left" Margin="10,211,0,0" VerticalAlignment="Top" Width="108" Height="24"  Click="Button_Click_GoBack"/>
+        <Button Content="Show all groups" Grid.Column="1" HorizontalAlignment="Center" Margin="10,53,0,0" VerticalAlignment="Top" Width="108" Height="24"  Click="Button_Click_ToGroups"/>
+        <Button Content="Show logs" Grid.Column="1" HorizontalAlignment="Center" Margin="10,105,0,0" VerticalAlignment="Top" Width="108" Height="24"  Click="Button_Click_ToLogs"/>
+        <Button Content="Show all users" Grid.Column="1" HorizontalAlignment="Center" Margin="10,158,0,0" VerticalAlignment="Top" Width="108" Height="24"  Click="Button_Click_ToUsers"/>
+        <Button Content="Back" Grid.Column="1" HorizontalAlignment="Center" Margin="10,211,0,0" VerticalAlignment="Top" Width="108" Height="24"  Click="Button_Click_GoBack"/>
     </Grid>
 </Page>
