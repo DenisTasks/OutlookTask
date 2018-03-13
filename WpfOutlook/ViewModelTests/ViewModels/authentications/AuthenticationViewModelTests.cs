@@ -2,6 +2,7 @@
 using BLL.Interfaces;
 using Moq;
 using NUnit.Framework;
+using NUnit.Framework.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,25 +21,24 @@ namespace ViewModelTests.ViewModels.authentications
         public void WrongCreditsTest()
         {
             var mock = new Mock<IAuthenticationService>();
-            mock.Setup(s => s.AuthenticateUser("test", "password")).Throws(new UnauthorizedAccessException());
+            CustomPrincipal customPrincipal = new CustomPrincipal();
+            TestExecutionContext.CurrentContext.CurrentPrincipal = customPrincipal; ;
 
-            var result = new AuthenticationViewModel(mock.Object).AuthenticatedUser;
-            Assert.AreEqual(result, "You are not authenticated!");
+            var result = new AuthenticationViewModel(mock.Object).IsAuthenticated;
+            Assert.IsFalse(result);
         }
 
-        //[TestCase]
-        //public void AuthenticateUserTest()
-        //{
-        //    var mock = new Mock<IAuthenticationService>();
-        //    CustomPrincipal.Sw
-        //    mock.Setup(s => s.AuthenticateUser("test", "password")).Returns(new UserDTO { UserName = "test"});
-        //    mock.Setup(s => s.GetRoles(1)).Returns(new string[]{"user"});
-
-
-
-        //    var vm = new AuthenticationViewModel(mock.Object);
-        //    var result = vm.AuthenticatedUser;
-        //    Assert.AreEqual(result, "You are not authenticated!");
-        //}
+        [TestCase]
+        public void AuthenticateUserTest()
+        {
+            var mock = new Mock<IAuthenticationService>();
+            CustomPrincipal customPrincipal = new CustomPrincipal();
+            customPrincipal.Identity = new CustomIdentity(1, "test", "test", new string[] { "user" });
+            TestExecutionContext.CurrentContext.CurrentPrincipal = customPrincipal;
+            
+            var vm = new AuthenticationViewModel(mock.Object);
+            var result = vm.IsAuthenticated;
+            Assert.IsTrue(result);
+        }
     }
 }
