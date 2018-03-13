@@ -11,6 +11,24 @@
                               Source={StaticResource Locator}}"
         Title="Add appointment" Height="1000" Width="1000" SizeToContent="WidthAndHeight">
 
+    <Window.Resources>
+        <ToolTip x:Key="ErrorTooltip" 
+                 DataContext="{Binding PlacementTarget,
+                                   RelativeSource={RelativeSource Self}}">
+            <StackPanel>
+                <TextBlock Text="{Binding (Validation.Errors)[0].ErrorContent}" />
+            </StackPanel>
+        </ToolTip>
+        <Style TargetType="{x:Type TextBox}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="Background" Value="Red"/>
+                    <Setter Property="ToolTip" Value="{StaticResource ErrorTooltip}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -38,8 +56,8 @@
         <Label Grid.Column="0" Grid.Row="6" Content="Users"/>
         <Label Grid.Column="0" Grid.Row="8" Content="Templates"/>
 
-        <Label Grid.Column="2" 
-               Grid.Row="1" 
+        <Label Grid.Column="2"
+               Grid.Row="1"
                Name="CheckSubject"
                FontWeight="Bold"
                Foreground="Red"
@@ -48,7 +66,6 @@
         <TextBox Grid.Column="1" 
                  Grid.Row="1"
                  Name="SubjectTextBox"
-                 ToolTip="{Binding ElementName=SubjectTextBox, Path=(Validation.Errors)[0].ErrorContent}"
                  Text="{Binding Appointment.Subject, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                  Validation.ValidationAdornerSite="{Binding ElementName=CheckSubject}"/>
 
