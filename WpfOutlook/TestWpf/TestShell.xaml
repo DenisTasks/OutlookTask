@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MVVM"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="TestShell" Height="500" Width="800">
+        Title="TestShell" Height="600" Width="1200">
 
     <DockPanel>
         <Frame x:Name="_mainFrame"  NavigationUIVisibility="Hidden" Panel.ZIndex="1" />
