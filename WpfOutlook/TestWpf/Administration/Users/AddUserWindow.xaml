@@ -9,12 +9,19 @@
         mc:Ignorable="d"
         Title="" Height="600" Width="800">
     <Window.Resources>
-        <Style TargetType="{x:Type FrameworkElement}" x:Key="ValidatingControl">
+        <ToolTip x:Key="ErrorTooltip" 
+                 DataContext="{Binding PlacementTarget,
+                                   RelativeSource={RelativeSource Self}}">
+            <StackPanel>
+                <TextBlock Text="{Binding (Validation.Errors)[0].ErrorContent}" />
+            </StackPanel>
+        </ToolTip>
+
+        <Style TargetType="{x:Type TextBox}">
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="True">
-                    <Setter Property="ToolTip" Value="{Binding 
-                Path=(Validation.Errors)[0].ErrorContent, 
-                RelativeSource={x:Static RelativeSource.Self}}" />
+                    <Setter Property="Background" Value="Red"/>
+                    <Setter Property="ToolTip" Value="{StaticResource ErrorTooltip}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -49,10 +56,10 @@
         <TextBox Grid.Column="1" Grid.Row="1" 
                  Text="{Binding User.Name}"/>
         <TextBox Grid.Column="1" Grid.Row="2" 
-                 Text="{Binding User.UserName,  ValidatesOnDataErrors=True}" 
+                 Text="{Binding User.UserName,  ValidatesOnDataErrors=True,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                  Validation.ValidationAdornerSite="{Binding ElementName=ValidatingControl}"/>
         <TextBox Grid.Column="1" Grid.Row="3" 
-                 Text="{Binding User.Password,  ValidatesOnDataErrors=True}"
+                 Text="{Binding User.Password,  ValidatesOnDataErrors=True,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                  Validation.ValidationAdornerSite="{Binding ElementName=ValidatingControl}"/>
         <CheckBox Grid.Column="1" Grid.Row="4" 
                  IsChecked="{Binding User.IsActive}" />

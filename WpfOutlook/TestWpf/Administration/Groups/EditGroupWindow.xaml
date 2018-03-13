@@ -9,12 +9,19 @@
         mc:Ignorable="d"
         Title="EditGroupWindow" Height="600" Width="800">
     <Window.Resources>
-        <Style TargetType="{x:Type FrameworkElement}" x:Key="ValidatingControl">
+        <ToolTip x:Key="ErrorTooltip" 
+                 DataContext="{Binding PlacementTarget,
+                                   RelativeSource={RelativeSource Self}}">
+            <StackPanel>
+                <TextBlock Text="{Binding (Validation.Errors)[0].ErrorContent}" />
+            </StackPanel>
+        </ToolTip>
+
+        <Style TargetType="{x:Type TextBox}">
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="True">
-                    <Setter Property="ToolTip" Value="{Binding 
-                Path=(Validation.Errors)[0].ErrorContent, 
-                RelativeSource={x:Static RelativeSource.Self}}" />
+                    <Setter Property="Background" Value="Red"/>
+                    <Setter Property="ToolTip" Value="{StaticResource ErrorTooltip}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -47,7 +54,7 @@
         <Label Grid.Column="0" Grid.Row="6" Content="Groups"/>
 
         <TextBox Grid.Column="1" Grid.Row="1" 
-                 Text="{Binding Group.GroupName, ValidatesOnDataErrors=True}"/>
+                 Text="{Binding Group.GroupName, ValidatesOnDataErrors=True,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
         <TextBox Grid.Column="1" Grid.Row="2" 
                  Text="{Binding Group.CreatorId}"/>
         <ComboBox Grid.Column="1" Grid.Row="3"
