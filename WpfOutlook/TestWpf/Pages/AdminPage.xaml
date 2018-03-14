@@ -6,7 +6,8 @@
        DataContext="{Binding AdminPage, Source={StaticResource Locator}}"
       xmlns:local="clr-namespace:MVVM"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="480"
+      WindowHeight="500" 
+      WindowWidth="850"  
       Title="Page2">
 
     <Grid>

@@ -6,7 +6,8 @@
       DataContext="{Binding AllLogsPage, Source={StaticResource Locator}}"
       xmlns:local="clr-namespace:TestWpf.Administration"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="1200"
+      WindowHeight="500" 
+      WindowWidth="850"  
       Title="ShowAllLogsPage">
 
     <Grid>

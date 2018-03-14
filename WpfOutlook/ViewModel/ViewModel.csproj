@@ -91,6 +91,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\AutoMapperConfig.cs" />
     <Compile Include="Helpers\OpenWindowMessage.cs" />
     <Compile Include="Helpers\PrintHelper.cs" />
     <Compile Include="Helpers\WindowType.cs" />

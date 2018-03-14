@@ -17,30 +17,10 @@ namespace BLL.BLLService
         private readonly IGenericRepository<Location> _locations;
         private readonly IGenericRepository<Log> _logs;
 
-        private IMapper GetDefaultMapper<TEntityFrom, TEntityTo>() where TEntityFrom : class  where  TEntityTo : class 
-        {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<TEntityFrom, TEntityTo>();
-            });
-            IMapper mapper = config.CreateMapper();
-            return mapper;
-        }
-        private IMapper GetFromAppToAppDtoMapper()
-        {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Appointment, AppointmentDTO>()
-                .ForSourceMember(d => d.Location, opt => opt.Ignore());
-            });
-            IMapper mapper = config.CreateMapper();
-
-            return mapper;
-        }
-        private ICollection<User> ConvertUsers(ICollection<UserDTO> usersDTO)
+        private IEnumerable<User> ConvertUsers(IEnumerable<UserDTO> usersDTO)
         {
             ICollection<User> users = new List<User>();
-            var convert = GetDefaultMapper<UserDTO, User>().Map<IEnumerable<UserDTO>, IEnumerable<User>>(usersDTO);
+            var convert = Mapper.Map<IEnumerable<UserDTO>, IEnumerable<User>>(usersDTO);
             foreach (var item in convert)
             {
                 if (_users.FindById(item.UserId) != null)
@@ -70,7 +50,7 @@ namespace BLL.BLLService
             {
                 item.Location = _locations.FindById(item.LocationId);
             }
-            var mappingCollection = GetFromAppToAppDtoMapper().Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(collection);
+            var mappingCollection = Mapper.Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(collection);
             return mappingCollection;
         }
 
@@ -85,7 +65,7 @@ namespace BLL.BLLService
             {
                 item.Location = _locations.FindById(item.LocationId);
             }
-            var mappingCollection = GetFromAppToAppDtoMapper().Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(collection);
+            var mappingCollection = Mapper.Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(collection);
             return mappingCollection;
         }
 
@@ -100,7 +80,7 @@ namespace BLL.BLLService
             {
                 item.Location = _locations.FindById(item.LocationId);
             }
-            var mappingCollection = GetFromAppToAppDtoMapper().Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(collection);
+            var mappingCollection = Mapper.Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(collection);
             return mappingCollection;
         }
 
@@ -115,7 +95,7 @@ namespace BLL.BLLService
             {
                 item.Location = _locations.FindById(item.LocationId);
             }
-            var mappingCollection = GetFromAppToAppDtoMapper().Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(collection);
+            var mappingCollection = Mapper.Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(collection);
             return mappingCollection;
         }
 
@@ -126,7 +106,7 @@ namespace BLL.BLLService
             {
                 appointment = _appointments.FindById(id);
             }
-            var mappingItem = GetFromAppToAppDtoMapper().Map<Appointment, AppointmentDTO>(appointment);
+            var mappingItem = Mapper.Map<Appointment, AppointmentDTO>(appointment);
             return mappingItem;
         }
 
@@ -137,14 +117,13 @@ namespace BLL.BLLService
             {
                 location = _locations.FindById(id);
             }
-            var mappingItem = GetDefaultMapper<Location, LocationDTO>().Map<Location, LocationDTO>(location);
+            var mappingItem = Mapper.Map<Location, LocationDTO>(location);
             return mappingItem;
         }
 
         public IEnumerable<LocationDTO> GetLocations()
         {
-            var locationsMapper =
-                GetDefaultMapper<Location, LocationDTO>().Map<IEnumerable<Location>, IEnumerable<LocationDTO>>(_locations.Get());
+            var locationsMapper = Mapper.Map<IEnumerable<Location>, IEnumerable<LocationDTO>>(_locations.Get());
             return locationsMapper;
         }
 
@@ -160,21 +139,21 @@ namespace BLL.BLLService
                 item.Location = _locations.FindById(item.LocationId);
             }
 
-            var mappingCollection = GetFromAppToAppDtoMapper().Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(collection);
+            var mappingCollection = Mapper.Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(collection);
             return mappingCollection;
         }
 
         public IEnumerable<UserDTO> GetUsers()
         {
-            return GetDefaultMapper<User, UserDTO>().Map<IEnumerable<User>, IEnumerable<UserDTO>>(_users.Get());
+            return Mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(_users.Get());
         }
 
-        public ICollection<UserDTO> GetAppointmentUsers(int id)
+        public IEnumerable<UserDTO> GetAppointmentUsers(int id)
         {
-            return GetDefaultMapper<User, UserDTO>().Map<IEnumerable<User>, ICollection<UserDTO>>(_appointments.FindById(id).Users.ToList());
+            return Mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(_appointments.FindById(id).Users.ToList());
         }
 
-        public void AddAppointment(AppointmentDTO appointment, ICollection<UserDTO> usersDTO , int id)
+        public void AddAppointment(AppointmentDTO appointment, IEnumerable<UserDTO> usersDTO , int id)
         {
             var mapper = new MapperConfiguration(cfg =>
             {

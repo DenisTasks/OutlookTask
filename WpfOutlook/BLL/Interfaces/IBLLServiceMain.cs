@@ -12,10 +12,10 @@ namespace BLL.Interfaces
         IEnumerable<UserDTO> GetUsers();
         IEnumerable<AppointmentDTO> GetAppsByLocation(int id);
         IEnumerable<AppointmentDTO> GetCalendarByUserId(int id);
-        ICollection<UserDTO> GetAppointmentUsers(int id);
+        IEnumerable<UserDTO> GetAppointmentUsers(int id);
         AppointmentDTO GetAppointmentById(int id);
         LocationDTO GetLocationById(int id);
-        void AddAppointment(AppointmentDTO appointment, ICollection<UserDTO> usersDTO, int id);
+        void AddAppointment(AppointmentDTO appointment, IEnumerable<UserDTO> usersDTO, int id);
         void RemoveAppointment(int id, int userId);
     }
 }
