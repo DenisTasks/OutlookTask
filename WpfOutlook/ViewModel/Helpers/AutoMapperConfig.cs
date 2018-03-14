@@ -23,6 +23,8 @@ namespace ViewModel.Helpers
                 cfg.CreateMap<RoleDTO, Role>();
                 cfg.CreateMap<Role, RoleDTO>();
                 cfg.CreateMap<Log, LogDTO>();
+                cfg.CreateMap<GroupModel, GroupDTO>();
+                cfg.CreateMap<UserModel, UserDTO>();
 
             });
         }

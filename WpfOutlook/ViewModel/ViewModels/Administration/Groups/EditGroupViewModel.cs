@@ -250,7 +250,7 @@ namespace ViewModel.ViewModels.Administration.Groups
         {
             if (Group.GroupName == _oldName)
             {
-                _administrationService.EditGroup(GetMapper().Map<GroupModel, GroupDTO>(Group), Group.Groups, Group.Users);
+                _administrationService.EditGroup(Mapper.Map<GroupModel, GroupDTO>(Group), Group.Groups, Group.Users);
                 window.Close();
             }
             else
@@ -259,7 +259,7 @@ namespace ViewModel.ViewModels.Administration.Groups
                 {
                    if( _administrationService.CheckGroup(Group.GroupName))
                     {
-                        _administrationService.EditGroup(GetMapper().Map<GroupModel,GroupDTO>(Group), Group.Groups, Group.Users);
+                        _administrationService.EditGroup(Mapper.Map<GroupModel,GroupDTO>(Group), Group.Groups, Group.Users);
                         window.Close();
                     }
                     else { MessageBox.Show("This name already exists"); }
@@ -269,20 +269,6 @@ namespace ViewModel.ViewModels.Administration.Groups
                     MessageBox.Show("Fill empty fields!");
                 }
             }
-        }
-
-        private IMapper GetMapper()
-        {
-            var mapper = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<GroupModel, GroupDTO>()
-                    .ForMember(d => d.GroupId, opt => opt.MapFrom(s => s.GroupId))
-                    .ForMember(d => d.GroupName, opt => opt.MapFrom(s => s.GroupName))
-                    .ForMember(d => d.ParentId, opt => opt.MapFrom(s => s.ParentId))
-                    .ForMember(d => d.CreatorId, opt => opt.MapFrom(s => s.CreatorId));
-
-            }).CreateMapper();
-            return mapper;
         }
     }
 }
