@@ -82,6 +82,7 @@ namespace TestWpf.Pages
         private void ButtonBase_Click_ToLoginPage(object sender, RoutedEventArgs e)
         {
             Messenger.Default.Unregister<OpenWindowMessage>(this);
+            Messenger.Default.Unregister<NotificationMessage>(this);
             CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
             customPrincipal.Identity = new AnonymousIdentity();
             Messenger.Default.Send<NotificationMessage, AuthenticationViewModel>(new NotificationMessage("LogOut"));

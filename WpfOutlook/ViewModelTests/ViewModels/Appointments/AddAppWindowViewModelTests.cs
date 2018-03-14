@@ -33,12 +33,13 @@ namespace ViewModelTests.ViewModels.Appointments
         {
             //Arrange
             var mock = new Mock<IBLLServiceMain>();
+            var mock2 = new Mock<ILogService>();
             mock.Setup(s => s.GetLocations()).Returns(new List<LocationDTO>
             {
                 new LocationDTO{LocationId = 1, Room = "TestRoom"}
             });
 
-            AddAppWindowViewModel vm = new AddAppWindowViewModel(mock.Object);
+            AddAppWindowViewModel vm = new AddAppWindowViewModel(mock.Object, mock2.Object);
 
             //Act
             int count = vm.GetLocationsCount();
@@ -52,12 +53,13 @@ namespace ViewModelTests.ViewModels.Appointments
         {
             //Arrange
             var mock = new Mock<IBLLServiceMain>();
+            var mock2 = new Mock<ILogService>();
             mock.Setup(s => s.GetUsers()).Returns(new List<UserDTO>
             {
                 new UserDTO { Name = "TestUser" }
             });
 
-            AddAppWindowViewModel vm = new AddAppWindowViewModel(mock.Object);
+            AddAppWindowViewModel vm = new AddAppWindowViewModel(mock.Object,mock2.Object);
 
             //Act
             int count = vm.GetUsersCount();
@@ -70,7 +72,8 @@ namespace ViewModelTests.ViewModels.Appointments
         public void AppointmentIsNotNull()
         {
             var mock = new Mock<IBLLServiceMain>();
-            AddAppWindowViewModel vm = new AddAppWindowViewModel(mock.Object);
+            var mock2 = new Mock<ILogService>();
+            AddAppWindowViewModel vm = new AddAppWindowViewModel(mock.Object,mock2.Object);
 
             Assert.IsNotNull(vm.Appointment);
         }
@@ -80,9 +83,10 @@ namespace ViewModelTests.ViewModels.Appointments
         {
             //Arrange
             var mock = new Mock<IBLLServiceMain>();
+            var mock2 = new Mock<ILogService>();
 
             //Act
-            AddAppWindowViewModel vm = new AddAppWindowViewModel(mock.Object);
+            AddAppWindowViewModel vm = new AddAppWindowViewModel(mock.Object, mock2.Object);
 
             //Assert
             Assert.AreEqual(vm.SelectedBeginningTime, vm.GetDateTimeNow());

@@ -7,6 +7,7 @@ using Model.Interfaces;
 using Model.ModelService;
 using Ninject;
 using Ninject.Modules;
+using System;
 using ViewModel.ViewModels;
 using ViewModel.ViewModels.Administration;
 using ViewModel.ViewModels.Administration.Groups;
@@ -34,6 +35,7 @@ namespace ViewModel
             Bind<IBLLServiceMain>().To<BLLServiceMain>();
             Bind<IAuthenticationService>().To<AuthenticationService>();
             Bind<IAdministrationService>().To<AdministrationService>();
+            Bind<ILogService>().To<LogService>();
         }
     }
 

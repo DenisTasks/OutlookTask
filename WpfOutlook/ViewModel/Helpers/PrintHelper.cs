@@ -15,60 +15,6 @@ namespace ViewModel.Helpers
 {
     public static class PrintHelper
     {
-        //public static FixedDocument GetFixedDocument(FrameworkElement toPrint, PrintDialog printDialog)
-        //{
-        //    PrintCapabilities capabilities = printDialog.PrintQueue.GetPrintCapabilities(printDialog.PrintTicket);
-        //    Size pageSize = new Size(printDialog.PrintableAreaWidth, printDialog.PrintableAreaHeight);
-        //    Size visibleSize = new Size(capabilities.PageImageableArea.ExtentWidth, capabilities.PageImageableArea.ExtentHeight);
-        //    FixedDocument fixedDoc = new FixedDocument();
-
-        //    // If the toPrint visual is not displayed on screen we neeed to measure and arrange it.
-        //    toPrint.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-        //    toPrint.Arrange(new Rect(new Point(0, 0), toPrint.DesiredSize));
-
-        //    Size size = toPrint.DesiredSize;
-
-        //    // Will assume for simplicity the control fits horizontally on the page.
-        //    double yOffset = 0;
-        //    while (yOffset < size.Height)
-        //    {
-        //        VisualBrush vb = new VisualBrush(toPrint);
-        //        vb.Stretch = Stretch.None;
-        //        vb.AlignmentX = AlignmentX.Left;
-        //        vb.AlignmentY = AlignmentY.Top;
-        //        vb.ViewboxUnits = BrushMappingMode.Absolute;
-        //        vb.TileMode = TileMode.None;
-        //        vb.Viewbox = new Rect(0, yOffset, visibleSize.Width, visibleSize.Height);
-
-        //        PageContent pageContent = new PageContent();
-        //        FixedPage page = new FixedPage();
-        //        ((IAddChild)pageContent).AddChild(page);
-        //        fixedDoc.Pages.Add(pageContent);
-        //        page.Width = pageSize.Width;
-        //        page.Height = pageSize.Height;
-
-        //        Canvas canvas = new Canvas();
-        //        FixedPage.SetLeft(canvas, capabilities.PageImageableArea.OriginWidth);
-        //        FixedPage.SetTop(canvas, capabilities.PageImageableArea.OriginHeight);
-        //        canvas.Width = visibleSize.Width;
-        //        canvas.Height = visibleSize.Height;
-        //        canvas.Background = vb;
-        //        page.Children.Add(canvas);
-
-        //        yOffset += visibleSize.Height;
-        //    }
-        //    return fixedDoc;
-        //}
-
-        //public static void ShowPrintPreview(FixedDocument fixedDoc)
-        //{
-        //    Window wnd = new Window();
-        //    DocumentViewer viewer = new DocumentViewer();
-        //    viewer.Document = fixedDoc;
-        //    wnd.Content = viewer;
-        //    wnd.ShowDialog();
-        //}
-
         public static void PrintViewList(ListView appointmentList)
         {
             PrintDialog pd = new PrintDialog();
@@ -85,7 +31,11 @@ namespace ViewModel.Helpers
                 fd.Blocks.Add(new Paragraph(new Run(String.Format($"{temp.Subject,-35}{temp.AppointmentId,-15}{temp.BeginningDate.ToString("dd-MM-yyyy HH-mm"),-18}{temp.EndingDate.ToString("dd-MM-yyyy HH-mm"),-18}{temp.Room,-15}{temp.Users.Count,-3}"))));
             }
             IDocumentPaginatorSource dps = fd;
-            pd.PrintDocument(dps.DocumentPaginator, "flowdoc" );
+            var result = pd.ShowDialog();
+            if ((bool)result)
+            {
+                pd.PrintDocument(dps.DocumentPaginator, "flowdoc");
+            }
         }
 
         public static void PrintAppointment(AppointmentModel appointment)
@@ -103,13 +53,17 @@ namespace ViewModel.Helpers
             fd.Blocks.Add(new Paragraph(new Run(String.Format($"{"Beginning date:",-15}{appointment.BeginningDate.ToString("dd-MM -yyyy HH-mm"),-20}"))));
             fd.Blocks.Add(new Paragraph(new Run(String.Format($"{"Ending date:",-15}{appointment.EndingDate.ToString("dd-MM -yyyy HH-mm"),-20}"))));
             fd.Blocks.Add(new Paragraph(new Run(String.Format($"{"Location:",-15}{appointment.Room,-50}"))));
-            fd.Blocks.Add(new Paragraph(new Run("Participant")));
+            fd.Blocks.Add(new Paragraph(new Run("Participants")));
             foreach (var item in appointment.Users)
             {
-                fd.Blocks.Add(new Paragraph(new Run(String.Format($"{"Name", -6}{item.Name, -50}"))));
+                fd.Blocks.Add(new Paragraph(new Run(String.Format($"{"Name:", -6}{item.Name, -50}"))));
             }
             IDocumentPaginatorSource dps = fd;
-            pd.PrintDocument(dps.DocumentPaginator, "flowdoc");
+            var result = pd.ShowDialog();
+            if ((bool)result)
+            {
+                pd.PrintDocument(dps.DocumentPaginator, "flowdoc");
+            }
         }
     }
 }

@@ -67,5 +67,52 @@ namespace ViewModelTests.ViewModels.Administration.Groups
             Assert.AreEqual(resultGroupGroups, 1);
             Assert.AreEqual(resultGrouUsers, 1);
         }
+
+        [TestCase]
+        public void Test()
+        {
+            var mock = new Mock<IAdministrationService>();
+            mock.Setup(s => s.GetUsers()).Returns(new List<UserDTO>
+            {
+                new UserDTO { Name="test"},
+                new UserDTO { Name="admin"}
+            });
+            mock.Setup(s => s.GetGroups()).Returns(new List<GroupDTO>
+            {
+                new GroupDTO {GroupName="test"},
+                new GroupDTO {GroupName="test1"},
+                new GroupDTO {GroupName="test2"}
+            });
+            mock.Setup(s => s.GetGroupsWithNoAncestors()).Returns(new List<GroupDTO>
+            {
+                new GroupDTO {GroupName="test"},
+                new GroupDTO {GroupName="test1"},
+                new GroupDTO {GroupName="test2"}
+            });
+
+            var groupModel = new GroupModel
+            {
+                GroupName = "testMain",
+                Users = new ObservableCollection<UserDTO>(new List<UserDTO>
+                        {
+                            new UserDTO { Name="test"},
+                        }),
+                Groups = new ObservableCollection<GroupDTO>(new List<GroupDTO>
+                {
+                    new GroupDTO { GroupName = "test1" }
+                })
+            };
+
+            EditGroupViewModel vm = new EditGroupViewModel(mock.Object);
+            Messenger.Default.Send<GroupModel>(groupModel);
+            vm.AddGroup(vm.GroupList.ElementAt(0));
+            vm.RemoveGroup(vm.Group.Groups.ElementAt(5));
+
+            var resultGroup = vm.GroupList.Count();
+            var resultGroupGroups = vm.Group.Groups.Count();
+;
+            Assert.AreEqual(resultGroup, 1);
+            Assert.AreEqual(resultGroupGroups, 2);
+        }
     }
 }

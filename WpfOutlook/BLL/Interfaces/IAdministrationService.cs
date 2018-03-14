@@ -26,7 +26,6 @@ namespace BLL.Interfaces
         void CreateGroup(GroupDTO group, ICollection<GroupDTO> Groups, ICollection<UserDTO> users, int id);
         void EditGroup(GroupDTO group, ICollection<GroupDTO> Groups, ICollection<UserDTO> users);
         void DeleteGroup(int id);
-        void ShowLogs();
         ICollection<GroupDTO> GetGroupFirstGeneration(int id);
         ICollection<UserDTO> GetGroupUsers(int id);
         ICollection<GroupDTO> GetGroupsWithNoAncestors();

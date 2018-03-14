@@ -21,6 +21,8 @@ namespace ViewModel.ViewModels.Administration.Users
 
         private UserModel _user;
         private string _oldUserName;
+        private string _oldPassword;
+        private const string _password = "Enter new password if needed";
 
         private ObservableCollection<RoleDTO> _roleList;
 
@@ -118,6 +120,10 @@ namespace ViewModel.ViewModels.Administration.Users
 
         public void EditUser(Window window)
         {
+            if (_password.Equals(User.Password))
+            {
+                User.Password = _oldPassword;
+            }
             if (_oldUserName == User.UserName && User.Password !=null)
             {
                 _administrationService.EditUser(Mapper.Map<UserModel, UserDTO>(User), User.Groups, User.Roles);
@@ -153,6 +159,9 @@ namespace ViewModel.ViewModels.Administration.Users
                 {
                     User = user;
                     _oldUserName = user.UserName;
+                    _oldPassword = user.Password;
+                    User.Password = _password;
+
                     RoleList = new ObservableCollection<RoleDTO>(_administrationService.GetRoles());
                     foreach (var item in User.Roles)
                     {

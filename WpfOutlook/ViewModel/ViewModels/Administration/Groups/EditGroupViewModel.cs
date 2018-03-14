@@ -230,16 +230,22 @@ namespace ViewModel.ViewModels.Administration.Groups
 
         public void AddGroup(GroupDTO group)
         {
-            Group.Groups.Add(group);
-            GroupList.Remove(group);
-            base.RaisePropertyChanged();
+            if (group != null)
+            {
+                Group.Groups.Add(group);
+                GroupList.Remove(group);
+                base.RaisePropertyChanged();
+            }
         }
 
         public void RemoveGroup(GroupDTO group)
         {
-            Group.Groups.Remove(group);
-            GroupList.Add(group); 
-            base.RaisePropertyChanged();
+            if (group != null)
+            {
+                Group.Groups.Remove(group);
+                GroupList.Add(group);
+                base.RaisePropertyChanged();
+            }
         }
 
         private RelayCommand<Window> _createGroupCommand;

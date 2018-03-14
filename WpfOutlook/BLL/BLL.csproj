@@ -68,16 +68,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BLLService\AdministrationService.cs" />
     <Compile Include="BLLService\AuthenticationService.cs" />
+    <Compile Include="BLLService\LogService.cs" />
     <Compile Include="EntitesDTO\AppointmentDTO.cs" />
     <Compile Include="EntitesDTO\GroupDTO.cs" />
     <Compile Include="EntitesDTO\LocationDTO.cs" />
@@ -88,10 +85,7 @@
     <Compile Include="Interfaces\IAuthenticationService.cs" />
     <Compile Include="BLLService\BLLServiceMain.cs" />
     <Compile Include="Interfaces\IBLLServiceMain.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Interfaces\ILogService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -116,9 +110,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">

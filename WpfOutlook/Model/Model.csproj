@@ -56,6 +56,7 @@
     <Compile Include="Entities\Log.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\User.cs" />
+    <Compile Include="Helpers\EncryptionHelpers.cs" />
     <Compile Include="Interfaces\IGenericRepository.cs" />
     <Compile Include="Migrations\201803011157343_InitialCreate.cs" />
     <Compile Include="Migrations\201803011157343_InitialCreate.Designer.cs">
@@ -72,6 +73,14 @@
     <Compile Include="Migrations\201803061407542_AlerLog.cs" />
     <Compile Include="Migrations\201803061407542_AlerLog.Designer.cs">
       <DependentUpon>201803061407542_AlerLog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803140926026_ChangedUserModel.cs" />
+    <Compile Include="Migrations\201803140926026_ChangedUserModel.Designer.cs">
+      <DependentUpon>201803140926026_ChangedUserModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803141216055_Updatepasswords.cs" />
+    <Compile Include="Migrations\201803141216055_Updatepasswords.Designer.cs">
+      <DependentUpon>201803141216055_Updatepasswords.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelService\GenericRepository.cs" />
@@ -94,6 +103,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803061407542_AlerLog.resx">
       <DependentUpon>201803061407542_AlerLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803140926026_ChangedUserModel.resx">
+      <DependentUpon>201803140926026_ChangedUserModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803141216055_Updatepasswords.resx">
+      <DependentUpon>201803141216055_Updatepasswords.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

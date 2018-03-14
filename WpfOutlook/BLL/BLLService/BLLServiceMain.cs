@@ -15,7 +15,6 @@ namespace BLL.BLLService
         private readonly IGenericRepository<Appointment> _appointments;
         private readonly IGenericRepository<User> _users;
         private readonly IGenericRepository<Location> _locations;
-        private readonly IGenericRepository<Log> _logs;
 
         private IEnumerable<User> ConvertUsers(IEnumerable<UserDTO> usersDTO)
         {
@@ -36,7 +35,6 @@ namespace BLL.BLLService
             _appointments = appointments;
             _users = users;
             _locations = locations;
-            _logs = logs;
         }
 
         public IEnumerable<AppointmentDTO> GetAppointments()
@@ -153,7 +151,7 @@ namespace BLL.BLLService
             return Mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(_appointments.FindById(id).Users.ToList());
         }
 
-        public void AddAppointment(AppointmentDTO appointment, IEnumerable<UserDTO> usersDTO , int id)
+        public void AddAppointment(AppointmentDTO appointment, ICollection<UserDTO> usersDTO , int id)
         {
             var mapper = new MapperConfiguration(cfg =>
             {
@@ -170,14 +168,6 @@ namespace BLL.BLLService
                 try
                 {
                     _appointments.Create(appointmentItem);
-                    _logs.Create(new Log
-                    {
-                        AppointmentName = appointment.Subject,
-                        ActionAuthorId = id,
-                        CreatorId = id,
-                        Action = "Add",
-                        EventTime = DateTime.Now
-                    });
                     _appointments.Save();
                     transaction.Commit();
                 }
@@ -189,21 +179,13 @@ namespace BLL.BLLService
             }
         }
 
-        public void RemoveAppointment(int id, int userId)
+        public void RemoveAppointment(int id)
         {
             using (var transaction = _appointments.BeginTransaction())
             {
                 try
                 {
                     var appointment = _appointments.FindById(id);
-                    _logs.Create(new Log
-                    {
-                        AppointmentName = appointment.Subject,
-                        ActionAuthorId = userId,
-                        CreatorId = appointment.OrganizerId,
-                        Action = "Remove",
-                        EventTime = DateTime.Now
-                    });
                     _appointments.Remove(appointment);
                     _appointments.Save();
                     transaction.Commit();

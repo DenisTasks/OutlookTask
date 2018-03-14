@@ -15,7 +15,7 @@ namespace BLL.Interfaces
         IEnumerable<UserDTO> GetAppointmentUsers(int id);
         AppointmentDTO GetAppointmentById(int id);
         LocationDTO GetLocationById(int id);
-        void AddAppointment(AppointmentDTO appointment, IEnumerable<UserDTO> usersDTO, int id);
-        void RemoveAppointment(int id, int userId);
+        void AddAppointment(AppointmentDTO appointment, ICollection<UserDTO> usersDTO, int id);
+        void RemoveAppointment(int id);
     }
 }

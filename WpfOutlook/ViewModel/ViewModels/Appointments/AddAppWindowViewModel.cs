@@ -21,6 +21,7 @@ namespace ViewModel.ViewModels.Appointments
     public class AddAppWindowViewModel : ViewModelBase
     {
         private readonly IBLLServiceMain _service;
+        private readonly ILogService _logService;
 
         private ObservableCollection<UserDTO> _userList;
         private ObservableCollection<UserDTO> _selectedUserList;
@@ -174,9 +175,10 @@ namespace ViewModel.ViewModels.Appointments
             return mapper;
         }
 
-        public AddAppWindowViewModel(IBLLServiceMain service)
+        public AddAppWindowViewModel(IBLLServiceMain service, ILogService logService)
         {
             _service = service;
+            _logService = logService;
             AddUserToListCommand = new RelayCommand<UserDTO>(AddUsersToList);
             RemoveUserFromListCommand = new RelayCommand<UserDTO>(RemoveUsersFromList);
             CreateAppCommand = new RelayCommand<Window>(CreateAppointment);
@@ -275,6 +277,13 @@ namespace ViewModel.ViewModels.Appointments
 
             if (Appointment.IsValid && _isAvailible == 0)
             {
+                var mapper = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<AppointmentModel, AppointmentDTO>().ForMember(s => s.LocationId,
+                        opt => opt.MapFrom(loc => loc.LocationId));
+                }).CreateMapper();
+                _service.AddAppointment(mapper.Map<AppointmentModel,AppointmentDTO>(Appointment), _selectedUserList, Id);
+                _logService.LogAppointment(mapper.Map<AppointmentModel, AppointmentDTO>(Appointment), Id, true);
                 _service.AddAppointment(Mapper.Map<AppointmentModel,AppointmentDTO>(Appointment), _selectedUserList, Id);
                 Appointment.Room = _service.GetLocationById(Appointment.LocationId).Room;
 

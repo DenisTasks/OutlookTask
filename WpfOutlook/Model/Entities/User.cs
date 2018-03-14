@@ -16,6 +16,7 @@ namespace Model.Entities
         public string Name { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+        public string Salt { get; set; }
 
         public virtual ICollection<Appointment> Appointments { get; set; }
         public virtual ICollection<Group> Groups { get; set; }
