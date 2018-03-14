@@ -78,9 +78,9 @@
     <Compile Include="Migrations\201803140926026_ChangedUserModel.Designer.cs">
       <DependentUpon>201803140926026_ChangedUserModel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201803141216055_Updatepasswords.cs" />
-    <Compile Include="Migrations\201803141216055_Updatepasswords.Designer.cs">
-      <DependentUpon>201803141216055_Updatepasswords.cs</DependentUpon>
+    <Compile Include="Migrations\201803141425414_updatepasswords.cs" />
+    <Compile Include="Migrations\201803141425414_updatepasswords.Designer.cs">
+      <DependentUpon>201803141425414_updatepasswords.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelService\GenericRepository.cs" />
@@ -88,7 +88,6 @@
     <Compile Include="WPFOutlookContext.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -107,8 +106,8 @@
     <EmbeddedResource Include="Migrations\201803140926026_ChangedUserModel.resx">
       <DependentUpon>201803140926026_ChangedUserModel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803141216055_Updatepasswords.resx">
-      <DependentUpon>201803141216055_Updatepasswords.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201803141425414_updatepasswords.resx">
+      <DependentUpon>201803141425414_updatepasswords.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

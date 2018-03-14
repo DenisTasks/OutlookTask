@@ -277,13 +277,7 @@ namespace ViewModel.ViewModels.Appointments
 
             if (Appointment.IsValid && _isAvailible == 0)
             {
-                var mapper = new MapperConfiguration(cfg =>
-                {
-                    cfg.CreateMap<AppointmentModel, AppointmentDTO>().ForMember(s => s.LocationId,
-                        opt => opt.MapFrom(loc => loc.LocationId));
-                }).CreateMapper();
-                _service.AddAppointment(mapper.Map<AppointmentModel,AppointmentDTO>(Appointment), _selectedUserList, Id);
-                _logService.LogAppointment(mapper.Map<AppointmentModel, AppointmentDTO>(Appointment), Id, true);
+                _logService.LogAppointment(Mapper.Map<AppointmentModel, AppointmentDTO>(Appointment), Id, true);
                 _service.AddAppointment(Mapper.Map<AppointmentModel,AppointmentDTO>(Appointment), _selectedUserList, Id);
                 Appointment.Room = _service.GetLocationById(Appointment.LocationId).Room;
 
