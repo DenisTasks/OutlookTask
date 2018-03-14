@@ -151,7 +151,7 @@ namespace BLL.BLLService
             return Mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(_appointments.FindById(id).Users.ToList());
         }
 
-        public void AddAppointment(AppointmentDTO appointment, IEnumerable<UserDTO> usersDTO , int id)
+        public void AddAppointment(AppointmentDTO appointment, ICollection<UserDTO> usersDTO , int id)
         {
             var mapper = new MapperConfiguration(cfg =>
             {

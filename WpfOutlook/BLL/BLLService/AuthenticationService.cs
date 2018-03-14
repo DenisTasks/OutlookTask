@@ -20,7 +20,7 @@ namespace BLL.Services
 
         public UserDTO AuthenticateUser(string username, string password)
         {
-            UserDTO user = Mapper.Map<User, UserDTO>(_users.Get(u => u.UserName.Equals(username) && u.Password.Equals(password)).FirstOrDefault());
+            User user =_users.Get(u => u.UserName.Equals(username) && u.Password.Equals(EncryptionHelpers.HashPassword(username, password, u.Salt))).FirstOrDefault();
             if (user != null && user.IsActive)
             {
                 using (var transaction = _users.BeginTransaction())
@@ -31,7 +31,7 @@ namespace BLL.Services
                     _users.Save();
                     transaction.Commit();
                 }
-                return mapper.Map<User,UserDTO>(user);
+                return Mapper.Map<User,UserDTO>(user);
             }
             else throw new UnauthorizedAccessException("Wrong credentials.");  
         }

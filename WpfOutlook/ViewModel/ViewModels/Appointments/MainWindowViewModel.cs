@@ -262,8 +262,6 @@ namespace ViewModel.ViewModels.Appointments
                 try
                 {
                     CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
-                    if (customPrincipal != null)
-                        _service.RemoveAppointment(appointment.AppointmentId, customPrincipal.Identity.UserId);
                     _service.RemoveAppointment(appointment.AppointmentId);
                     var mapper = new MapperConfiguration(cfg =>
                     {
