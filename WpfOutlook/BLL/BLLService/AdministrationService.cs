@@ -5,6 +5,8 @@ using Model;
 using Model.Entities;
 using Model.Helpers;
 using Model.Interfaces;
+using Model.ModelService;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -21,22 +23,13 @@ namespace BLL.Services
         private IGenericRepository<Role> _roles;
 
         #region mappers
-        private IMapper GetDefaultMapper<TEntityFrom, TEntityTo>() where TEntityFrom : class where TEntityTo : class
-        {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<TEntityFrom, TEntityTo>();
-            });
-            IMapper mapper = config.CreateMapper();
-            return mapper;
-        }
 
         private ICollection<Group> ConvertGroupsDTO(ICollection<GroupDTO> groupsDTO)
         {
             ICollection<Group> groups = new List<Group>();
             if (groupsDTO != null)
             {
-                var convert = GetDefaultMapper<GroupDTO, Group>().Map<IEnumerable<GroupDTO>, IEnumerable<Group>>(groupsDTO);
+                var convert = Mapper.Map<IEnumerable<GroupDTO>, IEnumerable<Group>>(groupsDTO);
                 foreach (var item in convert)
                 {
                     if (_groups.FindById(item.GroupId) != null)
@@ -53,7 +46,7 @@ namespace BLL.Services
             ICollection<Role> roles = new List<Role>();
             if (rolesDTO != null)
             {
-                var convert = GetDefaultMapper<RoleDTO, Role>().Map<IEnumerable<RoleDTO>, IEnumerable<Role>>(rolesDTO);
+                var convert = Mapper.Map<IEnumerable<RoleDTO>, IEnumerable<Role>>(rolesDTO);
                 foreach (var item in convert)
                 {
                     if (_roles.FindById(item.RoleId) != null)
@@ -62,7 +55,6 @@ namespace BLL.Services
                     }
                 }
             }
-
             return roles;
         }
 
@@ -71,7 +63,7 @@ namespace BLL.Services
             ICollection<User> users = new List<User>();
             if (usersDTO != null)
             {
-                var convert = GetDefaultMapper<UserDTO, User>().Map<IEnumerable<UserDTO>, ICollection<User>>(usersDTO);
+                var convert = Mapper.Map<IEnumerable<UserDTO>, ICollection<User>>(usersDTO);
                 foreach (var item in convert)
                 {
                     if (_users.FindById(item.UserId) != null)
@@ -176,7 +168,7 @@ namespace BLL.Services
 
         public ICollection<GroupDTO> GetGroupFirstGeneration(int id)
         {
-            return GetDefaultMapper<Group, GroupDTO>().Map<IEnumerable<Group>, ICollection<GroupDTO>>(_groups.Get(g => g.ParentId == id));
+            return Mapper.Map<IEnumerable<Group>, ICollection<GroupDTO>>(_groups.Get(g => g.ParentId == id));
         }
 
         private void DeleteUsersFromBranch(ICollection<User> users, int id)
@@ -284,12 +276,12 @@ namespace BLL.Services
 
         public ICollection<GroupDTO> GetGroupsWithNoAncestors()
         {
-            return GetDefaultMapper<Group, GroupDTO>().Map<IEnumerable<Group>, ICollection<GroupDTO>>(_groups.Get(g => g.ParentId == null));
+            return Mapper.Map<IEnumerable<Group>, ICollection<GroupDTO>>(_groups.Get(g => g.ParentId == null));
         }
 
         public ICollection<UserDTO> GetGroupUsers(int id)
         {
-            ICollection<UserDTO> users = GetDefaultMapper<User, UserDTO>().Map<IEnumerable<User>, ICollection<UserDTO>>(GetGroupUsersFromBranches(id));
+            ICollection<UserDTO> users = Mapper.Map<IEnumerable<User>, ICollection<UserDTO>>(GetGroupUsersFromBranches(id));
             return users;
         }
 
@@ -299,7 +291,7 @@ namespace BLL.Services
             {
                 return null;
             }
-            else return GetDefaultMapper<Group, GroupDTO>().Map<Group,GroupDTO>(_groups.FindById((int)id));
+            else return Mapper.Map<Group,GroupDTO>(_groups.FindById((int)id));
         }
         
         public string GetGroupName(int? id)
@@ -374,51 +366,39 @@ namespace BLL.Services
 
         public UserDTO GetUserById(int id)
         {
-            return GetDefaultMapper<User, UserDTO>().Map<User, UserDTO>(_users.Get(u => u.UserId == id).FirstOrDefault());
+            return Mapper.Map<User, UserDTO>(_users.Get(u => u.UserId == id).FirstOrDefault());
         }
 
         public ICollection<RoleDTO> GetUserRoles(int id)
         {
-            return GetDefaultMapper<Role, RoleDTO>().Map<IEnumerable<Role>,ICollection<RoleDTO>>(_users.FindById(id).Roles);
+            return Mapper.Map<IEnumerable<Role>,ICollection<RoleDTO>>(_users.FindById(id).Roles);
         }
 
         public ICollection<GroupDTO> GetUserGroups(int id)
         {
-            return GetDefaultMapper<Group, GroupDTO>().Map<IEnumerable<Group>, ICollection<GroupDTO>>(_users.FindById(id).Groups);
+            return Mapper.Map<IEnumerable<Group>, ICollection<GroupDTO>>(_users.FindById(id).Groups);
         }
 
         #endregion
         
         public ICollection<UserDTO> GetUsers()
         {
-            var mapper = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<User, UserDTO>();
-            }).CreateMapper();
-            return mapper.Map<IEnumerable<User>, ICollection<UserDTO>>(_users.Get());
+            return Mapper.Map<IEnumerable<User>, ICollection<UserDTO>>(_users.Get());
         }
 
         public ICollection<GroupDTO> GetGroups()
         {
-            var mapper = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Group, GroupDTO>();
-            }).CreateMapper();
-            return mapper.Map<IEnumerable<Group>, ICollection<GroupDTO>>(_groups.Get());
+            return Mapper.Map<IEnumerable<Group>, ICollection<GroupDTO>>(_groups.Get());
         }
 
         public ICollection<RoleDTO> GetRoles()
         {
-            var mapper = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Role, RoleDTO>();
-            }).CreateMapper();
-            return mapper.Map<IEnumerable<Role>, ICollection<RoleDTO>>(_roles.Get());
+            return Mapper.Map<IEnumerable<Role>, ICollection<RoleDTO>>(_roles.Get());
         }
 
         public ICollection<LogDTO> GetLogs()
         {
-            return GetDefaultMapper<Log, LogDTO>().Map<IEnumerable<Log>, ICollection<LogDTO>>(_logs.Get());
+            return Mapper.Map<IEnumerable<Log>, ICollection<LogDTO>>(_logs.Get());
         }
 
         public int GetNumberOfAdmins()

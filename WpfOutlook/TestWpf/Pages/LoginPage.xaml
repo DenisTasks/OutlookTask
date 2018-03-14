@@ -6,7 +6,8 @@
       xmlns:local="clr-namespace:MVVM"
       DataContext="{Binding LoginPage, Source={StaticResource Locator}}"
       mc:Ignorable="d" 
-      WindowHeight="500" WindowWidth="800"  
+      WindowHeight="500" 
+      WindowWidth="850"  
       Title="Page1">
 
     <Grid>

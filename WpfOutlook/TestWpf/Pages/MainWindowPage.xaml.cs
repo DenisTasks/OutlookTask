@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using GalaSoft.MvvmLight.Messaging;
 using TestWpf.Appointments;
 using TestWpf.Calendar;
 using TestWpf.Common.Groups;
 using ViewModel.Helpers;
-using ViewModel.Jobs;
 using ViewModel.ViewModels.Authenication;
 
 namespace TestWpf.Pages
@@ -17,7 +18,6 @@ namespace TestWpf.Pages
         public MainWindowPage()
         {
             InitializeComponent();
-            NotifyScheduler.Start();
             Messenger.Default.Register<OpenWindowMessage>(
                 this,
                 message => {
@@ -44,7 +44,7 @@ namespace TestWpf.Pages
                     if (message.Type == WindowType.Sync && message.User != null)
                     {
                         var addSync = new SyncWindow();
-                        Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.None, User = message.User });
+                        Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.None, User = message.User, Argument = message.Argument });
                         var result = addSync.ShowDialog();
                     }
                     if (message.Type == WindowType.CalendarFrame)
@@ -87,6 +87,21 @@ namespace TestWpf.Pages
             customPrincipal.Identity = new AnonymousIdentity();
             Messenger.Default.Send<NotificationMessage, AuthenticationViewModel>(new NotificationMessage("LogOut"));
             this.NavigationService.GoBack();
+        }
+    }
+
+    public class AdminVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            bool isAdmin = Thread.CurrentPrincipal.IsInRole("admin");
+
+            return isAdmin ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

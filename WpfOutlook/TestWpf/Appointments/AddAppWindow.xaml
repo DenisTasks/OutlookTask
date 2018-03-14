@@ -43,7 +43,7 @@
         </Style>
     </Window.Resources>
     
-    <Grid>
+    <Grid ShowGridLines="True">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
@@ -67,13 +67,6 @@
         <Label Grid.Column="0" Grid.Row="4" Content="Users" />
         <Label Grid.Column="0" Grid.Row="5" Content="Templates" />
 
-        <Label Grid.Column="2"
-               Grid.Row="0"
-               Name="CheckSubject"
-               FontWeight="Bold"
-               Foreground="Red"
-               Content="{Binding ElementName=SubjectTextBox, Path=(Validation.Errors)[0].ErrorContent}"/>
-
         <TextBox Grid.Column="1" 
                  Grid.Row="0"
                  Name="SubjectTextBox"
@@ -81,11 +74,18 @@
                  TextWrapping="Wrap"
                  Validation.ValidationAdornerSite="{Binding ElementName=CheckSubject}"/>
 
+        <Label Grid.Column="2"
+               Grid.Row="0"
+               Name="CheckSubject"
+               FontWeight="Bold"
+               Foreground="Red"
+               Content="{Binding ElementName=SubjectTextBox, Path=(Validation.Errors)[0].ErrorContent}"/>
+
         <ComboBox Grid.Column="1" 
                   Grid.Row="1" 
                   ItemsSource="{Binding LocationList}"
                   DisplayMemberPath="Room"
-                  SelectedItem="{Binding SelectedLocation}"/>
+                  SelectedValue="{Binding SelectedLocation}"/>
 
         <DatePicker Grid.Column="1" Grid.Row="2"
                     SelectedDate="{Binding StartBeginningDate}"/>

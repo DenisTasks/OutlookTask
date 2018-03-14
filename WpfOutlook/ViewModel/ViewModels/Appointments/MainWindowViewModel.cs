@@ -35,7 +35,7 @@ namespace ViewModel.ViewModels.Appointments
 
         public FileInfo SelectedTheme
         {
-            get { return _selectTheme; }
+            get => _selectTheme;
             set
             {
                 _selectTheme = value;
@@ -142,7 +142,7 @@ namespace ViewModel.ViewModels.Appointments
 
         private void CreateGroup()
         {
-            Messenger.Default.Send<NotificationMessage>(new NotificationMessage("CreateGroup"));
+            Messenger.Default.Send(new NotificationMessage("CreateGroup"));
         }
 
         private bool IsAuthenticated => Thread.CurrentPrincipal.Identity.IsAuthenticated;
@@ -238,6 +238,7 @@ namespace ViewModel.ViewModels.Appointments
         {
             try
             {
+                NotifyScheduler.Start();
                 Appointments = new ObservableCollection<AppointmentModel>(GetMapper().Map<IEnumerable<AppointmentDTO>, ICollection<AppointmentModel>>(_service.GetAppointmentsByUserId(id)));
             }
             catch (Exception e)
@@ -261,6 +262,8 @@ namespace ViewModel.ViewModels.Appointments
                 try
                 {
                     CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
+                    if (customPrincipal != null)
+                        _service.RemoveAppointment(appointment.AppointmentId, customPrincipal.Identity.UserId);
                     _service.RemoveAppointment(appointment.AppointmentId);
                     var mapper = new MapperConfiguration(cfg =>
                     {

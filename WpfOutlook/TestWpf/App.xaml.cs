@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using GalaSoft.MvvmLight.Threading;
+using ViewModel.Helpers;
 using ViewModel.Jobs;
 using ViewModel.ViewModels.Authenication;
 
@@ -24,6 +25,7 @@ namespace TestWpf
         static App()
         {
             DispatcherHelper.Initialize();
+            AutoMapperConfig.RegisterMappings();
         }
 
         private void App_OnExit(object sender, ExitEventArgs e)

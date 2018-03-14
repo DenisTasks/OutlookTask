@@ -186,16 +186,7 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
             {
                 if (_administrationService.CheckGroup(Group.GroupName))
                 {
-                    var mapper = new MapperConfiguration(cfg =>
-                    {
-                        cfg.CreateMap<GroupModel, GroupDTO>()
-                            .ForMember(d => d.GroupId, opt => opt.MapFrom(s => s.GroupId))
-                            .ForMember(d => d.GroupName, opt => opt.MapFrom(s => s.GroupName))
-                            .ForMember(d => d.ParentId, opt => opt.MapFrom(s => s.ParentId))
-                            .ForMember(d => d.CreatorId, opt => opt.MapFrom(s => s.CreatorId));
-
-                    }).CreateMapper();
-                    _administrationService.CreateGroup(mapper.Map<GroupModel, GroupDTO>(Group), Group.Groups, Group.Users, _customPrincipal.Identity.UserId);
+                    _administrationService.CreateGroup(Mapper.Map<GroupModel, GroupDTO>(Group), Group.Groups, Group.Users, _customPrincipal.Identity.UserId);
                     window.Close();
                 }
                 else

@@ -113,17 +113,7 @@ namespace ViewModel.ViewModels.Administration.Users
             {
                 if (_administrationService.CheckUser(User.UserName))
                 {
-                    var mapper = new MapperConfiguration(cfg =>
-                    {
-                        cfg.CreateMap<UserModel, UserDTO>()
-                            .ForMember(d => d.UserId, opt => opt.MapFrom(s => s.UserId))
-                            .ForMember(d => d.Name, opt => opt.MapFrom(s => s.Name))
-                            .ForMember(d => d.UserName, opt => opt.MapFrom(s => s.UserName))
-                            .ForMember(d => d.IsActive, opt => opt.MapFrom(s => s.IsActive))
-                            .ForMember(d => d.Password, opt => opt.MapFrom(s => s.Password));
-
-                    }).CreateMapper();
-                    _administrationService.CreateUser(mapper.Map<UserModel, UserDTO>(User), User.Groups, User.Roles);
+                    _administrationService.CreateUser(Mapper.Map<UserModel, UserDTO>(User), User.Groups, User.Roles);
                     window.Close();
                 }
                 else

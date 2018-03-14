@@ -11,10 +11,47 @@ namespace ViewModel.ViewModels.Calendar
 {
     public class SyncWindowViewModel: ViewModelBase
     {
-        public int MyStartDay { get; set; }
-        public int MyFinishDay { get; set; }
-        public int SyncStartDay { get; set; }
-        public int SyncFinishDay { get; set; }
+        private int _myStartDay;
+        private int _myFinishDay;
+        private int _syncStartDay;
+        private int _syncFinishDay;
+
+        public int MyStartDay
+        {
+            get => _myStartDay;
+            set
+            {
+                _myStartDay = value;
+                base.RaisePropertyChanged();
+            }
+        }
+        public int MyFinishDay
+        {
+            get => _myFinishDay;
+            set
+            {
+                _myFinishDay = value;
+                base.RaisePropertyChanged();
+            }
+        }
+        public int SyncStartDay
+        {
+            get => _syncStartDay;
+            set
+            {
+                _syncStartDay = value;
+                base.RaisePropertyChanged();
+            }
+        }
+        public int SyncFinishDay
+        {
+            get => _syncFinishDay;
+            set
+            {
+                _syncFinishDay = value;
+                base.RaisePropertyChanged();
+            }
+        }
 
         private readonly IBLLServiceMain _service;
         private ObservableCollection<AppointmentDTO> _appointments;
@@ -47,16 +84,16 @@ namespace ViewModel.ViewModels.Calendar
 
         public SyncWindowViewModel(IBLLServiceMain service)
         {
-            MyStartDay = 0;
-            MyFinishDay = 7;
-            SyncStartDay = 0;
-            SyncFinishDay = 7;
             _service = service;
 
             Messenger.Default.Register<OpenWindowMessage>(this, message =>
             {
                 if (message.Type == WindowType.None && message.User != null)
                 {
+                    MyStartDay = Convert.ToInt32(message.Argument);
+                    MyFinishDay = MyStartDay + 7;
+                    SyncStartDay = MyStartDay;
+                    SyncFinishDay = MyFinishDay;
                     LoadData(message.User.UserId);
                 }
             });

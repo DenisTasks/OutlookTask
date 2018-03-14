@@ -3,13 +3,19 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:TestWpf.Controls"
+      xmlns:controls="clr-namespace:TestWpf.Controls"
+      xmlns:local="clr-namespace:TestWpf.Pages"
       mc:Ignorable="d"
       DataContext="{Binding MainWindow,
                               Source={StaticResource Locator}}"
-      WindowHeight="500" WindowWidth="800"  
+      WindowHeight="500" 
+      WindowWidth="850"  
       Title="Outlook application">
-
+    
+    <Page.Resources>
+        <local:AdminVisibilityConverter x:Key="AdminVisibilityConverter"/>
+    </Page.Resources>
+    
     <Grid ShowGridLines="False">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.04*"/>
@@ -23,7 +29,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="0.9*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Column="0" x:Name="HelperField1"/>
         <Grid Grid.Column="1" x:Name="HelperField2"/>
@@ -51,14 +57,19 @@
             <Button Command="{Binding AllAppByLocationCommand}"
                     CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}">AllAppByLocation</Button>
             
-            <Button Command="{Binding PrintTable}" CommandParameter="{Binding ElementName=AppointmentsList}">Print table</Button>
+            <Button Command="{Binding PrintTable}" 
+                    CommandParameter="{Binding ElementName=AppointmentsList}">Print table</Button>
             
-            <Button Click="ButtonBase_Click_ToAdmin">To Admin Page</Button>
+            <Button Click="ButtonBase_Click_ToAdmin"
+                    Visibility="{Binding Converter={StaticResource AdminVisibilityConverter}}">To Admin Page</Button>
             
-            <Button Command="{Binding LogoutCommand}" Click="ButtonBase_Click_ToLoginPage">Logout</Button>
+            <Button Command="{Binding LogoutCommand}" 
+                    Click="ButtonBase_Click_ToLoginPage">Logout</Button>
             
             <Button Command="{Binding CalendarFrameCommand}">Calendar Window</Button>
+            
             <Button Command="{Binding CreateGroupCommand}">Create Group</Button>
+            
             <ComboBox ItemsSource="{Binding Files}"
                       SelectedItem="{Binding SelectedTheme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             
@@ -76,10 +87,10 @@
                 <GroupStyle>
                     <GroupStyle.HeaderTemplate>
                         <DataTemplate>
-                            <Border BorderBrush="Coral" BorderThickness="2">
+                            <Border BorderBrush="SteelBlue"  BorderThickness="2">
                                 <TextBlock Text="{Binding Path=Name}"
                                            FontWeight="Bold"
-                                           Foreground="Orange"/>
+                                           Foreground="Red"/>
                             </Border>
                         </DataTemplate>
                     </GroupStyle.HeaderTemplate>
@@ -134,7 +145,7 @@
                   ItemContainerStyle="{DynamicResource MainWindowRemoveStyle}">
         </ListView>
 
-        <local:ToastList Grid.Row="1" 
+        <controls:ToastList Grid.Row="1" 
                          Grid.Column="3" 
                          VerticalAlignment="Top" />
     </Grid>

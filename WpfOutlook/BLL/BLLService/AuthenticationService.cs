@@ -20,12 +20,7 @@ namespace BLL.Services
 
         public UserDTO AuthenticateUser(string username, string password)
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<User, UserDTO>();
-            });
-            IMapper mapper = config.CreateMapper();
-            User user =_users.Get(u => u.UserName.Equals(username) && u.Password.Equals(EncryptionHelpers.HashPassword(username, password, u.Salt))).FirstOrDefault();
+            UserDTO user = Mapper.Map<User, UserDTO>(_users.Get(u => u.UserName.Equals(username) && u.Password.Equals(password)).FirstOrDefault());
             if (user != null && user.IsActive)
             {
                 using (var transaction = _users.BeginTransaction())

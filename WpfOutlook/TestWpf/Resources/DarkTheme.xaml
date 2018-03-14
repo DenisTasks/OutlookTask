@@ -2692,8 +2692,11 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListView}">
-                    <Border x:Name="Bd" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="0,0,0,0" BorderBrush="{DynamicResource DefaultedBorderBrush}" Background="{DynamicResource ControlBackgroundBrush}">
-
+                    <Border x:Name="Bd" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            CornerRadius="0,0,0,0" 
+                            BorderBrush="{DynamicResource DefaultedBorderBrush}" 
+                            Background="{DynamicResource ControlBackgroundBrush}">
                         <ScrollViewer Padding="{TemplateBinding Padding}" Style="{DynamicResource {x:Static GridView.GridViewScrollViewerStyleKey}}">
                             <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         </ScrollViewer>
@@ -2778,7 +2781,6 @@
                             <Rectangle x:Name="SelectedRectangle" IsHitTestVisible="False" Opacity="0" Fill="{StaticResource SelectedBackgroundBrush}" RadiusX="1" RadiusY="1"/>
                             <GridViewRowPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Margin="0,2,0,2" VerticalAlignment="Stretch" />
                         </Grid>
-
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="true">
@@ -2788,7 +2790,6 @@
                             <Trigger.EnterActions>
                                 <BeginStoryboard Storyboard="{StaticResource SelectedOn}" x:Name="SelectedOn_BeginStoryboard"/>
                             </Trigger.EnterActions>
-
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.ExitActions>
@@ -2821,7 +2822,6 @@
                             </MultiTrigger.Conditions>
 
                         </MultiTrigger>
-
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

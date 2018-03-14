@@ -126,7 +126,7 @@ namespace ViewModel.ViewModels.Administration.Users
             }
             if (_oldUserName == User.UserName && User.Password !=null)
             {
-                _administrationService.EditUser(GetMapper().Map<UserModel, UserDTO>(User), User.Groups, User.Roles);
+                _administrationService.EditUser(Mapper.Map<UserModel, UserDTO>(User), User.Groups, User.Roles);
                 window.Close();
             }
             else
@@ -135,7 +135,7 @@ namespace ViewModel.ViewModels.Administration.Users
                 {
                     if (_administrationService.CheckUser(User.UserName))
                     {
-                        _administrationService.EditUser(GetMapper().Map<UserModel, UserDTO>(User), User.Groups, User.Roles);
+                        _administrationService.EditUser(Mapper.Map<UserModel, UserDTO>(User), User.Groups, User.Roles);
                         window.Close();
                     }
                     else
@@ -195,21 +195,6 @@ namespace ViewModel.ViewModels.Administration.Users
             _addGroupCommand = new RelayCommand<GroupDTO>(AddGroup);
             _removeGroupCommand = new RelayCommand<GroupDTO>(RemoveGroup);
             _editUserCommand = new RelayCommand<Window>(EditUser);
-        }
-
-        private IMapper GetMapper()
-        {
-            var mapper = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<UserModel, UserDTO>()
-                    .ForMember(d => d.UserId, opt => opt.MapFrom(s => s.UserId))
-                    .ForMember(d => d.Name, opt => opt.MapFrom(s => s.Name))
-                    .ForMember(d => d.UserName, opt => opt.MapFrom(s => s.UserName))
-                    .ForMember(d => d.IsActive, opt => opt.MapFrom(s => s.IsActive))
-                    .ForMember(d => d.Password, opt => opt.MapFrom(s => s.Password));
-
-            }).CreateMapper();
-            return mapper;
         }
     }
 }

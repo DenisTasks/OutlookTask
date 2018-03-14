@@ -54,20 +54,20 @@ namespace ViewModel.ViewModels.Calendar
             }
         }
 
-        public RelayCommand SyncCommand { get; }
+        public RelayCommand<object> SyncCommand { get; }
 
         public CalendarWindowViewModel(IBLLServiceMain service)
         {
             _service = service;
             LoadData();
-            SyncCommand = new RelayCommand(SyncWithUser);
+            SyncCommand = new RelayCommand<object>(SyncWithUser);
         }
 
-        private void SyncWithUser()
+        private void SyncWithUser(object start)
         {
             if (_selectedSyncUser != null)
             {
-                Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.Sync, User = new UserDTO() { UserId = _selectedSyncUser.UserId } });
+                Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.Sync, User = new UserDTO() { UserId = _selectedSyncUser.UserId }, Argument = start.ToString()});
             }
         }
         private void LoadData()

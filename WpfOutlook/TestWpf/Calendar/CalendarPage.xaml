@@ -30,7 +30,8 @@
 
             <Button Click="ButtonBase_OnPreviousWeekClick"
                     Content="Previous Week"/>
-            <Button Command="{Binding SyncCommand}" 
+            <Button Name="SyncButton"
+                    Command="{Binding SyncCommand}"
                     Content="Sync with selected user"/>
             <Button Click="ButtonBase_OnNextWeekClick"
                     Content="Next Week"/>
@@ -42,8 +43,8 @@
                   Style="{DynamicResource DefaultStyleKey}">
             <ListView.View>
                 <controls:CalendarView
-                    ItemBeginDateBinding="{Binding Path=BeginningDate}" 
-                    ItemEndDateBinding="{Binding Path=EndingDate}">
+                    ItemBeginDateBinding="{Binding BeginningDate}" 
+                    ItemEndDateBinding="{Binding EndingDate}">
                 </controls:CalendarView>
             </ListView.View>
             <ListView.ItemContainerStyle>
@@ -116,17 +117,21 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                    <Border BorderBrush="#5076A7" BorderThickness="1,1,1,1" CornerRadius="4,4,4,4">
+                                    <Border BorderBrush="#5076A7" 
+                                            BorderThickness="1,1,1,1" 
+                                            CornerRadius="4,4,4,4">
                                         <Border.Background>
                                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                                                 <GradientStop Color="#FFFFFF" Offset="0.0" />
                                                 <GradientStop Color="#C0D3EA" Offset="1.0" />
                                             </LinearGradientBrush>
                                         </Border.Background>
-                                        <StackPanel TextElement.FontFamily="Segoe UI" TextElement.FontSize="11">
-                                            <TextBlock FontWeight="Bold" Padding="3,0,0,0" Text="{Binding Path=Subject}" TextWrapping="Wrap" />
-                                            <TextBlock Padding="3,0,0,0" Text="{Binding Path=BeginningDate, StringFormat=Start: {0:HH:mm}}" TextWrapping="Wrap" />
-                                            <TextBlock Padding="3,0,0,0" Text="{Binding Path=EndingDate, StringFormat=Finish: {0:HH:mm}}" TextWrapping="Wrap"/>
+                                        <StackPanel TextElement.FontFamily="Segoe UI" 
+                                                    TextElement.FontSize="11">
+                                            <TextBlock FontWeight="Bold" Padding="3,0,0,0" 
+                                                       Text="{Binding Path=Subject, StringFormat=Subject: {0}}" 
+                                                       TextWrapping="Wrap" 
+                                                       TextTrimming="WordEllipsis"/>
                                         </StackPanel>
                                     </Border>
                                 </ControlTemplate>
@@ -137,5 +142,4 @@
             </ListView.ItemContainerStyle>
         </ListView>
     </Grid>
-
 </Page>
