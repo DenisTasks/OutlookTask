@@ -52,7 +52,7 @@
             <Button Command="{Binding GroupBySubjectCommand}">Group by</Button>
             
             <Button Command="{Binding AboutAppointmentCommand}"
-                    CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}">About</Button>
+                    CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}">Print Appointment</Button>
             
             <Button Command="{Binding AllAppByLocationCommand}"
                     CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}">AllAppByLocation</Button>

@@ -87,6 +87,7 @@ namespace TestWpf.Pages
             Messenger.Default.Send<NotificationMessage, AuthenticationViewModel>(new NotificationMessage("LogOut"));
             this.NavigationService.GoBack();
         }
+
     }
 
     public class AdminVisibilityConverter : IValueConverter
