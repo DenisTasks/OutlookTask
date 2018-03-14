@@ -60,7 +60,7 @@
                     Click="ButtonBase_Click_ToLoginPage">Logout</Button>
             
             <Button Command="{Binding CalendarFrameCommand}">Calendar Window</Button>
-            
+            <Button Command="{Binding CreateGroupCommand}">Create Group</Button>
             <ComboBox ItemsSource="{Binding Files}"
                       SelectedItem="{Binding SelectedTheme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             

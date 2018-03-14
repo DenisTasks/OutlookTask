@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using GalaSoft.MvvmLight.Messaging;
 using TestWpf.Appointments;
 using TestWpf.Calendar;
+using TestWpf.Common.Groups;
 using ViewModel.Helpers;
 using ViewModel.Jobs;
 using ViewModel.ViewModels.Authenication;
@@ -52,6 +53,14 @@ namespace TestWpf.Pages
                         var result = calendarFrameWindow.ShowDialog();
                     }
                 });
+            Messenger.Default.Register<NotificationMessage>(this, message =>
+            {
+                if (message.Notification.Equals("CreateGroup"))
+                {
+                    var addGroupWindow = new AddGroupWindow();
+                    var result = addGroupWindow.ShowDialog();
+                }
+            });
         }
 
         private void ButtonBase_Click_ToAdmin(object sender, RoutedEventArgs e)

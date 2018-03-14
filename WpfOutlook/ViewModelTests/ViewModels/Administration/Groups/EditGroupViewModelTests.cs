@@ -18,7 +18,7 @@ namespace ViewModelTests.ViewModels.Administration.Groups
     public class EditGroupViewModelTests
     {
         [TestCase]
-        public void TestGroup()
+        public void TestEditInitialization()
         {
             var mock = new Mock<IAdministrationService>();
             mock.Setup(s => s.GetUsers()).Returns(new List<UserDTO>

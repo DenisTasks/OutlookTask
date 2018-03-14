@@ -45,7 +45,7 @@ namespace ViewModelTests.ViewModels.Administration.Users
         }
 
         [TestCase]
-        public void TestUser()
+        public void TestEditUserInitialization()
         {
             var mock = new Mock<IAdministrationService>();
             mock.Setup(s => s.GetRoles()).Returns(new List<RoleDTO>

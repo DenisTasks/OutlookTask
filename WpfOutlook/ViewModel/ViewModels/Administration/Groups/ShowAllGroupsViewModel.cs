@@ -25,7 +25,6 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
         private RelayCommand<GroupModel> _editUserCommand { get; }
         private RelayCommand _addUserCommand { get; }
         private RelayCommand<GroupModel> _deleteGroupCommand { get; }
-        //private RelayCommand _backCommand { get; }
 
         public ShowAllGroupsViewModel(IAdministrationService administationService)
         {
@@ -42,8 +41,6 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
 
         public RelayCommand<GroupModel> DeleteGroupCommand { get { return _deleteGroupCommand; } }
 
-        //public RelayCommand BackCommand { get; { return _backCommand; } }
-
         public ObservableCollection<GroupModel> Groups
         {
             get => _groups;
@@ -56,11 +53,6 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
                 }
             }
         }
-
-        //private void Back()
-        //{
-
-        //}
 
         private void DeleteGroup(GroupModel group)
         {

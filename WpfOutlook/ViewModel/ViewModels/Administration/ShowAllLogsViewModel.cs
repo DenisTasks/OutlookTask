@@ -35,7 +35,7 @@ namespace ViewModel.ViewModels.Administration
             {
                 cfg.CreateMap<LogDTO, LogModel>()
                     .ForMember(d => d.LogId, opt => opt.MapFrom(s => s.LogId))
-                    .ForMember(d => d.ActionName, opt => opt.MapFrom(s => s.Action))
+                    .ForMember(d => d.Action, opt => opt.MapFrom(s => s.Action))
                     .ForMember(d => d.AppointmentName, opt => opt.MapFrom(s => s.AppointmentName))
                     .ForMember(d => d.ActionAuthorName, opt => opt.MapFrom(s => _administrationService.GetUserById(s.ActionAuthorId).Name))
                     .ForMember(d => d.CreatorName, opt => opt.MapFrom(s => _administrationService.GetUserById(s.CreatorId).Name))

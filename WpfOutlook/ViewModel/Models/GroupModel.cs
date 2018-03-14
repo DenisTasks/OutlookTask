@@ -124,12 +124,10 @@ namespace ViewModel.Models
             {
                 if (columnName == "GroupName")
                 {
-                    // Validate property and return a string if there is an error
                     if (string.IsNullOrEmpty(GroupName))
                         return "GroupName is Required";
                 }
-
-                // If there's no error, null gets returned
+                
                 return null;
             }
         }
