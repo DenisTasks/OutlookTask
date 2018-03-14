@@ -7,7 +7,7 @@
       mc:Ignorable="d"
       DataContext="{Binding MainWindow,
                               Source={StaticResource Locator}}"
-      WindowHeight="500" WindowWidth="800"  
+      WindowHeight="500" WindowWidth="850"  
       Title="Outlook application">
 
     <Grid ShowGridLines="False">
@@ -23,7 +23,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="0.9*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Column="0" x:Name="HelperField1"/>
         <Grid Grid.Column="1" x:Name="HelperField2"/>
@@ -51,11 +51,13 @@
             <Button Command="{Binding AllAppByLocationCommand}"
                     CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}">AllAppByLocation</Button>
             
-            <Button Command="{Binding PrintTable}" CommandParameter="{Binding ElementName=AppointmentsList}">Print table</Button>
+            <Button Command="{Binding PrintTable}" 
+                    CommandParameter="{Binding ElementName=AppointmentsList}">Print table</Button>
             
             <Button Click="ButtonBase_Click_ToAdmin">To Admin Page</Button>
             
-            <Button Command="{Binding LogoutCommand}" Click="ButtonBase_Click_ToLoginPage">Logout</Button>
+            <Button Command="{Binding LogoutCommand}" 
+                    Click="ButtonBase_Click_ToLoginPage">Logout</Button>
             
             <Button Command="{Binding CalendarFrameCommand}">Calendar Window</Button>
             
@@ -76,10 +78,10 @@
                 <GroupStyle>
                     <GroupStyle.HeaderTemplate>
                         <DataTemplate>
-                            <Border BorderBrush="Coral" BorderThickness="2">
+                            <Border BorderBrush="SteelBlue"  BorderThickness="2">
                                 <TextBlock Text="{Binding Path=Name}"
                                            FontWeight="Bold"
-                                           Foreground="Orange"/>
+                                           Foreground="Red"/>
                             </Border>
                         </DataTemplate>
                     </GroupStyle.HeaderTemplate>

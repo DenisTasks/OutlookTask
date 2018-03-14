@@ -43,7 +43,7 @@ namespace TestWpf.Pages
                     if (message.Type == WindowType.Sync && message.User != null)
                     {
                         var addSync = new SyncWindow();
-                        Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.None, User = message.User });
+                        Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.None, User = message.User, Argument = message.Argument });
                         var result = addSync.ShowDialog();
                     }
                     if (message.Type == WindowType.CalendarFrame)
