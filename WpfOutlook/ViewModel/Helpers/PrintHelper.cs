@@ -31,7 +31,11 @@ namespace ViewModel.Helpers
                 fd.Blocks.Add(new Paragraph(new Run(String.Format($"{temp.Subject,-35}{temp.AppointmentId,-15}{temp.BeginningDate.ToString("dd-MM-yyyy HH-mm"),-18}{temp.EndingDate.ToString("dd-MM-yyyy HH-mm"),-18}{temp.Room,-15}{temp.Users.Count,-3}"))));
             }
             IDocumentPaginatorSource dps = fd;
-            pd.PrintDocument(dps.DocumentPaginator, "flowdoc" );
+            var result = pd.ShowDialog();
+            if ((bool)result)
+            {
+                pd.PrintDocument(dps.DocumentPaginator, "flowdoc");
+            }
         }
 
         public static void PrintAppointment(AppointmentModel appointment)
@@ -55,7 +59,11 @@ namespace ViewModel.Helpers
                 fd.Blocks.Add(new Paragraph(new Run(String.Format($"{"Name:", -6}{item.Name, -50}"))));
             }
             IDocumentPaginatorSource dps = fd;
-            pd.PrintDocument(dps.DocumentPaginator, "flowdoc");
+            var result = pd.ShowDialog();
+            if ((bool)result)
+            {
+                pd.PrintDocument(dps.DocumentPaginator, "flowdoc");
+            }
         }
     }
 }
