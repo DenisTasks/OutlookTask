@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -192,9 +193,9 @@ namespace ViewModel.ViewModels.Appointments
 
             BeginningTime = LoadTimeRange();
             EndingTime = LoadTimeRange();
-
             SelectedBeginningTime = BeginningTime.Find(x => x == GetDateTimeNow());
-            SelectedEndingTime = SelectedBeginningTime;
+            SelectedEndingTime = BeginningTime[BeginningTime.IndexOf(SelectedBeginningTime) + 1];
+            SelectedLocation = LocationList[0];
         }
 
         public int GetLocationsCount()
@@ -232,6 +233,7 @@ namespace ViewModel.ViewModels.Appointments
         private List<DateTime> LoadTimeRange()
         {
             var timeList = new List<DateTime>();
+
             DateTime day = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 00, 00, 00);
             DateTime day2 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 59, 00);
             for (TimeSpan i = day.TimeOfDay; i < day2.TimeOfDay; i += TimeSpan.FromMinutes(30))
@@ -246,8 +248,8 @@ namespace ViewModel.ViewModels.Appointments
             _isAvailible = 0;
             if (_selectedLocation != null)
             {
-                var startA = DateTime.Parse(_startDate.ToString("d") + " " + _selectedBeginningTime.ToString("h:mm tt"));
-                var endA = DateTime.Parse(_endingDate.ToString("d") + " " + _selectedEndingTime.ToString("h:mm tt"));
+                var startA = DateTime.Parse(_startDate.ToString("d", CultureInfo.InvariantCulture) + " " + _selectedBeginningTime.ToString("h:mm tt", CultureInfo.InvariantCulture));
+                var endA = DateTime.Parse(_endingDate.ToString("d", CultureInfo.InvariantCulture) + " " + _selectedEndingTime.ToString("h:mm tt", CultureInfo.InvariantCulture));
 
                 var bySameDay = _service.GetAppsByLocation(_selectedLocation.LocationId)
                     .Where(s => s.BeginningDate.DayOfYear == startA.DayOfYear).ToList();
@@ -265,8 +267,8 @@ namespace ViewModel.ViewModels.Appointments
 
         private void CreateAppointment(Window window)
         {
-            Appointment.BeginningDate = DateTime.Parse(_startDate.ToString("d") + " " + _selectedBeginningTime.ToString("h:mm tt"));
-            Appointment.EndingDate = DateTime.Parse(_endingDate.ToString("d") + " " + _selectedEndingTime.ToString("h:mm tt"));
+            Appointment.BeginningDate = DateTime.Parse(_startDate.ToString("d", CultureInfo.InvariantCulture) + " " + _selectedBeginningTime.ToString("h:mm tt", CultureInfo.InvariantCulture));
+            Appointment.EndingDate = DateTime.Parse(_endingDate.ToString("d", CultureInfo.InvariantCulture) + " " + _selectedEndingTime.ToString("h:mm tt", CultureInfo.InvariantCulture));
             Appointment.LocationId = SelectedLocation.LocationId;
             Appointment.Users = SelectedUserList;
             CheckDates();
@@ -317,7 +319,9 @@ namespace ViewModel.ViewModels.Appointments
             }
             else
             {
-                MessageBox.Show("Please, check your choice!");
+                MessageBox.Show(SelectedUserList.Count == 0
+                    ? "Please add users to the appointment list"
+                    : "The selected room is busy for the specified period of time!");
             }
         }
 

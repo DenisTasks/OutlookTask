@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Configuration;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Impl.Matchers;
@@ -17,27 +18,8 @@ namespace ViewModel.Jobs
         }
         public static void Start()
         {
-            NameValueCollection properties = new NameValueCollection();
-
-            properties["quartz.threadPool.type"] = "Quartz.Simpl.SimpleThreadPool, Quartz";
-            properties["quartz.threadPool.makeThreadsDaemons"] = "true";
-            properties["quartz.threadPool.threadCount"] = "5";
-            properties["quartz.threadPool.threadPriority"] = "Normal";
-
-            properties["quartz.scheduler.instanceName"] = "TestScheduler";
-            properties["quartz.jobStore.misfireThreshold"] = "60000";
-            properties["quartz.jobStore.type"] = "Quartz.Impl.AdoJobStore.JobStoreTX, Quartz";
-            properties["quartz.jobStore.driverDelegateType"] = "Quartz.Impl.AdoJobStore.SqlServerDelegate, Quartz";
-            properties["quartz.jobStore.useProperties"] = "false";
-            properties["quartz.jobStore.tablePrefix"] = "QRTZ_";
-            properties["quartz.jobStore.clustered"] = "true";
-            properties["quartz.scheduler.instanceId"] = "AUTO";
-            properties["quartz.scheduler.dbFailureRetryInterval"] = "60000";
-            properties["quartz.jobStore.dataSource"] = "default";
-            properties["quartz.dataSource.default.provider"] = "SqlServer-20";
-            properties["quartz.dataSource.default.connectionString"] = "Server=EPBYGROW0342\\MYSSQLSERVER;Database=WPFDB;Trusted_Connection=True;";
-
-            ISchedulerFactory sf = new StdSchedulerFactory(properties);
+            NameValueCollection config = (NameValueCollection) ConfigurationManager.GetSection("quartz");
+            ISchedulerFactory sf = new StdSchedulerFactory(config);
             WpfScheduler = sf.GetScheduler();
 
             List<AppointmentModel> missedApps = new List<AppointmentModel>();

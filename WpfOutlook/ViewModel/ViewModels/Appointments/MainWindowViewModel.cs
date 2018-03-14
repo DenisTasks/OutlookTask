@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -34,7 +35,7 @@ namespace ViewModel.ViewModels.Appointments
 
         public FileInfo SelectedTheme
         {
-            get { return _selectTheme; }
+            get => _selectTheme;
             set
             {
                 _selectTheme = value;
@@ -140,7 +141,7 @@ namespace ViewModel.ViewModels.Appointments
 
         private void CreateGroup()
         {
-            Messenger.Default.Send<NotificationMessage>(new NotificationMessage("CreateGroup"));
+            Messenger.Default.Send(new NotificationMessage("CreateGroup"));
         }
 
         private bool IsAuthenticated => Thread.CurrentPrincipal.Identity.IsAuthenticated;
@@ -236,6 +237,7 @@ namespace ViewModel.ViewModels.Appointments
         {
             try
             {
+                NotifyScheduler.Start();
                 Appointments = new ObservableCollection<AppointmentModel>(GetMapper().Map<IEnumerable<AppointmentDTO>, ICollection<AppointmentModel>>(_service.GetAppointmentsByUserId(id)));
             }
             catch (Exception e)
@@ -259,7 +261,8 @@ namespace ViewModel.ViewModels.Appointments
                 try
                 {
                     CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
-                    _service.RemoveAppointment(appointment.AppointmentId, customPrincipal.Identity.UserId);
+                    if (customPrincipal != null)
+                        _service.RemoveAppointment(appointment.AppointmentId, customPrincipal.Identity.UserId);
 
                     var myJob = NotifyScheduler.WpfScheduler.GetJobKeys(GroupMatcher<JobKey>.AnyGroup())
                         .Where(x => x.Name == appointment.AppointmentId.ToString()).ToList();
