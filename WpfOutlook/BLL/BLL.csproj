@@ -74,6 +74,7 @@
     </Compile>
     <Compile Include="BLLService\AdministrationService.cs" />
     <Compile Include="BLLService\AuthenticationService.cs" />
+    <Compile Include="BLLService\LogService.cs" />
     <Compile Include="EntitesDTO\AppointmentDTO.cs" />
     <Compile Include="EntitesDTO\GroupDTO.cs" />
     <Compile Include="EntitesDTO\LocationDTO.cs" />

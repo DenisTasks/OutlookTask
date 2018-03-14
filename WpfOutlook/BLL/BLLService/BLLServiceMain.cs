@@ -15,7 +15,6 @@ namespace BLL.BLLService
         private readonly IGenericRepository<Appointment> _appointments;
         private readonly IGenericRepository<User> _users;
         private readonly IGenericRepository<Location> _locations;
-        private readonly IGenericRepository<Log> _logs;
 
         private IMapper GetDefaultMapper<TEntityFrom, TEntityTo>() where TEntityFrom : class  where  TEntityTo : class 
         {
@@ -56,7 +55,6 @@ namespace BLL.BLLService
             _appointments = appointments;
             _users = users;
             _locations = locations;
-            _logs = logs;
         }
 
         public IEnumerable<AppointmentDTO> GetAppointments()
@@ -191,14 +189,6 @@ namespace BLL.BLLService
                 try
                 {
                     _appointments.Create(appointmentItem);
-                    _logs.Create(new Log
-                    {
-                        AppointmentName = appointment.Subject,
-                        ActionAuthorId = id,
-                        CreatorId = id,
-                        Action = "Add",
-                        EventTime = DateTime.Now
-                    });
                     _appointments.Save();
                     transaction.Commit();
                 }
@@ -210,21 +200,13 @@ namespace BLL.BLLService
             }
         }
 
-        public void RemoveAppointment(int id, int userId)
+        public void RemoveAppointment(int id)
         {
             using (var transaction = _appointments.BeginTransaction())
             {
                 try
                 {
                     var appointment = _appointments.FindById(id);
-                    _logs.Create(new Log
-                    {
-                        AppointmentName = appointment.Subject,
-                        ActionAuthorId = userId,
-                        CreatorId = appointment.OrganizerId,
-                        Action = "Remove",
-                        EventTime = DateTime.Now
-                    });
                     _appointments.Remove(appointment);
                     _appointments.Save();
                     transaction.Commit();

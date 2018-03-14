@@ -35,6 +35,7 @@ namespace ViewModel
             Bind<IBLLServiceMain>().To<BLLServiceMain>();
             Bind<IAuthenticationService>().To<AuthenticationService>();
             Bind<IAdministrationService>().To<AdministrationService>();
+            Bind<ILogService>().To<LogService>();
         }
     }
 

@@ -9,7 +9,6 @@ namespace BLL.Interfaces
 {
     public interface ILogService
     {
-        void AddAppointment(AppointmentDTO appointment, int id);
-        void RemoveAppointment(AppointmentDTO appointment, int id);
+        void LogAppointment(AppointmentDTO appointment, int id, bool action);
     }
 }

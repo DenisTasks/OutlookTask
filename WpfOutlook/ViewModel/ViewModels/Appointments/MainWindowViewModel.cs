@@ -27,6 +27,7 @@ namespace ViewModel.ViewModels.Appointments
     public class MainWindowViewModel : ViewModelBase
     {
         private readonly IBLLServiceMain _service;
+        private readonly ILogService _logService;
         private ObservableCollection<AppointmentModel> _appointments;
         private ObservableCollection<FileInfo> _files;
         private FileInfo _selectTheme;
@@ -95,11 +96,12 @@ namespace ViewModel.ViewModels.Appointments
         public RelayCommand CreateGroupCommand { get; }
         #endregion
 
-        public MainWindowViewModel(IBLLServiceMain service)
+        public MainWindowViewModel(IBLLServiceMain service, ILogService logService)
         {
             CustomPrincipal cp = Thread.CurrentPrincipal as CustomPrincipal;
             if (cp != null) Id = cp.Identity.UserId;
             _service = service;
+            _logService = logService;
             LoadData(Id);
             #region Commands
             AddAppWindowCommand = new RelayCommand(AddAppointment);
@@ -259,7 +261,13 @@ namespace ViewModel.ViewModels.Appointments
                 try
                 {
                     CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
-                    _service.RemoveAppointment(appointment.AppointmentId, customPrincipal.Identity.UserId);
+                    _service.RemoveAppointment(appointment.AppointmentId);
+                    var mapper = new MapperConfiguration(cfg =>
+                    {
+                        cfg.CreateMap<AppointmentModel, AppointmentDTO>().ForMember(s => s.LocationId,
+                            opt => opt.MapFrom(loc => loc.LocationId));
+                    }).CreateMapper();
+                    _logService.LogAppointment(mapper.Map<AppointmentModel, AppointmentDTO>(appointment), customPrincipal.Identity.UserId, false);
 
                     var myJob = NotifyScheduler.WpfScheduler.GetJobKeys(GroupMatcher<JobKey>.AnyGroup())
                         .Where(x => x.Name == appointment.AppointmentId.ToString()).ToList();

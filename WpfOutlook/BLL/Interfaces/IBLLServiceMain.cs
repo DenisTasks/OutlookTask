@@ -16,6 +16,6 @@ namespace BLL.Interfaces
         AppointmentDTO GetAppointmentById(int id);
         LocationDTO GetLocationById(int id);
         void AddAppointment(AppointmentDTO appointment, ICollection<UserDTO> usersDTO, int id);
-        void RemoveAppointment(int id, int userId);
+        void RemoveAppointment(int id);
     }
 }
