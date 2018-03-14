@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
 using BLL.EntitesDTO;
 using BLL.Interfaces;
-using Microsoft.SqlServer.Server;
 using Model;
 using Model.Entities;
+using Model.Helpers;
 using Model.Interfaces;
-using Model.ModelService;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -320,9 +318,12 @@ namespace BLL.Services
 
         public void CreateUser(UserDTO user, ICollection<GroupDTO> groups, ICollection<RoleDTO> roles)
         {
+            var salt = EncryptionHelpers.GenerateSalt();
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<UserDTO, User>()
+                    .ForMember(d=> d.Salt, opt=> opt.MapFrom(s=> salt))
+                    .ForMember(d => d.Password, opt => opt.MapFrom(s=> EncryptionHelpers.HashPassword(user.UserName,user.Password, salt)))
                     .ForMember(d => d.Roles, opt => opt.MapFrom(s => ConvertRolesDTO(roles)))
                     .ForMember(d => d.Groups, opt => opt.MapFrom(s => ConvertGroupsDTO(groups)));
 
@@ -339,7 +340,12 @@ namespace BLL.Services
                 User userToEdit = _users.FindById(user.UserId);
                 if (user.Name != null) userToEdit.Name = user.Name;
                 if ((user.UserName != null || userToEdit.UserName == user.UserName) && CheckUser(user.UserName)) userToEdit.UserName = user.UserName;
-                if (user.Password != null) userToEdit.Password = user.Password;
+                if (user.Password != null && user.Password != userToEdit.Password)
+                {
+                    var salt = EncryptionHelpers.GenerateSalt();
+                    userToEdit.Salt = salt;
+                    userToEdit.Password = EncryptionHelpers.HashPassword(user.UserName, user.Password, salt);
+                }
                 if (user.IsActive != userToEdit.IsActive) userToEdit.IsActive = user.IsActive;
                 if (roles.Any()) userToEdit.Roles = ConvertRolesDTO(roles);
                 if (!roles.Any()) userToEdit.Roles = null;
@@ -408,11 +414,6 @@ namespace BLL.Services
                 cfg.CreateMap<Role, RoleDTO>();
             }).CreateMapper();
             return mapper.Map<IEnumerable<Role>, ICollection<RoleDTO>>(_roles.Get());
-        }
-
-        public void ShowLogs()
-        {
-            throw new NotImplementedException();
         }
 
         public ICollection<LogDTO> GetLogs()

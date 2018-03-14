@@ -59,7 +59,7 @@
 
         <ListView Grid.Column="1"
                   Grid.Row="3"
-                  MaxHeight="300"
+                  MaxHeight="250"
                   Name="FromUserList"
                   ItemsSource="{Binding UserList}">
             <ListView.ItemTemplate>
@@ -82,7 +82,7 @@
 
         <ListView Grid.Column="3"
                   Grid.Row="3"
-                  MaxHeight="300"
+                  MaxHeight="250"
                   Name="ToUserList"
                   ItemsSource="{Binding Group.Users}">
             <ListView.ItemTemplate>
@@ -102,7 +102,7 @@
 
         <ListView Grid.Column="1"
                   Grid.Row="4"
-                  MaxHeight="300"
+                  MaxHeight="250"
                   Name="FromGroupList"
                   ItemsSource="{Binding GroupList}">
             <ListView.ItemTemplate>
@@ -122,7 +122,7 @@
 
         <ListView Grid.Column="3"
                   Grid.Row="4"
-                  MaxHeight="300"
+                  MaxHeight="250"
                   Name="ToGroupList"
                   ItemsSource="{Binding Group.Groups}">
             <ListView.ItemTemplate>

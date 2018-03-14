@@ -1,6 +1,8 @@
 ﻿using Model.Entities;
+using Model.Helpers;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using SqlProviderServices = System.Data.Entity.SqlServer.SqlProviderServices;
 
 namespace Model
@@ -15,7 +17,7 @@ namespace Model
                 UserId = 1,
                 Name = "admin",
                 UserName = "admin",
-                Password = "admin"
+                Password = EncryptionHelpers.HashPassword("admin", "admin",EncryptionHelpers.GenerateSalt())
             };
             context.Users.Add(user);
             context.Roles.Add(new Role { RoleId = 1, Name = "admin", Users = new List<User> { user } });

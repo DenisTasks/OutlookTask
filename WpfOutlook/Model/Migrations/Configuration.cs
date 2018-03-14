@@ -1,5 +1,6 @@
 namespace Model.Migrations
 {
+    using Model.Helpers;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -15,10 +16,14 @@ namespace Model.Migrations
 
         protected override void Seed(Model.WPFOutlookContext context)
         {
-            //  This method will be called after migrating to the latest version.
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data.
+            foreach(var item in context.Users)
+            {
+                var salt = EncryptionHelpers.GenerateSalt();
+                item.Salt = salt;
+                item.Password = EncryptionHelpers.HashPassword(item.UserName, item.Password, salt);
+                context.Users.AddOrUpdate(item);
+            }
+            context.SaveChanges();
         }
     }
 }

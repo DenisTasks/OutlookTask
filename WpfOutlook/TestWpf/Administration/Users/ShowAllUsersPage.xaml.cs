@@ -50,6 +50,7 @@ namespace TestWpf.Administration.Users
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            Messenger.Default.Unregister<UserModel>(this);
             this.NavigationService.GoBack();
         }
     }
