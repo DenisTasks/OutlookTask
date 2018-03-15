@@ -15,8 +15,8 @@ namespace ViewModel.Helpers
                     .ForSourceMember(d => d.Location, opt => opt.Ignore());
                 cfg.CreateMap<Location, LocationDTO>();
                 cfg.CreateMap<UserDTO, User>();
-                cfg.CreateMap<AppointmentModel, AppointmentDTO>().ForMember(s => s.LocationId,
-                    opt => opt.MapFrom(loc => loc.LocationId));
+                cfg.CreateMap<AppointmentModel, AppointmentDTO>()
+                    .ForMember(s => s.LocationId, opt => opt.MapFrom(loc => loc.LocationId));
                 cfg.CreateMap<User, UserDTO>();
                 cfg.CreateMap<GroupDTO, Group>();
                 cfg.CreateMap<Group, GroupDTO>();

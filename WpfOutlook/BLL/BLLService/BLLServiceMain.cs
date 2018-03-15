@@ -162,7 +162,7 @@ namespace BLL.BLLService
                     .ForMember(d => d.Users, opt => opt.MapFrom(s => ConvertUsers(usersDTO)));
             }).CreateMapper();
             var appointmentItem = mapper.Map<AppointmentDTO, Appointment>(appointment);
-
+            
             using (var transaction = _appointments.BeginTransaction())
             {
                 try
