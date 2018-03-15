@@ -3,34 +3,44 @@ using Model.Helpers;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Migrations;
+using static Model.WPFOutlookInitializer;
 using SqlProviderServices = System.Data.Entity.SqlServer.SqlProviderServices;
 
 namespace Model
 {
-    public class WPFOutlookInitializer : CreateDatabaseIfNotExists<WPFOutlookContext>
+    public class WPFOutlookInitializer : IDatabaseInitializer<WPFOutlookContext>
     {
-        protected override void Seed(WPFOutlookContext context)
+        public void InitializeDatabase(WPFOutlookContext context)
         {
-            base.Seed(context);
-            User user = new User
+            if (!context.Database.Exists())
             {
-                UserId = 1,
-                Name = "admin",
-                UserName = "admin",
-                Password = EncryptionHelpers.HashPassword("admin", "admin",EncryptionHelpers.GenerateSalt())
-            };
-            context.Users.Add(user);
-            context.Roles.Add(new Role { RoleId = 1, Name = "admin", Users = new List<User> { user } });
-            context.Roles.Add(new Role { RoleId = 2, Name = "user" , Users = new List<User> { user } });
+                context.Database.Create();
+                var salt = EncryptionHelpers.GenerateSalt();
+                User user = new User
+                {
+                    UserId = 1,
+                    IsActive = true,
+                    Name = "admin",
+                    UserName = "admin",
+                    Salt = salt,
+                    Password = EncryptionHelpers.HashPassword("admin", "admin", salt)
+                };
+                context.Users.Add(user);
+                context.Roles.Add(new Role { RoleId = 1, Name = "admin", Users = new List<User> { user } });
+                context.Roles.Add(new Role { RoleId = 2, Name = "user", Users = new List<User> { user } });
+                context.SaveChanges();
+            }
         }
     }
+
 
     public class WPFOutlookContext : DbContext
     {
         public WPFOutlookContext()
             : base("name=WPFOutlookContext")
         {
-            Database.SetInitializer<WPFOutlookContext>(new CreateDatabaseIfNotExists<WPFOutlookContext>());
+            Database.SetInitializer(new WPFOutlookInitializer());
         }
 
         public DbSet<Appointment> Appointments { get; set; }
