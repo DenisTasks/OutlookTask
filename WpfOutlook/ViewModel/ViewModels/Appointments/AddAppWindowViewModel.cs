@@ -27,6 +27,8 @@ namespace ViewModel.ViewModels.Appointments
         private ObservableCollection<UserDTO> _selectedUserList;
         private ObservableCollection<AppointmentModel> _templateApps;
 
+        private DateTime _parseStartDate;
+        private DateTime _parseEndingDate;
         private DateTime _selectedBeginningTime;
         private DateTime _selectedEndingTime;
         private DateTime _startDate = DateTime.Today;
@@ -250,15 +252,12 @@ namespace ViewModel.ViewModels.Appointments
             _isAvailible = 0;
             if (_selectedLocation != null)
             {
-                var startA = DateTime.Parse(_startDate.ToString("d", CultureInfo.InvariantCulture) + " " + _selectedBeginningTime.ToString("h:mm tt", CultureInfo.InvariantCulture));
-                var endA = DateTime.Parse(_endingDate.ToString("d", CultureInfo.InvariantCulture) + " " + _selectedEndingTime.ToString("h:mm tt", CultureInfo.InvariantCulture));
-
                 var bySameDay = _service.GetAppsByLocation(_selectedLocation.LocationId)
-                    .Where(s => s.BeginningDate.DayOfYear == startA.DayOfYear).ToList();
+                    .Where(s => s.BeginningDate.DayOfYear == _parseStartDate.DayOfYear).ToList();
 
                 foreach (var b in bySameDay)
                 {
-                    bool overlap = startA < b.EndingDate && b.BeginningDate < endA;
+                    bool overlap = _parseStartDate < b.EndingDate && b.BeginningDate < _parseEndingDate;
                     if (overlap)
                     {
                         _isAvailible++;
@@ -269,21 +268,21 @@ namespace ViewModel.ViewModels.Appointments
 
         private void CreateAppointment(Window window)
         {
-            Appointment.BeginningDate = DateTime.Parse(_startDate.ToString("d", CultureInfo.InvariantCulture) + " " + _selectedBeginningTime.ToString("h:mm tt", CultureInfo.InvariantCulture));
-            Appointment.EndingDate = DateTime.Parse(_endingDate.ToString("d", CultureInfo.InvariantCulture) + " " + _selectedEndingTime.ToString("h:mm tt", CultureInfo.InvariantCulture));
+            string startDate = _startDate.ToString("d", CultureInfo.InvariantCulture) + " " + _selectedBeginningTime.ToString("h:mm tt", CultureInfo.InvariantCulture);
+            _parseStartDate = DateTime.Parse(startDate, CultureInfo.InvariantCulture);
+
+            string endingDate = _endingDate.ToString("d", CultureInfo.InvariantCulture) + " " + _selectedEndingTime.ToString("h:mm tt", CultureInfo.InvariantCulture);
+            _parseEndingDate = DateTime.Parse(endingDate, CultureInfo.InvariantCulture);
+
+            Appointment.BeginningDate = _parseStartDate;
+            Appointment.EndingDate = _parseEndingDate;
             Appointment.LocationId = SelectedLocation.LocationId;
             Appointment.Users = SelectedUserList;
             CheckDates();
 
             if (Appointment.IsValid && _isAvailible == 0)
             {
-                var mapper = new MapperConfiguration(cfg =>
-                {
-                    cfg.CreateMap<AppointmentModel, AppointmentDTO>().ForMember(s => s.LocationId,
-                        opt => opt.MapFrom(loc => loc.LocationId));
-                }).CreateMapper();
-                _service.AddAppointment(mapper.Map<AppointmentModel,AppointmentDTO>(Appointment), _selectedUserList, Id);
-                _logService.LogAppointment(mapper.Map<AppointmentModel, AppointmentDTO>(Appointment), Id, true);
+                _logService.LogAppointment(Mapper.Map<AppointmentModel, AppointmentDTO>(Appointment), Id, true);
                 _service.AddAppointment(Mapper.Map<AppointmentModel,AppointmentDTO>(Appointment), _selectedUserList, Id);
                 Appointment.Room = _service.GetLocationById(Appointment.LocationId).Room;
 

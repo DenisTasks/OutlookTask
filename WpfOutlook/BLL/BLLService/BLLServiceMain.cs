@@ -30,7 +30,7 @@ namespace BLL.BLLService
             return users;
         }
 
-        public BLLServiceMain(IGenericRepository<Appointment> appointments, IGenericRepository<User> users, IGenericRepository<Location> locations, IGenericRepository<Log> logs)
+        public BLLServiceMain(IGenericRepository<Appointment> appointments, IGenericRepository<User> users, IGenericRepository<Location> locations)
         {
             _appointments = appointments;
             _users = users;
@@ -162,7 +162,7 @@ namespace BLL.BLLService
                     .ForMember(d => d.Users, opt => opt.MapFrom(s => ConvertUsers(usersDTO)));
             }).CreateMapper();
             var appointmentItem = mapper.Map<AppointmentDTO, Appointment>(appointment);
-
+            
             using (var transaction = _appointments.BeginTransaction())
             {
                 try

@@ -139,12 +139,10 @@ namespace ViewModel.ViewModels.Appointments
             });
         }
 
-
         private void CreateGroup()
         {
             Messenger.Default.Send(new NotificationMessage("CreateGroup"));
         }
-
         private bool IsAuthenticated => Thread.CurrentPrincipal.Identity.IsAuthenticated;
         private void Logout()
         {
@@ -263,12 +261,9 @@ namespace ViewModel.ViewModels.Appointments
                 {
                     CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
                     _service.RemoveAppointment(appointment.AppointmentId);
-                    var mapper = new MapperConfiguration(cfg =>
-                    {
-                        cfg.CreateMap<AppointmentModel, AppointmentDTO>().ForMember(s => s.LocationId,
-                            opt => opt.MapFrom(loc => loc.LocationId));
-                    }).CreateMapper();
-                    _logService.LogAppointment(mapper.Map<AppointmentModel, AppointmentDTO>(appointment), customPrincipal.Identity.UserId, false);
+                    if (customPrincipal != null)
+                        _logService.LogAppointment(Mapper.Map<AppointmentModel, AppointmentDTO>(appointment),
+                            customPrincipal.Identity.UserId, false);
 
                     var myJob = NotifyScheduler.WpfScheduler.GetJobKeys(GroupMatcher<JobKey>.AnyGroup())
                         .Where(x => x.Name == appointment.AppointmentId.ToString()).ToList();
