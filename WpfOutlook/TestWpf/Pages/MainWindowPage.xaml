@@ -59,17 +59,17 @@
             
             <Button Command="{Binding PrintTable}" 
                     CommandParameter="{Binding ElementName=AppointmentsList}">Print table</Button>
-            
+
             <Button Click="ButtonBase_Click_ToAdmin"
                     Visibility="{Binding Converter={StaticResource AdminVisibilityConverter}}">To Admin Page</Button>
-            
-            <Button Command="{Binding LogoutCommand}" 
-                    Click="ButtonBase_Click_ToLoginPage">Logout</Button>
-            
+
             <Button Command="{Binding CalendarFrameCommand}">Calendar Window</Button>
             
             <Button Command="{Binding CreateGroupCommand}">Create Group</Button>
-            
+
+            <Button Command="{Binding LogoutCommand}" 
+                    Click="ButtonBase_Click_ToLoginPage">Logout</Button>
+
             <ComboBox ItemsSource="{Binding Files}"
                       SelectedItem="{Binding SelectedTheme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             

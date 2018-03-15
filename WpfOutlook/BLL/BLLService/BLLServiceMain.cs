@@ -30,7 +30,7 @@ namespace BLL.BLLService
             return users;
         }
 
-        public BLLServiceMain(IGenericRepository<Appointment> appointments, IGenericRepository<User> users, IGenericRepository<Location> locations, IGenericRepository<Log> logs)
+        public BLLServiceMain(IGenericRepository<Appointment> appointments, IGenericRepository<User> users, IGenericRepository<Location> locations)
         {
             _appointments = appointments;
             _users = users;
