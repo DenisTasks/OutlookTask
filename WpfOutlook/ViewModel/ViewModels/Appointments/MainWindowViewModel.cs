@@ -146,6 +146,7 @@ namespace ViewModel.ViewModels.Appointments
         private bool IsAuthenticated => Thread.CurrentPrincipal.Identity.IsAuthenticated;
         private void Logout()
         {
+            Messenger.Default.Unregister<NotificationMessage>(this);
             CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
             if (customPrincipal != null)
             {
