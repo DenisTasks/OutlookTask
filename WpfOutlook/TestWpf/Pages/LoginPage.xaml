@@ -30,7 +30,13 @@
         <TextBlock Text="Username:" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right"/>
         <TextBlock Text="Password:" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right"/>
         <TextBox Text="{Binding Username}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Width="250" HorizontalAlignment="Left" />
-        <PasswordBox x:Name="passwordBox" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Width="250" HorizontalAlignment="Left"/>
+        <PasswordBox x:Name="passwordBox" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Width="250" HorizontalAlignment="Left">
+            <PasswordBox.InputBindings>
+                <KeyBinding Key="Enter"
+                            Command="{Binding LoginCommand, Mode=OneTime}"
+                            CommandParameter="{Binding ElementName=passwordBox}"/>
+            </PasswordBox.InputBindings>
+        </PasswordBox>
         <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2">
             <Button Content="Log in" Command="{Binding LoginCommand, Mode=OneTime}"
             CommandParameter="{Binding ElementName=passwordBox}"
