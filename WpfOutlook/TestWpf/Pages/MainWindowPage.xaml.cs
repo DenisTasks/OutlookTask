@@ -85,7 +85,7 @@ namespace TestWpf.Pages
             Messenger.Default.Unregister<NotificationMessage>(this);
             CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
             customPrincipal.Identity = new AnonymousIdentity();
-            Messenger.Default.Send<NotificationMessage, AuthenticationViewModel>(new NotificationMessage("LogOut"));
+            Messenger.Default.Send(new NotificationMessage("LogOut"));
             this.NavigationService.GoBack();
         }
 

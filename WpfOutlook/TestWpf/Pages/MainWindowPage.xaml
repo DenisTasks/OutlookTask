@@ -51,7 +51,7 @@
             
             <Button Command="{Binding GroupBySubjectCommand}">Group by</Button>
             
-            <Button Command="{Binding AboutAppointmentCommand}"
+            <Button Command="{Binding PrintAppointmentCommand}"
                     CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}">Print Appointment</Button>
             
             <Button Command="{Binding AllAppByLocationCommand}"
@@ -67,8 +67,7 @@
             
             <Button Command="{Binding CreateGroupCommand}">Create Group</Button>
 
-            <Button Command="{Binding LogoutCommand}" 
-                    Click="ButtonBase_Click_ToLoginPage">Logout</Button>
+            <Button Click="ButtonBase_Click_ToLoginPage">Logout</Button>
 
             <ComboBox ItemsSource="{Binding Files}"
                       SelectedItem="{Binding SelectedTheme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>

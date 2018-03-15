@@ -83,7 +83,7 @@ namespace ViewModel.ViewModels.Appointments
         }
 
         #region Commands
-        public RelayCommand<AppointmentModel> AboutAppointmentCommand { get; }
+        public RelayCommand<AppointmentModel> PrintAppointmentCommand { get; }
         public RelayCommand<AppointmentModel> AllAppByLocationCommand { get; }
         public RelayCommand AddAppWindowCommand { get; }
         public RelayCommand<AppointmentModel> RemoveAppCommand { get; }
@@ -91,7 +91,6 @@ namespace ViewModel.ViewModels.Appointments
         public RelayCommand GroupBySubjectCommand { get; }
         public RelayCommand<AppointmentModel> FilterBySubjectCommand { get; }
         public RelayCommand<object> PrintTable { get; }
-        public RelayCommand LogoutCommand { get; }
         public RelayCommand CalendarFrameCommand { get; }
         public RelayCommand CreateGroupCommand { get; }
         #endregion
@@ -105,14 +104,13 @@ namespace ViewModel.ViewModels.Appointments
             LoadData(Id);
             #region Commands
             AddAppWindowCommand = new RelayCommand(AddAppointment);
-            AboutAppointmentCommand = new RelayCommand<AppointmentModel>(AboutAppointment);
+            PrintAppointmentCommand = new RelayCommand<AppointmentModel>(PrintAppointment);
             AllAppByLocationCommand = new RelayCommand<AppointmentModel>(GetAllAppsByRoom);
             RemoveAppCommand = new RelayCommand<AppointmentModel>(RemoveAppointment);
             SortCommand = new RelayCommand<object>(SortBy);
             GroupBySubjectCommand = new RelayCommand(GroupBySubject);
             FilterBySubjectCommand = new RelayCommand<AppointmentModel>(FilterBySubject);
             PrintTable = new RelayCommand<object>(PrintListView);
-            LogoutCommand = new RelayCommand(Logout, CanLogout);
             CalendarFrameCommand = new RelayCommand(CalendarFrame);
             CreateGroupCommand = new RelayCommand(CreateGroup);
             #endregion
@@ -136,6 +134,10 @@ namespace ViewModel.ViewModels.Appointments
                 {
                     RefreshingAppointments();
                 }
+                if (message.Notification == "LogOut")
+                {
+                    Messenger.Default.Unregister<NotificationMessage>(this);
+                }
             });
         }
 
@@ -143,20 +145,7 @@ namespace ViewModel.ViewModels.Appointments
         {
             Messenger.Default.Send(new NotificationMessage("CreateGroup"));
         }
-        private bool IsAuthenticated => Thread.CurrentPrincipal.Identity.IsAuthenticated;
-        private void Logout()
-        {
-            Messenger.Default.Unregister<NotificationMessage>(this);
-            CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
-            if (customPrincipal != null)
-            {
-                customPrincipal.Identity = new AnonymousIdentity();
-            }
-        }
-        private bool CanLogout()
-        {
-            return IsAuthenticated;
-        }
+
         private void PrintListView(object parameter)
         {
             PrintHelper.PrintViewList(parameter as ListView);
@@ -174,11 +163,11 @@ namespace ViewModel.ViewModels.Appointments
         {
             Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.CalendarFrame });
         }
-        private void AboutAppointment(AppointmentModel appointment)
+        private void PrintAppointment(AppointmentModel appointment)
         {
             if (appointment != null)
             {
-                Messenger.Default.Send(new OpenWindowMessage()
+                Messenger.Default.Send(new OpenWindowMessage
                 { Type = WindowType.AddAboutAppointmentWindow, Appointment = appointment, Argument = "Load this appointment" });
             }
         }
