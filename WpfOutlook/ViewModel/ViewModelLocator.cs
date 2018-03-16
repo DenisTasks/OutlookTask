@@ -7,7 +7,6 @@ using Model.Interfaces;
 using Model.ModelService;
 using Ninject;
 using Ninject.Modules;
-using ViewModel.ViewModels;
 using ViewModel.ViewModels.Administration;
 using ViewModel.ViewModels.Administration.Groups;
 using ViewModel.ViewModels.Administration.Users;

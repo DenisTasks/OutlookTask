@@ -91,19 +91,7 @@ namespace ViewModel.ViewModels.Administration.Users
 
         private void LoadData()
         {
-            var mapper = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<UserDTO, UserModel>()
-                    .ForMember(d => d.UserId, opt => opt.MapFrom(s => s.UserId))
-                    .ForMember(d => d.Name, opt => opt.MapFrom(s => s.Name))
-                    .ForMember(d => d.UserName, opt => opt.MapFrom(s => s.UserName))
-                    .ForMember(d => d.IsActive, opt => opt.MapFrom(s => s.IsActive))
-                    .ForMember(d => d.Password, opt => opt.MapFrom(s => s.Password))
-                    .ForMember(d => d.Groups, opt => opt.MapFrom(s =>new  ObservableCollection<GroupDTO>(_administrationService.GetUserGroups(s.UserId))))
-                    .ForMember(d => d.Roles, opt => opt.MapFrom(s => new ObservableCollection<RoleDTO>(_administrationService.GetUserRoles(s.UserId))));
-
-            }).CreateMapper();
-            _users = new ObservableCollection<UserModel>(mapper.Map<IEnumerable<UserDTO>,ICollection<UserModel>>(_administrationService.GetUsers()));
+            _users = new ObservableCollection<UserModel>(Mapper.Map<IEnumerable<UserDTO>,ICollection<UserModel>>(_administrationService.GetUsers()));
         }
     }
 }

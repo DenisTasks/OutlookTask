@@ -11,15 +11,24 @@ namespace TestWpf.Controls
 
         public static DependencyProperty StartProperty = DependencyProperty.RegisterAttached("Start", typeof(double), typeof(UIElement), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsArrange));
         public static DependencyProperty FinishProperty = DependencyProperty.RegisterAttached("Finish", typeof(double), typeof(UIElement), new FrameworkPropertyMetadata(100.0, FrameworkPropertyMetadataOptions.AffectsArrange));
-        public static DependencyProperty DayOfYearProperty = DependencyProperty.RegisterAttached("DayOfYear", typeof(int), typeof(UIElement), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static DependencyProperty StartDayOfYearProperty = DependencyProperty.RegisterAttached("StartDayOfYear", typeof(int), typeof(UIElement), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static DependencyProperty FinishDayOfYearProperty = DependencyProperty.RegisterAttached("FinishDayOfYear", typeof(int), typeof(UIElement), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsArrange));
 
-        public static void SetDayOfYear(UIElement element, int value)
+        public static void SetStartDayOfYear(UIElement element, int value)
         {
-            element.SetValue(DayOfYearProperty, value);
+            element.SetValue(StartDayOfYearProperty, value);
         }
-        public static int GetDayOfYear(UIElement element)
+        public static int GetStartDayOfYear(UIElement element)
         {
-            return (int) element.GetValue(DayOfYearProperty);
+            return (int) element.GetValue(StartDayOfYearProperty);
+        }
+        public static void SetFinishDayOfYear(UIElement element, int value)
+        {
+            element.SetValue(FinishDayOfYearProperty, value);
+        }
+        public static int GetFinishDayOfYear(UIElement element)
+        {
+            return (int)element.GetValue(FinishDayOfYearProperty);
         }
         public static void SetStart(UIElement element, double value)
         {
@@ -65,11 +74,11 @@ namespace TestWpf.Controls
             {
                 double begin = (double)uiAll.ElementAt(i).GetValue(StartProperty);
                 double end = (double)uiAll.ElementAt(i).GetValue(FinishProperty);
-                int dayOfYear = (int)uiAll.ElementAt(i).GetValue(DayOfYearProperty);
+                int dayOfYear = (int)uiAll.ElementAt(i).GetValue(StartDayOfYearProperty);
 
                 var forOverlap = uiAll.Where(s => (double)s.GetValue(FinishProperty) > begin 
                 && (double)s.GetValue(StartProperty) < end
-                && (int)s.GetValue(DayOfYearProperty) == dayOfYear).ToList();
+                && (int)s.GetValue(StartDayOfYearProperty) == dayOfYear).ToList();
 
                 foreach (var item in forOverlap)
                 {

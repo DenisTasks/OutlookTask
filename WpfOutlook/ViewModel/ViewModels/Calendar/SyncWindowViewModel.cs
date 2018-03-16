@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading;
 using System.Windows;
 using BLL.EntitesDTO;
 using BLL.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using ViewModel.Helpers;
+using ViewModel.ViewModels.Authenication;
 
 namespace ViewModel.ViewModels.Calendar
 {
@@ -54,6 +56,7 @@ namespace ViewModel.ViewModels.Calendar
         }
 
         private readonly IBLLServiceMain _service;
+        private readonly int _id;
         private ObservableCollection<AppointmentDTO> _appointments;
         private ObservableCollection<AppointmentDTO> _appointmentsOther;
 
@@ -85,6 +88,8 @@ namespace ViewModel.ViewModels.Calendar
         public SyncWindowViewModel(IBLLServiceMain service)
         {
             _service = service;
+            CustomPrincipal cp = (CustomPrincipal)Thread.CurrentPrincipal;
+            if (cp != null) _id = cp.Identity.UserId;
 
             Messenger.Default.Register<OpenWindowMessage>(this, message =>
             {
@@ -103,14 +108,13 @@ namespace ViewModel.ViewModels.Calendar
         {
             try
             {
-                Appointments = new ObservableCollection<AppointmentDTO>(_service.GetCalendar());
-                AppointmentsSync = new ObservableCollection<AppointmentDTO>(_service.GetCalendarByUserId(id));
+                Appointments = new ObservableCollection<AppointmentDTO>(_service.GetAppointmentsByUserId(_id));
+                AppointmentsSync = new ObservableCollection<AppointmentDTO>(_service.GetAppointmentsByUserId(id));
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.ToString());
             }
         }
-
     }
 }

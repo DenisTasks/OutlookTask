@@ -38,7 +38,7 @@
                     <GridViewColumn Header="Subject" DisplayMemberBinding="{Binding Subject}"/>
                     <GridViewColumn Header="Beginning Date" DisplayMemberBinding="{Binding BeginningDate}"/>
                     <GridViewColumn Header="Ending Date" DisplayMemberBinding="{Binding EndingDate}"/>
-                    <GridViewColumn Header="Location" DisplayMemberBinding="{Binding LocationId}"/>
+                    <GridViewColumn Header="Location" DisplayMemberBinding="{Binding Room}"/>
                     <GridViewColumn Header="Users" DisplayMemberBinding="{Binding Users.Count}"/>
                 </GridView>
             </ListView.View>

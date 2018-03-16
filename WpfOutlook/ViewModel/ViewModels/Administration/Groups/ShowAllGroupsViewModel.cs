@@ -80,20 +80,7 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
 
         private void LoadData()
         {
-            var mapper = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<GroupDTO, GroupModel>()
-                    .ForMember(d => d.GroupId, opt => opt.MapFrom(s => s.GroupId))
-                    .ForMember(d => d.GroupName, opt => opt.MapFrom(s => s.GroupName))
-                    .ForMember(d => d.CreatorId, opt => opt.MapFrom(s => s.CreatorId))
-                    .ForMember(d => d.CreatorName, opt => opt.MapFrom(s => _administrationService.GetUserById(s.CreatorId).UserName))
-                    .ForMember(d => d.ParentId, opt => opt.MapFrom(S => S.ParentId))
-                    .ForMember(d => d.ParentName, opt => opt.MapFrom(s=> _administrationService.GetGroupName(s.ParentId)))
-                    .ForMember(d => d.Groups, opt => opt.MapFrom(s => _administrationService.GetGroupFirstGeneration(s.GroupId)))
-                    .ForMember(d => d.Users, opt => opt.MapFrom(s => new ObservableCollection<UserDTO>(_administrationService.GetGroupUsers(s.GroupId))));
-            }).CreateMapper();
-            Groups = new ObservableCollection<GroupModel>(mapper.Map<IEnumerable<GroupDTO>,ICollection<GroupModel>>(_administrationService.GetGroupsWithNoAncestors()));
+            Groups = new ObservableCollection<GroupModel>(Mapper.Map<IEnumerable<GroupDTO>,ICollection<GroupModel>>(_administrationService.GetGroups()));
         }
-
     }
 }
