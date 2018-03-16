@@ -29,6 +29,8 @@ namespace Model
                 context.Users.Add(user);
                 context.Roles.Add(new Role { RoleId = 1, Name = "admin", Users = new List<User> { user } });
                 context.Roles.Add(new Role { RoleId = 2, Name = "user", Users = new List<User> { user } });
+                context.Locations.Add(new Location {LocationId = 1, Room = "Room1"});
+                context.Locations.Add(new Location { LocationId = 2, Room = "Room2" });
                 context.SaveChanges();
             }
         }

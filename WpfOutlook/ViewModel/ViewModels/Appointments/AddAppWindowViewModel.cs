@@ -33,7 +33,7 @@ namespace ViewModel.ViewModels.Appointments
         private DateTime _selectedEndingTime;
         private DateTime _startDate = DateTime.Today;
         private DateTime _endingDate = DateTime.Today;
-        private LocationDTO _selectedLocation = new LocationDTO(){LocationId = 0};
+        private LocationDTO _selectedLocation;
         private AppointmentModel _selectedTemplateItem;
         private int _isAvailible;
         private int Id { get; }
@@ -140,12 +140,8 @@ namespace ViewModel.ViewModels.Appointments
             get => _selectedBeginningTime;
             set
             {
-                if (_selectedEndingTime < value)
-                {
-                    _selectedBeginningTime = value;
-                    SelectedEndingTime = BeginningTime[BeginningTime.IndexOf(_selectedBeginningTime) + 1];
-                    base.RaisePropertyChanged();
-                }
+                _selectedBeginningTime = value;
+                base.RaisePropertyChanged();
             }
         }
         public DateTime SelectedEndingTime
@@ -153,11 +149,8 @@ namespace ViewModel.ViewModels.Appointments
             get => _selectedEndingTime;
             set
             {
-                if (value != _selectedEndingTime)
-                {
-                    _selectedEndingTime = value;
-                    base.RaisePropertyChanged();
-                }
+                _selectedEndingTime = value;
+                base.RaisePropertyChanged();
             }
         }
 
