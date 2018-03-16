@@ -30,6 +30,7 @@ namespace ViewModel.ViewModels.Authenication
             });
             _authenticationService = authenticationService;
             _loginCommand = new RelayCommand<object>(Login, CanLogin);
+            Username = "admin";
         }
 
         public RelayCommand<object> LoginCommand { get { return _loginCommand; } }

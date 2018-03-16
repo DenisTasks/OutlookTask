@@ -160,23 +160,6 @@ namespace ViewModel.ViewModels.Appointments
             }
         }
 
-        private IMapper GetMapper()
-        {
-            var mapper = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<AppointmentDTO, AppointmentModel>()
-                    .ForMember(d => d.AppointmentId, opt => opt.MapFrom(s => s.AppointmentId))
-                    .ForMember(d => d.Subject, opt => opt.MapFrom(s => s.Subject))
-                    .ForMember(d => d.BeginningDate, opt => opt.MapFrom(s => s.BeginningDate))
-                    .ForMember(d => d.EndingDate, opt => opt.MapFrom(s => s.EndingDate))
-                    .ForMember(d => d.LocationId, opt => opt.MapFrom(s => s.LocationId))
-                    .ForMember(d => d.Room, opt => opt.MapFrom(s => _service.GetLocationById(s.LocationId).Room))
-                    .ForMember(d => d.Users, opt => opt.MapFrom(s => new ObservableCollection<UserDTO>(_service.GetAppointmentUsers(s.AppointmentId))));
-
-            }).CreateMapper();
-            return mapper;
-        }
-
         public AddAppWindowViewModel(IBLLServiceMain service, ILogService logService)
         {
             _service = service;
@@ -191,7 +174,7 @@ namespace ViewModel.ViewModels.Appointments
 
             CustomPrincipal cp = Thread.CurrentPrincipal as CustomPrincipal;
             if (cp != null) Id = cp.Identity.UserId;
-            TemplateApps = new ObservableCollection<AppointmentModel>(GetMapper().Map<IEnumerable<AppointmentDTO>, ICollection<AppointmentModel>>(_service.GetAppointmentsByUserId(Id)));
+            TemplateApps = new ObservableCollection<AppointmentModel>(Mapper.Map<IEnumerable<AppointmentDTO>, ICollection<AppointmentModel>>(_service.GetAppointmentsByUserId(Id)));
 
             Appointment = new AppointmentModel();
 
@@ -270,16 +253,16 @@ namespace ViewModel.ViewModels.Appointments
             Appointment.BeginningDate = _parseStartDate;
             Appointment.EndingDate = _parseEndingDate;
             Appointment.LocationId = SelectedLocation.LocationId;
+            Appointment.Room = SelectedLocation.Room;
             Appointment.Users = SelectedUserList;
             CheckDates();
 
             if (Appointment.IsValid && _isAvailible == 0)
             {
                 _logService.LogAppointment(Mapper.Map<AppointmentModel, AppointmentDTO>(Appointment), Id, true);
-                _service.AddAppointment(Mapper.Map<AppointmentModel,AppointmentDTO>(Appointment), _selectedUserList, Id);
-                Appointment.Room = _service.GetLocationById(Appointment.LocationId).Room;
+                _service.AddAppointment(Mapper.Map<AppointmentModel,AppointmentDTO>(Appointment), Id);
 
-                string id = _service.GetAppointments().LastOrDefault()?.AppointmentId.ToString();
+                string id = _service.GetAppointmentsByUserId(Id).LastOrDefault()?.AppointmentId.ToString();
                 IJobDetail job;
                 ITrigger trigger;
                 if (Appointment.BeginningDate < DateTime.Now)

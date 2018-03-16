@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BLL.EntitesDTO
 {
@@ -14,5 +11,7 @@ namespace BLL.EntitesDTO
         public DateTime EndingDate { get; set; }
         public int OrganizerId { get; set; }
         public int LocationId { get; set; }
+        public string Room { get; set; }
+        public ICollection<UserDTO> Users { get; set; }
     }
 }

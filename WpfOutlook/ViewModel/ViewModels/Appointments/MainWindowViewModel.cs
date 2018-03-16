@@ -65,22 +65,6 @@ namespace ViewModel.ViewModels.Appointments
             }
         }
 
-        private IMapper GetMapper()
-        {
-            var mapper = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<AppointmentDTO, AppointmentModel>()
-                    .ForMember(d => d.AppointmentId, opt => opt.MapFrom(s => s.AppointmentId))
-                    .ForMember(d => d.Subject, opt => opt.MapFrom(s => s.Subject))
-                    .ForMember(d => d.BeginningDate, opt => opt.MapFrom(s => s.BeginningDate))
-                    .ForMember(d => d.EndingDate, opt => opt.MapFrom(s => s.EndingDate))
-                    .ForMember(d => d.LocationId, opt => opt.MapFrom(s => s.LocationId))
-                    .ForMember(d => d.Room, opt => opt.MapFrom(s => _service.GetLocationById(s.LocationId).Room))
-                    .ForMember(d => d.Users, opt => opt.MapFrom(s => new ObservableCollection<UserDTO>(_service.GetAppointmentUsers(s.AppointmentId))));
-            }).CreateMapper();
-            return mapper;
-        }
-
         #region Commands
         public RelayCommand<AppointmentModel> PrintAppointmentCommand { get; }
         public RelayCommand<AppointmentModel> AllAppByLocationCommand { get; }
@@ -144,7 +128,6 @@ namespace ViewModel.ViewModels.Appointments
         {
             Messenger.Default.Send(new NotificationMessage("CreateGroup"));
         }
-
         private void PrintListView(object parameter)
         {
             PrintHelper.PrintViewList(parameter as ListView);
@@ -173,7 +156,8 @@ namespace ViewModel.ViewModels.Appointments
         private void RefreshingAppointments()
         {
             Appointments.Clear();
-            Appointments = new ObservableCollection<AppointmentModel>(GetMapper().Map<IEnumerable<AppointmentDTO>, ICollection<AppointmentModel>>(_service.GetAppointmentsByUserId(_id)));
+            Appointments = new ObservableCollection<AppointmentModel>(Mapper.Map<IEnumerable<AppointmentDTO>, ICollection<AppointmentModel>>(_service.GetAppointmentsByUserId(_id)));
+            
             Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.Toast, Argument = "You added a new\r\nappointment! Check\r\nyour calendar, please!", SecondsToShow = 5 });
         }
         private void GetAllAppsByRoom(AppointmentModel appointment)
@@ -226,7 +210,7 @@ namespace ViewModel.ViewModels.Appointments
             try
             {
                 NotifyScheduler.Start();
-                Appointments = new ObservableCollection<AppointmentModel>(GetMapper().Map<IEnumerable<AppointmentDTO>, ICollection<AppointmentModel>>(_service.GetAppointmentsByUserId(id)));
+                Appointments = new ObservableCollection<AppointmentModel>(Mapper.Map<IEnumerable<AppointmentDTO>, ICollection<AppointmentModel>>(_service.GetAppointmentsByUserId(id)));
             }
             catch (Exception e)
             {

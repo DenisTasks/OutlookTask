@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading;
 using System.Windows;
 using BLL.EntitesDTO;
 using BLL.Interfaces;
@@ -7,12 +8,14 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using ViewModel.Helpers;
+using ViewModel.ViewModels.Authenication;
 
 namespace ViewModel.ViewModels.Calendar
 {
     public class CalendarWindowViewModel : ViewModelBase
     {
         private readonly IBLLServiceMain _service;
+        private readonly int _id;
         private ObservableCollection<AppointmentDTO> _appointments;
         private ObservableCollection<UserDTO> _users;
         private UserDTO _selectedSyncUser;
@@ -59,6 +62,8 @@ namespace ViewModel.ViewModels.Calendar
         public CalendarWindowViewModel(IBLLServiceMain service)
         {
             _service = service;
+            CustomPrincipal cp = (CustomPrincipal)Thread.CurrentPrincipal;
+            if (cp != null) _id = cp.Identity.UserId;
             LoadData();
             SyncCommand = new RelayCommand<object>(SyncWithUser);
         }
@@ -74,7 +79,7 @@ namespace ViewModel.ViewModels.Calendar
         {
             try
             {
-                Appointments = new ObservableCollection<AppointmentDTO>(_service.GetCalendar());
+                Appointments = new ObservableCollection<AppointmentDTO>(_service.GetCalendarByUserId(_id));
                 Users = new ObservableCollection<UserDTO>(_service.GetUsers());
             }
             catch (Exception e)

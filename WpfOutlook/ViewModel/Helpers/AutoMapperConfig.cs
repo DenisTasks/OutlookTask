@@ -11,21 +11,25 @@ namespace ViewModel.Helpers
         {
             Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<Appointment, AppointmentDTO>()
-                    .ForSourceMember(d => d.Location, opt => opt.Ignore());
+                cfg.CreateMap<Appointment, AppointmentDTO>();
+                cfg.CreateMap<AppointmentDTO, AppointmentModel>();
+                cfg.CreateMap<AppointmentModel, AppointmentDTO>();
+                cfg.CreateMap<AppointmentDTO, Appointment>();
+
                 cfg.CreateMap<Location, LocationDTO>();
-                cfg.CreateMap<UserDTO, User>();
-                cfg.CreateMap<AppointmentModel, AppointmentDTO>()
-                    .ForMember(s => s.LocationId, opt => opt.MapFrom(loc => loc.LocationId));
+
                 cfg.CreateMap<User, UserDTO>();
-                cfg.CreateMap<GroupDTO, Group>();
-                cfg.CreateMap<Group, GroupDTO>();
-                cfg.CreateMap<RoleDTO, Role>();
-                cfg.CreateMap<Role, RoleDTO>();
-                cfg.CreateMap<Log, LogDTO>();
-                cfg.CreateMap<GroupModel, GroupDTO>();
+                cfg.CreateMap<UserDTO, User>();
                 cfg.CreateMap<UserModel, UserDTO>();
 
+                cfg.CreateMap<Group, GroupDTO>();
+                cfg.CreateMap<GroupModel, GroupDTO>();
+                cfg.CreateMap<GroupDTO, Group>();
+
+                cfg.CreateMap<Role, RoleDTO>();
+                cfg.CreateMap<RoleDTO, Role>();
+
+                cfg.CreateMap<Log, LogDTO>();
             });
         }
     }
