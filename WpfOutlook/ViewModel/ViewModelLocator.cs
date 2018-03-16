@@ -51,7 +51,7 @@ namespace ViewModel
         public AuthenticationViewModel LoginPage => _kernel.Get<AuthenticationViewModel>();
         public AdministrationViewModel AdminPage => _kernel.Get<AdministrationViewModel>();
         public EditGroupViewModel EditGroupWindow => _kernel.Get<EditGroupViewModel>();
-        public ShowAllGroupsViewModel AllGroupsPage => _kernel.Get<ShowAllGroupsViewModel>();
+        public ShowAllGroupsViewModel AllGroupsPageTest => _kernel.Get<ShowAllGroupsViewModel>();
         public AddGroupViewModel AddGroupWindow => _kernel.Get<AddGroupViewModel>();
         public AddUserViewModel AddUserWindow => _kernel.Get<AddUserViewModel>();
         public EditUserViewModel EditUserWindow => _kernel.Get<EditUserViewModel>();

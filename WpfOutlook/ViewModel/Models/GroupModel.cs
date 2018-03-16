@@ -18,13 +18,13 @@ namespace ViewModel.Models
         private int? _parentId;
         private int _creatorId;
 
-        private ObservableCollection<GroupDTO> _groups;
+        private ObservableCollection<GroupModel> _groups;
         private ObservableCollection<UserDTO> _users;
 
         public GroupModel()
         {
             _users = new ObservableCollection<UserDTO>();
-            _groups = new ObservableCollection<GroupDTO>();
+            _groups = new ObservableCollection<GroupModel>();
         }
 
         public int? ParentId
@@ -93,7 +93,7 @@ namespace ViewModel.Models
             }
         }
 
-        public ObservableCollection<GroupDTO> Groups
+        public ObservableCollection<GroupModel> Groups
         {
             get => _groups;
             set

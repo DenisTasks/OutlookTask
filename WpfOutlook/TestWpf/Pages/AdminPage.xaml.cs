@@ -42,7 +42,8 @@ namespace TestWpf.Pages
 
         private void Button_Click_ToGroups(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new ShowAllGroupsPage());
+            //this.NavigationService.Navigate(new ShowAllGroupsPage());
+            this.NavigationService.Navigate(new ShowAllGroupsPageTest());
         }
 
         private void Button_Click_GoBack(object sender, RoutedEventArgs e)

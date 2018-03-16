@@ -40,7 +40,7 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Id" DisplayMemberBinding="{Binding GroupId}" Width="70"/>
-                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding GroupName}" Width="330"/>
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding GroupName}" Width="330" />
                         <GridViewColumn Header="UsersCount" DisplayMemberBinding="{Binding Users.Count}" Width="100"/>
                         <GridViewColumn Header="Creator" DisplayMemberBinding="{Binding CreatorName}" Width="280"/>
                         <GridViewColumn Header="ParentGroup" DisplayMemberBinding="{Binding ParentName}" Width="180"/>
@@ -48,6 +48,8 @@
                     </GridView>
                 </ListView.View>
             </ListView>
+
+            
 
             <Button Grid.Column="1"
                 Grid.Row="2"

@@ -67,12 +67,12 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
                         }
                     }
                 }
-                Group.Groups = new ObservableCollection<GroupDTO>();
+                //Group.Groups = new ObservableCollection<GroupDTO>();
             }
             else
             {
                 Group.ParentId = null;
-                Group.Groups = new ObservableCollection<GroupDTO>();
+                //Group.Groups = new ObservableCollection<GroupDTO>();
                 foreach(var item in _hiddenGroupAncestors.ToList())
                 {
                     _hiddenGroupAncestors.Remove(item);
@@ -164,14 +164,14 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
 
         public void AddGroup(GroupDTO group)
         {
-            Group.Groups.Add(group);
+           // Group.Groups.Add(group);
             GroupList.Remove(group);
             base.RaisePropertyChanged();
         }
 
         public void RemoveGroup(GroupDTO group)
         {
-            Group.Groups.Remove(group);
+            //Group.Groups.Remove(group);
             GroupList.Add(group);
             base.RaisePropertyChanged();
         }
@@ -186,7 +186,7 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
             {
                 if (_administrationService.CheckGroup(Group.GroupName))
                 {
-                    _administrationService.CreateGroup(Mapper.Map<GroupModel, GroupDTO>(Group), Group.Groups, Group.Users, _customPrincipal.Identity.UserId);
+                    //_administrationService.CreateGroup(Mapper.Map<GroupModel, GroupDTO>(Group), Group.Groups, Group.Users, _customPrincipal.Identity.UserId);
                     window.Close();
                 }
                 else

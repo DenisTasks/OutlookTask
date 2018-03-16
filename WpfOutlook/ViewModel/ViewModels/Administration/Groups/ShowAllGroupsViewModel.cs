@@ -92,7 +92,7 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
                     .ForMember(d => d.Groups, opt => opt.MapFrom(s => _administrationService.GetGroupFirstGeneration(s.GroupId)))
                     .ForMember(d => d.Users, opt => opt.MapFrom(s => new ObservableCollection<UserDTO>(_administrationService.GetGroupUsers(s.GroupId))));
             }).CreateMapper();
-            Groups = new ObservableCollection<GroupModel>(mapper.Map<IEnumerable<GroupDTO>,ICollection<GroupModel>>(_administrationService.GetGroups()));
+            Groups = new ObservableCollection<GroupModel>(mapper.Map<IEnumerable<GroupDTO>,ICollection<GroupModel>>(_administrationService.GetGroupsWithNoAncestors()));
         }
 
     }

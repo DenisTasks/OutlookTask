@@ -74,7 +74,7 @@ namespace ViewModel.ViewModels.Administration.Groups
                         _hiddenGroupAncestors.Remove(temp);
                         GroupList.Add(temp);
                     }
-                    Group.Groups = new ObservableCollection<GroupDTO>();
+                    //Group.Groups = new ObservableCollection<GroupDTO>();
                 }
                 else
                 {
@@ -232,8 +232,8 @@ namespace ViewModel.ViewModels.Administration.Groups
         {
             if (group != null)
             {
-                Group.Groups.Add(group);
-                GroupList.Remove(group);
+                //Group.Groups.Add(group);
+                //GroupList.Remove(group);
                 base.RaisePropertyChanged();
             }
         }
@@ -242,8 +242,8 @@ namespace ViewModel.ViewModels.Administration.Groups
         {
             if (group != null)
             {
-                Group.Groups.Remove(group);
-                GroupList.Add(group);
+                //Group.Groups.Remove(group);
+                //GroupList.Add(group);
                 base.RaisePropertyChanged();
             }
         }
@@ -256,7 +256,7 @@ namespace ViewModel.ViewModels.Administration.Groups
         {
             if (Group.GroupName == _oldName)
             {
-                _administrationService.EditGroup(Mapper.Map<GroupModel, GroupDTO>(Group), Group.Groups, Group.Users);
+               // _administrationService.EditGroup(Mapper.Map<GroupModel, GroupDTO>(Group), Group.Groups, Group.Users);
                 window.Close();
             }
             else
@@ -265,7 +265,7 @@ namespace ViewModel.ViewModels.Administration.Groups
                 {
                    if( _administrationService.CheckGroup(Group.GroupName))
                     {
-                        _administrationService.EditGroup(Mapper.Map<GroupModel,GroupDTO>(Group), Group.Groups, Group.Users);
+                        //_administrationService.EditGroup(Mapper.Map<GroupModel,GroupDTO>(Group), Group.Groups, Group.Users);
                         window.Close();
                     }
                     else { MessageBox.Show("This name already exists"); }
