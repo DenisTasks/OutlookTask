@@ -79,7 +79,7 @@ namespace ViewModel.ViewModels.Calendar
         {
             try
             {
-                Appointments = new ObservableCollection<AppointmentDTO>(_service.GetCalendarByUserId(_id));
+                Appointments = new ObservableCollection<AppointmentDTO>(_service.GetAppointmentsByUserId(_id));
                 Users = new ObservableCollection<UserDTO>(_service.GetUsers());
             }
             catch (Exception e)

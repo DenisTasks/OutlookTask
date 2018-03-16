@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using AutoMapper;
@@ -25,21 +24,6 @@ namespace BLL.BLLService
         }
 
         public IEnumerable<AppointmentDTO> GetAppointmentsByUserId(int id)
-        {
-            List<Appointment> collection;
-            using (_appointments.BeginTransaction())
-            {
-                collection = _appointments.Get(x => x.Users.Any(s => s.UserId == id)).ToList();
-            }
-            var mappingCollection = Mapper.Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(collection).ToList();
-            foreach (var item in mappingCollection)
-            {
-                item.Room = _locations.FindById(item.LocationId).Room;
-            }
-            return mappingCollection;
-        }
-
-        public IEnumerable<AppointmentDTO> GetCalendarByUserId(int id)
         {
             List<Appointment> collection;
             using (_appointments.BeginTransaction())

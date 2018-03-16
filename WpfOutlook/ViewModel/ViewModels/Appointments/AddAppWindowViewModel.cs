@@ -140,9 +140,10 @@ namespace ViewModel.ViewModels.Appointments
             get => _selectedBeginningTime;
             set
             {
-                if (value != _selectedBeginningTime)
+                if (_selectedEndingTime < value)
                 {
                     _selectedBeginningTime = value;
+                    SelectedEndingTime = BeginningTime[BeginningTime.IndexOf(_selectedBeginningTime) + 1];
                     base.RaisePropertyChanged();
                 }
             }
