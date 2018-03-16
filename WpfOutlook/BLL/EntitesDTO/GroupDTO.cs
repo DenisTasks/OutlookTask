@@ -12,5 +12,10 @@ namespace BLL.EntitesDTO
         public string GroupName { get; set; }
         public int? ParentId { get; set; }
         public int CreatorId { get; set; }
+
+        public string CreatorName { get; set; }
+        public string ParentName { get; set; }
+        public ICollection<GroupDTO> Groups { get; set; }
+        public ICollection<UserDTO> Users { get; set; }
     }
 }

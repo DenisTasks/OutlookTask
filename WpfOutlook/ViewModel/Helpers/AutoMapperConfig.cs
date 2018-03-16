@@ -18,11 +18,14 @@ namespace ViewModel.Helpers
 
                 cfg.CreateMap<Location, LocationDTO>();
 
-                cfg.CreateMap<User, UserDTO>();
-                cfg.CreateMap<UserDTO, User>();
+                cfg.CreateMap<User, UserDTO>()
+                    .ForMember(s => s.Groups, opt => opt.Ignore());
+                cfg.CreateMap<UserDTO, UserModel>();
                 cfg.CreateMap<UserModel, UserDTO>();
+                cfg.CreateMap<UserDTO, User>();
 
                 cfg.CreateMap<Group, GroupDTO>();
+                cfg.CreateMap<GroupDTO, GroupModel>();
                 cfg.CreateMap<GroupModel, GroupDTO>();
                 cfg.CreateMap<GroupDTO, Group>();
 
@@ -30,6 +33,7 @@ namespace ViewModel.Helpers
                 cfg.CreateMap<RoleDTO, Role>();
 
                 cfg.CreateMap<Log, LogDTO>();
+                cfg.CreateMap<LogDTO, LogModel>();
             });
         }
     }

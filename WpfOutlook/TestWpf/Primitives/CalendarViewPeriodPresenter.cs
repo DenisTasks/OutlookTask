@@ -84,8 +84,33 @@ namespace TestWpf.Primitives
                 {
                     item.SetValue(RangePanel.StartProperty, Convert.ToDouble(((DateTime)item.GetValue(CalendarView.BeginDateProperty)).Ticks));
                     item.SetValue(RangePanel.FinishProperty, Convert.ToDouble(((DateTime)item.GetValue(CalendarView.EndDateProperty)).Ticks));
-                    item.SetValue(RangePanel.DayOfYearProperty, Convert.ToDateTime(item.GetValue(CalendarView.BeginDateProperty)).DayOfYear);
-                    panel.Children.Add(item);
+                    item.SetValue(RangePanel.StartDayOfYearProperty, Convert.ToDateTime(item.GetValue(CalendarView.BeginDateProperty)).DayOfYear);
+                    item.SetValue(RangePanel.FinishDayOfYearProperty, Convert.ToDateTime(item.GetValue(CalendarView.EndDateProperty)).DayOfYear);
+
+                    //if (Convert.ToDateTime(item.GetValue(CalendarView.BeginDateProperty)).DayOfYear < Convert.ToDateTime(item.GetValue(CalendarView.EndDateProperty)).DayOfYear)
+                    //{
+                    //    item.SetValue(RangePanel.StartProperty, Convert.ToDouble(((DateTime)item.GetValue(CalendarView.BeginDateProperty)).Ticks));
+                    //    item.SetValue(RangePanel.FinishProperty, Convert.ToDouble(((DateTime)item.GetValue(CalendarView.EndDateProperty)).Date.AddDays(1).AddSeconds(-1).Ticks));
+
+                    //    var test = item.Parent as RangePanel;
+                    //    test?.Children.Remove(item);
+
+                    //    panel.Children.Add(item);
+
+                    //    //item.SetValue(RangePanel.StartProperty, Convert.ToDouble(((DateTime)item.GetValue(CalendarView.BeginDateProperty)).Date.AddDays(1).AddSeconds(-1).Ticks));
+                    //    //item.SetValue(RangePanel.FinishProperty, Convert.ToDouble(((DateTime)item.GetValue(CalendarView.EndDateProperty)).Ticks));
+
+                    //    //test?.Children.Remove(item);
+
+                    //    //panel.Children.Add(item);
+                    //}
+                    //else
+                    //{
+                        var test = item.Parent as RangePanel;
+                        test?.Children.Remove(item);
+
+                        panel.Children.Add(item);
+                    //}
                 }
             }
 

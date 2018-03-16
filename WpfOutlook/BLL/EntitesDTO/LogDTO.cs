@@ -14,5 +14,8 @@ namespace BLL.EntitesDTO
         public int ActionAuthorId { get; set; }
         public int CreatorId { get; set; }
         public DateTime EventTime { get; set; }
+
+        public string ActionAuthorName { get; set; }
+        public string CreatorName { get; set; }
     }
 }

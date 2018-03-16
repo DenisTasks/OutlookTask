@@ -14,5 +14,8 @@ namespace BLL.EntitesDTO
         public string Name { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+
+        public ICollection<GroupDTO> Groups { get; set; }
+        public ICollection<RoleDTO> Roles { get; set; }
     }
 }

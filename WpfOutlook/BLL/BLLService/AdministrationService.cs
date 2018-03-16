@@ -5,9 +5,8 @@ using Model;
 using Model.Entities;
 using Model.Helpers;
 using Model.Interfaces;
-using Model.ModelService;
-using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -22,61 +21,6 @@ namespace BLL.Services
         private IGenericRepository<Group> _groups;
         private IGenericRepository<Role> _roles;
 
-        #region mappers
-
-        private ICollection<Group> ConvertGroupsDTO(ICollection<GroupDTO> groupsDTO)
-        {
-            ICollection<Group> groups = new List<Group>();
-            if (groupsDTO != null)
-            {
-                var convert = Mapper.Map<IEnumerable<GroupDTO>, IEnumerable<Group>>(groupsDTO);
-                foreach (var item in convert)
-                {
-                    if (_groups.FindById(item.GroupId) != null)
-                    {
-                        groups.Add(_groups.FindById(item.GroupId));
-                    }
-                }
-            }
-            return groups;
-        }
-
-        private ICollection<Role> ConvertRolesDTO(ICollection<RoleDTO> rolesDTO)
-        {
-            ICollection<Role> roles = new List<Role>();
-            if (rolesDTO != null)
-            {
-                var convert = Mapper.Map<IEnumerable<RoleDTO>, IEnumerable<Role>>(rolesDTO);
-                foreach (var item in convert)
-                {
-                    if (_roles.FindById(item.RoleId) != null)
-                    {
-                        roles.Add(_roles.FindById(item.RoleId));
-                    }
-                }
-            }
-            return roles;
-        }
-
-        private ICollection<User> ConvertUsersDTO(ICollection<UserDTO> usersDTO)
-        {
-            ICollection<User> users = new List<User>();
-            if (usersDTO != null)
-            {
-                var convert = Mapper.Map<IEnumerable<UserDTO>, ICollection<User>>(usersDTO);
-                foreach (var item in convert)
-                {
-                    if (_users.FindById(item.UserId) != null)
-                    {
-                        users.Add(_users.FindById(item.UserId));
-                    }
-                }
-            }
-            return users;
-        }
-
-        #endregion
-        
         public AdministrationService(IGenericRepository<User> users, IGenericRepository<Role> roles, IGenericRepository<Group> groups, IGenericRepository<Log> logs, WPFOutlookContext context)
         {
             _logs = logs;
@@ -90,21 +34,41 @@ namespace BLL.Services
 
         public void CreateGroup(GroupDTO groupDTO, ICollection<GroupDTO> groups, ICollection<UserDTO> users, int id)
         {
-            var config = new MapperConfiguration(cfg =>
+            var groupItem = Mapper.Map<GroupDTO, Group>(groupDTO);
+            groupItem.CreatorId = id;
+            groupItem.Creator = _users.FindById(id);
+
+            groupItem.Users = new List<User>();
+            var convertUsers = Mapper.Map<IEnumerable<UserDTO>, IEnumerable<User>>(users);
+            foreach (var item in convertUsers)
             {
-                cfg.CreateMap<GroupDTO, Group>()
-                    .ForMember(d=> d.CreatorId, opt => opt.MapFrom(s=> id))
-                    .ForMember(d => d.Creator, opt => opt.MapFrom(s => _users.FindById(id)))
-                    .ForMember(d => d.Users, opt => opt.MapFrom(s => ConvertUsersDTO(users)));
-            });
-            IMapper mapper = config.CreateMapper();
-            Group group = mapper.Map<GroupDTO, Group>(groupDTO);
-            _groups.Create(group);
-            _context.SaveChanges();
-            foreach (var item in ConvertGroupsDTO(groups))
-            {
-                item.ParentId = group.GroupId;
+                if (_users.FindById(item.UserId) != null)
+                {
+                    groupItem.Users.Add(_users.FindById(item.UserId));
+                }
             }
+
+            _groups.Create(groupItem);
+            _context.SaveChanges();
+
+            var convertGroups = new List<Group>();
+            if (groups != null)
+            {
+                var convert = Mapper.Map<IEnumerable<GroupDTO>, IEnumerable<Group>>(groups);
+                foreach (var item in convert)
+                {
+                    if (_groups.FindById(item.GroupId) != null)
+                    {
+                        convertGroups.Add(_groups.FindById(item.GroupId));
+                    }
+                }
+            }
+
+            foreach (var item in convertGroups)
+            {
+                item.ParentId = groupItem.GroupId;
+            }
+
             _context.SaveChanges();
         }
 
@@ -183,7 +147,7 @@ namespace BLL.Services
             SqlParameter param2 = new SqlParameter("@List", SqlDbType.Structured);
             param2.Value = dataTable;
             param2.TypeName = "dbo.UserList";
-            var res= _context.Database.ExecuteSqlCommand("DeleteUsersFromGroupChilds @groupId,@List", param1, param2);
+            var res = _context.Database.ExecuteSqlCommand("DeleteUsersFromGroupChilds @groupId,@List", param1, param2);
         }
 
         private ICollection<User> GetGroupUsersFromBranches(int id)
@@ -207,7 +171,20 @@ namespace BLL.Services
                 ICollection<User> usersFromBranches = GetGroupUsersFromBranches(groupToEdit.GroupId);
                 if (selectedUsers.Any())
                 {
-                    groupToEdit.Users = groupToEdit.Users.Intersect(ConvertUsersDTO(selectedUsers)).ToList();
+                    var convertUsers = new List<User>();
+                    if (selectedUsers != null)
+                    {
+                        var convert = Mapper.Map<IEnumerable<UserDTO>, ICollection<User>>(selectedUsers);
+                        foreach (var item in convert)
+                        {
+                            if (_users.FindById(item.UserId) != null)
+                            {
+                                convertUsers.Add(_users.FindById(item.UserId));
+                            }
+                        }
+                    }
+
+                    groupToEdit.Users = groupToEdit.Users.Intersect(convertUsers).ToList();
                     foreach (var oldUser in usersFromBranches.ToList())
                     {
                         foreach (var user in selectedUsers.ToList())
@@ -230,13 +207,14 @@ namespace BLL.Services
                             groupToEdit.Users.Add(_users.FindById(item.UserId));
                         }
                     }
-                } else
+                }
+                else
                 {
-                    foreach(var item in groupToEdit.Users.ToList())
+                    foreach (var item in groupToEdit.Users.ToList())
                     {
                         groupToEdit.Users.Remove(_users.FindById(item.UserId));
                     }
-                    if(usersFromBranches.Any())
+                    if (usersFromBranches.Any())
                         DeleteUsersFromBranch(usersFromBranches, groupToEdit.GroupId);
                 }
                 ICollection<Group> oldGroups = _groups.Get(g => g.ParentId == groupToEdit.GroupId).ToList();
@@ -261,13 +239,26 @@ namespace BLL.Services
                 }
                 if (selectedGroups.Any())
                 {
-                    foreach (var item in ConvertGroupsDTO(selectedGroups))
+                    var convertGroups = new List<Group>();
+                    if (selectedGroups != null)
+                    {
+                        var convert = Mapper.Map<IEnumerable<GroupDTO>, IEnumerable<Group>>(selectedGroups);
+                        foreach (var item in convert)
+                        {
+                            if (_groups.FindById(item.GroupId) != null)
+                            {
+                                convertGroups.Add(_groups.FindById(item.GroupId));
+                            }
+                        }
+                    }
+
+                    foreach (var item in convertGroups)
                     {
                         item.ParentId = groupToEdit.GroupId;
                     }
                 }
                 _context.SaveChanges();
-                foreach(var id in usersFromBranches.Select(u => u.UserId))
+                foreach (var id in usersFromBranches.Select(u => u.UserId))
                 {
                     _context.Entry(_users.FindById(id)).State = System.Data.Entity.EntityState.Detached;
                 }
@@ -287,13 +278,13 @@ namespace BLL.Services
 
         public GroupDTO GetGroupById(int? id)
         {
-            if(id != null)
+            if (id != null)
             {
                 return null;
             }
-            else return Mapper.Map<Group,GroupDTO>(_groups.FindById((int)id));
+            else return Mapper.Map<Group, GroupDTO>(_groups.FindById((int)id));
         }
-        
+
         public string GetGroupName(int? id)
         {
             if (id == null)
@@ -305,26 +296,41 @@ namespace BLL.Services
         }
 
         #endregion
-        
+
         #region UserMethods
 
         public void CreateUser(UserDTO user, ICollection<GroupDTO> groups, ICollection<RoleDTO> roles)
         {
             var salt = EncryptionHelpers.GenerateSalt();
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<UserDTO, User>()
-                    .ForMember(d=> d.Salt, opt=> opt.MapFrom(s=> salt))
-                    .ForMember(d => d.Password, opt => opt.MapFrom(s=> EncryptionHelpers.HashPassword(user.UserName,user.Password, salt)))
-                    .ForMember(d => d.Roles, opt => opt.MapFrom(s => ConvertRolesDTO(roles)))
-                    .ForMember(d => d.Groups, opt => opt.MapFrom(s => ConvertGroupsDTO(groups)));
 
-            });
-            IMapper mapper = config.CreateMapper();
-            _users.Create(mapper.Map<UserDTO, User>(user));
+            var userItem = Mapper.Map<UserDTO, User>(user);
+            userItem.Salt = salt;
+            userItem.Password = EncryptionHelpers.HashPassword(user.UserName, user.Password, salt);
+
+            userItem.Roles = new List<Role>();
+            var convertRoles = Mapper.Map<IEnumerable<RoleDTO>, IEnumerable<Role>>(roles);
+            foreach (var item in convertRoles)
+            {
+                if (_roles.FindById(item.RoleId) != null)
+                {
+                    userItem.Roles.Add(_roles.FindById(item.RoleId));
+                }
+            }
+
+            userItem.Groups = new List<Group>();
+            var convertGroups = Mapper.Map<IEnumerable<GroupDTO>, IEnumerable<Group>>(groups);
+            foreach (var item in convertGroups)
+            {
+                if (_groups.FindById(item.GroupId) != null)
+                {
+                    userItem.Groups.Add(_groups.FindById(item.GroupId));
+                }
+            }
+
+            _users.Create(userItem);
             _context.SaveChanges();
         }
-        
+
         public void EditUser(UserDTO user, ICollection<GroupDTO> groups, ICollection<RoleDTO> roles)
         {
             if (user.UserName != null && user.Password != null)
@@ -339,15 +345,43 @@ namespace BLL.Services
                     userToEdit.Password = EncryptionHelpers.HashPassword(user.UserName, user.Password, salt);
                 }
                 if (user.IsActive != userToEdit.IsActive) userToEdit.IsActive = user.IsActive;
-                if (roles.Any()) userToEdit.Roles = ConvertRolesDTO(roles);
+
+                var convertRoles = new List<Role>();
+                if (roles != null)
+                {
+                    var convert = Mapper.Map<IEnumerable<RoleDTO>, IEnumerable<Role>>(roles);
+                    foreach (var item in convert)
+                    {
+                        if (_roles.FindById(item.RoleId) != null)
+                        {
+                            convertRoles.Add(_roles.FindById(item.RoleId));
+                        }
+                    }
+                }
+
+                if (roles.Any()) userToEdit.Roles = convertRoles;
                 if (!roles.Any()) userToEdit.Roles = null;
-                if (groups.Any()) userToEdit.Groups = ConvertGroupsDTO(groups);
+
+                var convertGroups = new List<Group>();
+                if (groups != null)
+                {
+                    var convert = Mapper.Map<IEnumerable<GroupDTO>, IEnumerable<Group>>(groups);
+                    foreach (var item in convert)
+                    {
+                        if (_groups.FindById(item.GroupId) != null)
+                        {
+                            convertGroups.Add(_groups.FindById(item.GroupId));
+                        }
+                    }
+                }
+
+                if (groups.Any()) userToEdit.Groups = convertGroups;
                 if (!groups.Any()) userToEdit.Groups = null;
                 _users.Update(userToEdit);
                 _context.SaveChanges();
             }
         }
-        
+
         public bool CheckUser(string username)
         {
             if (username == null || _users.Get(u => u.UserName.ToLower().Equals(username.ToLower())).Any())
@@ -371,7 +405,7 @@ namespace BLL.Services
 
         public ICollection<RoleDTO> GetUserRoles(int id)
         {
-            return Mapper.Map<IEnumerable<Role>,ICollection<RoleDTO>>(_users.FindById(id).Roles);
+            return Mapper.Map<IEnumerable<Role>, ICollection<RoleDTO>>(_users.FindById(id).Roles);
         }
 
         public ICollection<GroupDTO> GetUserGroups(int id)
@@ -380,15 +414,39 @@ namespace BLL.Services
         }
 
         #endregion
-        
+
         public ICollection<UserDTO> GetUsers()
         {
-            return Mapper.Map<IEnumerable<User>, ICollection<UserDTO>>(_users.Get());
+            List<User> collection;
+            using (_logs.BeginTransaction())
+            {
+                collection = _users.Get().ToList();
+            }
+            var mappingCollection = Mapper.Map<IEnumerable<User>, ICollection<UserDTO>>(collection).ToList();
+            foreach (var item in mappingCollection)
+            {
+                item.Groups = GetUserGroups(item.UserId);
+                item.Roles = GetUserRoles(item.UserId);
+            }
+            return mappingCollection;
         }
 
         public ICollection<GroupDTO> GetGroups()
         {
-            return Mapper.Map<IEnumerable<Group>, ICollection<GroupDTO>>(_groups.Get());
+            List<Group> collection;
+            using (_logs.BeginTransaction())
+            {
+                collection = _groups.Get().ToList();
+            }
+            var mappingCollection = Mapper.Map<IEnumerable<Group>, ICollection<GroupDTO>>(collection).ToList();
+            foreach (var item in mappingCollection)
+            {
+                item.CreatorName = GetUserById(item.CreatorId).Name;
+                item.ParentName = GetGroupName(item.ParentId);
+                item.Groups = GetGroupFirstGeneration(item.GroupId);
+                item.Users = new ObservableCollection<UserDTO>(GetGroupUsers(item.GroupId));
+            }
+            return mappingCollection;
         }
 
         public ICollection<RoleDTO> GetRoles()
@@ -398,7 +456,18 @@ namespace BLL.Services
 
         public ICollection<LogDTO> GetLogs()
         {
-            return Mapper.Map<IEnumerable<Log>, ICollection<LogDTO>>(_logs.Get());
+            List<Log> collection;
+            using (_logs.BeginTransaction())
+            {
+                collection = _logs.Get().ToList();
+            }
+            var mappingCollection = Mapper.Map<IEnumerable<Log>, ICollection<LogDTO>>(collection).ToList();
+            foreach (var item in mappingCollection)
+            {
+                item.ActionAuthorName = GetUserById(item.ActionAuthorId).Name;
+                item.CreatorName = GetUserById(item.CreatorId).Name;
+            }
+            return mappingCollection;
         }
 
         public int GetNumberOfAdmins()

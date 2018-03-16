@@ -27,22 +27,10 @@ namespace ViewModel.ViewModels.Administration
             }
         }
 
-
         public ShowAllLogsViewModel(IAdministrationService administrationService)
         {
             _administrationService = administrationService;
-            var mapper = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<LogDTO, LogModel>()
-                    .ForMember(d => d.LogId, opt => opt.MapFrom(s => s.LogId))
-                    .ForMember(d => d.Action, opt => opt.MapFrom(s => s.Action))
-                    .ForMember(d => d.AppointmentName, opt => opt.MapFrom(s => s.AppointmentName))
-                    .ForMember(d => d.ActionAuthorName, opt => opt.MapFrom(s => _administrationService.GetUserById(s.ActionAuthorId).Name))
-                    .ForMember(d => d.CreatorName, opt => opt.MapFrom(s => _administrationService.GetUserById(s.CreatorId).Name))
-                    .ForMember(d => d.EventTime, opt => opt.MapFrom(s => s.EventTime));
-
-            }).CreateMapper();
-            Logs = new ObservableCollection<LogModel>(mapper.Map<IEnumerable<LogDTO>, ICollection<LogModel>>(_administrationService.GetLogs()));
+            Logs = new ObservableCollection<LogModel>(Mapper.Map<IEnumerable<LogDTO>, ICollection<LogModel>>(_administrationService.GetLogs()));
         }
     }
 }
