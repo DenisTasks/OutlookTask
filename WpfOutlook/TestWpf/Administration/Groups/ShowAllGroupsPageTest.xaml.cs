@@ -48,6 +48,7 @@ namespace TestWpf.Administration.Groups
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            Messenger.Default.Unregister<NotificationMessage>(this);
             Messenger.Default.Unregister<GroupModel>(this);
             this.NavigationService.GoBack();
         }

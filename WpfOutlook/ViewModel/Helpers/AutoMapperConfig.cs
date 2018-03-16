@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BLL.EntitesDTO;
 using Model.Entities;
+using System.Collections.Generic;
 using ViewModel.Models;
 
 namespace ViewModel.Helpers

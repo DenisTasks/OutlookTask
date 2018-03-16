@@ -8,6 +8,7 @@ using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Security.Permissions;
 using System.Text;
@@ -29,6 +30,7 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
         public ShowAllGroupsViewModel(IAdministrationService administationService)
         {
             _administrationService = administationService;
+            _groups = new ObservableCollection<GroupModel>();
             LoadData();
             _editUserCommand = new RelayCommand<GroupModel>(EditGroup);
             _addUserCommand = new RelayCommand(AddGroup);
@@ -46,11 +48,8 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
             get => _groups;
             set
             {
-                if (value != null)
-                {
-                    _groups = value;
-                    base.RaisePropertyChanged();
-                }
+                _groups = value;
+                base.RaisePropertyChanged();
             }
         }
 
@@ -59,6 +58,10 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
             if (group != null)
             {
                 _administrationService.DeleteGroup(group.GroupId);
+                foreach(var item in group.Groups)
+                {
+                    Groups.Add(item);
+                }
                 Groups.Remove(group);
             }
         }
@@ -74,13 +77,57 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
             if (group != null)
             {
                 Messenger.Default.Send<GroupModel>(group);
+                Groups = null;
                 LoadData();
             }
         }
 
         private void LoadData()
         {
-            Groups = new ObservableCollection<GroupModel>(Mapper.Map<IEnumerable<GroupDTO>,ICollection<GroupModel>>(_administrationService.GetGroups()));
+            Groups = new ObservableCollection<GroupModel>(Mapper.Map<IEnumerable<GroupDTO>, ICollection<GroupModel>>(_administrationService.GetGroupsWithNoAncestors()));
+            var allGroups = Mapper.Map<IEnumerable<GroupDTO>, ICollection<GroupModel>>(_administrationService.GetGroups());
+            foreach(var item in Groups)
+            {
+                foreach(var group in allGroups.ToList())
+                {
+                    if (item.GroupId == group.GroupId)
+                        allGroups.Remove(group);
+                }
+            }
+            while (allGroups.Any())
+            {
+                foreach (var item in Groups)
+                {
+                    allGroups = FillChildrens(allGroups, item.Groups).ToList();
+                }
+            }
+        }
+
+        private IEnumerable<GroupModel> FillChildrens(ICollection<GroupModel> allGroups, ICollection<GroupModel> groupModel)
+        {
+            if (groupModel != null)
+            {   
+                foreach (var item in groupModel)
+                {
+                    allGroups = allGroups.Where(g => g.GroupId != item.GroupId).ToList();
+                    var groups = _administrationService.GetGroupFirstGeneration(item.GroupId);
+                    if (groups.Any())
+                    {
+                        item.Groups = new ObservableCollection<GroupModel>(Mapper.Map<IEnumerable<GroupDTO>, ICollection<GroupModel>>(groups));
+                        foreach (var temp in item.Groups)
+                        {
+                            foreach (var group in allGroups.ToList())
+                            {
+                                if (temp.GroupId == group.GroupId)
+                                    allGroups.Remove(group);
+                            }
+                        }
+                        allGroups = FillChildrens(allGroups, item.Groups).ToList();
+                    }
+                }
+            }
+            return allGroups;
+
         }
     }
 }

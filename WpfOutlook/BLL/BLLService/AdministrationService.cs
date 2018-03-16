@@ -267,7 +267,20 @@ namespace BLL.Services
 
         public ICollection<GroupDTO> GetGroupsWithNoAncestors()
         {
-            return Mapper.Map<IEnumerable<Group>, ICollection<GroupDTO>>(_groups.Get(g => g.ParentId == null));
+            List<Group> collection;
+            using (_logs.BeginTransaction())
+            {
+                collection = _groups.Get(g => g.ParentId == null).ToList();
+            }
+            var mappingCollection = Mapper.Map<IEnumerable<Group>, ICollection<GroupDTO>>(collection).ToList();
+            foreach (var item in mappingCollection)
+            {
+                item.CreatorName = GetUserById(item.CreatorId).Name;
+                item.ParentName = GetGroupName(item.ParentId);
+                item.Groups = GetGroupFirstGeneration(item.GroupId);
+                item.Users = new ObservableCollection<UserDTO>(GetGroupUsers(item.GroupId));
+            }
+            return mappingCollection;
         }
 
         public ICollection<UserDTO> GetGroupUsers(int id)
@@ -444,7 +457,7 @@ namespace BLL.Services
                 item.CreatorName = GetUserById(item.CreatorId).Name;
                 item.ParentName = GetGroupName(item.ParentId);
                 item.Groups = GetGroupFirstGeneration(item.GroupId);
-                item.Users = new ObservableCollection<UserDTO>(GetGroupUsers(item.GroupId));
+                item.Users = GetGroupUsers(item.GroupId);
             }
             return mappingCollection;
         }

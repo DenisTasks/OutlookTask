@@ -12,10 +12,10 @@
       Title="ShowAllGroupsPageTest">
     <StackPanel>
         <TextBlock Text="Hierarchical root binding}" Foreground="Red" Margin="10,20,0,0"/>
-        <TreeView ItemsSource="{Binding Groups}" Margin="10" Height="200" x:Name="GroupList">
+        <TreeView ItemsSource="{Binding Groups, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10" Height="200" x:Name="GroupList">
             <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Groups}" DataType="{x:Type c:GroupModel}">
-                    <TreeViewItem Header="{Binding GroupName}"/>
+                <HierarchicalDataTemplate ItemsSource="{Binding Groups, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DataType="{x:Type c:GroupModel}">
+                    <TreeViewItem Header="{Binding GroupName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>

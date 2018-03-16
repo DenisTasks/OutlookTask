@@ -21,15 +21,15 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
         private readonly IAdministrationService _administrationService;
         private readonly CustomPrincipal _customPrincipal;
 
-        private ICollection<GroupDTO> _hiddenGroupAncestors;
-        private ICollection<GroupDTO> _groupsWithNoAncestors;
+        private ICollection<GroupModel> _hiddenGroupAncestors;
+        private ICollection<GroupModel> _groupsWithNoAncestors;
        
-        private ObservableCollection<GroupDTO> _groupList;
+        private ObservableCollection<GroupModel> _groupList;
         private ObservableCollection<UserDTO> _userList;
 
-        private ICollection<GroupDTO> _groupsForComboBox;
+        private ICollection<GroupModel> _groupsForComboBox;
 
-        public ICollection<GroupDTO> GroupsForComboBox
+        public ICollection<GroupModel> GroupsForComboBox
         {
             get => _groupsForComboBox;
             set
@@ -38,9 +38,9 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
             }
         }
 
-        private GroupDTO _groupNameForFilter;
+        private GroupModel _groupNameForFilter;
 
-        public GroupDTO GroupNameForFilter
+        public GroupModel GroupNameForFilter
         {
             get => _groupNameForFilter;
             set
@@ -50,7 +50,7 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
             }
         }
 
-        private void FilterGroupList(GroupDTO group)
+        private void FilterGroupList(GroupModel group)
         {
             if (group.GroupName != "Not")
             {
@@ -67,17 +67,17 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
                         }
                     }
                 }
-                //Group.Groups = new ObservableCollection<GroupDTO>();
+                Group.Groups = new ObservableCollection<GroupModel>();
             }
             else
             {
                 Group.ParentId = null;
-                //Group.Groups = new ObservableCollection<GroupDTO>();
+                Group.Groups = new ObservableCollection<GroupModel>();
                 foreach(var item in _hiddenGroupAncestors.ToList())
                 {
                     _hiddenGroupAncestors.Remove(item);
                 }
-                GroupList = new ObservableCollection<GroupDTO>(_groupsWithNoAncestors);
+                GroupList = new ObservableCollection<GroupModel>(_groupsWithNoAncestors);
             }
         }
 
@@ -87,19 +87,19 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
         {
             _administrationService = administrationService;
 
-            _hiddenGroupAncestors = new List<GroupDTO>();
+            _hiddenGroupAncestors = new List<GroupModel>();
 
             _userList = new ObservableCollection<UserDTO>(_administrationService.GetUsers());
 
-            _groupsForComboBox = _administrationService.GetGroups();
-            _groupsWithNoAncestors = _administrationService.GetGroupsWithNoAncestors();
-            _groupList = new ObservableCollection<GroupDTO>(_groupsWithNoAncestors);
-            _groupsForComboBox.Add(new GroupDTO { GroupName = "Not" }); 
+            _groupsForComboBox = Mapper.Map<IEnumerable<GroupDTO>, ICollection<GroupModel>>(_administrationService.GetGroups());
+            _groupsWithNoAncestors = Mapper.Map<IEnumerable<GroupDTO>, ICollection<GroupModel>>(_administrationService.GetGroupsWithNoAncestors());
+            _groupList = new ObservableCollection<GroupModel>(_groupsWithNoAncestors);
+            _groupsForComboBox.Add(new GroupModel { GroupName = "Not" }); 
 
             _addUserCommand = new RelayCommand<UserDTO>(AddUser);
             _removeUserCommand = new RelayCommand<UserDTO>(RemoveUser);
-            _addGroupCommand = new RelayCommand<GroupDTO>(AddGroup);
-            _removeGroupCommand = new RelayCommand<GroupDTO>(RemoveGroup);
+            _addGroupCommand = new RelayCommand<GroupModel>(AddGroup);
+            _removeGroupCommand = new RelayCommand<GroupModel>(RemoveGroup);
             _createGroupCommand = new RelayCommand<Window>(CreateGroup);
 
             _customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
@@ -122,7 +122,7 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
             }
         }
 
-        public ObservableCollection<GroupDTO> GroupList
+        public ObservableCollection<GroupModel> GroupList
         {
             get => _groupList;
             set
@@ -156,22 +156,22 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
         }
 
 
-        private RelayCommand<GroupDTO> _addGroupCommand;
-        private RelayCommand<GroupDTO> _removeGroupCommand;
+        private RelayCommand<GroupModel> _addGroupCommand;
+        private RelayCommand<GroupModel> _removeGroupCommand;
 
-        public RelayCommand<GroupDTO> AddGroupCommand { get { return _addGroupCommand; } }
-        public RelayCommand<GroupDTO> RemoveGroupCommand { get { return _removeGroupCommand; } }
+        public RelayCommand<GroupModel> AddGroupCommand { get { return _addGroupCommand; } }
+        public RelayCommand<GroupModel> RemoveGroupCommand { get { return _removeGroupCommand; } }
 
-        public void AddGroup(GroupDTO group)
+        public void AddGroup(GroupModel group)
         {
-           // Group.Groups.Add(group);
+            Group.Groups.Add(group);
             GroupList.Remove(group);
             base.RaisePropertyChanged();
         }
 
-        public void RemoveGroup(GroupDTO group)
+        public void RemoveGroup(GroupModel group)
         {
-            //Group.Groups.Remove(group);
+            Group.Groups.Remove(group);
             GroupList.Add(group);
             base.RaisePropertyChanged();
         }
@@ -182,11 +182,11 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
 
         public void CreateGroup(Window window)
         {
-            if (Group.GroupName!=null && _administrationService.CheckGroup(Group.GroupName))
+            if (Group.GroupName!=null)
             {
                 if (_administrationService.CheckGroup(Group.GroupName))
                 {
-                    //_administrationService.CreateGroup(Mapper.Map<GroupModel, GroupDTO>(Group), Group.Groups, Group.Users, _customPrincipal.Identity.UserId);
+                    _administrationService.CreateGroup(Mapper.Map<GroupModel, GroupDTO>(Group), Mapper.Map<IEnumerable<GroupModel>, ICollection<GroupDTO>>(Group.Groups), Group.Users, _customPrincipal.Identity.UserId);
                     window.Close();
                 }
                 else
