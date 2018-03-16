@@ -67,7 +67,7 @@ namespace ViewModel.ViewModels.Calendar
         {
             if (_selectedSyncUser != null)
             {
-                Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.Sync, User = new UserDTO() { UserId = _selectedSyncUser.UserId }, Argument = start.ToString()});
+                Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.Sync, User = new UserDTO { UserId = _selectedSyncUser.UserId }, Argument = start.ToString()});
             }
         }
         private void LoadData()

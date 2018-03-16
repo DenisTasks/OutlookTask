@@ -28,21 +28,5 @@ namespace ViewModel.Helpers
 
             });
         }
-
-        //public static TEntityTo DefaultMapperItem<TEntityFrom, TEntityTo>(TEntityFrom model, TEntityTo newModel)
-        //{
-        //    var mapconfiguration = new MapperConfiguration(cfg => cfg.CreateMap<TEntityFrom, TEntityTo>());
-        //    var mapper = mapconfiguration.CreateMapper();
-        //    var result = mapper.Map(model, newModel);
-        //    return result;
-        //}
-
-        //public static IEnumerable<TEntityTo> DefaultMapperCollection<TEntityFrom, TEntityTo>(IEnumerable<TEntityFrom> model, IEnumerable<TEntityTo> newModel)
-        //{
-        //    var mapconfiguration = new MapperConfiguration(cfg => cfg.CreateMap<TEntityFrom, TEntityTo>());
-        //    var mapper = mapconfiguration.CreateMapper();
-        //    var result = mapper.Map(model, newModel);
-        //    return result;
-        //}
     }
 }

@@ -24,7 +24,7 @@ namespace TestWpf.Pages
                     if (message.Type == WindowType.AddAppWindow)
                     {
                         var addAppWindow = new AddAppWindow();
-                        var result = addAppWindow.ShowDialog();
+                        addAppWindow.ShowDialog();
                     }
                     if (message.Type == WindowType.AddAboutAppointmentWindow && message.Argument == "Load this appointment")
                     {
@@ -32,25 +32,25 @@ namespace TestWpf.Pages
                         // send initialize information after create, but before show window!
                         // send this message => initialize new check at this cycle
                         Messenger.Default.Send(new OpenWindowMessage {Type = WindowType.None, Argument = message.Argument, Appointment = message.Appointment });
-                        var result = addAboutWindow.ShowDialog();
+                        addAboutWindow.ShowDialog();
                     }
                     if (message.Type == WindowType.AddAllAppByLocationWindow)
                     {
                         var addAllAppWindow = new AllAppByLocation();
                         // send initialize information after create, but before show window!
                         Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.LoadLocations, Argument = message.Argument });
-                        var result = addAllAppWindow.ShowDialog();
+                        addAllAppWindow.ShowDialog();
                     }
                     if (message.Type == WindowType.Sync && message.User != null)
                     {
                         var addSync = new SyncWindow();
                         Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.None, User = message.User, Argument = message.Argument });
-                        var result = addSync.ShowDialog();
+                        addSync.ShowDialog();
                     }
                     if (message.Type == WindowType.CalendarFrame)
                     {
                         var calendarFrameWindow = new CalendarFrame();
-                        var result = calendarFrameWindow.ShowDialog();
+                        calendarFrameWindow.ShowDialog();
                     }
                 });
             Messenger.Default.Register<NotificationMessage>(this, message =>
@@ -58,7 +58,7 @@ namespace TestWpf.Pages
                 if (message.Notification.Equals("CreateGroup"))
                 {
                     var addGroupWindow = new AddGroupWindow();
-                    var result = addGroupWindow.ShowDialog();
+                    addGroupWindow.ShowDialog();
                 }
             });
         }

@@ -87,7 +87,7 @@
                     <GroupStyle.HeaderTemplate>
                         <DataTemplate>
                             <Border BorderBrush="SteelBlue"  BorderThickness="2">
-                                <TextBlock Text="{Binding Path=Name}"
+                                <TextBlock Text="{Binding Name}"
                                            FontWeight="Bold"
                                            Foreground="Red"/>
                             </Border>

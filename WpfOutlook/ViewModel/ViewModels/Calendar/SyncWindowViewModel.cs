@@ -111,6 +111,5 @@ namespace ViewModel.ViewModels.Calendar
                 MessageBox.Show(e.ToString());
             }
         }
-
     }
 }

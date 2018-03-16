@@ -28,19 +28,21 @@ namespace ViewModel.ViewModels.Appointments
     {
         private readonly IBLLServiceMain _service;
         private readonly ILogService _logService;
+        private readonly int _id;
         private ObservableCollection<AppointmentModel> _appointments;
         private ObservableCollection<FileInfo> _files;
         private FileInfo _selectTheme;
-        private int Id { get; }
 
-        public FileInfo SelectedTheme
+        public ObservableCollection<AppointmentModel> Appointments
         {
-            get => _selectTheme;
+            get => _appointments;
             set
             {
-                _selectTheme = value;
-                base.RaisePropertyChanged();
-                ChangeTheme(_selectTheme);
+                if (value != _appointments)
+                {
+                    _appointments = value;
+                    base.RaisePropertyChanged();
+                }
             }
         }
         public ObservableCollection<FileInfo> Files
@@ -52,16 +54,14 @@ namespace ViewModel.ViewModels.Appointments
                 base.RaisePropertyChanged();
             }
         }
-        public ObservableCollection<AppointmentModel> Appointments
+        public FileInfo SelectedTheme
         {
-            get => _appointments;
+            get => _selectTheme;
             set
             {
-                if (value != _appointments)
-                {
-                    _appointments = value;
-                    base.RaisePropertyChanged();
-                }
+                _selectTheme = value;
+                base.RaisePropertyChanged();
+                ChangeTheme(_selectTheme);
             }
         }
 
@@ -77,7 +77,6 @@ namespace ViewModel.ViewModels.Appointments
                     .ForMember(d => d.LocationId, opt => opt.MapFrom(s => s.LocationId))
                     .ForMember(d => d.Room, opt => opt.MapFrom(s => _service.GetLocationById(s.LocationId).Room))
                     .ForMember(d => d.Users, opt => opt.MapFrom(s => new ObservableCollection<UserDTO>(_service.GetAppointmentUsers(s.AppointmentId))));
-
             }).CreateMapper();
             return mapper;
         }
@@ -97,11 +96,11 @@ namespace ViewModel.ViewModels.Appointments
 
         public MainWindowViewModel(IBLLServiceMain service, ILogService logService)
         {
-            CustomPrincipal cp = Thread.CurrentPrincipal as CustomPrincipal;
-            if (cp != null) Id = cp.Identity.UserId;
+            CustomPrincipal cp = (CustomPrincipal) Thread.CurrentPrincipal;
+            if (cp != null) _id = cp.Identity.UserId;
             _service = service;
             _logService = logService;
-            LoadData(Id);
+            LoadData(_id);
             #region Commands
             AddAppWindowCommand = new RelayCommand(AddAppointment);
             PrintAppointmentCommand = new RelayCommand<AppointmentModel>(PrintAppointment);
@@ -174,7 +173,7 @@ namespace ViewModel.ViewModels.Appointments
         private void RefreshingAppointments()
         {
             Appointments.Clear();
-            Appointments = new ObservableCollection<AppointmentModel>(GetMapper().Map<IEnumerable<AppointmentDTO>, ICollection<AppointmentModel>>(_service.GetAppointmentsByUserId(Id)));
+            Appointments = new ObservableCollection<AppointmentModel>(GetMapper().Map<IEnumerable<AppointmentDTO>, ICollection<AppointmentModel>>(_service.GetAppointmentsByUserId(_id)));
             Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.Toast, Argument = "You added a new\r\nappointment! Check\r\nyour calendar, please!", SecondsToShow = 5 });
         }
         private void GetAllAppsByRoom(AppointmentModel appointment)
@@ -200,7 +199,7 @@ namespace ViewModel.ViewModels.Appointments
         }
         private void SortBy(object parameter)
         {
-            string column = parameter as string;
+            string column = (string) parameter;
             if (column != null)
             {
                 ICollectionView view = CollectionViewSource.GetDefaultView(Appointments);

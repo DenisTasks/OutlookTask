@@ -221,14 +221,7 @@ namespace ViewModel.ViewModels.Appointments
                 if (dateTimeNow > item.Ticks)
                 {
                     int nextTime = BeginningTime.IndexOf(item) + 1;
-                    if (nextTime <= BeginningTime.Count)
-                    {
-                        checkTime = BeginningTime.ElementAt(nextTime);
-                    }
-                    else
-                    {
-                        checkTime = BeginningTime[0];
-                    }
+                    checkTime = nextTime <= BeginningTime.Count ? BeginningTime.ElementAt(nextTime) : BeginningTime[0];
                 }
             }
             return checkTime;

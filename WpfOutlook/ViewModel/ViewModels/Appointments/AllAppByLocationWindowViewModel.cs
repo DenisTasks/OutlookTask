@@ -51,5 +51,4 @@ namespace ViewModel.ViewModels.Appointments
             });
         }
     }
-
 }

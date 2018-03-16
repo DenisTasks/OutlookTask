@@ -8,15 +8,13 @@ using ViewModel.Helpers;
 using ViewModel.Models;
 
 
-namespace ViewModel.ViewModels
+namespace ViewModel.ViewModels.Appointments
 {
     public class AboutAppointmentWindowViewModel : ViewModelBase
     {
         private AppointmentModel _appointment;
         private LocationDTO _location;
         private RelayCommand<Window> _printAppointmentCommand;
-
-       
 
         public RelayCommand<Window> PrintAppointmentCommand
         {
