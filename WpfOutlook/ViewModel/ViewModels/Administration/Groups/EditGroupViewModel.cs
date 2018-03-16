@@ -57,6 +57,14 @@ namespace ViewModel.ViewModels.Administration.Groups
                 {
                     Group.ParentId = group.GroupId;
                     ICollection<string> groupNameList = _administrationService.GetGroupAncestors(group.GroupName);
+                    if (_hiddenGroupAncestors.Any())
+                    {
+                        foreach (var item in _hiddenGroupAncestors.GroupBy(g => g.GroupId).First().ToList())
+                        {
+                            GroupList.Add(item);
+                            _hiddenGroupAncestors.Remove(item);
+                        }
+                    }
                     foreach (var groupName in groupNameList)
                     {
                         foreach (var item in GroupList.ToList())
