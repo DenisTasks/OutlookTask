@@ -8,7 +8,7 @@ using ViewModel.Models;
 
 namespace TestWpf.Administration.Groups.TreeVievModel
 {
-    interface ITreeModel
+    public interface ITreeModel
     {
         IEnumerable<GroupModel> GetChildren(object parent);
         bool HasChildren(object parent);
