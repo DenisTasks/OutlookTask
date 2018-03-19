@@ -66,7 +66,6 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
         {
             if (group != null)
             {
-                _administrationService.DeleteGroup(group.GroupId);
                 if (group.ParentId == null)
                 {
                     foreach (var item in group.Groups)
@@ -84,10 +83,8 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
                     }
                     parent.Groups.Remove(group);
                 }
-
+                _administrationService.DeleteGroup(group.GroupId);
             }
-                base.RaisePropertyChanged();
-            
         }
 
         private GroupModel FindParentGroup(int id)
@@ -103,7 +100,7 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
                 else
                 {
                     var finding = SearchBranch(item.Groups, id);
-                    if (finding != null)
+                    if (!string.IsNullOrEmpty(finding.GroupName))
                     {
                         group = finding;
                         break;
@@ -147,7 +144,20 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
         {
             if (group != null)
             {
+                //var oldGroups = group.Groups;
                 Messenger.Default.Send<GroupModel>(group);
+                Groups = null;
+                LoadData();
+                //foreach(var item in group.Groups)
+                //{
+                //    foreach(var grp in Groups.ToList())
+                //    {
+                //        if(item.GroupName == grp.GroupName)
+                //        {
+                //            Groups.Remove(grp);
+                //        }
+                //    }
+                //}
             }
         }
 
