@@ -84,7 +84,7 @@ namespace ViewModel.ViewModels.Appointments
             if (cp != null) _id = cp.Identity.UserId;
             _service = service;
             _logService = logService;
-            LoadData(_id);
+            LoadData();
             #region Commands
             AddAppWindowCommand = new RelayCommand(AddAppointment);
             PrintAppointmentCommand = new RelayCommand<AppointmentModel>(PrintAppointment);
@@ -156,7 +156,7 @@ namespace ViewModel.ViewModels.Appointments
         private void RefreshingAppointments()
         {
             Appointments.Clear();
-            Appointments = new ObservableCollection<AppointmentModel>(Mapper.Map<IEnumerable<AppointmentDTO>, ICollection<AppointmentModel>>(_service.GetAppointmentsByUserId(_id)));
+            Appointments = new ObservableCollection<AppointmentModel>(Mapper.Map<IEnumerable<AppointmentDTO>, IEnumerable<AppointmentModel>>(_service.GetAppointmentsByUserId(_id)));
             
             Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.Toast, Argument = "You added a new\r\nappointment! Check\r\nyour calendar, please!", SecondsToShow = 5 });
         }
@@ -205,12 +205,12 @@ namespace ViewModel.ViewModels.Appointments
                 }
             }
         }
-        private void LoadData(int id)
+        private void LoadData()
         {
             try
             {
                 NotifyScheduler.Start();
-                Appointments = new ObservableCollection<AppointmentModel>(Mapper.Map<IEnumerable<AppointmentDTO>, ICollection<AppointmentModel>>(_service.GetAppointmentsByUserId(id)));
+                Appointments = new ObservableCollection<AppointmentModel>(Mapper.Map<IEnumerable<AppointmentDTO>, IEnumerable<AppointmentModel>>(_service.GetAppointmentsByUserId(_id)));
             }
             catch (Exception e)
             {

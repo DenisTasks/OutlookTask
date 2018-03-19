@@ -54,8 +54,9 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
                     _groups = value;
                     base.RaisePropertyChanged();
                 }
-                catch (NullReferenceException)
+                catch (NullReferenceException e)
                 {
+                    MessageBox.Show(e.Message);
                 }
             }
         }
@@ -146,7 +147,6 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
             {
                 Messenger.Default.Send<GroupModel>(group);
                 //Groups = null;
-                LoadData();
             }
         }
 

@@ -189,6 +189,8 @@ namespace ViewModel.ViewModels.Appointments
             SelectedLocation = LocationList[0];
 
             AllDayEvent = false;
+
+            AddUsersToList(UserList.FirstOrDefault(s => s.UserId == Id));
         }
 
         public int GetLocationsCount()
@@ -309,7 +311,7 @@ namespace ViewModel.ViewModels.Appointments
 
                 Messenger.Default.Send<NotificationMessage, MainWindowViewModel>(new NotificationMessage("Refresh"));
 
-                window?.Close();
+                window.Close();
             }
             else
             {
