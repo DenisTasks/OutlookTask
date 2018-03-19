@@ -14,6 +14,7 @@ using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using ViewModel.Models;
 using ViewModel.ViewModels.Administration.Groups;
 
@@ -54,8 +55,9 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
                     _groups = value;
                     base.RaisePropertyChanged();
                 }
-                catch (NullReferenceException)
+                catch (NullReferenceException ex)
                 {
+                    MessageBox.Show(ex.StackTrace);
                 }
             }
         }
@@ -137,6 +139,7 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
         private void AddGroup()
         {
             Messenger.Default.Send(new NotificationMessage("AddGroupWindow"));
+            Groups = null;
             LoadData();
         }
 
@@ -145,8 +148,6 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
             if (group != null)
             {
                 Messenger.Default.Send<GroupModel>(group);
-                //Groups = null;
-                LoadData();
             }
         }
 
