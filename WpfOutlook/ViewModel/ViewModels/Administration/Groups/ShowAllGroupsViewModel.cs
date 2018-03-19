@@ -13,6 +13,7 @@ using System.Linq;
 using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using ViewModel.Models;
 using ViewModel.ViewModels.Administration.Groups;
 
@@ -48,8 +49,15 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
             get => _groups;
             set
             {
-                _groups = value;
-                base.RaisePropertyChanged();
+                try
+                {
+                    _groups = value;
+                    base.RaisePropertyChanged();
+                }
+                catch (NullReferenceException)
+                {
+                    MessageBox.Show("I dunno exception");
+                }
             }
         }
 
@@ -58,12 +66,73 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
             if (group != null)
             {
                 _administrationService.DeleteGroup(group.GroupId);
-                foreach(var item in group.Groups)
+                if (group.ParentId == null)
                 {
-                    Groups.Add(item);
+                    foreach (var item in group.Groups)
+                    {
+                        Groups.Add(item);
+                    }
+                    Groups.Remove(group);
                 }
-                Groups.Remove(group);
+                else
+                {
+                    var parent = FindParentGroup((int)group.ParentId);
+                    foreach (var item in group.Groups)
+                    {
+                        parent.Groups.Add(item);
+                    }
+                    parent.Groups.Remove(group);
+                }
+
             }
+                base.RaisePropertyChanged();
+            
+        }
+
+        private GroupModel FindParentGroup(int id)
+        {
+            GroupModel group = new GroupModel();
+            foreach(var item in Groups)
+            {
+                if (item.GroupId == id)
+                {
+                    group = item;
+                    break;
+                }
+                else
+                {
+                    var finding = SearchBranch(item.Groups, id);
+                    if (finding != null)
+                    {
+                        group = finding;
+                        break;
+                    }
+                }
+            }
+            return group;
+        }
+
+        private GroupModel SearchBranch(ICollection<GroupModel> groups, int id)
+        {
+            GroupModel group = new GroupModel();
+            foreach (var item in groups)
+            {
+                if (item.GroupId == id)
+                {
+                    group = item;
+                    break;
+                }
+                else
+                {
+                    var finding = SearchBranch(item.Groups, id);
+                    if (finding != null)
+                    {
+                        group = finding;
+                        break;
+                    }   
+                }
+            }
+            return group;
         }
 
         private void AddGroup()
@@ -77,7 +146,7 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
             if (group != null)
             {
                 Messenger.Default.Send<GroupModel>(group);
-                Groups = null;
+                //Groups = null;
                 LoadData();
             }
         }
