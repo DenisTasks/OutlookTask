@@ -155,7 +155,6 @@ namespace ViewModel.ViewModels.Appointments
         }
         private void RefreshingAppointments()
         {
-            Appointments.Clear();
             Appointments = new ObservableCollection<AppointmentModel>(Mapper.Map<IEnumerable<AppointmentDTO>, IEnumerable<AppointmentModel>>(_service.GetAppointmentsByUserId(_id)));
             
             Messenger.Default.Send(new OpenWindowMessage { Type = WindowType.Toast, Argument = "You added a new\r\nappointment! Check\r\nyour calendar, please!", SecondsToShow = 5 });

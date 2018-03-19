@@ -139,7 +139,7 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
         private void AddGroup()
         {
             Messenger.Default.Send(new NotificationMessage("AddGroupWindow"));
-            Groups = null;
+            //Groups = null;
             LoadData();
         }
 
