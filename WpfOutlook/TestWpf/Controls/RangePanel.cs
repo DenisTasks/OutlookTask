@@ -49,13 +49,13 @@ namespace TestWpf.Controls
 
         public double MaximumHeight
         {
-            get { return (double)this.GetValue(MaximumHeightProperty); }
-            set { this.SetValue(MaximumHeightProperty, value); }
+            get => (double)GetValue(MaximumHeightProperty);
+            set => SetValue(MaximumHeightProperty, value);
         }
         public double MinimumHeight
         {
-            get { return (double)this.GetValue(MinimumHeightProperty); }
-            set { this.SetValue(MinimumHeightProperty, value); }
+            get => (double)GetValue(MinimumHeightProperty);
+            set => SetValue(MinimumHeightProperty, value);
         }
 
         protected override Size ArrangeOverride(Size finalSize)
@@ -132,7 +132,6 @@ namespace TestWpf.Controls
                     element.Arrange(new Rect(location, size));
                 }
             }
-
             return finalSize;
         }
 

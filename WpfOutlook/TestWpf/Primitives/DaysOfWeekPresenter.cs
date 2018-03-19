@@ -76,7 +76,19 @@ namespace TestWpf.Primitives
                 _visualChildren.Clear();
 
             foreach (CalendarViewPeriod period in CalendarView.Periods)
-                _visualChildren.Add(new DaysPresenter() { Period = period, CalendarView = CalendarView, ListView = ListView });
+            {
+                Label labelDay = new Label
+                {
+                    FontSize = 15,
+                    Content = $"{period.BeginDate:ddd, MMM d, yyyy}",
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center
+                };
+
+                Border border = new Border { BorderBrush = Brushes.Red, BorderThickness = new Thickness(2.0), CornerRadius = new CornerRadius(5, 5, 5, 5) };
+                border.Child = labelDay;
+                _visualChildren.Add(border);
+            }
 
             _visualChildrenGenerated = true;
         }
@@ -97,7 +109,7 @@ namespace TestWpf.Primitives
             using (generator.StartAt(new GeneratorPosition(-1, 0), GeneratorDirection.Forward))
             {
                 UIElement element;
-                while ((element = generator.GenerateNext() as UIElement) != null)
+                while ((element = (UIElement) generator.GenerateNext()) != null)
                 {
                     _listViewItemVisuals.Add(element);
                     generator.PrepareItemContainer(element);

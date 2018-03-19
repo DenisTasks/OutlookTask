@@ -35,6 +35,7 @@ namespace ViewModel.ViewModels.Appointments
         private DateTime _endingDate = DateTime.Today;
         private LocationDTO _selectedLocation;
         private AppointmentModel _selectedTemplateItem;
+        private bool _allDayEvent;
         private int _isAvailible;
         private int Id { get; }
 
@@ -153,6 +154,15 @@ namespace ViewModel.ViewModels.Appointments
                 base.RaisePropertyChanged();
             }
         }
+        public bool AllDayEvent
+        {
+            get => _allDayEvent;
+            set
+            {
+                _allDayEvent = value;
+                base.RaisePropertyChanged();
+            }
+        }
 
         public AddAppWindowViewModel(IBLLServiceMain service, ILogService logService)
         {
@@ -177,6 +187,8 @@ namespace ViewModel.ViewModels.Appointments
             SelectedBeginningTime = BeginningTime.Find(x => x == GetDateTimeNow());
             SelectedEndingTime = BeginningTime[BeginningTime.IndexOf(SelectedBeginningTime) + 1];
             SelectedLocation = LocationList[0];
+
+            AllDayEvent = false;
         }
 
         public int GetLocationsCount()
@@ -238,10 +250,19 @@ namespace ViewModel.ViewModels.Appointments
 
         private void CreateAppointment(Window window)
         {
-            string startDate = _startDate.ToString("d", CultureInfo.InvariantCulture) + " " + _selectedBeginningTime.ToString("h:mm tt", CultureInfo.InvariantCulture);
+            string startDate;
+            string endingDate;
+            if (AllDayEvent)
+            {
+                startDate = _startDate.ToString(CultureInfo.InvariantCulture);
+                endingDate = _startDate.AddDays(1).AddSeconds(-1).ToString(CultureInfo.InvariantCulture);
+            }
+            else
+            {
+                startDate = $"{_startDate.ToString("d", CultureInfo.InvariantCulture)} {_selectedBeginningTime.ToString("h:mm tt", CultureInfo.InvariantCulture)}";
+                endingDate = $"{_endingDate.ToString("d", CultureInfo.InvariantCulture)} {_selectedEndingTime.ToString("h:mm tt", CultureInfo.InvariantCulture)}";
+            }
             _parseStartDate = DateTime.Parse(startDate, CultureInfo.InvariantCulture);
-
-            string endingDate = _endingDate.ToString("d", CultureInfo.InvariantCulture) + " " + _selectedEndingTime.ToString("h:mm tt", CultureInfo.InvariantCulture);
             _parseEndingDate = DateTime.Parse(endingDate, CultureInfo.InvariantCulture);
 
             Appointment.BeginningDate = _parseStartDate;

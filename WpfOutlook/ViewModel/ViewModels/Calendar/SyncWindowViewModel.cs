@@ -108,8 +108,8 @@ namespace ViewModel.ViewModels.Calendar
         {
             try
             {
-                Appointments = new ObservableCollection<AppointmentDTO>(_service.GetAppointmentsByUserId(_id));
-                AppointmentsSync = new ObservableCollection<AppointmentDTO>(_service.GetAppointmentsByUserId(id));
+                Appointments = new ObservableCollection<AppointmentDTO>(_service.GetAppointmentsForCalendar(_id));
+                AppointmentsSync = new ObservableCollection<AppointmentDTO>(_service.GetAppointmentsForCalendar(id));
             }
             catch (Exception e)
             {

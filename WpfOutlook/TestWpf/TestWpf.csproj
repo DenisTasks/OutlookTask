@@ -147,7 +147,6 @@
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Primitives\DaysOfWeekPresenter.cs" />
-    <Compile Include="Primitives\DaysPresenter.cs" />
     <Compile Include="Controls\TimeScaleControl.cs" />
     <Compile Include="Controls\RangePanel.cs" />
     <Compile Include="Pages\MainWindowPage.xaml.cs">

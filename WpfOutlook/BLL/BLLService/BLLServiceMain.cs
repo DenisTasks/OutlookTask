@@ -38,6 +38,63 @@ namespace BLL.BLLService
             return mappingCollection;
         }
 
+        public IEnumerable<AppointmentDTO> GetAppointmentsForCalendar(int id)
+        {
+            List<Appointment> collection;
+            using (_appointments.BeginTransaction())
+            {
+                collection = _appointments.Get(x => x.Users.Any(s => s.UserId == id)).ToList();
+            }
+            var mappingCollection = Mapper.Map<IEnumerable<Appointment>, IEnumerable<AppointmentDTO>>(collection).ToList();
+            List<AppointmentDTO> forCalendar = new List<AppointmentDTO>();
+            foreach (var item in mappingCollection)
+            {
+                item.Room = _locations.FindById(item.LocationId).Room;
+                if (item.BeginningDate.DayOfYear < item.EndingDate.DayOfYear)
+                {
+                    for (int i = 0; i <= item.EndingDate.DayOfYear - item.BeginningDate.DayOfYear; i++)
+                    {
+                        AppointmentDTO part = new AppointmentDTO
+                        {
+                            AppointmentId = item.AppointmentId,
+                            LocationId = item.LocationId,
+                            OrganizerId = item.OrganizerId,
+                            Room = item.Room,
+                            Subject = item.Subject,
+                            Users = item.Users,
+                        };
+                        if (i == 0)
+                        {
+                            part.BeginningDate = item.BeginningDate;
+                            part.EndingDate = item.BeginningDate.Date.AddDays(1).AddSeconds(-1);
+                            forCalendar.Add(part);
+                        }
+                        else
+                        {
+                            if (i == item.EndingDate.DayOfYear - item.BeginningDate.DayOfYear)
+                            {
+                                part.BeginningDate = item.EndingDate.Date.AddSeconds(1);
+                                part.EndingDate = item.EndingDate;
+                                forCalendar.Add(part);
+                            }
+                            else
+                            {
+                                part.BeginningDate = item.BeginningDate.Date.AddDays(i);
+                                part.EndingDate = item.BeginningDate.Date.AddDays(i + 1).AddSeconds(-1);
+                                forCalendar.Add(part);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    forCalendar.Add(item);
+                }
+            }
+            return forCalendar;
+        }
+
+
         public LocationDTO GetLocationById(int id)
         {
             Location location;

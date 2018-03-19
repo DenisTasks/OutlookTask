@@ -4,7 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TestWpf"
+        xmlns:local="clr-namespace:TestWpf.Appointments"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
         DataContext="{Binding AddAppWindow, 
@@ -41,6 +41,8 @@
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
+        
+        <local:NegateConverter x:Key="NegateConverter"/>
     </Window.Resources>
     
     <Grid ShowGridLines="False">
@@ -87,19 +89,36 @@
                   DisplayMemberPath="Room"
                   SelectedValue="{Binding SelectedLocation}"/>
 
-        <DatePicker Grid.Column="1" Grid.Row="2"
+        <DatePicker Grid.Column="1" 
+                    Grid.Row="2"
                     SelectedDate="{Binding StartBeginningDate}"/>
-
-        <ComboBox Grid.Column="3" Grid.Row="2"
+        
+        <Label Grid.Column="3"
+                 Grid.Row="1"
+                 Content="All day event"
+                 HorizontalAlignment="Left"/>
+        
+        <CheckBox Grid.Column="3"
+                  Grid.Row="1"
+                  Name="AllDayEventCheckBox"
+                  HorizontalAlignment="Right"
+                  IsChecked="{Binding AllDayEvent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        
+        <ComboBox Grid.Column="3" 
+                  Grid.Row="2"
+                  IsEnabled="{Binding IsChecked, ElementName=AllDayEventCheckBox, Converter={StaticResource NegateConverter}}"
                   ItemsSource="{Binding BeginningTime}"
                   SelectedItem="{Binding SelectedBeginningTime, Mode=TwoWay}"
                   ItemStringFormat="{}{0:h:mm tt}"
                   IsSynchronizedWithCurrentItem="True"/>
 
-        <DatePicker Grid.Column="1" Grid.Row="3"
+        <DatePicker Grid.Column="1" 
+                    Grid.Row="3"
                     SelectedDate="{Binding EndBeginningDate}" />
 
-        <ComboBox Grid.Column="3" Grid.Row="3"
+        <ComboBox Grid.Column="3" 
+                  Grid.Row="3"
+                  IsEnabled="{Binding IsChecked, ElementName=AllDayEventCheckBox, Converter={StaticResource NegateConverter}}"
                   ItemsSource="{Binding EndingTime}"
                   SelectedItem="{Binding SelectedEndingTime, Mode=TwoWay}"
                   ItemStringFormat="{}{0:h:mm tt}"
