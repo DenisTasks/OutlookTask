@@ -136,7 +136,6 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
         private void AddGroup()
         {
             Messenger.Default.Send(new NotificationMessage("AddGroupWindow"));
-            //Groups = null;
             LoadData();
         }
 
@@ -144,10 +143,10 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
         {
             if (group != null)
             {
-                //var oldGroups = group.Groups;
                 Messenger.Default.Send<GroupModel>(group);
-                Groups = null;
                 LoadData();
+
+
                 //foreach(var item in group.Groups)
                 //{
                 //    foreach(var grp in Groups.ToList())
