@@ -2396,7 +2396,7 @@
                                 <BeginStoryboard Storyboard="{StaticResource SelectedOn}" x:Name="SelectedOn_BeginStoryboard"/>
                             </Trigger.EnterActions>
                         </Trigger>
-                        <MultiTrigger>
+                        <!--<MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="true" />
                                 <Condition Property="IsSelectionActive" Value="false" />
@@ -2405,11 +2405,11 @@
                             <Setter Property="Background" TargetName="Selection_Border" Value="{DynamicResource SelectedBackgroundBrush}" />
                             <Setter Property="Opacity" TargetName="Selection_Border" Value="0.5" />
                             <Setter Property="BorderBrush" TargetName="Selection_Border" Value="{DynamicResource NormalBorderBrush}" />
-                        </MultiTrigger>
+                        </MultiTrigger>-->
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                         </Trigger>
-                        <MultiTrigger>
+                        <!--<MultiTrigger>
                             <MultiTrigger.ExitActions>
                                 <BeginStoryboard Storyboard="{StaticResource HoverOff}" x:Name="HoverOff_BeginStoryboard"/>
                             </MultiTrigger.ExitActions>
@@ -2429,7 +2429,7 @@
                             <Setter Property="Background" TargetName="Selection_Border" Value="{DynamicResource SelectedBackgroundBrush}" />
                             <Setter Property="Opacity" TargetName="Selection_Border" Value="0.8" />
                             <Setter Property="BorderBrush" TargetName="Selection_Border" Value="{DynamicResource NormalBorderBrush}" />
-                        </MultiTrigger>
+                        </MultiTrigger>-->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
