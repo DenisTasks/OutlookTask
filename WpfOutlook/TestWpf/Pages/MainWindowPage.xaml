@@ -57,7 +57,7 @@
             <Button Command="{Binding AllAppByLocationCommand}"
                     CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}">AllAppByLocation</Button>
             
-            <Button Command="{Binding PrintTable}" 
+            <Button Command="{Binding PrintTable}"
                     CommandParameter="{Binding ElementName=AppointmentsList}">Print table</Button>
 
             <Button Click="ButtonBase_Click_ToAdmin"

@@ -8,7 +8,7 @@ namespace TestWpf.Controls
 {
     public class CalendarView : ViewBase
     {
-        DateTime _dt = DateTime.Now.StartOfWeek(DayOfWeek.Monday);
+        private DateTime _dt = DateTime.Now.StartOfWeek(DayOfWeek.Monday);
 
         public static readonly DependencyProperty StartDayProperty = DependencyProperty.Register("StartDay", typeof(int), typeof(CalendarView));
         public static readonly DependencyProperty FinishDayProperty = DependencyProperty.Register("FinishDay", typeof(int), typeof(CalendarView));
@@ -45,7 +45,6 @@ namespace TestWpf.Controls
             get => (int)GetValue(StartDayProperty);
             set => SetValue(StartDayProperty, value);
         }
-
         public int FinishDay
         {
             get => (int)GetValue(FinishDayProperty);
@@ -56,17 +55,14 @@ namespace TestWpf.Controls
         {
             return (DateTime)item.GetValue(BeginDateProperty);
         }
-
         public static DateTime GetEnd(DependencyObject item)
         {
             return (DateTime)item.GetValue(EndDateProperty);
         }
-
         public static void SetBegin(DependencyObject item, DateTime value)
         {
             item.SetValue(BeginDateProperty, value);
         }
-
         public static void SetEnd(DependencyObject item, DateTime value)
         {
             item.SetValue(EndDateProperty, value);

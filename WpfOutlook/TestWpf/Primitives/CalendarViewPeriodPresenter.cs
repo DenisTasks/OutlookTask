@@ -87,35 +87,17 @@ namespace TestWpf.Primitives
                     item.SetValue(RangePanel.StartDayOfYearProperty, Convert.ToDateTime(item.GetValue(CalendarView.BeginDateProperty)).DayOfYear);
                     item.SetValue(RangePanel.FinishDayOfYearProperty, Convert.ToDateTime(item.GetValue(CalendarView.EndDateProperty)).DayOfYear);
 
-                    //if (Convert.ToDateTime(item.GetValue(CalendarView.BeginDateProperty)).DayOfYear < Convert.ToDateTime(item.GetValue(CalendarView.EndDateProperty)).DayOfYear)
-                    //{
-                    //    item.SetValue(RangePanel.StartProperty, Convert.ToDouble(((DateTime)item.GetValue(CalendarView.BeginDateProperty)).Ticks));
-                    //    item.SetValue(RangePanel.FinishProperty, Convert.ToDouble(((DateTime)item.GetValue(CalendarView.EndDateProperty)).Date.AddDays(1).AddSeconds(-1).Ticks));
-
-                    //    var test = item.Parent as RangePanel;
-                    //    test?.Children.Remove(item);
-
-                    //    panel.Children.Add(item);
-
-                    //    //item.SetValue(RangePanel.StartProperty, Convert.ToDouble(((DateTime)item.GetValue(CalendarView.BeginDateProperty)).Date.AddDays(1).AddSeconds(-1).Ticks));
-                    //    //item.SetValue(RangePanel.FinishProperty, Convert.ToDouble(((DateTime)item.GetValue(CalendarView.EndDateProperty)).Ticks));
-
-                    //    //test?.Children.Remove(item);
-
-                    //    //panel.Children.Add(item);
-                    //}
-                    //else
-                    //{
-                        var test = item.Parent as RangePanel;
-                        test?.Children.Remove(item);
-
-                        panel.Children.Add(item);
-                    //}
+                    panel.Children.Add(item);
                 }
             }
 
-            Border border = new Border() { BorderBrush = Brushes.Orange, BorderThickness = new Thickness(2.0), CornerRadius = new CornerRadius(10, 10, 10, 10)};
-            border.Child = panel;
+            Border border = new Border
+            {
+                BorderBrush = Brushes.Orange,
+                BorderThickness = new Thickness(2.0),
+                CornerRadius = new CornerRadius(10, 10, 10, 10),
+                Child = panel
+            };
             _visualChildren.Add(border);
 
             _visualChildrenGenerated = true;
