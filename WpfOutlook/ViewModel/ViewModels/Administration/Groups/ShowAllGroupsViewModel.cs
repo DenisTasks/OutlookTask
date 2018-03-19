@@ -56,7 +56,6 @@ namespace ViewModel.ViewModels.CommonViewModels.Groups
                 }
                 catch (NullReferenceException)
                 {
-                    MessageBox.Show("I dunno exception");
                 }
             }
         }
