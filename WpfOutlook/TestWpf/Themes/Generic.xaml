@@ -73,7 +73,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListView}">
-                    <Grid ShowGridLines="True">
+                    <Grid ShowGridLines="False">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
@@ -86,7 +86,8 @@
                         <ScrollViewer Grid.Row="0"
                                       Grid.Column="1">
                             <Grid>
-                                <primitives:DaysOfWeekPresenter IsItemsHost="True" Height="35" />
+                                <primitives:DaysOfWeekPresenter IsItemsHost="True" 
+                                                                Height="35" />
                             </Grid>
                         </ScrollViewer>
 
@@ -98,7 +99,7 @@
                                     <ColumnDefinition Width="50" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                
+
                                 <controls:CalendarLedger Grid.Column="0" />
                                 <primitives:CalendarViewContentPresenter Grid.Column="1" 
                                                                          VerticalAlignment="Top"
@@ -111,5 +112,4 @@
             </Setter.Value>
         </Setter>
     </Style>
-
 </ResourceDictionary>

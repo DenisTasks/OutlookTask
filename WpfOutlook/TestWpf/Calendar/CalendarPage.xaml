@@ -13,27 +13,34 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25" />
+            <RowDefinition Height="35" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Column="0" 
                     Grid.Row="0"
+                    Margin="2, 2, 2, 5"
                     Orientation="Horizontal">
             <ComboBox ItemsSource="{Binding Users}"
                       VerticalAlignment="Center"
                       VerticalContentAlignment="Center"
                       DisplayMemberPath ="Name"
+                      Margin="5, 0"
                       SelectedItem="{Binding SelectedSyncUser, Mode=TwoWay}"
-                      IsSynchronizedWithCurrentItem="True"
-                      HorizontalContentAlignment="Right"/>
+                      IsSynchronizedWithCurrentItem="True" />
 
             <Button Click="ButtonBase_OnPreviousWeekClick"
+                    Margin="5, 0"
+                    Padding="2"
                     Content="Previous Week"/>
             <Button Name="SyncButton"
+                    Margin="5, 0"
+                    Padding="2"
                     Command="{Binding SyncCommand}"
                     Content="Sync with selected user"/>
             <Button Click="ButtonBase_OnNextWeekClick"
+                    Padding="2"
+                    Margin="5, 0"
                     Content="Next Week"/>
         </StackPanel>
 

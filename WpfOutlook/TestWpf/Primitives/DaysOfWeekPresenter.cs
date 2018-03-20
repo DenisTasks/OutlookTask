@@ -77,17 +77,20 @@ namespace TestWpf.Primitives
 
             foreach (CalendarViewPeriod period in CalendarView.Periods)
             {
-                Label labelDay = new Label
+                Button button = new Button
                 {
                     FontSize = 15,
                     Content = $"{period.BeginDate:ddd, MMM d, yyyy}",
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = VerticalAlignment.Center
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch
                 };
 
-                Border border = new Border { BorderBrush = Brushes.Red, BorderThickness = new Thickness(2.0), CornerRadius = new CornerRadius(5, 5, 5, 5) };
-                border.Child = labelDay;
-                _visualChildren.Add(border);
+                if (period.BeginDate.DayOfYear == DateTime.Now.DayOfYear)
+                {
+                    button.Background = Brushes.DarkGreen;
+                }
+
+                _visualChildren.Add(button);
             }
 
             _visualChildrenGenerated = true;

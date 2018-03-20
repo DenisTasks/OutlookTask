@@ -61,12 +61,11 @@ namespace TestWpf.Controls
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            double containerRangeHeigth = (this.MaximumHeight - this.MinimumHeight);
-
+            double containerRangeHeigth = MaximumHeight - MinimumHeight;
             List<UIElement> uiAll = new List<UIElement>();
             List<UIElement> uiOverlapping = new List<UIElement>();
 
-            foreach (UIElement item in this.Children)
+            foreach (UIElement item in Children)
             {
                 uiAll.Add(item);
             }
@@ -90,12 +89,10 @@ namespace TestWpf.Controls
                 }
             }
 
-            Size widthOverlap = new Size();
-            widthOverlap.Width = finalSize.Width / uiOverlapping.Count;
-            Point locationX = new Point();
-            locationX.X = 0;
+            Size widthOverlap = new Size {Width = finalSize.Width / uiOverlapping.Count};
+            Point locationX = new Point {X = 0};
 
-            foreach (UIElement element in this.Children)
+            foreach (UIElement element in Children)
             {
                 if (uiOverlapping.Contains(element))
                 {
@@ -122,13 +119,17 @@ namespace TestWpf.Controls
                     double end = (double)element.GetValue(FinishProperty);
                     double elementRange = end - begin;
 
-                    Size size = new Size();
-                    size.Width = finalSize.Width;
-                    size.Height = elementRange / containerRangeHeigth * finalSize.Height;
+                    Size size = new Size
+                    {
+                        Width = finalSize.Width,
+                        Height = elementRange / containerRangeHeigth * finalSize.Height
+                    };
 
-                    Point location = new Point();
-                    location.X = 0;
-                    location.Y = (begin - MinimumHeight) / containerRangeHeigth * finalSize.Height;
+                    Point location = new Point
+                    {
+                        X = 0,
+                        Y = (begin - MinimumHeight) / containerRangeHeigth * finalSize.Height
+                    };
 
                     element.Arrange(new Rect(location, size));
                 }
@@ -138,7 +139,7 @@ namespace TestWpf.Controls
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            foreach (UIElement element in this.Children)
+            foreach (UIElement element in Children)
             {
                 element.Measure(availableSize);
             }
