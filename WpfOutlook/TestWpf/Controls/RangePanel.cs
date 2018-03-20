@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+
 namespace TestWpf.Controls
 {
     public class RangePanel : Panel

@@ -132,6 +132,8 @@
     <Compile Include="Common\Groups\AddGroupWindow.xaml.cs">
       <DependentUpon>AddGroupWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\CalendarLedger.cs" />
+    <Compile Include="Controls\CalendarLedgerItem.cs" />
     <Compile Include="Pages\AdminPage.xaml.cs">
       <DependentUpon>AdminPage.xaml</DependentUpon>
     </Compile>
