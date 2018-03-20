@@ -78,6 +78,8 @@ namespace TestWpf.Primitives
             panel.SetBinding(RangePanel.MinimumHeightProperty, new Binding("BeginDate.Ticks") { Source = Period });
             panel.SetBinding(RangePanel.MaximumHeightProperty, new Binding("EndDate.Ticks") { Source = Period });
 
+
+
             foreach (ListViewItem item in ContentPresenter.ListViewItemVisuals)
             {
                 if (CalendarView.PeriodContainsItem(item, Period))

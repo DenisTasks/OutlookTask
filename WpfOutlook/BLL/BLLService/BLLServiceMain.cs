@@ -65,6 +65,7 @@ namespace BLL.BLLService
                         };
                         if (i == 0)
                         {
+                            // first part
                             part.BeginningDate = item.BeginningDate;
                             part.EndingDate = item.BeginningDate.Date.AddDays(1).AddSeconds(-1);
                             forCalendar.Add(part);
@@ -73,12 +74,14 @@ namespace BLL.BLLService
                         {
                             if (i == item.EndingDate.DayOfYear - item.BeginningDate.DayOfYear)
                             {
+                                // last part
                                 part.BeginningDate = item.EndingDate.Date.AddSeconds(1);
                                 part.EndingDate = item.EndingDate;
                                 forCalendar.Add(part);
                             }
                             else
                             {
+                                // default part
                                 part.BeginningDate = item.BeginningDate.Date.AddDays(i);
                                 part.EndingDate = item.BeginningDate.Date.AddDays(i + 1).AddSeconds(-1);
                                 forCalendar.Add(part);
@@ -93,7 +96,6 @@ namespace BLL.BLLService
             }
             return forCalendar;
         }
-
 
         public LocationDTO GetLocationById(int id)
         {

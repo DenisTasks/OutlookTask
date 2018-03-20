@@ -4,163 +4,65 @@
     xmlns:controls="clr-namespace:TestWpf.Controls"
     xmlns:primitives="clr-namespace:TestWpf.Primitives">
 
-    <Style x:Key="CalendarBorderStyle" TargetType="Border">
-        <Setter Property="BorderBrush" Value="Black" />
-        <Setter Property="BorderThickness" Value="1" />
-    </Style>
-
-    <Style TargetType="controls:TimeScaleControl">
+    <Style TargetType="{x:Type controls:CalendarLedgerItem}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="controls:TimeScaleControl">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <Border Style="{StaticResource CalendarBorderStyle}" 
-                                Grid.Row="0">
-                            <Label Content="12"
-                                   HorizontalContentAlignment="Center"/>
-                        </Border>
-                        <Border Style="{StaticResource CalendarBorderStyle}" 
-                                Grid.Row="1">
-                            <Label Content="1"
-                                   HorizontalContentAlignment="Center"/>
-                        </Border>
-                        <Border Style="{StaticResource CalendarBorderStyle}"
-                                Grid.Row="2">
-                            <Label Content="2"
-                                   HorizontalContentAlignment="Center"/>
-                        </Border>
-                        <Border Style="{StaticResource CalendarBorderStyle}"
-                                Grid.Row="3">
-                            <Label Content="3"
-                                   HorizontalContentAlignment="Center"/>
-                        </Border>
-                        <Border Style="{StaticResource CalendarBorderStyle}"
-                                Grid.Row="4">
-                            <Label Content="4"
-                                   HorizontalContentAlignment="Center"/>
-                        </Border>
-                        <Border Style="{StaticResource CalendarBorderStyle}"
-                                Grid.Row="5">
-                            <Label Content="5"
-                                   HorizontalContentAlignment="Center"/>
-                        </Border>
-                        <Border Style="{StaticResource CalendarBorderStyle}"
-                                Grid.Row="6">
-                            <Label Content="6"
-                                   HorizontalContentAlignment="Center"/>
-                        </Border>
-                        <Border Style="{StaticResource CalendarBorderStyle}"
-                                Grid.Row="7">
-                            <Label Content="7"
-                                   HorizontalContentAlignment="Center"/>
-                        </Border>
-                        <Border Style="{StaticResource CalendarBorderStyle}"
-                                Grid.Row="8">
-                            <Label Content="8"
-                                   HorizontalContentAlignment="Center"/>
-                        </Border>
-                        <Border Style="{StaticResource CalendarBorderStyle}"
-                                Grid.Row="9">
-                            <Label Content="9"
-                                   HorizontalContentAlignment="Center"/>
-                        </Border>
-                        <Border Style="{StaticResource CalendarBorderStyle}"
-                                Grid.Row="10">
-                            <Label Content="10"
-                                   HorizontalContentAlignment="Center"/>
-                        </Border>
-                        <Border Style="{StaticResource CalendarBorderStyle}"
-                                Grid.Row="11">
-                            <Label Content="11"
-                                   HorizontalContentAlignment="Center"/>
-                        </Border>
-                        <Border Style="{StaticResource CalendarBorderStyle}"
-                                Grid.Row="12">
-                            <Label Content="12"
-                                   HorizontalContentAlignment="Center"/>
-                        </Border>
-                        <Border Style="{StaticResource CalendarBorderStyle}" 
-                                Grid.Row="13">
-                            <Label Content="1"
-                                   HorizontalContentAlignment="Center"/>
-                        </Border>
-                        <Border Style="{StaticResource CalendarBorderStyle}"
-                                Grid.Row="14">
-                            <Label Content="2"
-                                   HorizontalContentAlignment="Center"/>
-                        </Border>
-                        <Border Style="{StaticResource CalendarBorderStyle}"
-                                Grid.Row="15">
-                            <Label Content="3"
-                                   HorizontalContentAlignment="Center"/>
-                        </Border>
-                        <Border Style="{StaticResource CalendarBorderStyle}"
-                                Grid.Row="16">
-                            <Label Content="4"
-                                   HorizontalContentAlignment="Center"/>
-                        </Border>
-                        <Border Style="{StaticResource CalendarBorderStyle}"
-                                Grid.Row="17">
-                            <Label Content="5"
-                                   HorizontalContentAlignment="Center"/>
-                        </Border>
-                        <Border Style="{StaticResource CalendarBorderStyle}"
-                                Grid.Row="18">
-                            <Label Content="6"
-                                   HorizontalContentAlignment="Center"/>
-                        </Border>
-                        <Border Style="{StaticResource CalendarBorderStyle}"
-                                Grid.Row="19">
-                            <Label Content="7"
-                                   HorizontalContentAlignment="Center"/>
-                        </Border>
-                        <Border Style="{StaticResource CalendarBorderStyle}"
-                                Grid.Row="20">
-                            <Label Content="8"
-                                   HorizontalContentAlignment="Center"/>
-                        </Border>
-                        <Border Style="{StaticResource CalendarBorderStyle}"
-                                Grid.Row="21">
-                            <Label Content="9"
-                                   HorizontalContentAlignment="Center"/>
-                        </Border>
-                        <Border Style="{StaticResource CalendarBorderStyle}"
-                                Grid.Row="22">
-                            <Label Content="10"
-                                   HorizontalContentAlignment="Center"/>
-                        </Border>
-                        <Border Style="{StaticResource CalendarBorderStyle}"
-                                Grid.Row="23">
-                            <Label Content="11"
-                                   HorizontalContentAlignment="Center"/>
-                        </Border>
-                    </Grid>
+                <ControlTemplate TargetType="{x:Type controls:CalendarLedgerItem}">
+                    <Border Background="#E3EFFF"
+                            BorderBrush="#6593CF"
+                            BorderThickness="0,0,1,1"
+                            Height="45">
+                        <StackPanel Orientation="Horizontal" 
+                                    VerticalAlignment="Center" 
+                                    HorizontalAlignment="Center">
+                            <TextBlock Text="{TemplateBinding TimeslotA}" 
+                                       Foreground="#9493CF" 
+                                       FontSize="16" 
+                                       Margin="0,3,0,0"/>
+                            <TextBlock Text="{TemplateBinding TimeslotB}" 
+                                       Foreground="#9493CF"  
+                                       Margin="1.5,0,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type controls:CalendarLedger}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:CalendarLedger}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <StackPanel>
+                            <controls:CalendarLedgerItem TimeslotA="12" TimeslotB="am" />
+                            <controls:CalendarLedgerItem TimeslotA="1" TimeslotB="00" />
+                            <controls:CalendarLedgerItem TimeslotA="2" TimeslotB="00" />
+                            <controls:CalendarLedgerItem TimeslotA="3" TimeslotB="00" />
+                            <controls:CalendarLedgerItem TimeslotA="4" TimeslotB="00" />
+                            <controls:CalendarLedgerItem TimeslotA="5" TimeslotB="00" />
+                            <controls:CalendarLedgerItem TimeslotA="6" TimeslotB="00" />
+                            <controls:CalendarLedgerItem TimeslotA="7" TimeslotB="00" />
+                            <controls:CalendarLedgerItem TimeslotA="8" TimeslotB="00" />
+                            <controls:CalendarLedgerItem TimeslotA="9" TimeslotB="00" />
+                            <controls:CalendarLedgerItem TimeslotA="10" TimeslotB="00" />
+                            <controls:CalendarLedgerItem TimeslotA="11" TimeslotB="00" />
+                            <controls:CalendarLedgerItem TimeslotA="12" TimeslotB="pm" />
+                            <controls:CalendarLedgerItem TimeslotA="1" TimeslotB="00" />
+                            <controls:CalendarLedgerItem TimeslotA="2" TimeslotB="00" />
+                            <controls:CalendarLedgerItem TimeslotA="3" TimeslotB="00" />
+                            <controls:CalendarLedgerItem TimeslotA="4" TimeslotB="00" />
+                            <controls:CalendarLedgerItem TimeslotA="5" TimeslotB="00" />
+                            <controls:CalendarLedgerItem TimeslotA="6" TimeslotB="00" />
+                            <controls:CalendarLedgerItem TimeslotA="7" TimeslotB="00" />
+                            <controls:CalendarLedgerItem TimeslotA="8" TimeslotB="00" />
+                            <controls:CalendarLedgerItem TimeslotA="9" TimeslotB="00" />
+                            <controls:CalendarLedgerItem TimeslotA="10" TimeslotB="00" />
+                            <controls:CalendarLedgerItem TimeslotA="11" TimeslotB="00" />
+                        </StackPanel>
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -171,30 +73,43 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListView}">
-                    <Grid>
+                    <Grid ShowGridLines="False">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="50" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <primitives:DaysOfWeekPresenter IsItemsHost="True" 
-                                                        Grid.Row="0" 
-                                                        Grid.Column="1" 
-                                                        Height="35" />
-                        <controls:TimeScaleControl Grid.Row="1" 
-                                                   Grid.Column="0" 
-                                                   Width="30" />
-                        <primitives:CalendarViewContentPresenter Grid.Row="1" 
-                                                                 Grid.Column="1" 
-                                                                 IsItemsHost="True" />
+                        <ScrollViewer Grid.Row="0"
+                                      Grid.Column="1">
+                            <Grid>
+                                <primitives:DaysOfWeekPresenter IsItemsHost="True" 
+                                                                Height="35" />
+                            </Grid>
+                        </ScrollViewer>
+
+                        <ScrollViewer Grid.Row="1"
+                                      Grid.Column="0"
+                                      Grid.ColumnSpan="2">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <controls:CalendarLedger Grid.Column="0" />
+                                <primitives:CalendarViewContentPresenter Grid.Column="1" 
+                                                                         VerticalAlignment="Top"
+                                                                         Height="1080"
+                                                                         IsItemsHost="True" />
+                            </Grid>
+                        </ScrollViewer>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-
 </ResourceDictionary>

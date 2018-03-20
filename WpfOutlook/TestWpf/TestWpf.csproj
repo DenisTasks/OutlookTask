@@ -123,6 +123,8 @@
     <Compile Include="Common\Groups\AddGroupWindow.xaml.cs">
       <DependentUpon>AddGroupWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\CalendarLedger.cs" />
+    <Compile Include="Controls\CalendarLedgerItem.cs" />
     <Compile Include="Pages\AdminPage.xaml.cs">
       <DependentUpon>AdminPage.xaml</DependentUpon>
     </Compile>
@@ -138,7 +140,6 @@
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Primitives\DaysOfWeekPresenter.cs" />
-    <Compile Include="Controls\TimeScaleControl.cs" />
     <Compile Include="Controls\RangePanel.cs" />
     <Compile Include="Pages\MainWindowPage.xaml.cs">
       <DependentUpon>MainWindowPage.xaml</DependentUpon>
