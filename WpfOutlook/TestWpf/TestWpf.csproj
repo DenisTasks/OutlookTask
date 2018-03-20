@@ -99,15 +99,6 @@
     <Compile Include="Administration\Groups\ShowAllGroupsPageTest.xaml.cs">
       <DependentUpon>ShowAllGroupsPageTest.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Administration\Groups\ShowAllGroupsViewTreeList.xaml.cs">
-      <DependentUpon>ShowAllGroupsViewTreeList.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Administration\Groups\TreeVievModel\Collection.cs" />
-    <Compile Include="Administration\Groups\TreeVievModel\ITreeModel.cs" />
-    <Compile Include="Administration\Groups\TreeVievModel\RowExpander.cs" />
-    <Compile Include="Administration\Groups\TreeVievModel\TreeList.cs" />
-    <Compile Include="Administration\Groups\TreeVievModel\TreeListItem.cs" />
-    <Compile Include="Administration\Groups\TreeVievModel\TreeNode.cs" />
     <Compile Include="Administration\ShowAllLogsPage.xaml.cs">
       <DependentUpon>ShowAllLogsPage.xaml</DependentUpon>
     </Compile>
@@ -172,10 +163,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Administration\Groups\ShowAllGroupsPageTest.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Administration\Groups\ShowAllGroupsViewTreeList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
