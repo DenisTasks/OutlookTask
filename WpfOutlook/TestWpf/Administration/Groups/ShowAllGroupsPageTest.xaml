@@ -23,7 +23,16 @@
         <TreeView ItemsSource="{Binding Groups}" Margin="10" Height="200" x:Name="GroupList" Grid.ColumnSpan="3">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Groups}" DataType="{x:Type c:GroupModel}">
-                    <TreeViewItem Header="{Binding GroupName}"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+                        <TreeViewItem Grid.Column="0" Header="{Binding GroupName}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Groups.Count,StringFormat='\{0\} groups'}"  Padding="2" Width="100" HorizontalAlignment="Left"/>
+                        <TextBlock Grid.Column="2" Text="{Binding Users.Count,StringFormat='\{0\} users'}"  Padding="2" Width="100" HorizontalAlignment="Left"/>
+                    </Grid>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
