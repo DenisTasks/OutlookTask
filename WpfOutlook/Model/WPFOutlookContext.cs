@@ -24,7 +24,7 @@ namespace Model
                     Name = "admin",
                     UserName = "admin",
                     Salt = salt,
-                    Password = EncryptionHelpers.HashPassword("admin", "admin", salt)
+                    Password = EncryptionHelpers.HashPassword("admin", salt)
                 };
                 context.Users.Add(user);
                 context.Roles.Add(new Role { RoleId = 1, Name = "admin", Users = new List<User> { user } });

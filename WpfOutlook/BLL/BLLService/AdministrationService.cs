@@ -319,7 +319,7 @@ namespace BLL.Services
 
             var userItem = Mapper.Map<UserDTO, User>(user);
             userItem.Salt = salt;
-            userItem.Password = EncryptionHelpers.HashPassword(user.UserName, user.Password, salt);
+            userItem.Password = EncryptionHelpers.HashPassword(user.Password, salt);
 
             userItem.Roles = new List<Role>();
             var convertRoles = Mapper.Map<IEnumerable<RoleDTO>, IEnumerable<Role>>(roles);
@@ -356,7 +356,7 @@ namespace BLL.Services
                 {
                     var salt = EncryptionHelpers.GenerateSalt();
                     userToEdit.Salt = salt;
-                    userToEdit.Password = EncryptionHelpers.HashPassword(user.UserName, user.Password, salt);
+                    userToEdit.Password = EncryptionHelpers.HashPassword(user.Password, salt);
                 }
                 if (user.IsActive != userToEdit.IsActive) userToEdit.IsActive = user.IsActive;
 

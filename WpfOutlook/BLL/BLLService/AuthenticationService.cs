@@ -20,14 +20,14 @@ namespace BLL.Services
 
         public UserDTO AuthenticateUser(string username, string password)
         {
-            User user =_users.Get(u => u.UserName.Equals(username) && u.Password.Equals(EncryptionHelpers.HashPassword(username, password, u.Salt))).FirstOrDefault();
+            User user =_users.Get(u => u.UserName.Equals(username) && u.Password.Equals(EncryptionHelpers.HashPassword(password, u.Salt))).FirstOrDefault();
             if (user != null && user.IsActive)
             {
                 using (var transaction = _users.BeginTransaction())
                 {
                     user = _users.FindById(user.UserId);
                     user.Salt = EncryptionHelpers.GenerateSalt();
-                    user.Password = EncryptionHelpers.HashPassword(username, password, user.Salt);
+                    user.Password = EncryptionHelpers.HashPassword(password, user.Salt);
                     _users.Save();
                     transaction.Commit();
                 }

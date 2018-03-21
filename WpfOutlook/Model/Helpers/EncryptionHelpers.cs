@@ -19,9 +19,9 @@ namespace Model.Helpers
             return Convert.ToBase64String(buff);
         }
 
-        public static string HashPassword(string userName, string clearPassword, string salt)
+        public static string HashPassword(string clearPassword, string salt)
         {
-            HashAlgorithm algorithm = new HMACSHA256(Encoding.ASCII.GetBytes(userName));
+            HashAlgorithm algorithm = new SHA256Managed();
             string saltAndPwd = String.Concat(salt, clearPassword);
             byte[] hashedPwd = algorithm.ComputeHash(Encoding.ASCII.GetBytes(saltAndPwd));
             return Convert.ToBase64String(hashedPwd);

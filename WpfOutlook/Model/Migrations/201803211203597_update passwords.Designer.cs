@@ -13,7 +13,7 @@ namespace Model.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201803141425414_updatepasswords"; }
+            get { return "201803211203597_update passwords"; }
         }
         
         string IMigrationMetadata.Source

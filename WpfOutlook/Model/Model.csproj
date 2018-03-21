@@ -78,9 +78,9 @@
     <Compile Include="Migrations\201803140926026_ChangedUserModel.Designer.cs">
       <DependentUpon>201803140926026_ChangedUserModel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201803141425414_updatepasswords.cs" />
-    <Compile Include="Migrations\201803141425414_updatepasswords.Designer.cs">
-      <DependentUpon>201803141425414_updatepasswords.cs</DependentUpon>
+    <Compile Include="Migrations\201803211203597_update passwords.cs" />
+    <Compile Include="Migrations\201803211203597_update passwords.Designer.cs">
+      <DependentUpon>201803211203597_update passwords.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelService\GenericRepository.cs" />
@@ -106,8 +106,8 @@
     <EmbeddedResource Include="Migrations\201803140926026_ChangedUserModel.resx">
       <DependentUpon>201803140926026_ChangedUserModel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803141425414_updatepasswords.resx">
-      <DependentUpon>201803141425414_updatepasswords.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201803211203597_update passwords.resx">
+      <DependentUpon>201803211203597_update passwords.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

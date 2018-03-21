@@ -20,7 +20,7 @@ namespace Model.Migrations
             {
                 var salt = EncryptionHelpers.GenerateSalt();
                 item.Salt = salt;
-                item.Password = EncryptionHelpers.HashPassword(item.UserName, item.Password, salt);
+                item.Password = EncryptionHelpers.HashPassword(item.Password, salt);
                 context.Users.AddOrUpdate(item);
             }
             context.SaveChanges();
