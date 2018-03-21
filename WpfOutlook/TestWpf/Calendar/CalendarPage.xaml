@@ -21,6 +21,7 @@
                     Grid.Row="0"
                     Margin="2, 2, 2, 5"
                     Orientation="Horizontal">
+            
             <ComboBox ItemsSource="{Binding Users}"
                       VerticalAlignment="Center"
                       VerticalContentAlignment="Center"
@@ -33,15 +34,18 @@
                     Margin="5, 0"
                     Padding="2"
                     Content="Previous Week"/>
+            
             <Button Name="SyncButton"
                     Margin="5, 0"
                     Padding="2"
                     Command="{Binding SyncCommand}"
                     Content="Sync with selected user"/>
+            
             <Button Click="ButtonBase_OnNextWeekClick"
                     Padding="2"
                     Margin="5, 0"
                     Content="Next Week"/>
+            
         </StackPanel>
 
         <ListView Name="CalendarListView"

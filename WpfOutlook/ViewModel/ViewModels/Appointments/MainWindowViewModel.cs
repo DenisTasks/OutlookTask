@@ -98,18 +98,15 @@ namespace ViewModel.ViewModels.Appointments
             CreateGroupCommand = new RelayCommand(CreateGroup);
             #endregion
 
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "Resources");
+            var localthemes = new DirectoryInfo(path).GetFiles();
+            if (Files == null)
+                Files = new ObservableCollection<FileInfo>();
+            foreach (var item in localthemes)
             {
-                var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "Resources");
-                var localthemes = new DirectoryInfo(path).GetFiles();
-                if (Files == null)
-                    Files = new ObservableCollection<FileInfo>();
-                foreach (var item in localthemes)
-                {
-                    Files.Add(item);
-                }
-                SelectedTheme = Files[1];
-            }));
+                Files.Add(item);
+            }
+            SelectedTheme = Files[1];
 
             Messenger.Default.Register<NotificationMessage>(this, message =>
             {

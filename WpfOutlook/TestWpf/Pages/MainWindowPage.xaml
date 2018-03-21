@@ -28,7 +28,7 @@
             <ColumnDefinition Width="0.15*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="35"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="0.9*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Column="0" x:Name="HelperField1"/>
@@ -38,41 +38,73 @@
         <Grid Grid.Column="4" x:Name="HelperField5"/>
         <Grid Grid.Column="5" x:Name="HelperField6"/>
 
-        <StackPanel Grid.Row="0"
+        <WrapPanel  Grid.Row="0"
                     Grid.Column="0"
                     Grid.ColumnSpan="7"
                     Orientation="Horizontal"
-                    Margin="2">
+                    Margin="3">
             
-            <Button Command="{Binding AddAppWindowCommand}">New App</Button>
-            
+            <Button Command="{Binding AddAppWindowCommand}"
+                    Padding="5"
+                    Margin="2, 3"
+                    Content="New App" />
+
             <Button Command="{Binding FilterBySubjectCommand}"
-                    CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}">Filter by</Button>
-            
-            <Button Command="{Binding GroupBySubjectCommand}">Group by</Button>
-            
+                    CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}"
+                    Padding="5"
+                    Margin="2, 3"
+                    Content="Filter by" />
+
+            <Button Command="{Binding GroupBySubjectCommand}"
+                    Padding="5"
+                    Margin="2, 3"
+                    Content="Group by"/> 
+
             <Button Command="{Binding PrintAppointmentCommand}"
-                    CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}">Print Appointment</Button>
-            
+                    CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}"
+                    Padding="5"
+                    Margin="2, 3"
+                    Content="Print Appointment" />
+
             <Button Command="{Binding AllAppByLocationCommand}"
-                    CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}">AllAppByLocation</Button>
-            
+                    CommandParameter="{Binding SelectedItem, ElementName=AppointmentsList}"
+                    Padding="5"
+                    Margin="2, 3"
+                    Content="All App By Location" />
+
             <Button Command="{Binding PrintTable}"
-                    CommandParameter="{Binding ElementName=AppointmentsList}">Print table</Button>
+                    CommandParameter="{Binding ElementName=AppointmentsList}"
+                    Padding="5"
+                    Margin="2, 3"
+                    Content="Print table" />
 
-            <Button Click="ButtonBase_Click_ToAdmin"
-                    Visibility="{Binding Converter={StaticResource AdminVisibilityConverter}}">To Admin Page</Button>
+            <Button Command="{Binding CalendarFrameCommand}"
+                    Padding="5"
+                    Margin="2, 3"
+                    Content="Calendar Window" />
 
-            <Button Command="{Binding CalendarFrameCommand}">Calendar Window</Button>
+            <Button Command="{Binding CreateGroupCommand}"
+                    Padding="5"
+                    Margin="2, 3"
+                    Content="Create Group" />
             
-            <Button Command="{Binding CreateGroupCommand}">Create Group</Button>
+            <Button Click="ButtonBase_Click_ToAdmin"
+                    Visibility="{Binding Converter={StaticResource AdminVisibilityConverter}}"
+                    Padding="5"
+                    Margin="2, 3"
+                    Content="To Admin Page" />
 
-            <Button Click="ButtonBase_Click_ToLoginPage">Logout</Button>
+            <Button Click="ButtonBase_Click_ToLoginPage"
+                    Padding="5"
+                    Margin="2, 3"
+                    Content="Logout" />
 
             <ComboBox ItemsSource="{Binding Files}"
-                      SelectedItem="{Binding SelectedTheme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            
-        </StackPanel>
+                      SelectedItem="{Binding SelectedTheme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Padding="5"
+                      Margin="2, 3"/>
+
+        </WrapPanel>
 
         <ListView Name="AppointmentsList"
                   Grid.Row="1"
